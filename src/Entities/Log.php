@@ -85,7 +85,30 @@ class Log
      */
     private function parse()
     {
-        $log     = [];
+        $log = [];
+
+        list($headings, $data) = $this->parseRawData();
+
+        if (is_array($headings)) {
+            foreach ($headings as $heading) {
+                for ($i = 0, $j = count($heading); $i < $j; $i++) {
+                    $this->populateLog($log, $heading, $data, $i);
+                }
+            };
+        }
+
+        unset($headings, $data);
+
+        return array_reverse($log);
+    }
+
+    /**
+     * Parse raw data
+     *
+     * @return array
+     */
+    private function parseRawData()
+    {
         $pattern = '/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\].*/';
         preg_match_all($pattern, $this->raw, $headings);
         $data    = preg_split($pattern, $this->raw);
@@ -95,32 +118,31 @@ class Log
             unset($trash);
         }
 
-        if ( ! is_array($headings)) {
-            return [];
-        }
+        return [$headings, $data];
+    }
 
-        foreach ($headings as $heading) {
-            for ($i = 0, $j = count($heading); $i < $j; $i++) {
-                foreach ($this->levels as $level) {
-                    if ( ! $this->hasSameLevel($level)) {
-                        continue;
-                    }
-
-                    if ( ! $this->hasLogLevel($heading[$i], $level)) {
-                        continue;
-                    }
-
-                    $log[] = [
-                        'level'  => $level,
-                        'header' => $heading[$i],
-                        'stack'  => $data[$i]
-                    ];
-                }
+    /**
+     * Populate log with entries
+     *
+     * @param  array  $log
+     * @param  array  $heading
+     * @param  array  $data
+     * @param  int    $i
+     */
+    private function populateLog(&$log, $heading, $data, $i)
+    {
+        foreach ($this->levels as $level) {
+            if (
+                $this->hasSameLevel($level) &&
+                $this->hasLogLevel($heading[$i], $level)
+            ) {
+                $log[] = [
+                    'level'  => $level,
+                    'header' => $heading[$i],
+                    'stack'  => $data[$i]
+                ];
             }
         }
-
-        unset($headings, $data);
-        return array_reverse($log);
     }
 
     /* ------------------------------------------------------------------------------------------------
