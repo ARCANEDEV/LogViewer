@@ -36,7 +36,7 @@ class Log
      *
      * @var array
      */
-    protected $data;
+    protected $data = [];
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
@@ -67,7 +67,7 @@ class Log
      */
     public function entries()
     {
-        if ( ! $this->data) {
+        if (empty($this->data)) {
             $this->data = $this->parse();
         }
 
@@ -93,6 +93,10 @@ class Log
         if ($data[0] < 1) {
             $trash = array_shift($data);
             unset($trash);
+        }
+
+        if ( ! is_array($headings)) {
+            return [];
         }
 
         foreach ($headings as $heading) {

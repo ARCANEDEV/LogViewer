@@ -21,7 +21,7 @@ class LogLevels
     protected $levels = [];
 
     /* ------------------------------------------------------------------------------------------------
-     |  Constructors
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -31,11 +31,28 @@ class LogLevels
      */
     public function all()
     {
-        if ( ! $this->levels || empty($this->levels)) {
-            $class        = new ReflectionClass(new LogLevel);
-            $this->levels = $class->getConstants();
+        if (empty($this->levels)) {
+            $this->levels = $this->getDefaultLevels();
         }
 
         return $this->levels;
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get PSR log levels
+     *
+     * @return string[]
+     */
+    private function getDefaultLevels()
+    {
+        $class  = new ReflectionClass(new LogLevel);
+        /** @var string[] $levels */
+        $levels = $class->getConstants();
+
+        return $levels;
     }
 }

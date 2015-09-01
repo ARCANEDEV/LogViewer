@@ -64,7 +64,7 @@ class Factory
      *
      * @return self
      */
-    public function setFilesystem(Filesystem $filesystem)
+    public function setFilesystem(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
 
