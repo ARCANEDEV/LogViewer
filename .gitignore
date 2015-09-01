@@ -4,3 +4,7 @@
 /vendor/
 composer.phar
 composer.lock
+
+# Keep fixtures
+!/tests/fixtures/*.log
+!/tests/fixtures/logs/*.log
