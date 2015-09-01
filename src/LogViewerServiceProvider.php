@@ -3,7 +3,7 @@
 use Arcanedev\LogViewer\Utilities\Factory;
 use Arcanedev\LogViewer\Utilities\Filesystem;
 use Arcanedev\LogViewer\Entities\LogLevels;
-use Illuminate\Support\ServiceProvider;
+use Arcanedev\Support\Laravel\ServiceProvider;
 
 /**
  * Class LogViewerServiceProvider
@@ -124,5 +124,6 @@ class LogViewerServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('log-viewer', LogViewer::class);
+        $this->addAlias('LogViewer', Facades\LogViewer::class);
     }
 }
