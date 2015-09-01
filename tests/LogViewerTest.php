@@ -50,6 +50,17 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
+    public function it_can_be_instantiated_with_helper()
+    {
+        $this->logViewer = log_viewer();
+
+        $this->assertInstanceOf(LogViewer::class,  $this->logViewer);
+        $this->assertInstanceOf(Factory::class,    $this->logViewer->getFactory());
+        $this->assertInstanceOf(Filesystem::class, $this->logViewer->getFilesystem());
+        $this->assertInstanceOf(LogLevels::class,  $this->logViewer->getLogLevels());
+    }
+
+    /** @test */
     public function it_can_get_log_entries()
     {
         $date       = '2015-01-01';
