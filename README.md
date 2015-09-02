@@ -28,7 +28,6 @@ LogViewer (For Laravel 5) [![Packagist License][badge_license]](https://github.c
 
 ### TODOS
 
-  - [ ] Download the log file
   - [ ] Customized log level icons (font awesome)
   - [ ] Examples
   - [ ] Complete the documentation (Wiki)
@@ -40,6 +39,7 @@ LogViewer (For Laravel 5) [![Packagist License][badge_license]](https://github.c
   - [x] Localized log levels
   - [x] Laravel 5.1 support
   - [x] Log viewer menu/tree
+  - [x] Download the log file
 
 ## Contribution
 
