@@ -58,4 +58,15 @@ interface FilesystemInterface
      * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function delete($date);
+
+    /**
+     * Get the log file path.
+     *
+     * @param  string  $date
+     *
+     * @return string
+     *
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
+     */
+    public function path($date);
 }

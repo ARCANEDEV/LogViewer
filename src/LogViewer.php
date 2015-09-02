@@ -182,4 +182,24 @@ class LogViewer implements LogViewerInterface
     {
         return $this->factory->menu($trans);
     }
+
+    /**
+     * Download a log file
+     *
+     * @param  string  $date
+     * @param  string  $filename
+     * @param  array   $headers
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download($date, $filename = null, $headers = [])
+    {
+        $path = $this->filesystem->path($date);
+
+        if (is_null($filename)) {
+            $filename = "laravel-{$date}.log";
+        }
+
+        return response()->download($path, $filename, $headers);
+    }
 }

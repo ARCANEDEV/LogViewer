@@ -103,7 +103,9 @@ class Filesystem implements FilesystemInterface
     public function read($date)
     {
         try {
-            return $this->filesystem->get($this->path($date));
+            $path = $this->getLogPath($date);
+
+            return $this->filesystem->get($path);
         }
         catch (\Exception $e) {
             throw new FilesystemException($e->getMessage());
@@ -121,17 +123,31 @@ class Filesystem implements FilesystemInterface
      */
     public function delete($date)
     {
-        $success = $this->filesystem->delete($this->path($date));
+        $path = $this->getLogPath($date);
 
         // @codeCoverageIgnoreStart
-        if ( ! $success) {
+        if ( ! $this->filesystem->delete($path)) {
             throw new FilesystemException(
                 'There was an error deleting the log.'
             );
         }
         // @codeCoverageIgnoreEnd
 
-        return $success;
+        return true;
+    }
+
+    /**
+     * Get the log file path.
+     *
+     * @param  string  $date
+     *
+     * @return string
+     *
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
+     */
+    public function path($date)
+    {
+        return $this->getLogPath($date);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -141,13 +157,13 @@ class Filesystem implements FilesystemInterface
     /**
      * Get the log file path.
      *
-     * @param  string $date
+     * @param  string  $date
      *
      * @return string
      *
-     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
+     * @throws FilesystemException
      */
-    private function path($date)
+    private function getLogPath($date)
     {
         $path = "{$this->path}/laravel-{$date}.log";
 

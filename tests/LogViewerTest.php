@@ -2,6 +2,7 @@
 
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\LogViewer;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * Class LogViewerTest
@@ -186,5 +187,22 @@ class LogViewerTest extends TestCase
                 }
             }
         }
+    }
+
+    /** @test */
+    public function it_can_download_log_file()
+    {
+        $date     = '2015-01-01';
+        $ext      = 'log';
+        $download = $this->logViewer->download($date);
+        $file     = $download->getFile();
+
+        $this->assertInstanceOf(BinaryFileResponse::class, $download);
+        $this->assertFalse($download->isEmpty());
+        $this->assertFalse($download->isInvalid());
+
+        $this->assertEquals($ext, $file->getExtension());
+        $this->assertEquals("laravel-$date.$ext", $file->getBasename());
+        $this->assertGreaterThan(0, $file->getSize());
     }
 }

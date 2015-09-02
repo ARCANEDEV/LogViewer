@@ -98,5 +98,16 @@ interface LogViewerInterface
      */
     public function menu($trans = true);
 
+    /**
+     * Download a log file
+     *
+     * @param  string  $date
+     * @param  string  $filename
+     * @param  array   $headers
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download($date, $filename = null, $headers = []);
+
     // TODO: Add pagination
 }
