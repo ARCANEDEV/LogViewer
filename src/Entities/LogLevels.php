@@ -18,7 +18,7 @@ class LogLevels
      *
      * @var string[]
      */
-    protected $levels = [];
+    protected static $levels = [];
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -29,13 +29,9 @@ class LogLevels
      *
      * @return string[]
      */
-    public function all()
+    public function lists()
     {
-        if (empty($this->levels)) {
-            $this->levels = $this->getDefaultLevels();
-        }
-
-        return $this->levels;
+        return self::all();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -47,12 +43,13 @@ class LogLevels
      *
      * @return string[]
      */
-    private function getDefaultLevels()
+    public static function all()
     {
-        $class  = new ReflectionClass(new LogLevel);
-        /** @var string[] $levels */
-        $levels = $class->getConstants();
+        if (empty(self::$levels)) {
+            $class  = new ReflectionClass(new LogLevel);
+            self::$levels = $class->getConstants();
+        }
 
-        return $levels;
+        return self::$levels;
     }
 }

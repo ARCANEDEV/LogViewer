@@ -47,8 +47,26 @@ class LogLevelsTest extends TestCase
     /** @test */
     public function it_can_get_all_levels()
     {
-        $levels = $this->logLevels->all();
+        $this->assertLevels($this->logLevels->lists());
+    }
 
+    /** @test */
+    public function it_can_get_all_levels_by_static_method()
+    {
+        $this->assertLevels(LogLevels::all());
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Custom assertion s
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Assert levels
+     *
+     * @param  array  $levels
+     */
+    private function assertLevels(array $levels)
+    {
         $this->assertCount(8, $levels);
 
         foreach ($this->getLogLevels() as $key => $value) {
