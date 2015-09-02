@@ -16,7 +16,7 @@ class LogLevels
     /**
      * The cached log levels.
      *
-     * @var string[]
+     * @var array
      */
     protected static $levels = [];
 
@@ -27,7 +27,7 @@ class LogLevels
     /**
      * Get the log levels.
      *
-     * @return string[]
+     * @return array
      */
     public function lists()
     {
@@ -41,12 +41,12 @@ class LogLevels
     /**
      * Get PSR log levels
      *
-     * @return string[]
+     * @return array
      */
     public static function all()
     {
         if (empty(self::$levels)) {
-            $class  = new ReflectionClass(new LogLevel);
+            $class        = new ReflectionClass(new LogLevel);
             self::$levels = $class->getConstants();
         }
 

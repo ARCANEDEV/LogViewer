@@ -64,7 +64,7 @@ class LogViewer implements LogViewerInterface
     /**
      * Get the log levels.
      *
-     * @return string[]
+     * @return array
      */
     public function levels()
     {

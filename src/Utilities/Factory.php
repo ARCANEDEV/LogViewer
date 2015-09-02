@@ -31,6 +31,8 @@ class Factory
      * The log levels.
      *
      * @var array
+     *
+     * @TODO: Keep it or remove it ??
      */
     protected $levels;
 
@@ -42,7 +44,7 @@ class Factory
      * Create a new instance.
      *
      * @param  FilesystemInterface  $filesystem
-     * @param  string[]             $levels
+     * @param  array                $levels
      */
     public function __construct(FilesystemInterface $filesystem, array $levels)
     {
@@ -83,7 +85,7 @@ class Factory
     /**
      * Set log levels
      *
-     * @param  string[]  $levels
+     * @param  array  $levels
      *
      * @return self
      */
