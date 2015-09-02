@@ -22,7 +22,7 @@ LogViewer (For Laravel 5) [![Packagist License][badge_license]](https://github.c
 ```json
 {
     "require": {
-        "arcanedev/log-viewer": "~1.0"
+        "arcanedev/log-viewer": "~2.0"
     },
 }
 ```
@@ -42,6 +42,13 @@ Any ideas are welcome. Feel free to submit any issues or pull requests.
 
 ## TODOS
 
-  - [ ] Documentation
+  - [ ] Documentation (Wiki)
   - [ ] Examples
+  - [ ] Customized log level icons
+  - [ ] Laravel 5.0 support
+
+## DONE
+  - [x] 100% Code coverage 
+  - [x] Localized log levels
   - [x] Laravel 5.1 support
+  - [x] Log viewer menu
