@@ -1,7 +1,9 @@
 <?php namespace Arcanedev\LogViewer\Tests;
 
-use Arcanedev\LogViewer\Entities\Log;
+use Arcanedev\LogViewer\Entities\EntryCollection;
+use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\LogViewerServiceProvider;
+use Carbon\Carbon;
 use Psr\Log\LogLevel;
 use ReflectionClass;
 
@@ -57,22 +59,57 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Assert Log entries
+     *
+     * @param EntryCollection $entries
+     * @param string          $date
+     */
+    protected function assertLogEntries(EntryCollection $entries, $date)
+    {
+        foreach ($entries as $entry) {
+            $this->assertLogEntry($entry, $date);
+        }
+    }
+
+    /**
      * Assert log entry
      *
-     * @param  array   $entry
+     * @param  LogEntry $entry
      * @param  string  $date
      */
-    protected function assertLogEntry(array $entry, $date)
+    protected function assertLogEntry(LogEntry $entry, $date)
     {
-        $this->assertArrayHasKey('level', $entry);
-        $this->assertContains($entry['level'], $this->getLogLevels());
+        $dt = Carbon::createFromFormat('Y-m-d', $date);
 
-        $this->assertArrayHasKey('header', $entry);
-        $this->assertNotEmpty($entry['header']);
-        $this->assertStringStartsWith('[' . $date, $entry['header']);
+        $this->assertContains($entry->level, $this->getLogLevels());
+        $this->assertNotEmpty($entry->header);
+        $this->assertInstanceOf(Carbon::class, $entry->datetime);
+        $this->assertTrue($entry->datetime->isSameDay($dt));
+        $this->assertNotEmpty($entry->stack);
+    }
 
-        $this->assertArrayHasKey('stack', $entry);
-        $this->assertNotEmpty($entry['stack']);
+    /**
+     * Assert dates
+     *
+     * @param  array   $dates
+     * @param  string  $message
+     */
+    public function assertDates(array $dates, $message = '')
+    {
+        foreach ($dates as $date) {
+            $this->assertDate($date, $message);
+        }
+    }
+
+    /**
+     * Assert date [yyyy-mm-dd]
+     *
+     * @param  string  $date
+     * @param  string  $message
+     */
+    public function assertDate($date, $message = '')
+    {
+        $this->assertRegExp('/' . REGEX_DATE_PATTERN . '/', $date, $message);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -99,23 +136,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $class = new ReflectionClass(new LogLevel);
 
         return $class->getConstants();
-    }
-
-    /**
-     * Get a log entries
-     *
-     * @param  string  $date
-     * @param  string  $level
-     *
-     * @return Log
-     *
-     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
-     */
-    protected function getLog($date, $level = 'all')
-    {
-        $raw = $this->getFilesystem()->read($date);
-
-        return new Log($raw, $this->getLogLevels(), $level);
     }
 
     /**
