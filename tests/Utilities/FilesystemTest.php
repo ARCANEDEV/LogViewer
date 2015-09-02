@@ -24,7 +24,7 @@ class FilesystemTest extends TestCase
     {
         parent::setUp();
 
-        $this->filesystem = $this->getFilesystem();
+        $this->filesystem = $this->filesystem();
     }
 
     public function tearDown()
