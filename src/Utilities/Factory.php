@@ -1,7 +1,9 @@
 <?php namespace Arcanedev\LogViewer\Utilities;
 
 use Arcanedev\LogViewer\Contracts\FilesystemInterface;
+use Arcanedev\LogViewer\Entities\EntryCollection;
 use Arcanedev\LogViewer\Entities\Log;
+use Arcanedev\LogViewer\Entities\LogCollection;
 
 /**
  * Class Factory
@@ -13,6 +15,11 @@ class Factory
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * @var LogCollection
+     */
+    protected $logs;
+
     /**
      * The filesystem instance.
      *
@@ -39,6 +46,7 @@ class Factory
      */
     public function __construct(FilesystemInterface $filesystem, array $levels)
     {
+        $this->logs = new LogCollection;
         $this->setFilesystem($filesystem);
         $this->setLevels($levels);
     }
@@ -58,7 +66,7 @@ class Factory
     }
 
     /**
-     * Get the filesystem instance.
+     * Set the filesystem instance.
      *
      * @param  \Arcanedev\LogViewer\Contracts\FilesystemInterface  $filesystem
      *
@@ -66,6 +74,7 @@ class Factory
      */
     public function setFilesystem(FilesystemInterface $filesystem)
     {
+        $this->logs->setFilesystem($filesystem);
         $this->filesystem = $filesystem;
 
         return $this;
@@ -90,19 +99,91 @@ class Factory
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get the log instance.
+     * Get all logs
+     *
+     * @return LogCollection
+     */
+    public function logs()
+    {
+        return $this->logs->load();
+    }
+
+    /**
+     * Get all logs (alias)
+     *
+     * @return LogCollection
+     */
+    public function all()
+    {
+        return $this->logs();
+    }
+
+    /**
+     * Get a log by date
+     *
+     * @param  string  $date
+     *
+     * @return Log
+     */
+    public function log($date)
+    {
+        return $this->logs()->log($date);
+    }
+
+    /**
+     * Get a log by date (alias)
+     *
+     * @param  string  $date
+     *
+     * @return Log
+     */
+    public function get($date)
+    {
+        return $this->log($date);
+    }
+
+    /**
+     * Get log entries
      *
      * @param  string  $date
      * @param  string  $level
      *
-     * @return \Arcanedev\LogViewer\Entities\Log
+     * @return EntryCollection
      */
-    public function make($date, $level = 'all')
+    public function entries($date, $level = 'all')
     {
-        return new Log(
-            $this->getFilesystem()->read($date),
-            $this->levels,
-            $level
-        );
+        return $this->logs()->entries($date, $level);
+    }
+
+    /**
+     * List the log files (dates).
+     *
+     * @return array
+     */
+    public function dates()
+    {
+        return $this->logs()->dates();
+    }
+
+    /**
+     * Get logs count
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return $this->logs()->count();
+    }
+
+    /**
+     * Get total log entries
+     *
+     * @param  string  $level
+     *
+     * @return int
+     */
+    public function total($level)
+    {
+        return $this->logs()->total($level);
     }
 }

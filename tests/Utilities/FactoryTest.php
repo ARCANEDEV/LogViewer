@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Tests\Utilities;
 
+use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Tests\TestCase;
 use Arcanedev\LogViewer\Utilities\Factory;
 use Arcanedev\LogViewer\Utilities\Filesystem;
@@ -58,20 +59,38 @@ class FactoryTest extends TestCase
     public function it_can_get_log_entries()
     {
         $date       = '2015-01-01';
-        $logEntries = $this->logFactory->make($date);
+        $logEntries = $this->logFactory->entries($date);
 
         foreach ($logEntries as $logEntry) {
             $this->assertLogEntry($logEntry, $date);
         }
     }
 
+    /** @test */
+    public function it_can_get_dates()
+    {
+        $dates = $this->logFactory->dates();
+
+        $this->assertCount(2, $dates);
+        $this->assertDates($dates);
+    }
+
+    /** @test */
+    public function it_can_get_all_logs()
+    {
+        $logs = $this->logFactory->all();
+
+        $this->assertInstanceOf(LogCollection::class, $logs);
+        $this->assertCount(2, $logs);
+    }
+
     /**
      * @test
      *
-     * @expectedException \Arcanedev\LogViewer\Exceptions\FilesystemException
+     * @expectedException \Arcanedev\LogViewer\Exceptions\LogNotFound
      */
     public function it_must_throw_a_filesystem_exception()
     {
-        $this->getLog('2222-11-11'); // Future FTW
+        $this->logFactory->get('2222-11-11'); // Future FTW
     }
 }
