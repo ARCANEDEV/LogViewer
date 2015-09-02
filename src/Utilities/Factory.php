@@ -188,4 +188,16 @@ class Factory
     {
         return $this->logs()->total($level);
     }
+
+    /**
+     * Get tree menu
+     *
+     * @param  bool  $trans
+     *
+     * @return array
+     */
+    public function tree($trans = false)
+    {
+        return $this->logs()->tree($trans);
+    }
 }

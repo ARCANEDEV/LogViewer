@@ -62,4 +62,24 @@ class Log
             return $entry->level == $level;
         });
     }
+
+    /**
+     * Get tree menu
+     *
+     * @param  bool  $trans
+     *
+     * @return array
+     */
+    public function tree($trans = false)
+    {
+        return $this->entries
+            ->groupBy('level')
+            ->map(function(EntryCollection $entries, $key) use ($trans) {
+                return [
+                    'name'  => $trans ? trans('log-viewer::levels.' . $key) : $key,
+                    'count' => $entries->count()
+                ];
+            })
+            ->toArray();
+    }
 }

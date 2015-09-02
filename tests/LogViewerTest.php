@@ -151,4 +151,40 @@ class LogViewerTest extends TestCase
         $this->assertCount(8, $levels);
         $this->assertEquals($this->getLogLevels(), $levels);
     }
+
+    /** @test */
+    public function it_can_get_tree_menu()
+    {
+        $tree = $this->logViewer->tree();
+
+        $this->assertCount(2, $tree);
+        foreach ($tree as $date => $entries) {
+            $this->assertDate($date);
+            foreach ($entries as $level => $entry) {
+                $this->assertInLogLevels($level);
+                $this->assertEquals($level, $entry['name']);
+                $this->assertEquals(1, $entry['count']);
+            }
+        }
+    }
+
+    /** @test */
+    public function it_can_get_translated_tree_menu()
+    {
+        $locales = ['en', 'fr'];
+        foreach ($locales as $locale) {
+            $this->app->setLocale($locale);
+            $tree   = $this->logViewer->tree(true);
+
+            $this->assertCount(2, $tree);
+            foreach ($tree as $date => $entries) {
+                $this->assertDate($date);
+                foreach ($entries as $level => $entry) {
+                    $this->assertInLogLevels($level);
+                    $this->assertTranslatedLevel($locale, $level, $entry['name']);
+                    $this->assertEquals(1, $entry['count']);
+                }
+            }
+        }
+    }
 }

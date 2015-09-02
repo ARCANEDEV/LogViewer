@@ -80,5 +80,14 @@ interface LogViewerInterface
      */
     public function total();
 
+    /**
+     * Get tree menu
+     *
+     * @param  bool  $trans
+     *
+     * @return array
+     */
+    public function tree($trans = false);
+
     // TODO: Add pagination
 }

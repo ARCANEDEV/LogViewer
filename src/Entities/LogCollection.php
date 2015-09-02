@@ -136,12 +136,26 @@ class LogCollection extends Collection
     /**
      * @param  string $level
      *
-     * @return mixed
+     * @return int
      */
     public function total($level)
     {
-        return $this->sum(function (Log $log) use ($level) {
+        return (int) $this->sum(function (Log $log) use ($level) {
             return $log->entries($level)->count();
         });
+    }
+
+    /**
+     * Get tree menu
+     *
+     * @param  bool  $trans
+     *
+     * @return array
+     */
+    public function tree($trans = false)
+    {
+        return $this->map(function (Log $log) use ($trans) {
+            return $log->tree($trans);
+        })->toArray();
     }
 }

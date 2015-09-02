@@ -155,4 +155,16 @@ class LogViewer implements LogViewerInterface
     {
         return $this->factory->total($level);
     }
+
+    /**
+     * Get tree menu
+     *
+     * @param  bool  $trans
+     *
+     * @return array
+     */
+    public function tree($trans = false)
+    {
+        return $this->factory->tree($trans);
+    }
 }

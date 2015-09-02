@@ -25,5 +25,4 @@ class EntryCollection extends Collection
             $this->push(new LogEntry($level, $header, $stack));
         }
     }
-
 }
