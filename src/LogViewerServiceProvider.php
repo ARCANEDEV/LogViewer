@@ -99,7 +99,7 @@ class LogViewerServiceProvider extends ServiceProvider
             /** @var LogLevels $levels */
             $levels     = $app['log-viewer.levels'];
 
-            return new Factory($filesystem, $levels->all());
+            return new Factory($filesystem, $levels->lists());
         });
 
         $this->app->alias('log-viewer.factory', Factory::class);
