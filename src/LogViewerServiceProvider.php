@@ -28,6 +28,8 @@ class LogViewerServiceProvider extends ServiceProvider
         $this->publishes([
             $configPath => config_path('log-viewer.php')
         ], 'config');
+
+        $this->loadTranslationsFrom($basePath . '/resources/lang', 'log-viewer');
     }
 
     /**
