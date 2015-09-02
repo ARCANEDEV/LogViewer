@@ -81,11 +81,22 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         $dt = Carbon::createFromFormat('Y-m-d', $date);
 
-        $this->assertContains($entry->level, $this->getLogLevels());
+        $this->assertInLogLevels($entry->level);
         $this->assertNotEmpty($entry->header);
         $this->assertInstanceOf(Carbon::class, $entry->datetime);
         $this->assertTrue($entry->datetime->isSameDay($dt));
         $this->assertNotEmpty($entry->stack);
+    }
+
+    /**
+     * Assert in log levels
+     *
+     * @param  string  $level
+     * @param  string  $message
+     */
+    protected function assertInLogLevels($level, $message = '')
+    {
+        $this->assertContains($level, $this->getLogLevels(), $message);
     }
 
     /**
@@ -110,6 +121,20 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     public function assertDate($date, $message = '')
     {
         $this->assertRegExp('/' . REGEX_DATE_PATTERN . '/', $date, $message);
+    }
+    /**
+     * Assert translated level
+     *
+     * @param  string $locate
+     * @param  string $key
+     * @param  string $translatedLevel
+     */
+    protected function assertTranslatedLevel($locate, $key, $translatedLevel)
+    {
+        $this->assertEquals(
+            $this->getTranslatedLevel($locate, $key),
+            $translatedLevel
+        );
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -152,5 +177,40 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $destination = $fixtures . "/logs/laravel-{$date}.log";
 
         return copy($source, $destination);
+    }
+
+    /**
+     * Get translated level
+     *
+     * @param  string  $locale
+     * @param  string  $key
+     *
+     * @return mixed
+     */
+    private function getTranslatedLevel($locale, $key)
+    {
+        return array_get($this->getTranslatedLevels(), "$locale.$key");
+    }
+
+    /**
+     * Get translated levels
+     *
+     * @return array
+     */
+    protected function getTranslatedLevels()
+    {
+        $levels = $this->getLogLevels();
+        $trans  = [
+            'en'  => [
+                'Emergency', 'Alert', 'Critical', 'Error', 'Warning', 'Notice', 'Info', 'Debug',
+            ],
+            'fr'  => [
+                'Urgence', 'Alerte', 'Critique', 'Erreur', 'Avertissement', 'Notice', 'Info', 'Debug',
+            ]
+        ];
+
+        return array_map(function ($items) use ($levels) {
+            return array_combine($levels, $items);
+        }, $trans);
     }
 }
