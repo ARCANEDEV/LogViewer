@@ -24,9 +24,18 @@ interface FilesystemInterface
     /**
      * List the log files.
      *
-     * @return string[]
+     * @return array
      */
     public function files();
+
+    /**
+     * Get list files
+     *
+     * @param  bool|false  $withPath
+     *
+     * @return array
+     */
+    public function dates($withPath = false);
 
     /**
      * Read the log.
@@ -42,7 +51,7 @@ interface FilesystemInterface
     /**
      * Delete the log.
      *
-     * @param  string $date
+     * @param  string  $date
      *
      * @return bool
      *

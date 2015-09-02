@@ -66,7 +66,7 @@ class LogCollection extends Collection
      */
     private function load()
     {
-        foreach($this->getFiles() as $date) {
+        foreach($this->filesystem->dates() as $date) {
             $log = new Log($date, $this->filesystem->read($date));
 
             $this->put($date, $log);
@@ -158,42 +158,5 @@ class LogCollection extends Collection
         return $this->map(function (Log $log) use ($trans) {
             return $log->menu($trans);
         })->toArray();
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Get list files
-     *
-     * @param  bool|true  $onlyDates
-     *
-     * @return array
-     */
-    private function getFiles($onlyDates = true)
-    {
-        $files = array_reverse($this->filesystem->files());
-        $dates = $this->extractDates($files);
-
-        if ($onlyDates) {
-            return $dates;
-        }
-
-        return array_combine($dates, $files); // [date => file]
-    }
-
-    /**
-     * Extract dates from files
-     *
-     * @param  array  $files
-     *
-     * @return array
-     */
-    private function extractDates(array $files)
-    {
-        return array_map(function ($file) {
-            return extract_date(basename($file));
-        }, $files);
     }
 }

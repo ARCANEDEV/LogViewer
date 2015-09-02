@@ -97,6 +97,25 @@ class FilesystemTest extends TestCase
         $this->assertTrue($deleted, $message);
     }
 
+    /** @test */
+    public function it_can_get_dates_from_log_files()
+    {
+        $dates = $this->filesystem->dates();
+
+        $this->assertDates($dates);
+    }
+
+    /** @test */
+    public function it_can_get_dates_with_paths_from_log_files()
+    {
+        $dates = $this->filesystem->dates(true);
+
+        foreach ($dates as $date => $path) {
+            $this->assertDate($date);
+            $this->assertFileExists($path);
+        }
+    }
+
     /**
      * @test
      *

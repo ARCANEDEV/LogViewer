@@ -17,7 +17,7 @@ class Filesystem implements FilesystemInterface
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var IlluminateFilesystem
      */
     protected $filesystem;
 
@@ -35,8 +35,8 @@ class Filesystem implements FilesystemInterface
     /**
      * Create a new instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @param  string                             $path
+     * @param  IlluminateFilesystem  $files
+     * @param  string                $path
      */
     public function __construct(IlluminateFilesystem $files, $path)
     {
@@ -65,11 +65,30 @@ class Filesystem implements FilesystemInterface
     /**
      * List the log files.
      *
-     * @return string[]
+     * @return array
      */
     public function files()
     {
         return glob($this->path . '/laravel-*.log', GLOB_BRACE);
+    }
+
+    /**
+     * Get list files
+     *
+     * @param  bool|false  $withPath
+     *
+     * @return array
+     */
+    public function dates($withPath = false)
+    {
+        $files = array_reverse($this->files());
+        $dates = $this->extractDates($files);
+
+        if ($withPath) {
+            $dates = array_combine($dates, $files); // [date => file]
+        }
+
+        return $dates;
     }
 
     /**
@@ -139,5 +158,19 @@ class Filesystem implements FilesystemInterface
         }
 
         return realpath($path);
+    }
+
+    /**
+     * Extract dates from files
+     *
+     * @param  array  $files
+     *
+     * @return array
+     */
+    private function extractDates(array $files)
+    {
+        return array_map(function ($file) {
+            return extract_date(basename($file));
+        }, $files);
     }
 }
