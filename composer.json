@@ -1,6 +1,6 @@
 {
     "name": "arcanedev/log-viewer",
-    "description": "Provides A Log Viewer for Laravel 5",
+    "description": "Provides a Log Viewer for Laravel 5",
     "keywords": ["arcanesoft", "laravel", "log", "log viewer", "logviewer"],
     "homepage": "https://github.com/ARCANEDEV/LogViewer",
     "license": "MIT",
