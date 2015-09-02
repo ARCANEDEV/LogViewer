@@ -1,5 +1,6 @@
-<?php namespace Arcanedev\LogViewer\Entities;
+<?php namespace Arcanedev\LogViewer\Utilities;
 
+use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
 use Psr\Log\LogLevel;
 use ReflectionClass;
 
@@ -7,14 +8,14 @@ use ReflectionClass;
  * Class LogLevels
  * @package Arcanedev\LogViewer\Log
  */
-class LogLevels
+class LogLevels implements LogLevelsInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * The cached log levels.
+     * The log levels.
      *
      * @var array
      */
@@ -34,10 +35,6 @@ class LogLevels
         return self::all();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
     /**
      * Get PSR log levels
      *

@@ -1,6 +1,6 @@
-<?php namespace Arcanedev\LogViewer\Tests\Entities;
+<?php namespace Arcanedev\LogViewer\Tests\Utilities;
 
-use Arcanedev\LogViewer\Entities\LogLevels;
+use Arcanedev\LogViewer\Utilities\LogLevels;
 use Arcanedev\LogViewer\Tests\TestCase;
 
 /**
@@ -14,7 +14,7 @@ class LogLevelsTest extends TestCase
      | ------------------------------------------------------------------------------------------------
      */
     /** @var LogLevels */
-    private $logLevels;
+    private $levels;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -24,14 +24,14 @@ class LogLevelsTest extends TestCase
     {
         parent::setUp();
 
-        $this->logLevels = new LogLevels;
+        $this->levels = new LogLevels;
     }
 
     public function tearDown()
     {
         parent::tearDown();
 
-        unset($this->logLevels);
+        unset($this->levels);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -41,13 +41,13 @@ class LogLevelsTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(LogLevels::class, $this->logLevels);
+        $this->assertInstanceOf(LogLevels::class, $this->levels);
     }
 
     /** @test */
     public function it_can_get_all_levels()
     {
-        $this->assertLevels($this->logLevels->lists());
+        $this->assertLevels($this->levels->lists());
     }
 
     /** @test */
