@@ -1,9 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Tests;
 
-use Arcanedev\LogViewer\Entities\LogLevels;
+use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\LogViewer;
-use Arcanedev\LogViewer\Utilities\Factory;
-use Arcanedev\LogViewer\Utilities\Filesystem;
 
 /**
  * Class LogViewerTest
@@ -44,33 +42,59 @@ class LogViewerTest extends TestCase
     public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(LogViewer::class,  $this->logViewer);
-        $this->assertInstanceOf(Factory::class,    $this->logViewer->getFactory());
-        $this->assertInstanceOf(Filesystem::class, $this->logViewer->getFilesystem());
-        $this->assertInstanceOf(LogLevels::class,  $this->logViewer->getLogLevels());
     }
 
     /** @test */
     public function it_can_be_instantiated_with_helper()
     {
-        $this->logViewer = log_viewer();
+        $this->assertInstanceOf(LogViewer::class, log_viewer());
+    }
 
-        $this->assertInstanceOf(LogViewer::class,  $this->logViewer);
-        $this->assertInstanceOf(Factory::class,    $this->logViewer->getFactory());
-        $this->assertInstanceOf(Filesystem::class, $this->logViewer->getFilesystem());
-        $this->assertInstanceOf(LogLevels::class,  $this->logViewer->getLogLevels());
+    /** @test */
+    public function it_can_get_logs_count()
+    {
+        $this->assertEquals(2, $this->logViewer->count());
+    }
+
+    /** @test */
+    public function it_can_get_entries_total()
+    {
+        $this->assertEquals(16, $this->logViewer->total());
+    }
+
+    /** @test */
+    public function it_can_get_entries_total_by_level()
+    {
+        foreach ($this->getLogLevels() as $level) {
+            $this->assertEquals(2, $this->logViewer->total($level));
+        }
+    }
+
+    /** @test */
+    public function it_can_get_all_logs()
+    {
+        $logs = $this->logViewer->all();
+
+        $this->assertCount(2, $logs);
+
+        foreach ($logs as $log) {
+            /** @var Log $log */
+            $entries = $log->entries();
+
+            $this->assertDate($log->date);
+            $this->assertCount(8, $entries);
+            $this->assertLogEntries($entries, $log->date);
+        }
     }
 
     /** @test */
     public function it_can_get_log_entries()
     {
         $date       = '2015-01-01';
-        $logEntries = $this->logViewer->read($date);
+        $logEntries = $this->logViewer->entries($date);
 
         $this->assertCount(8, $logEntries);
-
-        foreach ($logEntries as $logEntry) {
-            $this->assertLogEntry($logEntry, $date);
-        }
+        $this->assertLogEntries($logEntries, $date);
     }
 
     /** @test */
@@ -78,13 +102,10 @@ class LogViewerTest extends TestCase
     {
         $date       = '2015-01-01';
         foreach ($this->getLogLevels() as $level) {
-            $logEntries = $this->logViewer->read($date, $level);
+            $logEntries = $this->logViewer->entries($date, $level);
 
             $this->assertCount(1, $logEntries);
-
-            foreach ($logEntries as $logEntry) {
-                $this->assertLogEntry($logEntry, $date);
-            }
+            $this->assertLogEntries($logEntries, $date);
         }
     }
 
@@ -96,7 +117,7 @@ class LogViewerTest extends TestCase
         $this->createDummyLog($date);
 
         // Assert log exists
-        $logEntries = $this->logViewer->read($date);
+        $logEntries = $this->logViewer->get($date);
 
         $this->assertNotEmpty($logEntries);
 
@@ -114,15 +135,12 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_log_files()
+    public function it_can_get_log_dates()
     {
-        $logs = $this->logViewer->logs();
+        $dates = $this->logViewer->dates();
 
-        $this->assertCount(2, $logs);
-
-        foreach ($logs as $date) {
-            $this->assertRegExp('/(\d){4}(-(\d){2}){2}/', $date);
-        }
+        $this->assertCount(2, $dates);
+        $this->assertDates($dates);
     }
 
     /** @test */

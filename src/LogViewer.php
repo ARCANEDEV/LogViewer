@@ -1,14 +1,18 @@
 <?php namespace Arcanedev\LogViewer;
 
+use Arcanedev\LogViewer\Contracts\LogViewerInterface;
+use Arcanedev\LogViewer\Entities\EntryCollection;
+use Arcanedev\LogViewer\Entities\Log;
+use Arcanedev\LogViewer\Entities\LogCollection;
+use Arcanedev\LogViewer\Entities\LogLevels;
 use Arcanedev\LogViewer\Utilities\Factory;
 use Arcanedev\LogViewer\Utilities\Filesystem;
-use Arcanedev\LogViewer\Entities\LogLevels;
 
 /**
  * Class LogViewer
  * @package Arcanedev\LogViewer
  */
-class LogViewer
+class LogViewer implements LogViewerInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -54,37 +58,17 @@ class LogViewer
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Getter & Setters
+     |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get the factory instance.
+     * Get the log levels.
      *
-     * @return \Arcanedev\LogViewer\Utilities\Factory
+     * @return string[]
      */
-    public function getFactory()
+    public function levels()
     {
-        return $this->factory;
-    }
-
-    /**
-     * Get the filesystem instance.
-     *
-     * @return \Arcanedev\LogViewer\Utilities\Filesystem
-     */
-    public function getFilesystem()
-    {
-        return $this->filesystem;
-    }
-
-    /**
-     * Get the data instance.
-     *
-     * @return \Arcanedev\LogViewer\Entities\LogLevels
-     */
-    public function getLogLevels()
-    {
-        return $this->logLevels;
+        return $this->logLevels->lists();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -92,16 +76,38 @@ class LogViewer
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get the log data.
+     * Get all logs
+     *
+     * @return LogCollection
+     */
+    public function all()
+    {
+        return $this->factory->all();
+    }
+
+    /**
+     * Get the log
+     *
+     * @param  string  $date
+     *
+     * @return Log
+     */
+    public function get($date)
+    {
+        return $this->factory->log($date);
+    }
+
+    /**
+     * Get the log entries
      *
      * @param  string  $date
      * @param  string  $level
      *
-     * @return array
+     * @return EntryCollection
      */
-    public function read($date, $level = 'all')
+    public function entries($date, $level = 'all')
     {
-        return $this->factory->make($date, $level)->entries();
+        return $this->factory->entries($date, $level);
     }
 
     /**
@@ -119,28 +125,34 @@ class LogViewer
     }
 
     /**
-     * List the log files.
+     * List the log files (dates).
      *
-     * @return string[]
+     * @return array
      */
-    public function logs()
+    public function dates()
     {
-        $logs = array_reverse($this->filesystem->files());
-
-        foreach ($logs as $index => $file) {
-            $logs[$index] = preg_replace('/.*(\d{4}-\d{2}-\d{2}).*/', '$1', basename($file));
-        }
-
-        return $logs;
+        return $this->factory->dates();
     }
 
     /**
-     * Get the log levels.
+     * Get logs count
      *
-     * @return string[]
+     * @return int
      */
-    public function levels()
+    public function count()
     {
-        return $this->logLevels->all();
+        return $this->factory->count();
+    }
+
+    /**
+     * Get total log entries
+     *
+     * @param  string  $level
+     *
+     * @return int
+     */
+    public function total($level = 'all')
+    {
+        return $this->factory->total($level);
     }
 }
