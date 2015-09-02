@@ -25,7 +25,7 @@
         "psr-4": {
             "Arcanedev\\LogViewer\\": "src/"
         },
-        "files": ["helpers.php"]
+        "files": ["constants.php", "helpers.php"]
     },
     "autoload-dev": {
         "psr-4": {
