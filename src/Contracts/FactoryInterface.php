@@ -1,15 +1,14 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
 
-use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
-use Arcanedev\LogViewer\Exceptions\FilesystemException;
+use Arcanedev\LogViewer\Entities\LogEntryCollection;
 
 /**
- * Interface LogViewerInterface
+ * Interface FactoryInterface
  * @package Arcanedev\LogViewer\Contracts
  */
-interface LogViewerInterface
+interface FactoryInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -20,10 +19,26 @@ interface LogViewerInterface
      *
      * @return LogCollection
      */
+    public function logs();
+
+    /**
+     * Get all logs (alias)
+     *
+     * @return LogCollection
+     */
     public function all();
 
     /**
-     * Get the log
+     * Get a log by date
+     *
+     * @param  string  $date
+     *
+     * @return Log
+     */
+    public function log($date);
+
+    /**
+     * Get a log by date (alias)
      *
      * @param  string  $date
      *
@@ -32,7 +47,7 @@ interface LogViewerInterface
     public function get($date);
 
     /**
-     * Get the log entries
+     * Get log entries
      *
      * @param  string  $date
      * @param  string  $level
@@ -42,29 +57,11 @@ interface LogViewerInterface
     public function entries($date, $level = 'all');
 
     /**
-     * Delete the log.
-     *
-     * @param  string  $date
-     *
-     * @return bool
-     *
-     * @throws FilesystemException
-     */
-    public function delete($date);
-
-    /**
      * List the log files (dates).
      *
      * @return array
      */
     public function dates();
-
-    /**
-     * Get the log levels.
-     *
-     * @return array
-     */
-    public function levels();
 
     /**
      * Get logs count
@@ -76,9 +73,11 @@ interface LogViewerInterface
     /**
      * Get total log entries
      *
+     * @param  string  $level
+     *
      * @return int
      */
-    public function total();
+    public function total($level);
 
     /**
      * Get tree menu
@@ -97,6 +96,4 @@ interface LogViewerInterface
      * @return array
      */
     public function menu($trans = true);
-
-    // TODO: Add pagination
 }
