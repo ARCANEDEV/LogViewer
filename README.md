@@ -17,38 +17,30 @@ LogViewer (For Laravel 5) [![Packagist License][badge_license]](https://github.c
 
 *By [ARCANEDEV&copy;](http://www.arcanedev.net/)*
 
-## Installation
+## Table of contents
 
-```json
-{
-    "require": {
-        "arcanedev/log-viewer": "~2.0"
-    },
-}
-```
+1. [Requirements](https://github.com/ARCANEDEV/LogViewer/wiki/1.-Requirements)
+2. [Installation and Setup](https://github.com/ARCANEDEV/LogViewer/wiki/2.-Installation-and-Setup)
+3. [Configuration](https://github.com/ARCANEDEV/LogViewer/wiki/3.-Configuration)
+4. [Usage](https://github.com/ARCANEDEV/LogViewer/wiki/4.-Usage)
+5. [Extras](https://github.com/ARCANEDEV/LogViewer/wiki/5.-Extras)
+6. [FAQ](https://github.com/ARCANEDEV/LogViewer/wiki/6.-FAQ)
 
-##### OR
-```bash
-composer require arcanedev/log-viewer
-```
+### TODOS
 
-## Usage
+  - [ ] Download the log file
+  - [ ] Customized log level icons (font awesome)
+  - [ ] Examples
+  - [ ] Complete the documentation (Wiki)
+  - [ ] Laravel 5.0 support
 
-Coming soon ...
+### DONE
+
+  - [x] 100% Code coverage + Maximum code quality 
+  - [x] Localized log levels
+  - [x] Laravel 5.1 support
+  - [x] Log viewer menu/tree
 
 ## Contribution
 
 Any ideas are welcome. Feel free to submit any issues or pull requests.
-
-## TODOS
-
-  - [ ] Documentation (Wiki)
-  - [ ] Examples
-  - [ ] Customized log level icons
-  - [ ] Laravel 5.0 support
-
-## DONE
-  - [x] 100% Code coverage 
-  - [x] Localized log levels
-  - [x] Laravel 5.1 support
-  - [x] Log viewer menu
