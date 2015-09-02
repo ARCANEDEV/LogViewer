@@ -18,33 +18,41 @@ class LogCollection extends Collection
     private $filesystem;
 
     /* ------------------------------------------------------------------------------------------------
+     |  Constructor
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Constructor
+     *
+     * @param  array  $items
+     */
+    public function __construct($items = [])
+    {
+        $this->setFilesystem(app('log-viewer.filesystem'));
+
+        parent::__construct($items);
+
+        if (empty($items)) {
+            $this->load();
+        }
+    }
+
+    /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * Set the filesystem instance.
      *
-     * @param  \Arcanedev\LogViewer\Contracts\FilesystemInterface  $filesystem
+     * @param  FilesystemInterface  $filesystem
      *
      * @return self
      */
-    public function setFilesystem($filesystem)
+    private function setFilesystem(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
 
         return $this;
-    }
-
-    /**
-     * List the log files (dates).
-     *
-     * @return array
-     */
-    public function dates()
-    {
-        $this->load();
-
-        return $this->keys()->toArray();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -56,10 +64,12 @@ class LogCollection extends Collection
      *
      * @return self
      */
-    public function load()
+    private function load()
     {
-        foreach($this->getFiles() as $date => $file) {
-            $this->put($date, new Log($date, $this->filesystem->read($date)));
+        foreach($this->getFiles() as $date) {
+            $log = new Log($date, $this->filesystem->read($date));
+
+            $this->put($date, $log);
         }
 
         return $this;
@@ -68,7 +78,7 @@ class LogCollection extends Collection
     /**
      * Get log
      *
-     * @param  string $date
+     * @param  string  $date
      *
      * @return Log
      *
@@ -91,54 +101,31 @@ class LogCollection extends Collection
      * @param  string  $date
      * @param  string  $level
      *
-     * @return EntryCollection|null
+     * @return LogEntryCollection|null
      */
     public function entries($date, $level)
     {
         return $this->log($date)->entries($level);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
     /**
-     * Get list files [date => file]
+     * List the log files (dates).
      *
      * @return array
      */
-    private function getFiles()
+    public function dates()
     {
-        $files = array_reverse($this->filesystem->files());
-        $dates = $this->extractDates($files);
-
-        return array_combine($dates, $files);
+        return $this->keys()->toArray();
     }
 
     /**
-     * Extract dates from files
+     * Get entries total
      *
-     * @param  array $files
-     *
-     * @return array
-     */
-    private function extractDates(array $files)
-    {
-        return array_map(function ($file) {
-            return preg_replace(
-                '/.*(' . REGEX_DATE_PATTERN . ').*/',
-                '$1',
-                basename($file)
-            );
-        }, $files);
-    }
-
-    /**
-     * @param  string $level
+     * @param  string  $level
      *
      * @return int
      */
-    public function total($level)
+    public function total($level = 'all')
     {
         return (int) $this->sum(function (Log $log) use ($level) {
             return $log->entries($level)->count();
@@ -148,7 +135,7 @@ class LogCollection extends Collection
     /**
      * Get tree menu
      *
-     * @param  bool  $trans
+     * @param  bool|false  $trans
      *
      * @return array
      */
@@ -157,5 +144,56 @@ class LogCollection extends Collection
         return $this->map(function (Log $log) use ($trans) {
             return $log->tree($trans);
         })->toArray();
+    }
+
+    /**
+     * Get tree menu
+     *
+     * @param  bool|true  $trans
+     *
+     * @return array
+     */
+    public function menu($trans = true)
+    {
+        return $this->map(function (Log $log) use ($trans) {
+            return $log->menu($trans);
+        })->toArray();
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get list files
+     *
+     * @param  bool|true  $onlyDates
+     *
+     * @return array
+     */
+    private function getFiles($onlyDates = true)
+    {
+        $files = array_reverse($this->filesystem->files());
+        $dates = $this->extractDates($files);
+
+        if ($onlyDates) {
+            return $dates;
+        }
+
+        return array_combine($dates, $files); // [date => file]
+    }
+
+    /**
+     * Extract dates from files
+     *
+     * @param  array  $files
+     *
+     * @return array
+     */
+    private function extractDates(array $files)
+    {
+        return array_map(function ($file) {
+            return extract_date(basename($file));
+        }, $files);
     }
 }

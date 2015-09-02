@@ -4,16 +4,18 @@ use Arcanedev\LogViewer\Utilities\LogParser;
 use Arcanedev\Support\Collection;
 
 /**
- * Class EntryCollection
+ * Class LogEntryCollection
  * @package Arcanedev\LogViewer\Entities
  */
-class EntryCollection extends Collection
+class LogEntryCollection extends Collection
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Load raw log entries
+     *
      * @param  string  $raw
      *
      * @return self
@@ -22,7 +24,10 @@ class EntryCollection extends Collection
     {
         foreach (LogParser::parse($raw) as $entry) {
             list($level, $header, $stack) = array_values($entry);
+
             $this->push(new LogEntry($level, $header, $stack));
         }
+
+        return $this;
     }
 }

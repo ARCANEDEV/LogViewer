@@ -40,6 +40,10 @@ class LogEntry
         $this->stack  = $stack;
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * @param  string  $level
      *
@@ -62,9 +66,7 @@ class LogEntry
     private function setHeader($header)
     {
         $this->header = $header;
-
-        $datetime = $this->extractDatetime($header);
-        $this->setDatetime($datetime);
+        $this->setDatetime(extract_datetime($header));
 
         return $this;
     }
@@ -72,32 +74,17 @@ class LogEntry
     /**
      * Set date time
      *
-     * @param  Carbon  $datetime
+     * @param  string  $datetime
      *
      * @return self
      */
-    private function setDatetime(Carbon $datetime)
+    private function setDatetime($datetime)
     {
-        $this->datetime = $datetime;
+        $this->datetime = Carbon::createFromFormat(
+            'Y-m-d H:i:s',
+            $datetime
+        );
 
         return $this;
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Extract datetime from header
-     *
-     * @param  string  $header
-     *
-     * @return Carbon
-     */
-    public function extractDatetime($header)
-    {
-        preg_match('/' . REGEX_DATETIME_PATTERN . '/', $header, $matches);
-
-        return Carbon::createFromFormat('Y-m-d H:i:s', $matches[0]);
     }
 }

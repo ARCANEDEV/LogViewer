@@ -13,7 +13,7 @@ class Log
     /** @var string */
     public $date;
 
-    /** @var EntryCollection */
+    /** @var LogEntryCollection */
     private $entries;
 
     /* ------------------------------------------------------------------------------------------------
@@ -21,12 +21,14 @@ class Log
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Constructor
+     *
      * @param  string  $date
      * @param  string  $raw
      */
     public function __construct($date, $raw)
     {
-        $this->entries = new EntryCollection;
+        $this->entries = new LogEntryCollection;
         $this->date    = $date;
         $this->entries->load($raw);
     }
@@ -40,13 +42,15 @@ class Log
      *
      * @param  string  $level
      *
-     * @return EntryCollection
+     * @return LogEntryCollection
      */
     public function entries($level = 'all')
     {
-        return $level == 'all'
-            ? $this->entries
-            : $this->filterByLevel($level);
+        if ($level === 'all') {
+            return $this->entries;
+        }
+
+        return $this->getByLevel($level);
     }
 
     /**
@@ -54,9 +58,9 @@ class Log
      *
      * @param  string  $level
      *
-     * @return EntryCollection
+     * @return LogEntryCollection
      */
-    public function filterByLevel($level)
+    public function getByLevel($level)
     {
         return $this->entries->filter(function(LogEntry $entry) use ($level) {
             return $entry->level == $level;
@@ -66,7 +70,7 @@ class Log
     /**
      * Get tree menu
      *
-     * @param  bool  $trans
+     * @param  bool|false  $trans
      *
      * @return array
      */
@@ -74,12 +78,28 @@ class Log
     {
         return $this->entries
             ->groupBy('level')
-            ->map(function(EntryCollection $entries, $key) use ($trans) {
+            ->map(function(LogEntryCollection $entries, $key) use ($trans) {
                 return [
                     'name'  => $trans ? trans('log-viewer::levels.' . $key) : $key,
                     'count' => $entries->count()
                 ];
             })
             ->toArray();
+    }
+
+    /**
+     * Get tree menu (alias)
+     *
+     * @see    \Arcanedev\LogViewer\Entities\Log::tree()
+     *
+     * @param  bool|true  $trans
+     *
+     * @return array
+     */
+    public function menu($trans = true)
+    {
+        $tree = $this->tree($trans);
+
+        return $tree;
     }
 }
