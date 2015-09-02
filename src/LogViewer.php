@@ -1,12 +1,12 @@
 <?php namespace Arcanedev\LogViewer;
 
+use Arcanedev\LogViewer\Contracts\FactoryInterface;
+use Arcanedev\LogViewer\Contracts\FilesystemInterface;
+use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
 use Arcanedev\LogViewer\Contracts\LogViewerInterface;
-use Arcanedev\LogViewer\Entities\EntryCollection;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
-use Arcanedev\LogViewer\Entities\LogLevels;
-use Arcanedev\LogViewer\Utilities\Factory;
-use Arcanedev\LogViewer\Utilities\Filesystem;
+use Arcanedev\LogViewer\Entities\LogEntryCollection;
 
 /**
  * Class LogViewer
@@ -21,21 +21,21 @@ class LogViewer implements LogViewerInterface
     /**
      * The factory instance.
      *
-     * @var \Arcanedev\LogViewer\Utilities\Factory
+     * @var FactoryInterface
      */
     protected $factory;
 
     /**
      * The filesystem instance.
      *
-     * @var \Arcanedev\LogViewer\Utilities\Filesystem
+     * @var FilesystemInterface
      */
     protected $filesystem;
 
     /**
      * The data instance.
      *
-     * @var \Arcanedev\LogViewer\Entities\LogLevels
+     * @var LogLevelsInterface
      */
     protected $logLevels;
 
@@ -46,12 +46,15 @@ class LogViewer implements LogViewerInterface
     /**
      * Create a new instance.
      *
-     * @param  \Arcanedev\LogViewer\Utilities\Factory     $factory
-     * @param  \Arcanedev\LogViewer\Utilities\Filesystem  $filesystem
-     * @param  \Arcanedev\LogViewer\Entities\LogLevels    $data
+     * @param  FactoryInterface     $factory
+     * @param  FilesystemInterface  $filesystem
+     * @param  LogLevelsInterface   $data
      */
-    public function __construct(Factory $factory, Filesystem $filesystem, LogLevels $data)
-    {
+    public function __construct(
+        FactoryInterface    $factory,
+        FilesystemInterface $filesystem,
+        LogLevelsInterface  $data
+    ) {
         $this->factory    = $factory;
         $this->filesystem = $filesystem;
         $this->logLevels  = $data;
@@ -103,7 +106,7 @@ class LogViewer implements LogViewerInterface
      * @param  string  $date
      * @param  string  $level
      *
-     * @return EntryCollection
+     * @return LogEntryCollection
      */
     public function entries($date, $level = 'all')
     {
@@ -159,12 +162,24 @@ class LogViewer implements LogViewerInterface
     /**
      * Get tree menu
      *
-     * @param  bool  $trans
+     * @param  bool|false  $trans
      *
      * @return array
      */
     public function tree($trans = false)
     {
         return $this->factory->tree($trans);
+    }
+
+    /**
+     * Get tree menu
+     *
+     * @param  bool|true  $trans
+     *
+     * @return array
+     */
+    public function menu($trans = true)
+    {
+        return $this->factory->menu($trans);
     }
 }

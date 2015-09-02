@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Utilities;
 
-use Arcanedev\LogViewer\Entities\LogLevels;
-
 /**
  * Class LogParser
  * @package Arcanedev\LogViewer\Utilities

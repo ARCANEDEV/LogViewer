@@ -1,8 +1,8 @@
 <?php namespace Arcanedev\LogViewer;
 
 use Arcanedev\LogViewer\Utilities\Factory;
-use Arcanedev\LogViewer\Utilities\Filesystem;
-use Arcanedev\LogViewer\Entities\LogLevels;
+use Arcanedev\LogViewer\Contracts\FilesystemInterface;
+use Arcanedev\LogViewer\Utilities\LogLevels;
 use Arcanedev\Support\Laravel\ServiceProvider;
 
 /**
@@ -71,7 +71,8 @@ class LogViewerServiceProvider extends ServiceProvider
             return new LogLevels;
         });
 
-        $this->app->alias('log-viewer.levels', LogLevels::class);
+        $this->app->alias('log-viewer.levels',                 Utilities\LogLevels::class);
+        $this->app->alias(Contracts\LogLevelsInterface::class, Utilities\LogLevels::class);
     }
 
     /**
@@ -81,12 +82,13 @@ class LogViewerServiceProvider extends ServiceProvider
     {
         $this->app->singleton('log-viewer.filesystem', function ($app) {
             $files = $app['files'];
-            $path  = $app['path.storage'] . '/logs';
+            $path  = storage_path('logs');
 
-            return new Filesystem($files, $path);
+            return new Utilities\Filesystem($files, $path);
         });
 
-        $this->app->alias('log-viewer.filesystem', Filesystem::class);
+        $this->app->alias('log-viewer.filesystem',              Utilities\Filesystem::class);
+        $this->app->alias(Contracts\FilesystemInterface::class, Utilities\Filesystem::class);
     }
 
     /**
@@ -95,16 +97,14 @@ class LogViewerServiceProvider extends ServiceProvider
     private function registerFactory()
     {
         $this->app->singleton('log-viewer.factory', function ($app) {
-            /** @var Filesystem $filesystem */
+            /** @var FilesystemInterface $filesystem */
             $filesystem = $app['log-viewer.filesystem'];
 
-            /** @var LogLevels $levels */
-            $levels     = $app['log-viewer.levels'];
-
-            return new Factory($filesystem, $levels->lists());
+            return new Factory($filesystem);
         });
 
-        $this->app->alias('log-viewer.factory', Factory::class);
+        $this->app->alias('log-viewer.factory',              Factory::class);
+        $this->app->alias(Contracts\FactoryInterface::class, Factory::class);
     }
 
     /**
@@ -114,9 +114,9 @@ class LogViewerServiceProvider extends ServiceProvider
     {
         $this->app->singleton('log-viewer', function ($app) {
             /**
-             * @var  Factory     $factory
-             * @var  Filesystem  $filesystem
-             * @var  LogLevels   $levels
+             * @var  Contracts\FactoryInterface     $factory
+             * @var  Contracts\FilesystemInterface  $filesystem
+             * @var  Contracts\LogLevelsInterface   $levels
              */
             $factory    = $app['log-viewer.factory'];
             $filesystem = $app['log-viewer.filesystem'];
@@ -125,7 +125,10 @@ class LogViewerServiceProvider extends ServiceProvider
             return new LogViewer($factory, $filesystem, $levels);
         });
 
-        $this->app->alias('log-viewer', LogViewer::class);
+        $this->app->alias('log-viewer',                        LogViewer::class);
+        $this->app->alias(Contracts\LogViewerInterface::class, LogViewer::class);
+
+        // Registering the Facade
         $this->addAlias('LogViewer', Facades\LogViewer::class);
     }
 }

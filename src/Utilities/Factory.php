@@ -1,7 +1,8 @@
 <?php namespace Arcanedev\LogViewer\Utilities;
 
+use Arcanedev\LogViewer\Contracts\FactoryInterface;
 use Arcanedev\LogViewer\Contracts\FilesystemInterface;
-use Arcanedev\LogViewer\Entities\EntryCollection;
+use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
 
@@ -9,32 +10,18 @@ use Arcanedev\LogViewer\Entities\LogCollection;
  * Class Factory
  * @package Arcanedev\LogViewer\Log
  */
-class Factory
+class Factory implements FactoryInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @var LogCollection
-     */
-    protected $logs;
-
-    /**
      * The filesystem instance.
      *
      * @var FilesystemInterface
      */
     protected $filesystem;
-
-    /**
-     * The log levels.
-     *
-     * @var array
-     *
-     * @TODO: Keep it or remove it ??
-     */
-    protected $levels;
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
@@ -44,13 +31,10 @@ class Factory
      * Create a new instance.
      *
      * @param  FilesystemInterface  $filesystem
-     * @param  array                $levels
      */
-    public function __construct(FilesystemInterface $filesystem, array $levels)
+    public function __construct(FilesystemInterface $filesystem)
     {
-        $this->logs = new LogCollection;
         $this->setFilesystem($filesystem);
-        $this->setLevels($levels);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -60,7 +44,7 @@ class Factory
     /**
      * Get the filesystem instance.
      *
-     * @return \Arcanedev\LogViewer\Contracts\FilesystemInterface
+     * @return FilesystemInterface
      */
     public function getFilesystem()
     {
@@ -70,28 +54,13 @@ class Factory
     /**
      * Set the filesystem instance.
      *
-     * @param  \Arcanedev\LogViewer\Contracts\FilesystemInterface  $filesystem
+     * @param  FilesystemInterface  $filesystem
      *
      * @return self
      */
-    public function setFilesystem(FilesystemInterface $filesystem)
+    private function setFilesystem(FilesystemInterface $filesystem)
     {
-        $this->logs->setFilesystem($filesystem);
         $this->filesystem = $filesystem;
-
-        return $this;
-    }
-
-    /**
-     * Set log levels
-     *
-     * @param  array  $levels
-     *
-     * @return self
-     */
-    public function setLevels(array $levels)
-    {
-        $this->levels = $levels;
 
         return $this;
     }
@@ -107,7 +76,7 @@ class Factory
      */
     public function logs()
     {
-        return $this->logs->load();
+        return new LogCollection;
     }
 
     /**
@@ -150,7 +119,7 @@ class Factory
      * @param  string  $date
      * @param  string  $level
      *
-     * @return EntryCollection
+     * @return LogEntryCollection
      */
     public function entries($date, $level = 'all')
     {
@@ -192,12 +161,24 @@ class Factory
     /**
      * Get tree menu
      *
-     * @param  bool  $trans
+     * @param  bool|false  $trans
      *
      * @return array
      */
     public function tree($trans = false)
     {
         return $this->logs()->tree($trans);
+    }
+
+    /**
+     * Get tree menu
+     *
+     * @param  bool|true  $trans
+     *
+     * @return array
+     */
+    public function menu($trans = true)
+    {
+        return $this->logs()->menu($trans);
     }
 }
