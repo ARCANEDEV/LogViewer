@@ -6,6 +6,7 @@ use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\LogViewerServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Foundation\Application;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 use Psr\Log\LogLevel;
 use ReflectionClass;
 
@@ -13,7 +14,7 @@ use ReflectionClass;
  * Class AbstractTestCase
  * @package Arcanedev\LogViewer\Tests
  */
-abstract class TestCase extends \Orchestra\Testbench\TestCase
+abstract class TestCase extends BaseTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -21,6 +22,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      */
     /** @var array */
     protected static $logLevels;
+
+    protected static $locales = ['en', 'fr'];
 
     /* ------------------------------------------------------------------------------------------------
      |  Main functions
@@ -176,6 +179,30 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         );
     }
 
+    /**
+     * Assert Menu item.
+     *
+     * @param  array      $item
+     * @param  string     $name
+     * @param  int        $count
+     * @param  bool|true  $withIcons
+     */
+    protected function assertMenuItem($item, $name, $count, $withIcons = true)
+    {
+        $this->assertArrayHasKey('name', $item);
+        $this->assertEquals($name, $item['name']);
+        $this->assertArrayHasKey('count', $item);
+        $this->assertEquals($count, $item['count']);
+
+        if ($withIcons) {
+            $this->assertArrayHasKey('icon', $item);
+            $this->assertStringStartsWith('fa fa-fw fa-', $item['icon']);
+        }
+        else {
+            $this->assertArrayNotHasKey('icon', $item);
+        }
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
@@ -188,6 +215,38 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function filesystem()
     {
         return $this->app['log-viewer.filesystem'];
+    }
+
+    /**
+     * Get translator repository
+     *
+     * @return \Illuminate\Translation\Translator
+     */
+    protected function trans()
+    {
+        return $this->app['translator'];
+    }
+
+    /**
+     * Get config repository
+     *
+     * @return \Illuminate\Config\Repository
+     */
+    protected function config()
+    {
+        return $this->app['config'];
+    }
+
+    /**
+     * Get log path
+     *
+     * @param  string $date
+     *
+     * @return string
+     */
+    public function getLogPath($date)
+    {
+        return $this->filesystem()->path($date);
     }
 
     /**
@@ -213,11 +272,14 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getLog($date)
     {
-        return new Log($date, $this->getLogContent($date));
+        $path = $this->getLogPath($date);
+        $raw  = $this->getLogContent($date);
+
+        return Log::make($date, $path, $raw);
     }
 
     /**
-     * Get random entry from a log file
+     * Get random entry from a log file.
      *
      * @param  string  $date
      *
@@ -225,23 +287,25 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getRandomLogEntry($date)
     {
-        return $this->getLog($date)->entries()->random(1);
+        return $this->getLog($date)
+            ->entries()
+            ->random(1);
     }
 
     /**
-     * Get log levels
+     * Get log levels.
      *
      * @return array
      */
-    public static function getLogLevels()
+    protected static function getLogLevels()
     {
         $class = new ReflectionClass(new LogLevel);
 
-        return $class->getConstants();
+        return self::$logLevels = $class->getConstants();
     }
 
     /**
-     * Create dummy log
+     * Create dummy log.
      *
      * @param  string  $date
      *
@@ -256,7 +320,33 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     }
 
     /**
-     * Get translated level
+     * Get dummy menu items.
+     *
+     * @param  bool|false  $icon
+     *
+     * @return array
+     */
+    protected function getDummyMenuItems($icon = false)
+    {
+        $items  = [];
+        $config = $this->config();
+
+        foreach (array_values(self::getLogLevels()) as $level) {
+            $item['name']  = $level;
+            $item['count'] = rand(0, 50);
+
+            if ($icon) {
+                $item['icon'] = $config->get('log-viewer.menu.icons.' . $level);
+            }
+
+            $items[] = [$level, $item];
+        }
+
+        return $items;
+    }
+
+    /**
+     * Get translated level.
      *
      * @param  string  $locale
      * @param  string  $key
@@ -265,17 +355,20 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      */
     private function getTranslatedLevel($locale, $key)
     {
-        return array_get($this->getTranslatedLevels(), "$locale.$key");
+        return array_get(
+            $this->getTranslatedLevels(),
+            "$locale.$key"
+        );
     }
 
     /**
-     * Get translated levels
+     * Get translated levels.
      *
      * @return array
      */
     protected function getTranslatedLevels()
     {
-        $levels = $this->getLogLevels();
+        $levels = self::getLogLevels();
         $trans  = [
             'en'  => [
                 'Emergency', 'Alert', 'Critical', 'Error', 'Warning', 'Notice', 'Info', 'Debug',
