@@ -33,11 +33,11 @@ class LogViewer implements LogViewerInterface
     protected $filesystem;
 
     /**
-     * The data instance.
+     * The log levels instance.
      *
      * @var LogLevelsInterface
      */
-    protected $logLevels;
+    protected $levels;
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
@@ -48,16 +48,16 @@ class LogViewer implements LogViewerInterface
      *
      * @param  FactoryInterface     $factory
      * @param  FilesystemInterface  $filesystem
-     * @param  LogLevelsInterface   $data
+     * @param  LogLevelsInterface   $levels
      */
     public function __construct(
         FactoryInterface    $factory,
         FilesystemInterface $filesystem,
-        LogLevelsInterface  $data
+        LogLevelsInterface  $levels
     ) {
         $this->factory    = $factory;
         $this->filesystem = $filesystem;
-        $this->logLevels  = $data;
+        $this->levels     = $levels;
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ class LogViewer implements LogViewerInterface
      */
     public function levels()
     {
-        return $this->logLevels->lists();
+        return $this->levels->lists();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ class LogViewer implements LogViewerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get all logs
+     * Get all logs.
      *
      * @return LogCollection
      */
@@ -89,7 +89,7 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
-     * Get the log
+     * Get a log.
      *
      * @param  string  $date
      *
@@ -101,7 +101,7 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
-     * Get the log entries
+     * Get the log entries.
      *
      * @param  string  $date
      * @param  string  $level
@@ -120,7 +120,7 @@ class LogViewer implements LogViewerInterface
      *
      * @return bool
      *
-     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
+     * @throws Exceptions\FilesystemException
      */
     public function delete($date)
     {
@@ -128,7 +128,7 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
-     * List the log files (dates).
+     * List the log files (only dates).
      *
      * @return array
      */
@@ -138,7 +138,7 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
-     * Get logs count
+     * Get logs count.
      *
      * @return int
      */
@@ -148,7 +148,7 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
-     * Get total log entries
+     * Get entries total from all logs.
      *
      * @param  string  $level
      *
@@ -160,7 +160,7 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
-     * Get tree menu
+     * Get logs tree.
      *
      * @param  bool|false  $trans
      *
@@ -172,7 +172,7 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
-     * Get tree menu
+     * Get logs menu.
      *
      * @param  bool|true  $trans
      *
@@ -184,7 +184,7 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
-     * Download a log file
+     * Download a log file.
      *
      * @param  string  $date
      * @param  string  $filename
@@ -194,12 +194,14 @@ class LogViewer implements LogViewerInterface
      */
     public function download($date, $filename = null, $headers = [])
     {
-        $path = $this->filesystem->path($date);
-
         if (is_null($filename)) {
             $filename = "laravel-{$date}.log";
         }
 
+        $path = $this->filesystem->path($date);
+
         return response()->download($path, $filename, $headers);
     }
+
+    // TODO: Add pagination
 }

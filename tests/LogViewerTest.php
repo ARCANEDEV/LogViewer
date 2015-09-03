@@ -172,8 +172,7 @@ class LogViewerTest extends TestCase
     /** @test */
     public function it_can_get_translated_tree_menu()
     {
-        $locales = ['en', 'fr'];
-        foreach ($locales as $locale) {
+        foreach (self::$locales as $locale) {
             $this->app->setLocale($locale);
             $menu   = $this->logViewer->menu();
 

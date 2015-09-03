@@ -12,18 +12,29 @@ use Arcanedev\LogViewer\Exceptions\FilesystemException;
 interface LogViewerInterface
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get the log levels.
+     *
+     * @return array
+     */
+    public function levels();
+
+    /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get all logs
+     * Get all logs.
      *
      * @return LogCollection
      */
     public function all();
 
     /**
-     * Get the log
+     * Get a log.
      *
      * @param  string  $date
      *
@@ -32,7 +43,7 @@ interface LogViewerInterface
     public function get($date);
 
     /**
-     * Get the log entries
+     * Get the log entries.
      *
      * @param  string  $date
      * @param  string  $level
@@ -53,35 +64,30 @@ interface LogViewerInterface
     public function delete($date);
 
     /**
-     * List the log files (dates).
+     * List the log files (only dates).
      *
      * @return array
      */
     public function dates();
 
     /**
-     * Get the log levels.
-     *
-     * @return array
-     */
-    public function levels();
-
-    /**
-     * Get logs count
+     * Get logs count.
      *
      * @return int
      */
     public function count();
 
     /**
-     * Get total log entries
+     * Get entries total from all logs.
+     *
+     * @param  string  $level
      *
      * @return int
      */
-    public function total();
+    public function total($level = 'all');
 
     /**
-     * Get tree menu
+     * Get logs tree.
      *
      * @param  bool|false  $trans
      *
@@ -90,7 +96,7 @@ interface LogViewerInterface
     public function tree($trans = false);
 
     /**
-     * Get tree menu
+     * Get logs menu.
      *
      * @param  bool|true  $trans
      *
@@ -99,7 +105,7 @@ interface LogViewerInterface
     public function menu($trans = true);
 
     /**
-     * Download a log file
+     * Download a log file.
      *
      * @param  string  $date
      * @param  string  $filename
