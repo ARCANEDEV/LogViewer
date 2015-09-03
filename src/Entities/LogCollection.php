@@ -14,7 +14,9 @@ class LogCollection extends Collection
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var FilesystemInterface */
+    /**
+     * @var FilesystemInterface
+     */
     private $filesystem;
 
     /* ------------------------------------------------------------------------------------------------
@@ -60,23 +62,23 @@ class LogCollection extends Collection
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Set the filesystem instance.
+     * Load all logs.
      *
      * @return self
      */
     private function load()
     {
-        foreach($this->filesystem->dates() as $date) {
-            $log = new Log($date, $this->filesystem->read($date));
+        foreach($this->filesystem->dates(true) as $date => $path) {
+            $raw = $this->filesystem->read($date);
 
-            $this->put($date, $log);
+            $this->put($date, Log::make($date, $path, $raw));
         }
 
         return $this;
     }
 
     /**
-     * Get log
+     * Get a log.
      *
      * @param  string  $date
      *
@@ -96,7 +98,7 @@ class LogCollection extends Collection
     }
 
     /**
-     * Get log entries
+     * Get log entries.
      *
      * @param  string  $date
      * @param  string  $level
@@ -119,7 +121,7 @@ class LogCollection extends Collection
     }
 
     /**
-     * Get entries total
+     * Get entries total.
      *
      * @param  string  $level
      *
@@ -133,7 +135,7 @@ class LogCollection extends Collection
     }
 
     /**
-     * Get tree menu
+     * Get logs tree.
      *
      * @param  bool|false  $trans
      *
@@ -147,7 +149,7 @@ class LogCollection extends Collection
     }
 
     /**
-     * Get tree menu
+     * Get logs menu.
      *
      * @param  bool|true  $trans
      *

@@ -16,6 +16,12 @@ class Log
     /** @var LogEntryCollection */
     private $entries;
 
+    /** @var string */
+    private $path;
+
+    /** @var string */
+    private $raw;
+
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
@@ -24,19 +30,61 @@ class Log
      * Constructor
      *
      * @param  string  $date
+     * @param  string  $path
      * @param  string  $raw
      */
-    public function __construct($date, $raw)
+    public function __construct($date, $path, $raw)
     {
         $this->entries = new LogEntryCollection;
         $this->date    = $date;
+        $this->path    = $path;
+        $this->raw     = $raw;
+
         $this->entries->load($raw);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get log path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Get raw log content
+     *
+     * @return string
+     */
+    public function getRaw()
+    {
+        return $this->raw;
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Main functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Make a log object
+     *
+     * @param  string  $date
+     * @param  string  $path
+     * @param  string  $raw
+     *
+     * @return self
+     */
+    public static function make($date, $path, $raw)
+    {
+        return new self($date, $path, $raw);
+    }
+
     /**
      * Get log entries
      *
