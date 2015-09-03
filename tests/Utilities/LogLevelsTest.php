@@ -24,7 +24,7 @@ class LogLevelsTest extends TestCase
     {
         parent::setUp();
 
-        $this->levels = new LogLevels;
+        $this->levels = $this->app['log-viewer.levels'];
     }
 
     public function tearDown()
@@ -56,22 +56,33 @@ class LogLevelsTest extends TestCase
         $this->assertLevels(LogLevels::all());
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Custom assertion s
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Assert levels
-     *
-     * @param  array  $levels
-     */
-    private function assertLevels(array $levels)
+    /** @test */
+    public function it_can_get_all_translated_levels()
     {
-        $this->assertCount(8, $levels);
+        foreach (self::$locales as $locale) {
+            $this->app->setLocale($locale);
 
-        foreach ($this->getLogLevels() as $key => $value) {
-            $this->assertArrayHasKey($key, $levels);
-            $this->assertEquals($value, $levels[$key]);
+            $levels = $this->levels->names($locale);
+
+            $this->assertTranslatedLevels($locale, $levels);
+        }
+    }
+
+    /** @test */
+    public function it_can_translate_levels_automatically()
+    {
+        foreach (self::$locales as $locale) {
+            $this->app->setLocale($locale);
+
+            $this->assertTranslatedLevels(
+                $this->app->getLocale(),
+                $this->levels->names()
+            );
+
+            $this->assertTranslatedLevels(
+                $this->app->getLocale(),
+                $this->levels->names('auto')
+            );
         }
     }
 }

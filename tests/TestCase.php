@@ -5,7 +5,9 @@ use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\LogViewerServiceProvider;
 use Carbon\Carbon;
+use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Foundation\Application;
+use JsonSerializable;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Psr\Log\LogLevel;
 use ReflectionClass;
@@ -23,7 +25,7 @@ abstract class TestCase extends BaseTestCase
     /** @var array */
     protected static $logLevels;
 
-    protected static $locales = ['en', 'fr'];
+    protected static $locales = ['ar', 'en', 'fr'];
 
     /* ------------------------------------------------------------------------------------------------
      |  Main functions
@@ -89,6 +91,21 @@ abstract class TestCase extends BaseTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Asserts that a string is a valid JSON string.
+     *
+     * @param  Jsonable|mixed  $object
+     * @param  string          $message
+     */
+    public static function assertJson($object, $message = '')
+    {
+        self::assertInstanceOf(Jsonable::class, $object);
+        parent::assertJson($object->toJson(JSON_PRETTY_PRINT), $message);
+
+        self::assertInstanceOf(JsonSerializable::class, $object);
+        parent::assertJson(json_encode($object, JSON_PRETTY_PRINT), $message);
+    }
+
+    /**
      * Assert Log object
      *
      * @param  Log     $log
@@ -142,6 +159,49 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * Assert levels
+     *
+     * @param  array  $levels
+     */
+    protected function assertLevels(array $levels)
+    {
+        $this->assertCount(8, $levels);
+
+        foreach ($this->getLogLevels() as $key => $value) {
+            $this->assertArrayHasKey($key, $levels);
+            $this->assertEquals($value, $levels[$key]);
+        }
+    }
+
+    /**
+     * Assert translated level
+     *
+     * @param  string  $locale
+     * @param  array   $levels
+     */
+    protected function assertTranslatedLevels($locale, $levels)
+    {
+        foreach ($levels as $level => $translatedLevel) {
+            $this->assertTranslatedLevel($locale, $level, $translatedLevel);
+        }
+    }
+
+    /**
+     * Assert translated level
+     *
+     * @param  string  $locale
+     * @param  string  $key
+     * @param  string  $translatedLevel
+     */
+    protected function assertTranslatedLevel($locale, $key, $translatedLevel)
+    {
+        $this->assertEquals(
+            $this->getTranslatedLevel($locale, $key),
+            $translatedLevel
+        );
+    }
+
+    /**
      * Assert dates
      *
      * @param  array   $dates
@@ -163,20 +223,6 @@ abstract class TestCase extends BaseTestCase
     public function assertDate($date, $message = '')
     {
         $this->assertRegExp('/' . REGEX_DATE_PATTERN . '/', $date, $message);
-    }
-    /**
-     * Assert translated level
-     *
-     * @param  string  $locate
-     * @param  string  $key
-     * @param  string  $translatedLevel
-     */
-    protected function assertTranslatedLevel($locate, $key, $translatedLevel)
-    {
-        $this->assertEquals(
-            $this->getTranslatedLevel($locate, $key),
-            $translatedLevel
-        );
     }
 
     /**
@@ -368,18 +414,10 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getTranslatedLevels()
     {
-        $levels = self::getLogLevels();
-        $trans  = [
-            'en'  => [
-                'Emergency', 'Alert', 'Critical', 'Error', 'Warning', 'Notice', 'Info', 'Debug',
-            ],
-            'fr'  => [
-                'Urgence', 'Alerte', 'Critique', 'Erreur', 'Avertissement', 'Notice', 'Info', 'Debug',
-            ]
-        ];
+        $translator = $this->app['translator'];
 
-        return array_map(function ($items) use ($levels) {
-            return array_combine($levels, $items);
-        }, $trans);
+        return array_map(function ($locale) use ($translator) {
+            return $translator->get('log-viewer::levels', [], $locale);
+        }, array_combine(self::$locales, self::$locales));
     }
 }

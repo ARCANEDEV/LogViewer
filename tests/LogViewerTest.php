@@ -154,6 +154,29 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_all_translated_levels()
+    {
+        $this->assertTranslatedLevels(
+            $this->app->getLocale(),
+            $this->logViewer->levelsNames()
+        );
+
+        $this->assertTranslatedLevels(
+            $this->app->getLocale(),
+            $this->logViewer->levelsNames('auto')
+        );
+
+        foreach (self::$locales as $locale) {
+            $this->app->setLocale($locale);
+
+            $this->assertTranslatedLevels(
+                $locale,
+                $this->logViewer->levelsNames($locale)
+            );
+        }
+    }
+
+    /** @test */
     public function it_can_get_tree_menu()
     {
         $tree = $this->logViewer->tree(false);
