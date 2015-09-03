@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'all'       => 'All',
     'emergency' => 'Emergency',
     'alert'     => 'Alert',
     'critical'  => 'Critical',
