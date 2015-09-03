@@ -66,6 +66,31 @@ class LogTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_path()
+    {
+        $dates = [
+            '2015-01-01',
+            '2015-01-02',
+        ];
+
+        foreach ($dates as $date) {
+            $log = $this->getLog($date);
+
+            $this->assertFileExists($log->getPath());
+        }
+    }
+
+    /** @test */
+    public function it_can_get_raw_content()
+    {
+        $this->assertNotEmpty($this->log->getRaw());
+        $this->assertEquals(
+            $this->getLog($this->log->date)->getRaw(),
+            $this->log->getRaw()
+        );
+    }
+
+    /** @test */
     public function it_can_get_all_entries()
     {
         $dates = [
@@ -102,13 +127,12 @@ class LogTest extends TestCase
     /** @test */
     public function it_can_get_translated_menu()
     {
-        $locales = ['en', 'fr'];
         $dates   = [
             '2015-01-01',
             '2015-01-02',
         ];
 
-        foreach ($locales as $locale) {
+        foreach (self::$locales as $locale) {
             $this->app->setLocale($locale);
 
             foreach ($dates as $date) {
