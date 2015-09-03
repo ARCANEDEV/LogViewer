@@ -42,6 +42,8 @@ interface LogViewerInterface
      */
     public function all();
 
+    // TODO: Add pagination
+
     /**
      * Get a log.
      *
@@ -60,6 +62,17 @@ interface LogViewerInterface
      * @return LogEntryCollection
      */
     public function entries($date, $level = 'all');
+
+    /**
+     * Download a log file.
+     *
+     * @param  string       $date
+     * @param  string|null  $filename
+     * @param  array        $headers
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download($date, $filename = null, $headers = []);
 
     /**
      * Delete the log.
@@ -119,17 +132,4 @@ interface LogViewerInterface
      * @return array
      */
     public function menu($trans = true);
-
-    /**
-     * Download a log file.
-     *
-     * @param  string  $date
-     * @param  string  $filename
-     * @param  array   $headers
-     *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    public function download($date, $filename = null, $headers = []);
-
-    // TODO: Add pagination
 }

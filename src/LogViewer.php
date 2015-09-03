@@ -100,6 +100,8 @@ class LogViewer implements LogViewerInterface
         return $this->factory->all();
     }
 
+    // TODO: Add pagination
+
     /**
      * Get a log.
      *
@@ -123,6 +125,26 @@ class LogViewer implements LogViewerInterface
     public function entries($date, $level = 'all')
     {
         return $this->factory->entries($date, $level);
+    }
+
+    /**
+     * Download a log file.
+     *
+     * @param  string       $date
+     * @param  string|null  $filename
+     * @param  array        $headers
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download($date, $filename = null, $headers = [])
+    {
+        if (is_null($filename)) {
+            $filename = "laravel-{$date}.log";
+        }
+
+        $path = $this->filesystem->path($date);
+
+        return response()->download($path, $filename, $headers);
     }
 
     /**
@@ -204,26 +226,4 @@ class LogViewer implements LogViewerInterface
     {
         return $this->factory->menu($trans);
     }
-
-    /**
-     * Download a log file.
-     *
-     * @param  string  $date
-     * @param  string  $filename
-     * @param  array   $headers
-     *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    public function download($date, $filename = null, $headers = [])
-    {
-        if (is_null($filename)) {
-            $filename = "laravel-{$date}.log";
-        }
-
-        $path = $this->filesystem->path($date);
-
-        return response()->download($path, $filename, $headers);
-    }
-
-    // TODO: Add pagination
 }
