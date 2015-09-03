@@ -72,8 +72,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getPackageAliases($app)
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -114,29 +113,29 @@ abstract class TestCase extends BaseTestCase
     protected function assertLog(Log $log, $date)
     {
         $this->assertEquals($date, $log->date);
-        $this->assertLogEntries($log->entries(), $log->date);
+        $this->assertLogEntries($log->date, $log->entries());
     }
 
     /**
      * Assert Log entries object
      *
-     * @param  LogEntryCollection  $entries
      * @param  string              $date
+     * @param  LogEntryCollection  $entries
      */
-    protected function assertLogEntries(LogEntryCollection $entries, $date)
+    protected function assertLogEntries($date, LogEntryCollection $entries)
     {
         foreach ($entries as $entry) {
-            $this->assertLogEntry($entry, $date);
+            $this->assertLogEntry($date, $entry);
         }
     }
 
     /**
      * Assert log entry object
      *
-     * @param  LogEntry  $entry
      * @param  string    $date
+     * @param  LogEntry  $entry
      */
-    protected function assertLogEntry(LogEntry $entry, $date)
+    protected function assertLogEntry($date, LogEntry $entry)
     {
         $dt = Carbon::createFromFormat('Y-m-d', $date);
 
@@ -190,15 +189,14 @@ abstract class TestCase extends BaseTestCase
      * Assert translated level
      *
      * @param  string  $locale
-     * @param  string  $key
-     * @param  string  $translatedLevel
+     * @param  string  $level
+     * @param  string  $actualTrans
      */
-    protected function assertTranslatedLevel($locale, $key, $translatedLevel)
+    protected function assertTranslatedLevel($locale, $level, $actualTrans)
     {
-        $this->assertEquals(
-            $this->getTranslatedLevel($locale, $key),
-            $translatedLevel
-        );
+        $expected = $this->getTranslatedLevel($locale, $level);
+
+        $this->assertEquals($expected, $actualTrans);
     }
 
     /**
@@ -215,7 +213,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Assert date [yyyy-mm-dd]
+     * Assert date [YYYY-MM-DD]
      *
      * @param  string  $date
      * @param  string  $message
@@ -307,6 +305,16 @@ abstract class TestCase extends BaseTestCase
     public function getLogContent($date)
     {
         return $this->filesystem()->read($date);
+    }
+
+    /**
+     * Get logs dates
+     *
+     * @return array
+     */
+    public function getDates()
+    {
+        return $this->filesystem()->dates();
     }
 
     /**
