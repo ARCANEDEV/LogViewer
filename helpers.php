@@ -2,7 +2,7 @@
 
 if ( ! function_exists('log_viewer')) {
     /**
-     * Helper to get the LogViewer instance
+     * Get the LogViewer instance.
      *
      * @return \Arcanedev\LogViewer\LogViewer
      */
@@ -13,26 +13,30 @@ if ( ! function_exists('log_viewer')) {
 
 if ( ! function_exists('extract_date')) {
     /**
-     * Extract date from string
+     * Extract date from string (format : YYYY-MM-DD).
      *
      * @param  string  $string
      *
      * @return string
      */
     function extract_date($string) {
-        return preg_replace('/.*(' . REGEX_DATE_PATTERN . ').*/', '$1', $string);
+        $pattern = '/.*(' . REGEX_DATE_PATTERN . ').*/';
+
+        return preg_replace($pattern, '$1', $string);
     }
 }
 
 if ( ! function_exists('extract_datetime')) {
     /**
-     * Extract date from string
+     * Extract date and time from string (format : YYYY-MM-DD HH:MM:SS).
      *
      * @param  string  $string
      *
      * @return string
      */
     function extract_datetime($string) {
-        return preg_replace('/.*(' . REGEX_DATETIME_PATTERN . ').*/', '$1', $string);
+        $pattern = '/.*(' . REGEX_DATETIME_PATTERN . ').*/';
+
+        return preg_replace($pattern, '$1', $string);
     }
 }
