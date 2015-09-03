@@ -1,4 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
+use Arcanedev\LogViewer\Exceptions\FilesystemException;
 
 /**
  * Interface FilesystemInterface
@@ -29,7 +30,7 @@ interface FilesystemInterface
     public function files();
 
     /**
-     * Get list files
+     * List the log files (Only dates).
      *
      * @param  bool|false  $withPath
      *
@@ -42,9 +43,9 @@ interface FilesystemInterface
      *
      * @param  string  $date
      *
-     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
-     *
      * @return string
+     *
+     * @throws FilesystemException
      */
     public function read($date);
 
@@ -55,7 +56,7 @@ interface FilesystemInterface
      *
      * @return bool
      *
-     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
+     * @throws FilesystemException
      */
     public function delete($date);
 
@@ -66,7 +67,7 @@ interface FilesystemInterface
      *
      * @return string
      *
-     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
+     * @throws FilesystemException
      */
     public function path($date);
 }

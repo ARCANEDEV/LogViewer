@@ -73,6 +73,13 @@ interface LogViewerInterface
     public function delete($date);
 
     /**
+     * List the log files.
+     *
+     * @return array
+     */
+    public function files();
+
+    /**
      * List the log files (only dates).
      *
      * @return array

@@ -26,7 +26,7 @@ class Filesystem implements FilesystemInterface
      *
      * @var string
      */
-    protected $path;
+    protected $storagePath;
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
@@ -36,12 +36,12 @@ class Filesystem implements FilesystemInterface
      * Create a new instance.
      *
      * @param  IlluminateFilesystem  $files
-     * @param  string                $path
+     * @param  string                $storagePath
      */
-    public function __construct(IlluminateFilesystem $files, $path)
+    public function __construct(IlluminateFilesystem $files, $storagePath)
     {
-        $this->filesystem = $files;
-        $this->path       = $path;
+        $this->filesystem  = $files;
+        $this->storagePath = $storagePath;
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -69,11 +69,13 @@ class Filesystem implements FilesystemInterface
      */
     public function files()
     {
-        return glob($this->path . '/laravel-*.log', GLOB_BRACE);
+        $files = array_map('realpath', glob($this->storagePath . '/laravel-*.log', GLOB_BRACE));
+
+        return array_filter($files);
     }
 
     /**
-     * Get list files
+     * List the log files (Only dates).
      *
      * @param  bool|false  $withPath
      *
@@ -98,7 +100,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return string
      *
-     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
+     * @throws FilesystemException
      */
     public function read($date)
     {
@@ -115,11 +117,11 @@ class Filesystem implements FilesystemInterface
     /**
      * Delete the log.
      *
-     * @param  string $date
+     * @param  string  $date
      *
      * @return bool
      *
-     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
+     * @throws FilesystemException
      */
     public function delete($date)
     {
@@ -143,7 +145,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return string
      *
-     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
+     * @throws FilesystemException
      */
     public function path($date)
     {
@@ -165,7 +167,7 @@ class Filesystem implements FilesystemInterface
      */
     private function getLogPath($date)
     {
-        $path = "{$this->path}/laravel-{$date}.log";
+        $path = "{$this->storagePath}/laravel-{$date}.log";
 
         if ( ! $this->filesystem->exists($path)) {
             throw new FilesystemException(
@@ -177,7 +179,7 @@ class Filesystem implements FilesystemInterface
     }
 
     /**
-     * Extract dates from files
+     * Extract dates from files.
      *
      * @param  array  $files
      *

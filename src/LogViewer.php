@@ -140,6 +140,16 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
+     * List the log files.
+     *
+     * @return array
+     */
+    public function files()
+    {
+        return $this->filesystem->files();
+    }
+
+    /**
      * List the log files (only dates).
      *
      * @return array
