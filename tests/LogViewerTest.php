@@ -145,6 +145,17 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_log_files()
+    {
+        $files = $this->logViewer->files();
+
+        $this->assertCount(2, $files);
+        foreach ($files as $file) {
+            $this->assertFileExists($file);
+        }
+    }
+
+    /** @test */
     public function it_can_get_all_levels()
     {
         $levels = $this->logViewer->levels();

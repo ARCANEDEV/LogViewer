@@ -98,6 +98,25 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_files()
+    {
+        $files = $this->filesystem->files();
+
+        $this->assertCount(2, $files);
+        foreach ($files as $file) {
+            $this->assertFileExists($file);
+        }
+    }
+
+    /** @test */
+    public function it_can_get_file_path_by_date()
+    {
+        $this->assertFileExists(
+            $this->filesystem->path('2015-01-01')
+        );
+    }
+
+    /** @test */
     public function it_can_get_dates_from_log_files()
     {
         $dates = $this->filesystem->dates();
