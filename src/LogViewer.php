@@ -74,6 +74,18 @@ class LogViewer implements LogViewerInterface
         return $this->levels->lists();
     }
 
+    /**
+     * Get the translated log levels.
+     *
+     * @param  string|null  $locale
+     *
+     * @return array
+     */
+    public function levelsNames($locale = null)
+    {
+        return $this->levels->names($locale);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------

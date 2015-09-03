@@ -22,6 +22,15 @@ interface LogViewerInterface
      */
     public function levels();
 
+    /**
+     * Get the translated log levels.
+     *
+     * @param  string|null  $locale
+     *
+     * @return array
+     */
+    public function levelsNames($locale = null);
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
