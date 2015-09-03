@@ -1,6 +1,8 @@
 <?php namespace Arcanedev\LogViewer;
 
 use Arcanedev\Support\Laravel\ServiceProvider;
+use Illuminate\Config\Repository as Config;
+use Illuminate\Translation\Translator;
 
 /**
  * Class LogViewerServiceProvider
@@ -95,8 +97,11 @@ class LogViewerServiceProvider extends ServiceProvider
      */
     private function registerLogLevels()
     {
-        $this->app->singleton('log-viewer.levels', function () {
-            return new Utilities\LogLevels;
+        $this->app->singleton('log-viewer.levels', function ($app) {
+            /** @var Translator $trans */
+            $trans  = $app['translator'];
+
+            return new Utilities\LogLevels($trans);
         });
 
         $this->app->alias('log-viewer.levels',                 Utilities\LogLevels::class);
@@ -110,8 +115,8 @@ class LogViewerServiceProvider extends ServiceProvider
     {
         $this->app->singleton('log-viewer.menu', function ($app) {
             /**
-             * @var \Illuminate\Config\Repository      $config
-             * @var \Illuminate\Translation\Translator $trans
+             * @var Config     $config
+             * @var Translator $trans
              */
             $config = $app['config'];
             $trans  = $app['translator'];

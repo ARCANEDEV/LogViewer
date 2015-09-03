@@ -18,7 +18,16 @@ interface LogLevelsInterface
     public function lists();
 
     /**
-     * Get PSR log levels
+     * Get translated levels.
+     *
+     * @param  string|null  $locale
+     *
+     * @return array
+     */
+    public function names($locale = null);
+
+    /**
+     * Get PSR log levels.
      *
      * @return array
      */

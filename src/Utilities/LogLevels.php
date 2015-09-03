@@ -3,6 +3,7 @@
 use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
 use Psr\Log\LogLevel;
 use ReflectionClass;
+use Illuminate\Translation\Translator;
 
 /**
  * Class LogLevels
@@ -21,6 +22,20 @@ class LogLevels implements LogLevelsInterface
      */
     protected static $levels = [];
 
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Constructor
+     | ------------------------------------------------------------------------------------------------
+     */
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -36,7 +51,27 @@ class LogLevels implements LogLevelsInterface
     }
 
     /**
-     * Get PSR log levels
+     * Get translated levels.
+     *
+     * @param  string|null  $locale
+     *
+     * @return array
+     */
+    public function names($locale = null)
+    {
+        if ($locale == 'auto') {
+            $locale = null;
+        }
+
+        $levels = array_values(self::all());
+
+        return array_map(function($level) use ($locale) {
+            return $this->getTranslatedName($level, $locale);
+        }, array_combine($levels, $levels));
+    }
+
+    /**
+     * Get PSR log levels.
      *
      * @return array
      */
@@ -48,5 +83,22 @@ class LogLevels implements LogLevelsInterface
         }
 
         return self::$levels;
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Translate a level
+     *
+     * @param  string       $level
+     * @param  string|null  $locale
+     *
+     * @return string
+     */
+    private function getTranslatedName($level, $locale)
+    {
+        return $this->translator->get('log-viewer::levels.' . $level, [], $locale);
     }
 }
