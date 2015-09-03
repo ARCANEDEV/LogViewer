@@ -42,4 +42,10 @@ class LogEntryTest extends TestCase
         $this->assertInstanceOf(LogEntry::class, $this->entry);
         $this->assertLogEntry($this->entry, '2015-01-01');
     }
+
+    /** @test */
+    public function it_can_convert_to_json()
+    {
+        $this->assertJson($this->entry);
+    }
 }

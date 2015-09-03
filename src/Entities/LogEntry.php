@@ -1,12 +1,15 @@
 <?php namespace Arcanedev\LogViewer\Entities;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
+use JsonSerializable;
 
 /**
  * Class LogEntry
  * @package Arcanedev\LogViewer\Entities
  */
-class LogEntry
+class LogEntry implements Arrayable, Jsonable, JsonSerializable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -29,6 +32,8 @@ class LogEntry
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Construct the log entry instance.
+     *
      * @param  string  $level
      * @param  string  $header
      * @param  string  $stack
@@ -37,7 +42,7 @@ class LogEntry
     {
         $this->setLevel($level);
         $this->setHeader($header);
-        $this->stack  = $stack;
+        $this->setStack($stack);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -45,6 +50,8 @@ class LogEntry
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Set the entry level.
+     *
      * @param  string  $level
      *
      * @return self
@@ -57,7 +64,7 @@ class LogEntry
     }
 
     /**
-     * Set header
+     * Set the entry header.
      *
      * @param  string  $header
      *
@@ -65,14 +72,14 @@ class LogEntry
      */
     private function setHeader($header)
     {
-        $this->header = $header;
+        $this->header = $this->cleanHeader($header);
         $this->setDatetime(extract_datetime($header));
 
         return $this;
     }
 
     /**
-     * Set date time
+     * Set the entry date time.
      *
      * @param  string  $datetime
      *
@@ -86,5 +93,72 @@ class LogEntry
         );
 
         return $this;
+    }
+
+    /**
+     * Set the entry stack.
+     *
+     * @param  string  $stack
+     *
+     * @return self
+     */
+    private function setStack($stack)
+    {
+        $this->stack = $stack;
+
+        return $this;
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Clean the entry header.
+     *
+     * @param  string  $header
+     *
+     * @return string
+     */
+    private function cleanHeader($header)
+    {
+        return preg_replace('/\[' . REGEX_DATETIME_PATTERN . '\][ ]/', '', $header);
+    }
+
+    /**
+     * Get the log entry as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'level'     => $this->level,
+            'datetime'  => $this->datetime->format('Y-m-d H:i:s'),
+            'header'    => $this->header,
+            'stack'     => $this->stack
+        ];
+    }
+
+    /**
+     * Convert the log entry to its JSON representation.
+     *
+     * @param  int  $options
+     *
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * Serialize the log entry object to json data
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
     }
 }

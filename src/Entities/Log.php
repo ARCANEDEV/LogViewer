@@ -1,10 +1,14 @@
 <?php namespace Arcanedev\LogViewer\Entities;
 
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
+use JsonSerializable;
+
 /**
  * Class Log
  * @package Arcanedev\LogViewer\Entities
  */
-class Log
+class Log implements Arrayable, Jsonable, JsonSerializable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -13,11 +17,11 @@ class Log
     /** @var string */
     public $date;
 
-    /** @var LogEntryCollection */
-    private $entries;
-
     /** @var string */
     private $path;
+
+    /** @var LogEntryCollection */
+    private $entries;
 
     /** @var string */
     private $raw;
@@ -149,5 +153,45 @@ class Log
         $tree = $this->tree($trans);
 
         return $tree;
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get the log as a plain array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'date'    => $this->date,
+            'path'    => $this->path,
+            'entries' => $this->entries->toArray()
+        ];
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     *
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * Serialize the log object to json data
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
     }
 }
