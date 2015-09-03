@@ -17,6 +17,16 @@ LogViewer (For Laravel 5) [![Packagist License][badge_license]](https://github.c
 
 *By [ARCANEDEV&copy;](http://www.arcanedev.net/)*
 
+Official documentation for LogViewer can be found at the [LogViewer Wiki](https://github.com/ARCANEDEV/LogViewer/wiki).
+
+## Features
+
+  - View, download and delete logs.
+  - Generate logs menu/tree (With localized level).
+  - Grouped logs by dates and levels.
+  - Works great with big logs !!
+  - Well tested (100% code coverage with maximum code quality).
+  
 ## Table of contents
 
 1. [Requirements](https://github.com/ARCANEDEV/LogViewer/wiki/1.-Requirements)
@@ -28,6 +38,7 @@ LogViewer (For Laravel 5) [![Packagist License][badge_license]](https://github.c
 
 ### TODOS
 
+  - [ ] Log viewer CLI
   - [ ] Customized log level icons (font awesome)
   - [ ] Examples
   - [ ] Complete the documentation (Wiki)
