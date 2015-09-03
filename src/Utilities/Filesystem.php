@@ -77,16 +77,16 @@ class Filesystem implements FilesystemInterface
     /**
      * List the log files (Only dates).
      *
-     * @param  bool|false  $withPath
+     * @param  bool|false  $withPaths
      *
      * @return array
      */
-    public function dates($withPath = false)
+    public function dates($withPaths = false)
     {
         $files = array_reverse($this->files());
         $dates = $this->extractDates($files);
 
-        if ($withPath) {
+        if ($withPaths) {
             $dates = array_combine($dates, $files); // [date => file]
         }
 

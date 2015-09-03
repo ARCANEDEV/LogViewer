@@ -32,11 +32,11 @@ interface FilesystemInterface
     /**
      * List the log files (Only dates).
      *
-     * @param  bool|false  $withPath
+     * @param  bool|false  $withPaths
      *
      * @return array
      */
-    public function dates($withPath = false);
+    public function dates($withPaths = false);
 
     /**
      * Read the log.
