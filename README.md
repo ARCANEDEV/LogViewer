@@ -32,9 +32,11 @@ LogViewer (For Laravel 5) [![Packagist License][badge_license]](https://github.c
   - [ ] Examples
   - [ ] Complete the documentation (Wiki)
   - [ ] Laravel 5.0 support
+  - [ ] Adding more localizations
 
 ### DONE
 
+  - [x] Well documented package (IDE Friendly)
   - [x] 100% Code coverage + Maximum code quality 
   - [x] Localized log levels
   - [x] Laravel 5.1 support
