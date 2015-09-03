@@ -31,5 +31,10 @@
         "psr-4": {
             "Arcanedev\\LogViewer\\Tests\\": "tests/"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0.x-dev"
+        }
     }
 }
