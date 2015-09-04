@@ -3,6 +3,7 @@
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
+use Arcanedev\LogViewer\Utilities\StatsTable;
 
 /**
  * Interface FactoryInterface
@@ -77,7 +78,7 @@ interface FactoryInterface
      *
      * @return int
      */
-    public function total($level);
+    public function total($level = 'all');
 
     /**
      * Get tree menu
@@ -103,4 +104,13 @@ interface FactoryInterface
      * @return array
      */
     public function stats();
+
+    /**
+     * Get logs statistics table
+     *
+     * @param  string|null  $locale
+     *
+     * @return StatsTable
+     */
+    public function statsTable($locale = null);
 }

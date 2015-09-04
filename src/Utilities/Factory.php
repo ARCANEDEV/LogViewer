@@ -2,6 +2,7 @@
 
 use Arcanedev\LogViewer\Contracts\FactoryInterface;
 use Arcanedev\LogViewer\Contracts\FilesystemInterface;
+use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
@@ -23,6 +24,11 @@ class Factory implements FactoryInterface
      */
     protected $filesystem;
 
+    /**
+     * @var LogLevelsInterface
+     */
+    private $levels;
+
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
@@ -31,10 +37,14 @@ class Factory implements FactoryInterface
      * Create a new instance.
      *
      * @param  FilesystemInterface  $filesystem
+     * @param  LogLevelsInterface   $levels
      */
-    public function __construct(FilesystemInterface $filesystem)
-    {
+    public function __construct(
+        FilesystemInterface $filesystem,
+        LogLevelsInterface $levels
+    ) {
         $this->setFilesystem($filesystem);
+        $this->levels = $levels;
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -137,6 +147,18 @@ class Factory implements FactoryInterface
     }
 
     /**
+     * Get logs statistics table
+     *
+     * @param  string|null  $locale
+     *
+     * @return StatsTable
+     */
+    public function statsTable($locale = null)
+    {
+        return StatsTable::make($this->stats(), $this->levels, $locale);
+    }
+
+    /**
      * List the log files (dates).
      *
      * @return array
@@ -163,7 +185,7 @@ class Factory implements FactoryInterface
      *
      * @return int
      */
-    public function total($level)
+    public function total($level = 'all')
     {
         return $this->logs()->total($level);
     }
