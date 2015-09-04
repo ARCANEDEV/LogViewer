@@ -13,9 +13,11 @@ interface LogLevelsInterface
     /**
      * Get the log levels.
      *
+     * @param  bool|false  $flip
+     *
      * @return array
      */
-    public function lists();
+    public function lists($flip = false);
 
     /**
      * Get translated levels.
@@ -29,7 +31,9 @@ interface LogLevelsInterface
     /**
      * Get PSR log levels.
      *
+     * @param  bool|false  $flip
+     *
      * @return array
      */
-    public static function all();
+    public static function all($flip = false);
 }
