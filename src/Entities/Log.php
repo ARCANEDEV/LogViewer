@@ -114,13 +114,21 @@ class Log implements Arrayable, Jsonable, JsonSerializable
      */
     public function getByLevel($level)
     {
-        return $this->entries->filter(function(LogEntry $entry) use ($level) {
-            return $entry->level == $level;
-        });
+        return $this->entries->filterByLevel($level);
     }
 
     /**
-     * Get tree menu
+     * Get log stats.
+     *
+     * @return array
+     */
+    public function stats()
+    {
+        return $this->entries->stats();
+    }
+
+    /**
+     * Get the log navigation tree.
      *
      * @param  bool|false  $trans
      *
@@ -128,21 +136,11 @@ class Log implements Arrayable, Jsonable, JsonSerializable
      */
     public function tree($trans = false)
     {
-        return $this->entries
-            ->groupBy('level')
-            ->map(function(LogEntryCollection $entries, $key) use ($trans) {
-                return [
-                    'name'  => $trans ? trans('log-viewer::levels.' . $key) : $key,
-                    'count' => $entries->count()
-                ];
-            })
-            ->toArray();
+        return $this->entries->tree($trans);
     }
 
     /**
-     * Get tree menu (alias)
-     *
-     * @see    \Arcanedev\LogViewer\Entities\Log::tree()
+     * Get log entries menu.
      *
      * @param  bool|true  $trans
      *
@@ -150,13 +148,11 @@ class Log implements Arrayable, Jsonable, JsonSerializable
      */
     public function menu($trans = true)
     {
-        $tree = $this->tree($trans);
-
-        return $tree;
+        return $this->entries->menu($trans);
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
+     |  Convert Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
