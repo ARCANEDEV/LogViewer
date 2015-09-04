@@ -38,7 +38,9 @@ class PublishCommand extends Command
      */
     public function handle()
     {
-        $args['--provider'] = LogViewerServiceProvider::class;
+        $args = [
+            '--provider' => LogViewerServiceProvider::class
+        ];
 
         if ((bool) $this->option('force')) {
             $args['--force']    = true;
