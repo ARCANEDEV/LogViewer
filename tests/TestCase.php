@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Tests;
 
+use Arcanedev\LogViewer\Contracts\TableInterface;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogEntry;
@@ -244,6 +245,72 @@ abstract class TestCase extends BaseTestCase
         }
         else {
             $this->assertArrayNotHasKey('icon', $item);
+        }
+    }
+
+    /**
+     * Assert table instance.
+     *
+     * @param  TableInterface  $table
+     */
+    protected function assertTable(TableInterface $table)
+    {
+        $this->assertTableHeader($table);
+        $this->assertTableRows($table);
+        $this->assertTableFooter($table);
+    }
+
+    /**
+     * Assert table header.
+     *
+     * @param  TableInterface  $table
+     */
+    protected function assertTableHeader(TableInterface $table)
+    {
+        $header = $table->header();
+
+        $this->assertCount(10, $header);
+        // TODO: Add more assertions to check the content
+    }
+
+    /**
+     * Assert table rows.
+     *
+     * @param  TableInterface  $table
+     */
+    protected function assertTableRows(TableInterface $table)
+    {
+        foreach ($table->rows() as $date => $row) {
+            $this->assertDate($date);
+            $this->assertCount(10, $row);
+
+            foreach ($row as $key => $value) {
+                switch ($key) {
+                    case 'date':
+                        $this->assertDate($value);
+                        break;
+
+                    case 'all':
+                        $this->assertEquals(8, $value);
+                        break;
+
+                    default:
+                        $this->assertEquals(1, $value);
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Assert table footer.
+     *
+     * @param  TableInterface  $table
+     */
+    protected function assertTableFooter(TableInterface $table)
+    {
+        foreach ($table->footer() as $key => $value) {
+            $this->assertEquals($key === 'all' ? 16 : 2, $value);
         }
     }
 
