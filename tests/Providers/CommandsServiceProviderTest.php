@@ -1,18 +1,26 @@
-<?php namespace Arcanedev\LogViewer\Tests;
-use Arcanedev\LogViewer\LogViewerServiceProvider;
+<?php namespace Arcanedev\LogViewer\Tests\Providers;
+
+use Arcanedev\LogViewer\Providers\CommandsServiceProvider;
+use Arcanedev\LogViewer\Tests\TestCase;
 
 /**
- * Class LogViewerServiceProviderTest
- * @package Arcanedev\LogViewer\Tests
+ * Class CommandsServiceProviderTest
+ * @package Arcanedev\LogViewer\Tests\Providers
  */
-class LogViewerServiceProviderTest extends TestCase
+class CommandsServiceProviderTest extends TestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var LogViewerServiceProvider */
+    /** @var CommandsServiceProvider */
     private $provider;
+
+    /** @var array */
+    private $commands = [
+        'log-viewer.commands.publish',
+        'log-viewer.commands.stats',
+    ];
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -22,7 +30,7 @@ class LogViewerServiceProviderTest extends TestCase
     {
         parent::setUp();
 
-        $this->provider = $this->app->getProvider(LogViewerServiceProvider::class);
+        $this->provider = $this->app->getProvider(CommandsServiceProvider::class);
     }
 
     public function tearDown()
@@ -40,9 +48,8 @@ class LogViewerServiceProviderTest extends TestCase
     public function it_can_get_provides_list()
     {
         $provided = $this->provider->provides();
-        $defaults = ['log-viewer'];
 
-        $this->assertCount(count($defaults), $provided);
-        $this->assertEquals($defaults, $provided);
+        $this->assertCount(count($this->commands), $provided);
+        $this->assertEquals($this->commands, $provided);
     }
 }
