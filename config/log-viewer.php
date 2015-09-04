@@ -9,6 +9,20 @@ return [
     'locale'         => 'auto',
 
     /* ------------------------------------------------------------------------------------------------
+     |  Route
+     | ------------------------------------------------------------------------------------------------
+     */
+    'route'         => [
+        'enabled'    => false,
+
+        'attributes' => [
+            'prefix'     => 'log-viewer',
+
+            'middleware' => null
+        ]
+    ],
+
+    /* ------------------------------------------------------------------------------------------------
      |  Log entries per page
      | ------------------------------------------------------------------------------------------------
      |  This defines how many log entries are displayed per page.
@@ -48,6 +62,50 @@ return [
                 'info'      => 'fa fa-fw fa-info-circle',          // http://fontawesome.io/icon/info-circle/
                 'debug'     => 'fa fa-fw fa-life-ring',            // http://fontawesome.io/icon/life-ring/
             ]
+        ]
+    ],
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Charts settings
+     | ------------------------------------------------------------------------------------------------
+     */
+    'charts'    => [
+        /**
+         * http://www.chartjs.org/
+         */
+        'levels' =>  [
+            'emergency' => [
+                'color'     => "#D50000",
+                'highlight' => "#FFF",
+            ],
+            'alert'     => [
+                'color'     => "#B71C1C",
+                'highlight' => "#FFF",
+            ],
+            'critical'  => [
+                'color'     => "#d32f2f",
+                'highlight' => "#FFF",
+            ],
+            'error'     => [
+                'color'     => "#F44336",
+                'highlight' => "#FFF",
+            ],
+            'warning'   => [
+                'color'     => "#FF3D00",
+                'highlight' => "#FFF",
+            ],
+            'notice'    => [
+                'color'     => "#0D47A1",
+                'highlight' => "#FFF",
+            ],
+            'info'      => [
+                'color'     => "#1976D2",
+                'highlight' => "#FFF",
+            ],
+            'debug'     => [
+                'color'     => "#90CAF9",
+                'highlight' => "#FFF",
+            ],
         ]
     ]
 ];
