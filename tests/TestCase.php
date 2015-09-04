@@ -96,13 +96,13 @@ abstract class TestCase extends BaseTestCase
      * @param  Jsonable|mixed  $object
      * @param  string          $message
      */
-    public static function assertJson($object, $message = '')
+    public static function assertJsonObject($object, $message = '')
     {
         self::assertInstanceOf(Jsonable::class, $object);
-        parent::assertJson($object->toJson(JSON_PRETTY_PRINT), $message);
+        self::assertJson($object->toJson(JSON_PRETTY_PRINT), $message);
 
         self::assertInstanceOf(JsonSerializable::class, $object);
-        parent::assertJson(json_encode($object, JSON_PRETTY_PRINT), $message);
+        self::assertJson(json_encode($object, JSON_PRETTY_PRINT), $message);
     }
 
     /**
