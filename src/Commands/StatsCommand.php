@@ -26,6 +26,14 @@ class StatsCommand extends Command
      */
     protected $description = 'Display stats of all logs.';
 
+    /**
+     * Table style
+     * Supported: default, borderless, compact, symfony-style-guide
+     *
+     * @var string
+     */
+    private $style = 'default';
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -35,23 +43,51 @@ class StatsCommand extends Command
      */
     public function handle()
     {
-        $headers = [
-            'Date',
-            'All',
-            'Emergency',
-            'Alert',
-            'Critical',
-            'Error',
-            'Warning',
-            'Notice',
-            'Info',
-            'Debug'
-        ];
+        // Load Data
+        $rows  = [];
+        $stats = $this->logViewer->stats();
 
-        // TODO: Complete the implementation
+        foreach ($stats as $date => $levels) {
+            $rows[] = array_merge_recursive(compact('date'), $levels);
+        }
 
-        $stats = [];
+        $rows[] = $this->getTableSeparator();
+        $rows[] = $this->getTotals($stats);
 
-        $this->table($headers, $stats);
+        // Display Data
+        $this->displayLogViewer();
+        $this->table(
+            ['Date', 'All', 'Emergency', 'Alert', 'Critical', 'Error', 'Warning', 'Notice', 'Info', 'Debug'],
+            $rows,
+            $this->style
+        );
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Calculate the total
+     *
+     * @param  array  $stats
+     *
+     * @return array
+     */
+    private function getTotals(array $stats)
+    {
+        $total = [];
+
+        foreach ($stats as $date => $levels) {
+            foreach ($levels as $level => $count) {
+                if (isset($total[$level])) {
+                    $total[$level] += $count;
+                } else {
+                    $total[$level] = $count;
+                }
+            }
+        }
+
+        return array_merge([count($stats) . ' log file(s)'], $total);
     }
 }
