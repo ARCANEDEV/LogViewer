@@ -1,8 +1,6 @@
 <?php namespace Arcanedev\LogViewer;
 
 use Arcanedev\Support\Laravel\ServiceProvider;
-use Illuminate\Config\Repository as Config;
-use Illuminate\Translation\Translator;
 
 /**
  * Class LogViewerServiceProvider
@@ -31,11 +29,11 @@ class LogViewerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerLogLevels();
-        $this->registerLogMenu();
-        $this->registerFilesystem();
-        $this->registerFactory();
+        $this->app->register(Providers\UtilitiesServiceProvider::class);
+
         $this->registerLogViewer();
+
+        $this->app->register(Providers\CommandsServiceProvider::class);
     }
 
     /**
@@ -45,12 +43,7 @@ class LogViewerServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [
-            'log-viewer',
-            'log-viewer.levels',
-            'log-viewer.factory',
-            'log-viewer.filesystem',
-        ];
+        return ['log-viewer'];
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -92,73 +85,6 @@ class LogViewerServiceProvider extends ServiceProvider
      |  Services
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * Register the log levels.
-     */
-    private function registerLogLevels()
-    {
-        $this->app->singleton('log-viewer.levels', function ($app) {
-            /** @var Translator $trans */
-            $trans  = $app['translator'];
-
-            return new Utilities\LogLevels($trans);
-        });
-
-        $this->app->alias('log-viewer.levels',                 Utilities\LogLevels::class);
-        $this->app->alias(Contracts\LogLevelsInterface::class, Utilities\LogLevels::class);
-    }
-
-    /**
-     * Register the log menu maker.
-     */
-    private function registerLogMenu()
-    {
-        $this->app->singleton('log-viewer.menu', function ($app) {
-            /**
-             * @var Config     $config
-             * @var Translator $trans
-             */
-            $config = $app['config'];
-            $trans  = $app['translator'];
-
-            return new Utilities\LogMenu($config, $trans);
-        });
-
-        $this->app->alias('log-viewer.menu', Utilities\LogMenu::class);
-    }
-
-    /**
-     * Register the log filesystem class.
-     */
-    private function registerFilesystem()
-    {
-        $this->app->singleton('log-viewer.filesystem', function ($app) {
-            $files = $app['files'];
-            $path  = storage_path('logs');
-
-            return new Utilities\Filesystem($files, $path);
-        });
-
-        $this->app->alias('log-viewer.filesystem',              Utilities\Filesystem::class);
-        $this->app->alias(Contracts\FilesystemInterface::class, Utilities\Filesystem::class);
-    }
-
-    /**
-     * Register the log factory class.
-     */
-    private function registerFactory()
-    {
-        $this->app->singleton('log-viewer.factory', function ($app) {
-            /** @var Contracts\FilesystemInterface $filesystem */
-            $filesystem = $app['log-viewer.filesystem'];
-
-            return new Utilities\Factory($filesystem);
-        });
-
-        $this->app->alias('log-viewer.factory',              Utilities\Factory::class);
-        $this->app->alias(Contracts\FactoryInterface::class, Utilities\Factory::class);
-    }
-
     /**
      * Register the log data class.
      */
