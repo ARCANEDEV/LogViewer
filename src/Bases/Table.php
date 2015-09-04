@@ -15,19 +15,22 @@ abstract class Table implements TableInterface
      | ------------------------------------------------------------------------------------------------
      */
     /** @var array  */
-    protected $header  = [];
+    private $header  = [];
 
     /** @var array  */
-    protected $rows    = [];
+    private $rows    = [];
 
     /** @var array  */
-    protected $footer  = [];
+    private $footer  = [];
 
     /** @var LogLevelsInterface */
     protected $levels;
 
     /** @var string|null */
     protected $locale;
+
+    /** @var array */
+    private $data = [];
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
@@ -44,20 +47,8 @@ abstract class Table implements TableInterface
     {
         $this->setLevels($levels);
         $this->setLocale($locale);
-
-        $this->init($data);
-    }
-
-    /**
-     * Prepare the table.
-     *
-     * @param  array  $data
-     */
-    private function init($data)
-    {
-        $this->header  = $this->prepareHeader($data);
-        $this->rows    = $this->prepareRows($data);
-        $this->footer  = $this->prepareFooter($data);
+        $this->setData($data);
+        $this->init();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -79,13 +70,13 @@ abstract class Table implements TableInterface
     }
 
     /**
-     * Set locale.
+     * Set table locale.
      *
      * @param  string|null  $locale
      *
      * @return self
      */
-    private function setLocale($locale)
+    protected function setLocale($locale)
     {
         if (is_null($locale) || $locale === 'auto') {
             $locale = app()->getLocale();
@@ -127,6 +118,30 @@ abstract class Table implements TableInterface
     }
 
     /**
+     * Get raw data.
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Set table data.
+     *
+     * @param  array  $data
+     *
+     * @return self
+     */
+    private function setData(array $data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
      * Get translator instance.
      *
      * @return Translator
@@ -143,6 +158,16 @@ abstract class Table implements TableInterface
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Prepare the table.
+     */
+    private function init()
+    {
+        $this->header = $this->prepareHeader($this->data);
+        $this->rows   = $this->prepareRows($this->data);
+        $this->footer = $this->prepareFooter($this->data);
+    }
+
     /**
      * Prepare table header.
      *
