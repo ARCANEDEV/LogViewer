@@ -208,9 +208,17 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_stats_table()
+    {
+        $table = $this->logViewer->statsTable();
+
+        $this->assertTable($table);
+    }
+
+    /** @test */
     public function it_can_get_tree()
     {
-        $tree = $this->logViewer->tree(false);
+        $tree = $this->logViewer->tree();
 
         $this->assertCount(2, $tree);
         foreach ($tree as $date => $counters) {

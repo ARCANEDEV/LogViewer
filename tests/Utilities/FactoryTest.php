@@ -84,6 +84,74 @@ class FactoryTest extends TestCase
         $this->assertCount(2, $logs);
     }
 
+    /** @test */
+    public function it_can_get_count()
+    {
+        $this->assertEquals(2, $this->logFactory->count());
+    }
+
+    /** @test */
+    public function it_can_get_total()
+    {
+        $this->assertEquals(16, $this->logFactory->total());
+    }
+
+    /** @test */
+    public function it_can_get_total_by_level()
+    {
+        foreach (self::$logLevels as $level) {
+            $this->assertEquals(2, $this->logFactory->total($level));
+        }
+    }
+
+    /** @test */
+    public function it_can_get_tree()
+    {
+        $tree = $this->logFactory->tree();
+
+        foreach ($tree as $date => $levels) {
+            $this->assertDate($date);
+
+            // TODO: Complete the assertions
+        }
+    }
+
+    /** @test */
+    public function it_can_get_translated_tree()
+    {
+        // TODO: Complete the test
+    }
+
+    /** @test */
+    public function it_can_get_menu()
+    {
+        $menu = $this->logFactory->menu();
+
+        foreach ($menu as $date => $item) {
+            $this->assertDate($date);
+
+            // TODO: Complete the assertions
+        }
+    }
+
+    /** @test */
+    public function it_can_get_untranslated_menu()
+    {
+        $menu = $this->logFactory->menu(false);
+
+        foreach ($menu as $date => $item) {
+            $this->assertDate($date);
+
+            // TODO: Complete the assertions
+        }
+    }
+
+    /** @test */
+    public function it_can_get_stats_table()
+    {
+        $this->assertTable($this->logFactory->statsTable());
+    }
+
     /**
      * @test
      *
