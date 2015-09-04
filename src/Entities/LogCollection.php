@@ -80,6 +80,28 @@ class LogCollection extends Collection
     /**
      * Get a log.
      *
+     * @param  string     $date
+     * @param  mixed|null $default
+     *
+     * @return Log
+     *
+     * @throws LogNotFound
+     */
+    public function get($date, $default = null)
+    {
+        if ( ! $this->has($date)) {
+            throw new LogNotFound(
+                'Log not found in this date [' .$date . ']'
+            );
+        }
+
+        return parent::get($date, $default);
+    }
+
+    /**
+     * Get a log. (alias)
+     * @see LogCollection::get()
+     *
      * @param  string  $date
      *
      * @return Log
@@ -88,14 +110,9 @@ class LogCollection extends Collection
      */
     public function log($date)
     {
-        if ( ! $this->has($date)) {
-            throw new LogNotFound(
-                'Log not found in this date [' .$date . ']'
-            );
-        }
-
         return $this->get($date);
     }
+
 
     /**
      * Get log entries.
@@ -105,9 +122,21 @@ class LogCollection extends Collection
      *
      * @return LogEntryCollection|null
      */
-    public function entries($date, $level)
+    public function entries($date, $level = 'all')
     {
-        return $this->log($date)->entries($level);
+        return $this->get($date)->entries($level);
+    }
+
+    /**
+     * Get logs statistics
+     *
+     * @return array
+     */
+    public function stats()
+    {
+        return $this->map(function (Log $log) {
+            return $log->stats();
+        })->toArray();
     }
 
     /**
