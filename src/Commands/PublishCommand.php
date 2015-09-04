@@ -52,6 +52,7 @@ class PublishCommand extends Command
             $args['--tag'] = [$tag];
         }
 
+        $this->displayLogViewer();
         $this->call('vendor:publish', $args);
     }
 }
