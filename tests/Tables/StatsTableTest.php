@@ -81,6 +81,6 @@ class StatsTableTest extends TestCase
     {
         $json = $this->table->totalsJson();
 
-        dd($json);
+        $this->assertJson($json);
     }
 }

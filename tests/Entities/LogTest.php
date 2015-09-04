@@ -202,6 +202,6 @@ class LogTest extends TestCase
     /** @test */
     public function it_can_convert_to_json()
     {
-        $this->assertJson($this->log);
+        $this->assertJsonObject($this->log);
     }
 }
