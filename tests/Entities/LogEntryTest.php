@@ -40,12 +40,20 @@ class LogEntryTest extends TestCase
     public function it_can_be_instantiated()
     {
         $this->assertInstanceOf(LogEntry::class, $this->entry);
-        $this->assertLogEntry($this->entry, '2015-01-01');
+        $this->assertLogEntry('2015-01-01', $this->entry);
     }
 
     /** @test */
     public function it_can_convert_to_json()
     {
         $this->assertJson($this->entry);
+    }
+
+    /** @test */
+    public function it_can_check_if_same_level()
+    {
+        $level = $this->entry->level;
+
+        $this->assertTrue($this->entry->isSameLevel($level));
     }
 }

@@ -110,21 +110,25 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
+     |  Check Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Clean the entry header.
+     * Check if same log level
      *
-     * @param  string  $header
+     * @param  string  $level
      *
-     * @return string
+     * @return bool
      */
-    private function cleanHeader($header)
+    public function isSameLevel($level)
     {
-        return preg_replace('/\[' . REGEX_DATETIME_PATTERN . '\][ ]/', '', $header);
+        return $this->level === $level;
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Convert Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Get the log entry as an array.
      *
@@ -160,5 +164,21 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     public function jsonSerialize()
     {
         return $this->toArray();
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Clean the entry header.
+     *
+     * @param  string  $header
+     *
+     * @return string
+     */
+    private function cleanHeader($header)
+    {
+        return preg_replace('/\[' . REGEX_DATETIME_PATTERN . '\][ ]/', '', $header);
     }
 }
