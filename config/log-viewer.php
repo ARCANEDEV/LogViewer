@@ -18,8 +18,8 @@ return [
         'attributes' => [
             'prefix'     => 'log-viewer',
 
-            'middleware' => null
-        ]
+            'middleware' => null,
+        ],
     ],
 
     /* ------------------------------------------------------------------------------------------------
@@ -61,8 +61,8 @@ return [
                 'notice'    => 'fa fa-fw fa-exclamation-circle',   // http://fontawesome.io/icon/exclamation-circle/
                 'info'      => 'fa fa-fw fa-info-circle',          // http://fontawesome.io/icon/info-circle/
                 'debug'     => 'fa fa-fw fa-life-ring',            // http://fontawesome.io/icon/life-ring/
-            ]
-        ]
+            ],
+        ],
     ],
 
     /* ------------------------------------------------------------------------------------------------
@@ -106,6 +106,6 @@ return [
                 'color'     => "#90CAF9",
                 'highlight' => "#FFF",
             ],
-        ]
-    ]
+        ],
+    ],
 ];
