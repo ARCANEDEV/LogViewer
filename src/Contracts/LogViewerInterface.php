@@ -18,9 +18,11 @@ interface LogViewerInterface
     /**
      * Get the log levels.
      *
+     * @param  bool|false  $flip
+     *
      * @return array
      */
-    public function levels();
+    public function levels($flip = false);
 
     /**
      * Get the translated log levels.
@@ -73,6 +75,13 @@ interface LogViewerInterface
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function download($date, $filename = null, $headers = []);
+
+    /**
+     * Get logs statistics
+     *
+     * @return array
+     */
+    public function stats();
 
     /**
      * Delete the log.

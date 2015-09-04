@@ -67,11 +67,13 @@ class LogViewer implements LogViewerInterface
     /**
      * Get the log levels.
      *
+     * @param  bool|false  $flip
+     *
      * @return array
      */
-    public function levels()
+    public function levels($flip = false)
     {
-        return $this->levels->lists();
+        return $this->levels->lists($flip);
     }
 
     /**
@@ -145,6 +147,16 @@ class LogViewer implements LogViewerInterface
         $path = $this->filesystem->path($date);
 
         return response()->download($path, $filename, $headers);
+    }
+
+    /**
+     * Get logs statistics
+     *
+     * @return array
+     */
+    public function stats()
+    {
+        return $this->factory->stats();
     }
 
     /**

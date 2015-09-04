@@ -96,4 +96,11 @@ interface FactoryInterface
      * @return array
      */
     public function menu($trans = true);
+
+    /**
+     * Get logs statistics
+     *
+     * @return array
+     */
+    public function stats();
 }

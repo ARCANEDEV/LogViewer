@@ -127,6 +127,16 @@ class Factory implements FactoryInterface
     }
 
     /**
+     * Get logs statistics
+     *
+     * @return array
+     */
+    public function stats()
+    {
+        return $this->logs()->stats();
+    }
+
+    /**
      * List the log files (dates).
      *
      * @return array
