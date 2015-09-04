@@ -1,4 +1,5 @@
-<?php namespace Arcanedev\LogViewer\Utilities;
+<?php namespace Arcanedev\LogViewer\Tables;
+
 use Arcanedev\LogViewer\Bases\Table;
 use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
 
@@ -88,5 +89,31 @@ class StatsTable extends Table
         }
 
         return $footer;
+    }
+
+    /**
+     * Get json chart data.
+     *
+     * @param  string|null $locale
+     *
+     * @return array
+     */
+    public function totalsJson($locale = null)
+    {
+        $this->setLocale($locale);
+
+        $json   = [];
+        $levels = array_except($this->footer(), 'all');
+
+        foreach ($levels as $level => $count) {
+            $json[] = [
+                'label'     => $this->translate("levels.$level"),
+                'value'     => $count,
+                'color'     => config("log-viewer.charts.levels.$level.color"),
+                'highlight' => config("log-viewer.charts.levels.$level.color"),
+            ];
+        }
+
+        return json_encode(array_values($json), JSON_PRETTY_PRINT);
     }
 }

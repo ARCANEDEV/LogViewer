@@ -1,7 +1,7 @@
-<?php namespace Arcanedev\LogViewer\Tests\Utilities;
+<?php namespace Arcanedev\LogViewer\Tests\Tables;
 
 use Arcanedev\LogViewer\Tests\TestCase;
-use Arcanedev\LogViewer\Utilities\StatsTable;
+use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
  * Class StatsTableTest
@@ -74,5 +74,13 @@ class StatsTableTest extends TestCase
     public function it_can_get_footer()
     {
         $this->assertTableFooter($this->table);
+    }
+
+    /** @test */
+    public function it_can_get_json_data_for_chart()
+    {
+        $json = $this->table->totalsJson();
+
+        dd($json);
     }
 }

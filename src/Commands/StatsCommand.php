@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Commands;
 
 use Arcanedev\LogViewer\Bases\Command;
-use Arcanedev\LogViewer\Utilities\StatsTable;
+use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
  * Class StatsCommand

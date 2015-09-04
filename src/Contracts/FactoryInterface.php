@@ -3,7 +3,7 @@
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
-use Arcanedev\LogViewer\Utilities\StatsTable;
+use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
  * Interface FactoryInterface

@@ -6,6 +6,7 @@ use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
+use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
  * Class Factory
