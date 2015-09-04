@@ -252,7 +252,17 @@ abstract class TestCase extends BaseTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get filesystem utility
+     * Get Illuminate Filesystem
+     *
+     * @return \Illuminate\Filesystem\Filesystem
+     */
+    public function illuminateFile()
+    {
+        return $this->app['files'];
+    }
+
+    /**
+     * Get Filesystem utility
      *
      * @return \Arcanedev\LogViewer\Utilities\Filesystem
      */
@@ -427,5 +437,15 @@ abstract class TestCase extends BaseTestCase
         return array_map(function ($locale) use ($translator) {
             return $translator->get('log-viewer::levels', [], $locale);
         }, array_combine(self::$locales, self::$locales));
+    }
+
+    /**
+     * Get config path
+     *
+     * @return string
+     */
+    protected function getConfigPath()
+    {
+        return realpath(config_path());
     }
 }
