@@ -7,11 +7,11 @@ LogViewer (For Laravel 5) [![Packagist License][badge_license]](https://github.c
 [![Packagist Release][badge_release]](https://packagist.org/packages/arcanedev/log-viewer)
 [![Packagist Downloads][badge_downloads]](https://packagist.org/packages/arcanedev/log-viewer)
 
-[badge_license]:   http://img.shields.io/packagist/l/arcanedev/log-viewer.svg?style=flat-square
-[badge_build]:     http://img.shields.io/travis/ARCANEDEV/LogViewer.svg?style=flat-square
+[badge_license]:   https://img.shields.io/packagist/l/arcanedev/log-viewer.svg?style=flat-square
+[badge_build]:     https://img.shields.io/travis/ARCANEDEV/LogViewer.svg?style=flat-square
 [badge_coverage]:  https://img.shields.io/scrutinizer/coverage/g/ARCANEDEV/LogViewer.svg?style=flat-square
 [badge_quality]:   https://img.shields.io/scrutinizer/g/ARCANEDEV/LogViewer.svg?style=flat-square
-[badge_issues]:    http://img.shields.io/github/issues/ARCANEDEV/LogViewer.svg?style=flat-square
+[badge_issues]:    https://img.shields.io/github/issues/ARCANEDEV/LogViewer.svg?style=flat-square
 [badge_release]:   https://img.shields.io/packagist/v/arcanedev/log-viewer.svg?style=flat-square
 [badge_downloads]: https://img.shields.io/packagist/dt/arcanedev/log-viewer.svg?style=flat-square
 
