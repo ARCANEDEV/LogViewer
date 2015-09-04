@@ -4,6 +4,7 @@ use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Exceptions\FilesystemException;
+use Arcanedev\LogViewer\Utilities\StatsTable;
 
 /**
  * Interface LogViewerInterface
@@ -82,6 +83,15 @@ interface LogViewerInterface
      * @return array
      */
     public function stats();
+
+    /**
+     * Get logs statistics table
+     *
+     * @param  string|null  $locale
+     *
+     * @return StatsTable
+     */
+    public function statsTable($locale = null);
 
     /**
      * Delete the log.

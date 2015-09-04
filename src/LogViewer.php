@@ -7,6 +7,7 @@ use Arcanedev\LogViewer\Contracts\LogViewerInterface;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
+use Arcanedev\LogViewer\Utilities\StatsTable;
 
 /**
  * Class LogViewer
@@ -163,6 +164,18 @@ class LogViewer implements LogViewerInterface
     public function stats()
     {
         return $this->factory->stats();
+    }
+
+    /**
+     * Get logs statistics table
+     *
+     * @param  string|null  $locale
+     *
+     * @return StatsTable
+     */
+    public function statsTable($locale = null)
+    {
+        return $this->factory->statsTable($locale);
     }
 
     /**
