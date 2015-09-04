@@ -22,7 +22,7 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
 ## Features
 
   - View, download and delete logs.
-  - Generate logs menu/tree (With localized level).
+  - Generate logs menu/tree (With localized levels).
   - Grouped logs by dates and levels.
   - Works great with big logs !!
   - Well tested (100% code coverage with maximum code quality).
@@ -36,12 +36,16 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
 5. [Extras](https://github.com/ARCANEDEV/LogViewer/wiki/5.-Extras)
 6. [FAQ](https://github.com/ARCANEDEV/LogViewer/wiki/6.-FAQ)
 
-### TODOS
+### ONGOING
 
   - [ ] Log viewer CLI
-  - [ ] Customized log level icons (font awesome)
-  - [ ] Examples
-  - [ ] Complete the documentation (Wiki)
+  - [ ] Log viewer Statistics
+  - [ ] Customized log levels icons (font awesome)
+  - [ ] Complete the documentation + Examples (Wiki)
+  - [ ] Ready to use (Views, Routes, controllers &hellip; Included) [IMPORTANT: No public assets to publish]
+
+### TODOS
+
   - [ ] Laravel 5.0 support
   - [ ] Adding more localizations
 
