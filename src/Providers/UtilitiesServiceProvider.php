@@ -113,10 +113,14 @@ class UtilitiesServiceProvider extends ServiceProvider
     private function registerFactory()
     {
         $this->registerUtility('factory', function ($app) {
-            /** @var FilesystemInterface $filesystem */
+            /**
+             * @var FilesystemInterface $filesystem
+             * @var LogLevelsInterface  $level
+             */
             $filesystem = $app['log-viewer.filesystem'];
+            $level      = $app['log-viewer.levels'];
 
-            return new Factory($filesystem);
+            return new Factory($filesystem, $level);
         });
 
         $this->app->alias('log-viewer.factory',    Factory::class);
