@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Commands;
 
 use Arcanedev\LogViewer\Bases\Command;
+use Arcanedev\LogViewer\Utilities\StatsTable;
 
 /**
  * Class StatsCommand
@@ -26,14 +27,6 @@ class StatsCommand extends Command
      */
     protected $description = 'Display stats of all logs.';
 
-    /**
-     * Table style
-     * Supported: default, borderless, compact, symfony-style-guide
-     *
-     * @var string
-     */
-    private $style = 'default';
-
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -44,23 +37,15 @@ class StatsCommand extends Command
     public function handle()
     {
         // Load Data
-        $rows  = [];
-        $stats = $this->logViewer->stats();
+        $stats   = $this->logViewer->statsTable('en');
 
-        foreach ($stats as $date => $levels) {
-            $rows[] = array_merge_recursive(compact('date'), $levels);
-        }
-
-        $rows[] = $this->getTableSeparator();
-        $rows[] = $this->getTotals($stats);
+        $rows    = $stats->rows();
+        $rows[]  = $this->getTableSeparator();
+        $rows[]  = $this->prepareFooter($stats);
 
         // Display Data
         $this->displayLogViewer();
-        $this->table(
-            ['Date', 'All', 'Emergency', 'Alert', 'Critical', 'Error', 'Warning', 'Notice', 'Info', 'Debug'],
-            $rows,
-            $this->style
-        );
+        $this->table($stats->header(), $rows);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -68,26 +53,18 @@ class StatsCommand extends Command
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Calculate the total
+     * Prepare footer
      *
-     * @param  array  $stats
+     * @param  StatsTable  $stats
      *
      * @return array
      */
-    private function getTotals(array $stats)
+    private function prepareFooter(StatsTable $stats)
     {
-        $total = [];
+        $files = [
+            'count' => count($stats->rows()) . ' log file(s)'
+        ];
 
-        foreach ($stats as $date => $levels) {
-            foreach ($levels as $level => $count) {
-                if (isset($total[$level])) {
-                    $total[$level] += $count;
-                } else {
-                    $total[$level] = $count;
-                }
-            }
-        }
-
-        return array_merge([count($stats) . ' log file(s)'], $total);
+        return $files + $stats->footer();
     }
 }
