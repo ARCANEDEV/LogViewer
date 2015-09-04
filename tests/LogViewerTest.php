@@ -84,7 +84,7 @@ class LogViewerTest extends TestCase
 
             $this->assertDate($log->date);
             $this->assertCount(8, $entries);
-            $this->assertLogEntries($entries, $log->date);
+            $this->assertLogEntries($log->date, $entries);
         }
     }
 
@@ -95,7 +95,7 @@ class LogViewerTest extends TestCase
         $logEntries = $this->logViewer->entries($date);
 
         $this->assertCount(8, $logEntries);
-        $this->assertLogEntries($logEntries, $date);
+        $this->assertLogEntries($date, $logEntries);
     }
 
     /** @test */
@@ -106,7 +106,7 @@ class LogViewerTest extends TestCase
             $logEntries = $this->logViewer->entries($date, $level);
 
             $this->assertCount(1, $logEntries);
-            $this->assertLogEntries($logEntries, $date);
+            $this->assertLogEntries($date, $logEntries);
         }
     }
 
@@ -188,14 +188,42 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_tree_menu()
+    public function it_can_get_stats()
+    {
+        $stats = $this->logViewer->stats();
+
+        foreach ($stats as $date => $levels) {
+            $this->assertDate($date);
+
+            foreach ($levels as $level => $count) {
+                if ($level == 'all') {
+                    $this->assertEquals(8, $count);
+                    continue;
+                }
+
+                $this->assertEquals(1, $count);
+                $this->assertInLogLevels($level);
+            }
+        }
+    }
+
+    /** @test */
+    public function it_can_get_tree()
     {
         $tree = $this->logViewer->tree(false);
 
         $this->assertCount(2, $tree);
-        foreach ($tree as $date => $entries) {
+        foreach ($tree as $date => $counters) {
             $this->assertDate($date);
-            foreach ($entries as $level => $entry) {
+
+            foreach ($counters as $level => $entry) {
+                if ($level === 'all') {
+                    $this->assertEquals($level, $entry['name']);
+                    $this->assertEquals(8, $entry['count']);
+
+                    continue;
+                }
+
                 $this->assertInLogLevels($level);
                 $this->assertEquals($level, $entry['name']);
                 $this->assertEquals(1, $entry['count']);
@@ -204,16 +232,24 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_translated_tree_menu()
+    public function it_can_get_translated_menu()
     {
         foreach (self::$locales as $locale) {
             $this->app->setLocale($locale);
             $menu   = $this->logViewer->menu();
 
             $this->assertCount(2, $menu);
-            foreach ($menu as $date => $entries) {
+            foreach ($menu as $date => $counters) {
                 $this->assertDate($date);
-                foreach ($entries as $level => $entry) {
+
+                foreach ($counters as $level => $entry) {
+                    if ($level === 'all') {
+                        $this->assertTranslatedLevel($locale, $level, $entry['name']);
+                        $this->assertEquals(8, $entry['count']);
+
+                        continue;
+                    }
+
                     $this->assertInLogLevels($level);
                     $this->assertTranslatedLevel($locale, $level, $entry['name']);
                     $this->assertEquals(1, $entry['count']);

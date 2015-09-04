@@ -62,7 +62,7 @@ class FactoryTest extends TestCase
         $logEntries = $this->logFactory->entries($date);
 
         foreach ($logEntries as $logEntry) {
-            $this->assertLogEntry($logEntry, $date);
+            $this->assertLogEntry($date, $logEntry);
         }
     }
 

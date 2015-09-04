@@ -46,7 +46,7 @@ class LogTest extends TestCase
         $this->assertInstanceOf(Log::class, $this->log);
         $this->assertDate($this->log->date);
         $this->assertCount(8, $entries);
-        $this->assertLogEntries($entries, $this->log->date);
+        $this->assertLogEntries($this->log->date, $entries);
     }
 
     /** @test */
@@ -102,7 +102,7 @@ class LogTest extends TestCase
             $entries = $this->getLog($date)->entries();
 
             $this->assertCount(8, $entries);
-            $this->assertLogEntries($entries, $date);
+            $this->assertLogEntries($date, $entries);
         }
     }
 
@@ -119,7 +119,50 @@ class LogTest extends TestCase
 
             foreach ($this->getLogLevels() as $level) {
                 $this->assertCount(1, $log->entries($level));
-                $this->assertLogEntries($log->entries(), $date);
+                $this->assertLogEntries($date, $log->entries());
+            }
+        }
+    }
+
+    /** @test */
+    public function it_can_get_log_stats()
+    {
+        $stats = $this->log->stats();
+
+        foreach ($stats as $level => $counter) {
+            if ($level === 'all') {
+                $this->assertEquals(8, $counter);
+
+                continue;
+            }
+
+            $this->assertEquals(1, $counter);
+        }
+    }
+
+    /** @test */
+    public function it_can_get_tree()
+    {
+        $dates   = [
+            '2015-01-01',
+            '2015-01-02',
+        ];
+
+        foreach ($dates as $date) {
+            $menu = $this->getLog($date)->tree();
+
+            $this->assertCount(9, $menu);
+
+            foreach ($menu as $level => $menuItem) {
+                if ($level === 'all') {
+                    $this->assertEquals(8, $menuItem['count']);
+
+                    continue;
+                }
+
+                $this->assertInLogLevels($level);
+                $this->assertInLogLevels($menuItem['name']);
+                $this->assertEquals(1, $menuItem['count']);
             }
         }
     }
@@ -138,34 +181,20 @@ class LogTest extends TestCase
             foreach ($dates as $date) {
                 $menu = $this->getLog($date)->menu();
 
-                $this->assertCount(8, $menu);
+                $this->assertCount(9, $menu);
 
                 foreach ($menu as $level => $menuItem) {
+                    if ($level === 'all') {
+                        $this->assertEquals(8, $menuItem['count']);
+                        $this->assertTranslatedLevel($locale, $level, $menuItem['name']);
+
+                        continue;
+                    }
+
                     $this->assertInLogLevels($level);
                     $this->assertTranslatedLevel($locale, $level, $menuItem['name']);
                     $this->assertEquals(1, $menuItem['count']);
                 }
-            }
-        }
-    }
-
-    /** @test */
-    public function it_can_get_tree()
-    {
-        $dates   = [
-            '2015-01-01',
-            '2015-01-02',
-        ];
-
-        foreach ($dates as $date) {
-            $menu = $this->getLog($date)->tree();
-
-            $this->assertCount(8, $menu);
-
-            foreach ($menu as $level => $menuItem) {
-                $this->assertInLogLevels($level);
-                $this->assertInLogLevels($menuItem['name']);
-                $this->assertEquals(1, $menuItem['count']);
             }
         }
     }
