@@ -126,6 +126,6 @@ class LogViewerServiceProvider extends PackageServiceProvider
         $this->app->alias(Contracts\LogViewerInterface::class, LogViewer::class);
 
         // Registering the Facade
-        $this->addAlias('LogViewer', Facades\LogViewer::class);
+        $this->addFacade('LogViewer', Facades\LogViewer::class);
     }
 }
