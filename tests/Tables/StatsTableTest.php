@@ -16,6 +16,9 @@ class StatsTableTest extends TestCase
     /** @var StatsTable */
     private $table;
 
+    /** @var array */
+    private $rawData;
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -24,8 +27,8 @@ class StatsTableTest extends TestCase
     {
         parent::setUp();
 
-        $this->table = new StatsTable(
-            $this->app['log-viewer']->stats(),
+        $this->table   = new StatsTable(
+            $this->rawData = $this->app['log-viewer']->stats(),
             $this->app['log-viewer.levels']
         );
     }
@@ -74,6 +77,15 @@ class StatsTableTest extends TestCase
     public function it_can_get_footer()
     {
         $this->assertTableFooter($this->table);
+    }
+
+    /** @test */
+    public function it_can_get_raw_data()
+    {
+        $this->assertEquals(
+            $this->rawData,
+            $this->table->data()
+        );
     }
 
     /** @test */

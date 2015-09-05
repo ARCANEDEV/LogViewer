@@ -122,7 +122,7 @@ abstract class Table implements TableInterface
      *
      * @return array
      */
-    public function getData()
+    public function data()
     {
         return $this->data;
     }
