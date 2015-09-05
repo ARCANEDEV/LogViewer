@@ -64,7 +64,7 @@ class LogMenu implements LogMenuInterface
      */
     private function getIcon($level)
     {
-        return $this->config('icons.levels.' . $level);
+        return $this->config('icons.' . $level);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -107,25 +107,13 @@ class LogMenu implements LogMenuInterface
      */
     private function isIconsEnabled()
     {
-        return (bool) $this->config('icons.enabled', false);
+        return (bool) $this->config('menu.icons-enabled', false);
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * Translate
-     *
-     * @param  string  $key
-     *
-     * @return string
-     */
-    private function trans($key)
-    {
-        return $this->trans->get('log-viewer::' . $key);
-    }
-
     /**
      * Get config
      *
@@ -136,7 +124,18 @@ class LogMenu implements LogMenuInterface
      */
     private function config($key, $default = null)
     {
-        return $this->config
-            ->get('log-viewer.menu.' . $key, $default);
+        return $this->config->get('log-viewer.' . $key, $default);
+    }
+
+    /**
+     * Translate
+     *
+     * @param  string  $key
+     *
+     * @return string
+     */
+    private function trans($key)
+    {
+        return $this->trans->get('log-viewer::' . $key);
     }
 }
