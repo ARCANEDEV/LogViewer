@@ -20,7 +20,9 @@
 <body>
     @include('log-viewer::_template.navigation')
 
-    @yield('content')
+    <div class="container-fluid">
+        @yield('content')
+    </div>
 
     @include('log-viewer::_template.footer')
 

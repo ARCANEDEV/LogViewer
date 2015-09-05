@@ -9,5 +9,12 @@
             </button>
             <a class="navbar-brand" href="#">LogViewer</a>
         </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="{{ route('log-viewer::dashboard') }}">
+                    <i class="fa fa-dashboard"></i> Dashboard
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>
