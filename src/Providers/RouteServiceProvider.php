@@ -10,15 +10,19 @@ use Illuminate\Routing\Router;
 class RouteServiceProvider extends ServiceProvider
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
-     | ------------------------------------------------------------------------------------------------
-     */
-    protected $namespace = 'Arcanedev\\LogViewer\\Http\\Routes';
-
-    /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Get the routes namespace
+     *
+     * @return string
+     */
+    protected function getRouteNamespace()
+    {
+        return 'Arcanedev\\LogViewer\\Http\\Routes';
+    }
+
     /**
      * Define the routes for the application.
      *
@@ -26,6 +30,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map(Router $router)
     {
-        $this->mapRoutes(__DIR__, []);
+        $this->mapRoutes($router, __DIR__, []);
     }
 }
