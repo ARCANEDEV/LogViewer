@@ -9,8 +9,10 @@ use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
- * Class Factory
- * @package Arcanedev\LogViewer\Log
+ * Class     Factory
+ *
+ * @package  Arcanedev\LogViewer\Utilities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Factory implements FactoryInterface
 {

@@ -6,8 +6,10 @@ use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
- * Interface FactoryInterface
- * @package Arcanedev\LogViewer\Contracts
+ * Interface  FactoryInterface
+ *
+ * @package   Arcanedev\LogViewer\Contracts
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface FactoryInterface
 {

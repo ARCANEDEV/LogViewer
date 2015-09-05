@@ -6,8 +6,10 @@ use ReflectionClass;
 use Illuminate\Translation\Translator;
 
 /**
- * Class LogLevels
- * @package Arcanedev\LogViewer\Log
+ * Class     LogLevels
+ *
+ * @package  Arcanedev\LogViewer\Utilities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogLevels implements LogLevelsInterface
 {

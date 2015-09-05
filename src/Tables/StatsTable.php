@@ -4,8 +4,10 @@ use Arcanedev\LogViewer\Bases\Table;
 use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
 
 /**
- * Class StatsTable
- * @package Arcanedev\LogViewer\Utilities
+ * Class     StatsTable
+ *
+ * @package  Arcanedev\LogViewer\Tables
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class StatsTable extends Table
 {

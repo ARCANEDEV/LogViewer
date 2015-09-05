@@ -6,8 +6,10 @@ use Arcanedev\LogViewer\Utilities\Factory;
 use Arcanedev\LogViewer\Utilities\Filesystem;
 
 /**
- * Class FactoryTest
- * @package Arcanedev\LogViewer\Tests\Utilities
+ * Class     FactoryTest
+ *
+ * @package  Arcanedev\LogViewer\Tests\Utilities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class FactoryTest extends TestCase
 {

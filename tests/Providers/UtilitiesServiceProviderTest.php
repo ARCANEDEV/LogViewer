@@ -4,8 +4,10 @@ use Arcanedev\LogViewer\Providers\UtilitiesServiceProvider;
 use Arcanedev\LogViewer\Tests\TestCase;
 
 /**
- * Class UtilitiesServiceProviderTest
- * @package Arcanedev\LogViewer\Tests\Providers
+ * Class     UtilitiesServiceProviderTest
+ *
+ * @package  Arcanedev\LogViewer\Tests\Providers
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class UtilitiesServiceProviderTest extends TestCase
 {

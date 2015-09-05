@@ -1,9 +1,12 @@
 <?php namespace Arcanedev\LogViewer\Tests\Commands;
+
 use Arcanedev\LogViewer\Tests\TestCase;
 
 /**
- * Class PublishCommandTest
- * @package Arcanedev\LogViewer\Tests\Commands
+ * Class     PublishCommandTest
+ *
+ * @package  Arcanedev\LogViewer\Tests\Commands
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class PublishCommandTest extends TestCase
 {

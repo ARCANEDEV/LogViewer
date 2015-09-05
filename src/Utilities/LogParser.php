@@ -1,8 +1,10 @@
 <?php namespace Arcanedev\LogViewer\Utilities;
 
 /**
- * Class LogParser
- * @package Arcanedev\LogViewer\Utilities
+ * Class     LogParser
+ *
+ * @package  Arcanedev\LogViewer\Utilities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogParser
 {

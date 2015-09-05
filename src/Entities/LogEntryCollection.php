@@ -4,8 +4,10 @@ use Arcanedev\LogViewer\Utilities\LogParser;
 use Arcanedev\Support\Collection;
 
 /**
- * Class LogEntryCollection
- * @package Arcanedev\LogViewer\Entities
+ * Class     LogEntryCollection
+ *
+ * @package  Arcanedev\LogViewer\Entities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogEntryCollection extends Collection
 {

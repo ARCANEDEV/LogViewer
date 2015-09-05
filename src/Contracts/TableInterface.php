@@ -1,5 +1,11 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
 
+/**
+ * Interface  TableInterface
+ *
+ * @package   Arcanedev\LogViewer\Contracts
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
+ */
 interface TableInterface
 {
     /* ------------------------------------------------------------------------------------------------

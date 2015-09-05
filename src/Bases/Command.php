@@ -6,8 +6,10 @@ use Illuminate\Console\Command as IlluminateCommand;
 use Symfony\Component\Console\Helper\TableSeparator;
 
 /**
- * Class Command
- * @package Arcanedev\LogViewer\Bases
+ * Class     Command
+ *
+ * @package  Arcanedev\LogViewer\Bases
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class Command extends IlluminateCommand
 {

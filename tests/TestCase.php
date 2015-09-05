@@ -1,9 +1,9 @@
 <?php namespace Arcanedev\LogViewer\Tests;
 
 use Arcanedev\LogViewer\Contracts\TableInterface;
-use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogEntry;
+use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\LogViewerServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Jsonable;
@@ -14,8 +14,10 @@ use Psr\Log\LogLevel;
 use ReflectionClass;
 
 /**
- * Class AbstractTestCase
- * @package Arcanedev\LogViewer\Tests
+ * Class     TestCase
+ *
+ * @package  Arcanedev\LogViewer\Tests
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class TestCase extends BaseTestCase
 {

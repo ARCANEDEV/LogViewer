@@ -4,8 +4,10 @@ use Arcanedev\Support\Laravel\RouteRegister;
 use Illuminate\Contracts\Routing\Registrar;
 
 /**
- * Class LogViewerRoute
- * @package Arcanedev\LogViewer\Http\Routes
+ * Class     LogViewerRoute
+ *
+ * @package  Arcanedev\LogViewer\Http\Routes
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogViewerRoute extends RouteRegister
 {

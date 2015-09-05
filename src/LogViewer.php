@@ -9,14 +9,19 @@ use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
 
 /**
- * Class LogViewer
- * @package Arcanedev\LogViewer
+ * Class     LogViewer
+ *
+ * @package  Arcanedev\LogViewer
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogViewer implements LogViewerInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constants
      | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * LogViewer Version
      */
     const VERSION = '2.9.0';
 

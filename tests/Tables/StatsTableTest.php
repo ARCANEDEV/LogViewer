@@ -4,8 +4,10 @@ use Arcanedev\LogViewer\Tests\TestCase;
 use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
- * Class StatsTableTest
- * @package Arcanedev\LogViewer\Tests\Utilities
+ * Class     StatsTableTest
+ *
+ * @package  Arcanedev\LogViewer\Tests\Tables
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class StatsTableTest extends TestCase
 {

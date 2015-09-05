@@ -14,8 +14,10 @@ use Illuminate\Translation\Translator;
 use Illuminate\Config\Repository as Config;
 
 /**
- * Class UtilitiesServiceProvider
- * @package Arcanedev\LogViewer\Providers
+ * Class     UtilitiesServiceProvider
+ *
+ * @package  Arcanedev\LogViewer\Providers
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class UtilitiesServiceProvider extends ServiceProvider
 {

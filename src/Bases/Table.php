@@ -5,8 +5,10 @@ use Arcanedev\LogViewer\Contracts\TableInterface;
 use Illuminate\Translation\Translator;
 
 /**
- * Class Table
- * @package Arcanedev\LogViewer\Bases
+ * Class     Table
+ *
+ * @package  Arcanedev\LogViewer\Bases
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class Table implements TableInterface
 {

@@ -3,8 +3,10 @@
 use Arcanedev\LogViewer\Tests\TestCase;
 
 /**
- * Class StatsCommandTest
- * @package Arcanedev\LogViewer\Tests\Commands
+ * Class     StatsCommandTest
+ *
+ * @package  Arcanedev\LogViewer\Tests\Commands
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class StatsCommandTest extends TestCase
 {

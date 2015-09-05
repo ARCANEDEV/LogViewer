@@ -5,8 +5,10 @@ use Illuminate\Config\Repository as Config;
 use Illuminate\Translation\Translator;
 
 /**
- * Class LogMenu
- * @package Arcanedev\LogViewer\Utilities
+ * Class     LogMenu
+ *
+ * @package  Arcanedev\LogViewer\Utilities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogMenu implements LogMenuInterface
 {

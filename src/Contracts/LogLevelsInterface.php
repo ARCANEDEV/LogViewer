@@ -1,8 +1,10 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
 
 /**
- * Interface LogLevelsInterface
- * @package Arcanedev\LogViewer\Contracts
+ * Interface  LogLevelsInterface
+ *
+ * @package   Arcanedev\LogViewer\Contracts
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface LogLevelsInterface
 {

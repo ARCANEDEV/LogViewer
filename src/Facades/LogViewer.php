@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class LogViewer
- * @package Arcanedev\LogViewer\Facades
+ * Class     LogViewer
+ *
+ * @package  Arcanedev\LogViewer\Facades
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogViewer extends Facade
 {

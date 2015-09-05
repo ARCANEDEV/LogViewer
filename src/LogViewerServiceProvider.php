@@ -3,8 +3,10 @@
 use Arcanedev\Support\Laravel\PackageServiceProvider;
 
 /**
- * Class LogViewerServiceProvider
- * @package Arcanedev\LogViewer
+ * Class     LogViewerServiceProvider
+ *
+ * @package  Arcanedev\LogViewer
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogViewerServiceProvider extends PackageServiceProvider
 {

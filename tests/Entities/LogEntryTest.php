@@ -4,8 +4,10 @@ use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Tests\TestCase;
 
 /**
- * Class LogEntryTest
- * @package Arcanedev\LogViewer\Tests\Entities
+ * Class     LogEntryTest
+ *
+ * @package  Arcanedev\LogViewer\Tests\Entities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogEntryTest extends TestCase
 {

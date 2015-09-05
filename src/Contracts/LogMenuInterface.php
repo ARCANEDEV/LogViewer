@@ -1,5 +1,11 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
 
+/**
+ * Interface  LogMenuInterface
+ *
+ * @package   Arcanedev\LogViewer\Contracts
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
+ */
 interface LogMenuInterface
 {
     /* ------------------------------------------------------------------------------------------------

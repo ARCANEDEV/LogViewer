@@ -7,8 +7,10 @@ use Arcanedev\LogViewer\Exceptions\FilesystemException;
 use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
- * Interface LogViewerInterface
- * @package Arcanedev\LogViewer\Contracts
+ * Interface  LogViewerInterface
+ *
+ * @package   Arcanedev\LogViewer\Contracts
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface LogViewerInterface
 {

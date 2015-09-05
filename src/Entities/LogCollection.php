@@ -5,8 +5,10 @@ use Arcanedev\LogViewer\Exceptions\LogNotFound;
 use Arcanedev\Support\Collection;
 
 /**
- * Class LogCollection
- * @package Arcanedev\LogViewer\Entities
+ * Class     LogCollection
+ *
+ * @package  Arcanedev\LogViewer\Entities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogCollection extends Collection
 {

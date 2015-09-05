@@ -2,8 +2,10 @@
 use Arcanedev\LogViewer\Exceptions\FilesystemException;
 
 /**
- * Interface FilesystemInterface
- * @package Arcanedev\LogViewer\Contracts
+ * Interface  FilesystemInterface
+ *
+ * @package   Arcanedev\LogViewer\Contracts
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface FilesystemInterface
 {

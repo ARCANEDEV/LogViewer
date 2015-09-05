@@ -6,8 +6,10 @@ use Arcanedev\Support\Laravel\ServiceProvider;
 use Closure;
 
 /**
- * Class CommandsServiceProvider
- * @package Arcanedev\LogViewer\Providers
+ * Class     CommandsServiceProvider
+ *
+ * @package  Arcanedev\LogViewer\Providers
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CommandsServiceProvider extends ServiceProvider
 {

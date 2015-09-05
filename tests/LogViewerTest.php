@@ -5,8 +5,10 @@ use Arcanedev\LogViewer\LogViewer;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
- * Class LogViewerTest
- * @package Arcanedev\LogViewer\Tests
+ * Class     LogViewerTest
+ *
+ * @package  Arcanedev\LogViewer\Tests
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogViewerTest extends TestCase
 {

@@ -4,8 +4,10 @@ use Arcanedev\LogViewer\Bases\Command;
 use Arcanedev\LogViewer\LogViewerServiceProvider;
 
 /**
- * Class PublishCommand
- * @package Arcanedev\LogViewer\Commands
+ * Class     PublishCommand
+ *
+ * @package  Arcanedev\LogViewer\Commands
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class PublishCommand extends Command
 {

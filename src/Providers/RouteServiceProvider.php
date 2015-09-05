@@ -4,8 +4,10 @@ use Arcanedev\Support\Laravel\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
 
 /**
- * Class RouteServiceProvider
- * @package Arcanedev\LogViewer\Providers
+ * Class     RouteServiceProvider
+ *
+ * @package  Arcanedev\LogViewer\Providers
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class RouteServiceProvider extends ServiceProvider
 {

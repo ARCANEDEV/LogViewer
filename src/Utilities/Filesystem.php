@@ -5,8 +5,10 @@ use Arcanedev\LogViewer\Exceptions\FilesystemException;
 use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 
 /**
- * Class Filesystem
- * @package Arcanedev\LogViewer\Log
+ * Class     Filesystem
+ *
+ * @package  Arcanedev\LogViewer\Utilities
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Filesystem implements FilesystemInterface
 {
