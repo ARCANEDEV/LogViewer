@@ -69,8 +69,8 @@ class UtilitiesServiceProvider extends ServiceProvider
             return new LogLevels($trans);
         });
 
-        $this->app->alias('log-viewer.levels',       LogLevels::class);
-        $this->app->alias(LogLevelsInterface::class, LogLevels::class);
+        $this->app->alias('arcanedev.log-viewer.levels', LogLevels::class);
+        $this->app->alias(LogLevelsInterface::class,     LogLevels::class);
     }
 
     /**
@@ -89,8 +89,8 @@ class UtilitiesServiceProvider extends ServiceProvider
             return new LogMenu($config, $trans);
         });
 
-        $this->app->alias('log-viewer.menu',       LogMenu::class);
-        $this->app->alias(LogMenuInterface::class, LogMenu::class);
+        $this->app->alias('arcanedev.log-viewer.menu', LogMenu::class);
+        $this->app->alias(LogMenuInterface::class,     LogMenu::class);
     }
 
     /**
@@ -105,8 +105,8 @@ class UtilitiesServiceProvider extends ServiceProvider
             return new Filesystem($files, $path);
         });
 
-        $this->app->alias('log-viewer.filesystem',    Filesystem::class);
-        $this->app->alias(FilesystemInterface::class, Filesystem::class);
+        $this->app->alias('arcanedev.log-viewer.filesystem', Filesystem::class);
+        $this->app->alias(FilesystemInterface::class,        Filesystem::class);
     }
 
     /**
@@ -119,14 +119,14 @@ class UtilitiesServiceProvider extends ServiceProvider
              * @var FilesystemInterface $filesystem
              * @var LogLevelsInterface  $level
              */
-            $filesystem = $app['log-viewer.filesystem'];
-            $level      = $app['log-viewer.levels'];
+            $filesystem = $app['arcanedev.log-viewer.filesystem'];
+            $level      = $app['arcanedev.log-viewer.levels'];
 
             return new Factory($filesystem, $level);
         });
 
-        $this->app->alias('log-viewer.factory',    Factory::class);
-        $this->app->alias(FactoryInterface::class, Factory::class);
+        $this->app->alias('arcanedev.log-viewer.factory', Factory::class);
+        $this->app->alias(FactoryInterface::class,        Factory::class);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -141,7 +141,7 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function registerUtility($name, Closure $callback)
     {
-        $name = "log-viewer.$name";
+        $name = "arcanedev.log-viewer.$name";
 
         $this->app->singleton($name, $callback);
 

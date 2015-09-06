@@ -28,7 +28,7 @@ class FactoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->logFactory = $this->app['log-viewer.factory'];
+        $this->logFactory = $this->app['arcanedev.log-viewer.factory'];
     }
 
     public function tearDown()

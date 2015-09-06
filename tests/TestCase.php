@@ -342,7 +342,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function filesystem()
     {
-        return $this->app['log-viewer.filesystem'];
+        return $this->app['arcanedev.log-viewer.filesystem'];
     }
 
     /**

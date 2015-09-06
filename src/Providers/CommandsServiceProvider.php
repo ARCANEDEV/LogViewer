@@ -63,7 +63,7 @@ class CommandsServiceProvider extends ServiceProvider
     private function registerPublishCommand()
     {
         $this->registerCommand('publish', function ($app) {
-            $logViewer = $app['log-viewer'];
+            $logViewer = $app['arcanedev.log-viewer'];
 
             return new PublishCommand($logViewer);
         });
@@ -75,7 +75,7 @@ class CommandsServiceProvider extends ServiceProvider
     public function registerStatsCommand()
     {
         $this->registerCommand('stats', function ($app) {
-            $logViewer = $app['log-viewer'];
+            $logViewer = $app['arcanedev.log-viewer'];
 
             return new StatsCommand($logViewer);
         });
@@ -93,7 +93,7 @@ class CommandsServiceProvider extends ServiceProvider
      */
     private function registerCommand($name, Closure $callback)
     {
-        $command = "log-viewer.commands.$name";
+        $command = "arcanedev.log-viewer.commands.$name";
 
         $this->app->singleton($command, $callback);
 

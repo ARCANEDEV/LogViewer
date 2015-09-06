@@ -7,7 +7,7 @@ if ( ! function_exists('log_viewer')) {
      * @return \Arcanedev\LogViewer\LogViewer
      */
     function log_viewer() {
-        return app('log-viewer');
+        return app('arcanedev.log-viewer');
     }
 }
 

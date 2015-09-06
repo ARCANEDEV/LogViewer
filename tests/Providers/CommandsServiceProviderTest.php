@@ -20,8 +20,8 @@ class CommandsServiceProviderTest extends TestCase
 
     /** @var array */
     private $commands = [
-        'log-viewer.commands.publish',
-        'log-viewer.commands.stats',
+        'arcanedev.log-viewer.commands.publish',
+        'arcanedev.log-viewer.commands.stats',
     ];
 
     /* ------------------------------------------------------------------------------------------------

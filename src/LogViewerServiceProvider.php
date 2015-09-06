@@ -67,7 +67,9 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     public function provides()
     {
-        return ['log-viewer'];
+        return [
+            'arcanedev.log-viewer'
+        ];
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -137,20 +139,20 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     private function registerLogViewer()
     {
-        $this->app->singleton($this->package, function ($app) {
+        $this->app->singleton('arcanedev.log-viewer', function ($app) {
             /**
              * @var  Contracts\FactoryInterface     $factory
              * @var  Contracts\FilesystemInterface  $filesystem
              * @var  Contracts\LogLevelsInterface   $levels
              */
-            $factory    = $app[$this->package . '.factory'];
-            $filesystem = $app[$this->package . '.filesystem'];
-            $levels     = $app[$this->package . '.levels'];
+            $factory    = $app['arcanedev.log-viewer.factory'];
+            $filesystem = $app['arcanedev.log-viewer.filesystem'];
+            $levels     = $app['arcanedev.log-viewer.levels'];
 
             return new LogViewer($factory, $filesystem, $levels);
         });
 
-        $this->app->alias($this->package,                      LogViewer::class);
+        $this->app->alias('arcanedev.log-viewer',              LogViewer::class);
         $this->app->alias(Contracts\LogViewerInterface::class, LogViewer::class);
 
         // Registering the Facade

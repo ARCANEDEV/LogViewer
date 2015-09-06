@@ -26,7 +26,7 @@ class LogMenuTest extends TestCase
     {
         parent::setUp();
 
-        $this->menu = $this->app['log-viewer.menu'];
+        $this->menu = $this->app['arcanedev.log-viewer.menu'];
     }
 
     public function tearDown()

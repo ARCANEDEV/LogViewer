@@ -43,7 +43,7 @@ class LogViewerServiceProviderTest extends TestCase
     public function it_can_get_provides_list()
     {
         $provided = $this->provider->provides();
-        $defaults = ['log-viewer'];
+        $defaults = ['arcanedev.log-viewer'];
 
         $this->assertCount(count($defaults), $provided);
         $this->assertEquals($defaults, $provided);

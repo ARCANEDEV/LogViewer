@@ -28,6 +28,6 @@ abstract class Controller extends IlluminateController
      */
     public function __construct()
     {
-        $this->logViewer = app('log-viewer');
+        $this->logViewer = app('arcanedev.log-viewer');
     }
 }

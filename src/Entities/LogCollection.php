@@ -32,7 +32,7 @@ class LogCollection extends Collection
      */
     public function __construct($items = [])
     {
-        $this->setFilesystem(app('log-viewer.filesystem'));
+        $this->setFilesystem(app('arcanedev.log-viewer.filesystem'));
 
         parent::__construct($items);
 

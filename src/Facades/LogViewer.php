@@ -15,5 +15,5 @@ class LogViewer extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'log-viewer'; }
+    protected static function getFacadeAccessor() { return 'arcanedev.log-viewer'; }
 }

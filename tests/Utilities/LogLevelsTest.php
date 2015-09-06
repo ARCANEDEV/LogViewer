@@ -26,7 +26,7 @@ class LogLevelsTest extends TestCase
     {
         parent::setUp();
 
-        $this->levels = $this->app['log-viewer.levels'];
+        $this->levels = $this->app['arcanedev.log-viewer.levels'];
     }
 
     public function tearDown()

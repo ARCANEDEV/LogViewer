@@ -30,8 +30,8 @@ class StatsTableTest extends TestCase
         parent::setUp();
 
         $this->table   = new StatsTable(
-            $this->rawData = $this->app['log-viewer']->stats(),
-            $this->app['log-viewer.levels']
+            $this->rawData = $this->app['arcanedev.log-viewer']->stats(),
+            $this->app['arcanedev.log-viewer.levels']
         );
     }
 
@@ -56,8 +56,8 @@ class StatsTableTest extends TestCase
     public function it_can_make_instance()
     {
         $this->table = StatsTable::make(
-            $this->app['log-viewer']->stats(),
-            $this->app['log-viewer.levels']
+            $this->app['arcanedev.log-viewer']->stats(),
+            $this->app['arcanedev.log-viewer.levels']
         );
 
         $this->assertTable($this->table);
