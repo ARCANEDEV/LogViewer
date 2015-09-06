@@ -2,33 +2,36 @@
 
 @section('content')
     <h1 class="page-header">Log [{{ $log->date }}]</h1>
-    <p>
-        <span class="label label-default">{{ $log->getPath() }}</span>
-    </p>
 
     <div class="row">
         <div class="col-md-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Levels</div>
-                <ul class="list-group">
-                    @foreach($log->menu() as $level => $item)
-                        @if ($item['count'] == 0)
-                            <a href="#" class="list-group-item disabled">
-                                <span class="badge">{{ $item['count'] }}</span>
-                                {{ $item['name'] }}
-                            </a>
-                        @else
-                            <a href="{{ route('log-viewer::logs.filter', [$log->date, $level]) }}" class="list-group-item {{ $level }}">
-                                <span class="badge">{{ $item['count'] }}</span>
-                                {{ $item['name'] }}
-                            </a>
-                        @endif
-                    @endforeach
-                </ul>
-            </div>
-
+            @include('log-viewer::_partials.menu', ['menu' => $log->menu(), 'date' => $log->date])
         </div>
         <div class="col-md-10">
+            <div class="table-responsive">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <td>File path :</td>
+                            <td colspan="5">
+                                {{ $log->getPath() }}
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Size :</td>
+                            <td>{{ $log->size() }}</td>
+                            <td>Create at :</td>
+                            <td>{{ $log->createdAt() }}</td>
+                            <td>Updated at :</td>
+                            <td>{{ $log->updatedAt() }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
             <div class="table-responsive">
                 <table class="table table-hover table-condensed">
                     <thead>
