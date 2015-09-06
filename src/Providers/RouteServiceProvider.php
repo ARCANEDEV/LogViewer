@@ -26,7 +26,7 @@ class RouteServiceProvider extends ServiceProvider
 
         return array_merge($attributes, [
             'as'        => 'log-viewer::',
-            'namespace' => 'Arcanedev\\LogViewer\\\Http\\Controllers'
+            'namespace' => 'Arcanedev\\LogViewer\\Http\\Controllers'
         ]);
     }
 

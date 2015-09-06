@@ -18,7 +18,7 @@
                                 {{ $item['name'] }}
                             </a>
                         @else
-                            <a href="{{ route('log-viewer::log.filter', [$log->date, $level]) }}" class="list-group-item {{ $level }}">
+                            <a href="{{ route('log-viewer::logs.filter', [$log->date, $level]) }}" class="list-group-item {{ $level }}">
                                 <span class="badge">{{ $item['count'] }}</span>
                                 {{ $item['name'] }}
                             </a>

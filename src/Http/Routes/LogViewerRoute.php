@@ -53,14 +53,14 @@ class LogViewerRoute extends RouteRegister
                 'uses'  => 'LogViewerController@show',
             ]);
 
-            $this->get('{level}', [
-                'as'    => 'filter',
-                'uses'  => 'LogViewerController@showByLevel',
-            ]);
-
             $this->get('download', [
                 'as'    => 'download',
                 'uses'  => 'LogViewerController@download',
+            ]);
+
+            $this->get('{level}', [
+                'as'    => 'filter',
+                'uses'  => 'LogViewerController@showByLevel',
             ]);
         });
     }

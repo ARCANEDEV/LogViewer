@@ -18,7 +18,7 @@ if ( ! function_exists('log_lvl_color')) {
      * @param  string  $level
      * @param  string  $default
      *
-     * @return array
+     * @return mixed
      */
     function log_lvl_colors($level, $default = '') {
         return config('log-viewer.colors.levels.' . $level, $default);

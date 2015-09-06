@@ -101,70 +101,70 @@
 
     span.level.level-empty,
     span.level.level-empty i {
-        background-color: {{ log_lvl_color('empty.background') }};
-        color: {{ log_lvl_color('empty.font') }};
+        background-color: {{ log_lvl_colors('empty.background') }};
+        color: {{ log_lvl_colors('empty.font') }};
     }
 
     .progress-bar.level-all,
     span.level.level-all,
     span.level.level-all i {
-        background-color: {{ log_lvl_color('all.background') }};
-        color: {{ log_lvl_color('all.font') }};
+        background-color: {{ log_lvl_colors('all.background') }};
+        color: {{ log_lvl_colors('all.font') }};
     }
 
     .progress-bar.level-emergency,
     span.level.level-emergency,
     span.level.level-emergency i {
-        background-color: {{ log_lvl_color('emergency.background') }};
-        color: {{ log_lvl_color('emergency.font') }};
+        background-color: {{ log_lvl_colors('emergency.background') }};
+        color: {{ log_lvl_colors('emergency.font') }};
     }
 
     .progress-bar.level-alert,
     span.level.level-alert,
     span.level.level-alert i {
-        background-color: {{ log_lvl_color('alert.background') }};
-        color: {{ log_lvl_color('alert.font') }};
+        background-color: {{ log_lvl_colors('alert.background') }};
+        color: {{ log_lvl_colors('alert.font') }};
     }
 
     .progress-bar.level-critical,
     span.level.level-critical,
     span.level.level-critical i {
-        background-color: {{ log_lvl_color('critical.background') }};
-        color: {{ log_lvl_color('critical.font') }};
+        background-color: {{ log_lvl_colors('critical.background') }};
+        color: {{ log_lvl_colors('critical.font') }};
     }
 
     .progress-bar.level-error,
     span.level.level-error,
     span.level.level-error i {
-        background-color: {{ log_lvl_color('error.background') }};
-        color: {{ log_lvl_color('error.font') }};
+        background-color: {{ log_lvl_colors('error.background') }};
+        color: {{ log_lvl_colors('error.font') }};
     }
 
     .progress-bar.level-warning,
     span.level.level-warning,
     span.level.level-warning i {
-        background-color: {{ log_lvl_color('warning.background') }};
-        color: {{ log_lvl_color('warning.font') }};
+        background-color: {{ log_lvl_colors('warning.background') }};
+        color: {{ log_lvl_colors('warning.font') }};
     }
 
     .progress-bar.level-notice,
     span.level.level-notice,
     span.level.level-notice i {
-        background-color: {{ log_lvl_color('notice.background') }};
-        color: {{ log_lvl_color('notice.font') }};
+        background-color: {{ log_lvl_colors('notice.background') }};
+        color: {{ log_lvl_colors('notice.font') }};
     }
 
     .progress-bar.level-info,
     span.level.level-info,
     span.level.level-info i {
-        background-color: {{ log_lvl_color('info.background') }};
-        color: {{ log_lvl_color('info.font') }};
+        background-color: {{ log_lvl_colors('info.background') }};
+        color: {{ log_lvl_colors('info.font') }};
     }
 
     .progress-bar.level-debug,
     span.level.level-debug,
     span.level.level-debug i {
-        background-color: {{ log_lvl_color('debug.background') }};
-        color: {{ log_lvl_color('debug.font') }};
+        background-color: {{ log_lvl_colors('debug.background') }};
+        color: {{ log_lvl_colors('debug.font') }};
     }
 </style>
