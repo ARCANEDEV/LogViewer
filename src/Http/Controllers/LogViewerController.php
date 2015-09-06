@@ -32,7 +32,7 @@ class LogViewerController extends Controller
         $percents  = $this->calcPercentages($footer, $headers);
 
         return view(
-            'log-viewer::stats',
+            'log-viewer::dashboard',
             compact('headers', 'rows', 'footer', 'reports', 'percents')
         );
     }
@@ -46,9 +46,28 @@ class LogViewerController extends Controller
      */
     public function show($date)
     {
-        $log = $this->logViewer->get($date);
+        $log     = $this->logViewer->get($date);
+        $levels  = $this->logViewer->levelsNames();
+        $entries = $log->entries();
 
-        return view('log-viewer::show', compact('log'));
+        return view('log-viewer::show', compact('log', 'levels', 'entries'));
+    }
+
+    /**
+     * Filter the log entries by level
+     *
+     * @param  string $date
+     * @param  string $level
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showByLevel($date, $level)
+    {
+        $log     = $this->logViewer->get($date);
+        $levels  = $this->logViewer->levelsNames();
+        $entries = $this->logViewer->entries($date, $level);
+
+        return view('log-viewer::show', compact('log', 'levels', 'entries'));
     }
 
     /**
