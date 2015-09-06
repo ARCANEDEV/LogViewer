@@ -13,7 +13,7 @@ return [
      | ------------------------------------------------------------------------------------------------
      */
     'route'         => [
-        'enabled'    => false,
+        'enabled'    => true,
 
         'attributes' => [
             'prefix'     => 'log-viewer',
@@ -73,7 +73,6 @@ return [
      */
     'colors' =>  [
         'levels'    => [
-
             'empty'     => [
                 'background' => '#D1D1D1',
                 'font'       => "#FFF",
