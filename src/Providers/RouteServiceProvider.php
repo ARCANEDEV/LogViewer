@@ -8,6 +8,8 @@ use Illuminate\Routing\Router;
  *
  * @package  Arcanedev\LogViewer\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ *
+ * @codeCoverageIgnore
  */
 class RouteServiceProvider extends ServiceProvider
 {

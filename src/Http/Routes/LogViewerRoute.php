@@ -8,6 +8,8 @@ use Illuminate\Contracts\Routing\Registrar;
  *
  * @package  Arcanedev\LogViewer\Http\Routes
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ *
+ * @codeCoverageIgnore
  */
 class LogViewerRoute extends RouteRegister
 {
