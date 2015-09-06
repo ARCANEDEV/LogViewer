@@ -90,6 +90,15 @@ abstract class TestCase extends BaseTestCase
     {
         $app['path.storage'] = __DIR__ . '/fixtures';
 
+        $app['config']->set('log-viewer', [
+            'route'         => [
+                'enabled'    => true,
+
+                'attributes' => [
+                    'prefix'     => 'log-viewer',
+                ],
+            ],
+        ]);
         // $this->registerRoutes($app['router']);
     }
 
