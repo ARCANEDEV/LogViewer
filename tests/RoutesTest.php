@@ -1,8 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Tests;
 
-use Arcanedev\LogViewer\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Application;
-
 /**
  * Class     RoutesTest
  *
@@ -11,22 +8,6 @@ use Illuminate\Foundation\Application;
  */
 class RoutesTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Define environment setup.
-     *
-     * @param  Application  $app
-     */
-    protected function getEnvironmentSetUp($app)
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app->register(RouteServiceProvider::class)->boot($app['router']);
-    }
-
     /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------

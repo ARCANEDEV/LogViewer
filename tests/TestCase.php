@@ -8,6 +8,7 @@ use Arcanedev\LogViewer\LogViewerServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Foundation\Application;
+use Illuminate\Routing\Router;
 use JsonSerializable;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Psr\Log\LogLevel;
@@ -86,6 +87,8 @@ abstract class TestCase extends BaseTestCase
     protected function getEnvironmentSetUp($app)
     {
         $app['path.storage'] = __DIR__ . '/fixtures';
+
+        $this->registerRoutes($app['router']);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -516,5 +519,43 @@ abstract class TestCase extends BaseTestCase
     protected function getConfigPath()
     {
         return realpath(config_path());
+    }
+
+    /**
+     * Register all routes
+     *
+     * @param  Router  $router
+     */
+    private function registerRoutes(Router $router)
+    {
+        $router->group([
+            'as'        => 'log-viewer::',
+            'namespace' => 'Arcanedev\\LogViewer\\Http\\Controllers'
+        ], function(Router $router) {
+            $router->get('/', [
+                'as'    => 'dashboard',
+                'uses'  => 'LogViewerController@index',
+            ]);
+
+            $router->group([
+                'as'     => 'logs.',
+                'prefix' => 'logs/{date}',
+            ], function(Router $router) {
+                $router->get('/', [
+                    'as'    => 'show',
+                    'uses'  => 'LogViewerController@show',
+                ]);
+
+                $router->get('download', [
+                    'as'    => 'download',
+                    'uses'  => 'LogViewerController@download',
+                ]);
+
+                $router->get('{level}', [
+                    'as'    => 'filter',
+                    'uses'  => 'LogViewerController@showByLevel',
+                ]);
+            });
+        });
     }
 }
