@@ -12,6 +12,35 @@ use Illuminate\Routing\Router;
 class RouteServiceProvider extends ServiceProvider
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get Route attributes
+     *
+     * @return array
+     */
+    public function routeAttributes()
+    {
+        $attributes = $this->config('attributes', []);
+
+        return array_merge($attributes, [
+            'as'        => 'log-viewer::',
+            'namespace' => 'Arcanedev\\LogViewer\\\Http\\Controllers'
+        ]);
+    }
+
+    /**
+     * Check if routes is enabled
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->config('enabled', false);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -32,6 +61,28 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map(Router $router)
     {
-        $this->mapRoutes($router, __DIR__, []);
+        if ( ! $this->isEnabled()) return;
+
+        $this->mapRoutes($router, __DIR__, $this->routeAttributes());
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get config value by key
+     *
+     * @param  string      $key
+     * @param  mixed|null  $default
+     *
+     * @return mixed
+     */
+    private function config($key, $default = null)
+    {
+        /** @var \Illuminate\Config\Repository $config */
+        $config = $this->app['config'];
+
+        return $config->get('log-viewer.route.' . $key, $default);
     }
 }
