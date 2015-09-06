@@ -17,28 +17,30 @@ class LogViewerServiceProvider extends PackageServiceProvider
     protected $package = 'log-viewer';
 
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Boot the service provider.
+     * Get the base path
+     *
+     * @return string
      */
-    public function boot()
+    public function getBasePath()
     {
-        $basePath   = __DIR__ . '/..';
-
-        $this->registerViews($basePath);
-        $this->registerConfig($basePath);
-        $this->registerTranslations($basePath);
-
-        $this->app->register(Providers\RouteServiceProvider::class);
+        return __DIR__ . '/..';
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Register the service provider.
      */
     public function register()
     {
+        $this->registerConfig();
+
         $this->app->register(Providers\UtilitiesServiceProvider::class);
 
         $this->registerLogViewer();
@@ -47,9 +49,21 @@ class LogViewerServiceProvider extends PackageServiceProvider
     }
 
     /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        $this->publishConfig();
+        $this->registerViews();
+        $this->registerTranslations();
+
+        $this->app->register(Providers\RouteServiceProvider::class);
+    }
+
+    /**
      * Get the services provided by the provider.
      *
-     * @return string[]
+     * @return array
      */
     public function provides()
     {
@@ -61,27 +75,39 @@ class LogViewerServiceProvider extends PackageServiceProvider
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Register and publishes configs
+     * Get config file path
      *
-     * @param  string  $basePath
+     * @return string
      */
-    private function registerConfig($basePath)
+    protected function getConfigFile()
     {
-        $configPath = realpath($basePath . "/config/{$this->package}.php");
-        $this->mergeConfigFrom($configPath, $this->package);
+        return realpath($this->getBasePath() . "/config/{$this->package}.php");
+    }
+
+    /**
+     * Register configs.
+     */
+    private function registerConfig()
+    {
+        $this->mergeConfigFrom($this->getConfigFile(), $this->package);
+    }
+
+    /**
+     * Publishes configs.
+     */
+    private function publishConfig()
+    {
         $this->publishes([
-            $configPath => config_path("{$this->package}.php")
+            $this->getConfigFile() => config_path("{$this->package}.php")
         ], 'config');
     }
 
     /**
-     * Register and publishes Translations
-     *
-     * @param  string  $basePath
+     * Register and publishes Translations.
      */
-    private function registerTranslations($basePath)
+    private function registerTranslations()
     {
-        $langPath = $basePath . '/resources/lang';
+        $langPath = $this->getBasePath() . '/resources/lang';
 
         $this->loadTranslationsFrom($langPath, $this->package);
         $this->publishes([
@@ -90,13 +116,11 @@ class LogViewerServiceProvider extends PackageServiceProvider
     }
 
     /**
-     * Register and published Views
-     *
-     * @param  string  $basePath
+     * Register and published Views.
      */
-    private function registerViews($basePath)
+    private function registerViews()
     {
-        $viewsPath = $basePath . '/resources/views';
+        $viewsPath = $this->getBasePath() . '/resources/views';
 
         $this->loadViewsFrom($viewsPath, $this->package);
         $this->publishes([

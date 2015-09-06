@@ -76,7 +76,9 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getPackageAliases($app)
     {
-        return [];
+        return [
+            // 'LogViewer' => \Arcanedev\LogViewer\Facades\LogViewer::class
+        ];
     }
 
     /**
@@ -88,7 +90,7 @@ abstract class TestCase extends BaseTestCase
     {
         $app['path.storage'] = __DIR__ . '/fixtures';
 
-        $this->registerRoutes($app['router']);
+        // $this->registerRoutes($app['router']);
     }
 
     /* ------------------------------------------------------------------------------------------------

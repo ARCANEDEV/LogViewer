@@ -61,10 +61,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map(Router $router)
     {
-        if (
-            $this->isEnabled() &&
-            ! $this->app->environment('testing')
-        ) {
+        if ($this->isEnabled()) {
             $this->mapRoutes($router, __DIR__, $this->routeAttributes());
         }
     }
