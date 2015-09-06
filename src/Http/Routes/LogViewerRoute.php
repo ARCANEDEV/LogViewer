@@ -19,10 +19,49 @@ class LogViewerRoute extends RouteRegister
     {
         parent::map($router);
 
-        $this->group([
+        $this->registerDashboardRoute();
 
-        ], function () {
-            // TODO:  Complete route registration
+        $this->registerLogsRoutes();
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Route Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Register dashboard route
+     */
+    private function registerDashboardRoute()
+    {
+        $this->get('/', [
+            'as'    => 'dashboard',
+            'uses'  => 'LogViewerController@index',
+        ]);
+    }
+
+    /**
+     * Register logs routes
+     */
+    private function registerLogsRoutes()
+    {
+        $this->group([
+            'as'     => 'logs.',
+            'prefix' => 'logs/{date}',
+        ], function() {
+            $this->get('/', [
+                'as'    => 'show',
+                'uses'  => 'LogViewerController@show',
+            ]);
+
+            $this->get('{level}', [
+                'as'    => 'filter',
+                'uses'  => 'LogViewerController@showByLevel',
+            ]);
+
+            $this->get('download', [
+                'as'    => 'download',
+                'uses'  => 'LogViewerController@download',
+            ]);
         });
     }
 }
