@@ -97,6 +97,8 @@ abstract class TestCase extends BaseTestCase
                 'prefix'     => 'log-viewer',
             ],
         ]);
+
+        (new \Arcanedev\LogViewer\Providers\RouteServiceProvider($app))->boot($app['router']);
         // $this->registerRoutes($app['router']);
     }
 

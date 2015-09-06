@@ -57,7 +57,11 @@ class LogViewerServiceProvider extends PackageServiceProvider
         $this->registerViews();
         $this->registerTranslations();
 
-        $this->app->register(Providers\RouteServiceProvider::class);
+        // @codeCoverageIgnoreStart
+        if ($this->app->environment() !== 'testing') {
+            $this->app->register(Providers\RouteServiceProvider::class);
+        }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
