@@ -8,8 +8,10 @@ use Arcanedev\LogViewer\Utilities\Factory;
 use Arcanedev\LogViewer\Utilities\Filesystem;
 use Arcanedev\LogViewer\Utilities\LogLevels;
 use Arcanedev\LogViewer\Utilities\LogMenu;
+use Arcanedev\LogViewer\Utilities\LogStyler;
 use Arcanedev\Support\Laravel\ServiceProvider;
 use Closure;
+use Illuminate\Foundation\Application;
 use Illuminate\Translation\Translator;
 use Illuminate\Config\Repository as Config;
 
@@ -18,6 +20,8 @@ use Illuminate\Config\Repository as Config;
  *
  * @package  Arcanedev\LogViewer\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ *
+ * @todo     Refactoring
  */
 class UtilitiesServiceProvider extends ServiceProvider
 {
@@ -41,6 +45,7 @@ class UtilitiesServiceProvider extends ServiceProvider
         $this->registerLogMenu();
         $this->registerFilesystem();
         $this->registerFactory();
+        $this->registerStyler();
     }
 
     /**
@@ -100,9 +105,8 @@ class UtilitiesServiceProvider extends ServiceProvider
     {
         $this->registerUtility('filesystem', function ($app) {
             $files = $app['files'];
-            $path  = storage_path('logs');
 
-            return new Filesystem($files, $path);
+            return new Filesystem($files, storage_path('logs'));
         });
 
         $this->app->alias('arcanedev.log-viewer.filesystem', Filesystem::class);
@@ -119,8 +123,8 @@ class UtilitiesServiceProvider extends ServiceProvider
              * @var FilesystemInterface $filesystem
              * @var LogLevelsInterface  $level
              */
-            $filesystem = $app['arcanedev.log-viewer.filesystem'];
-            $level      = $app['arcanedev.log-viewer.levels'];
+            $filesystem = $this->getUtility($app, 'filesystem');
+            $level      = $this->getUtility($app, 'levels');
 
             return new Factory($filesystem, $level);
         });
@@ -129,10 +133,36 @@ class UtilitiesServiceProvider extends ServiceProvider
         $this->app->alias(FactoryInterface::class,        Factory::class);
     }
 
+    /**
+     * Register the log styler.
+     */
+    private function registerStyler()
+    {
+        $this->registerUtility('styler', function ($app) {
+            $config = $app['config'];
+
+            return new LogStyler($config);
+        });
+    }
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Get the utility.
+     *
+     * @param  Application  $app
+     * @param  string       $name
+     *
+     * @return mixed
+     */
+    private function getUtility($app, $name)
+    {
+        $name = $this->getUtilityName($name);
+
+        return $app[$name];
+    }
+
     /**
      * Register the utility.
      *
@@ -141,10 +171,22 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function registerUtility($name, Closure $callback)
     {
-        $name = "arcanedev.log-viewer.$name";
+        $name = $this->getUtilityName($name);
 
         $this->app->singleton($name, $callback);
 
         $this->utilities[] = $name;
+    }
+
+    /**
+     * Get utility name
+     *
+     * @param  string  $name
+     *
+     * @return string
+     */
+    private function getUtilityName($name)
+    {
+        return "arcanedev.log-viewer.$name";
     }
 }
