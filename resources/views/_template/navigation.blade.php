@@ -7,7 +7,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">LogViewer</a>
+            <a href="{{ route('log-viewer::dashboard') }}" class="navbar-brand">
+                <i class="fa fa-fw fa-book"></i> LogViewer
+            </a>
         </div>
         <ul class="nav navbar-nav navbar-right">
             <li>
