@@ -2,6 +2,7 @@
 
 use Arcanedev\LogViewer\Contracts\FilesystemInterface;
 use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
+use Arcanedev\LogViewer\Contracts\LogStylerInterface;
 use Arcanedev\LogViewer\Utilities\Factory;
 use Arcanedev\LogViewer\Utilities\Filesystem;
 use Arcanedev\LogViewer\Utilities\LogLevels;
@@ -40,10 +41,10 @@ class UtilitiesServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerLogLevels();
+        $this->registerStyler();
         $this->registerLogMenu();
         $this->registerFilesystem();
         $this->registerFactory();
-        $this->registerStyler();
     }
 
     /**
@@ -74,19 +75,31 @@ class UtilitiesServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the log styler.
+     */
+    private function registerStyler()
+    {
+        $this->registerUtility('styler', function ($app) {
+            $config = $app['config'];
+
+            return new LogStyler($config);
+        });
+    }
+
+    /**
      * Register the log menu builder.
      */
     private function registerLogMenu()
     {
         $this->registerUtility('menu', function ($app) {
             /**
-             * @var Config     $config
-             * @var Translator $trans
+             * @var Config             $config
+             * @var LogStylerInterface $trans
              */
             $config = $app['config'];
-            $trans  = $app['translator'];
+            $styler  = $this->getUtility($app, 'styler');
 
-            return new LogMenu($config, $trans);
+            return new LogMenu($config, $styler);
         });
     }
 
@@ -116,18 +129,6 @@ class UtilitiesServiceProvider extends ServiceProvider
             $level      = $this->getUtility($app, 'levels');
 
             return new Factory($filesystem, $level);
-        });
-    }
-
-    /**
-     * Register the log styler.
-     */
-    private function registerStyler()
-    {
-        $this->registerUtility('styler', function ($app) {
-            $config = $app['config'];
-
-            return new LogStyler($config);
         });
     }
 

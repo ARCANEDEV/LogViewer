@@ -471,32 +471,6 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get dummy menu items.
-     *
-     * @param  bool|false  $icon
-     *
-     * @return array
-     */
-    protected function getDummyMenuItems($icon = false)
-    {
-        $items  = [];
-        $config = $this->config();
-
-        foreach (array_values(self::getLogLevels()) as $level) {
-            $item['name']  = $level;
-            $item['count'] = rand(0, 50);
-
-            if ($icon) {
-                $item['icon'] = $config->get('log-viewer.menu.icons.' . $level);
-            }
-
-            $items[] = [$level, $item];
-        }
-
-        return $items;
-    }
-
-    /**
      * Get translated level.
      *
      * @param  string  $locale

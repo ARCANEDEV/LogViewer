@@ -21,10 +21,10 @@ class UtilitiesServiceProviderTest extends TestCase
     /** @var array */
     private $utilities = [
         'arcanedev.log-viewer.levels',
+        'arcanedev.log-viewer.styler',
         'arcanedev.log-viewer.menu',
         'arcanedev.log-viewer.filesystem',
         'arcanedev.log-viewer.factory',
-        'arcanedev.log-viewer.styler',
     ];
 
     /* ------------------------------------------------------------------------------------------------
