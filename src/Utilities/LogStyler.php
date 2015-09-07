@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Utilities;
 
+use Arcanedev\LogViewer\Contracts\LogStylerInterface;
 use Illuminate\Contracts\Config\Repository as Config;
 
 /**
@@ -8,7 +9,7 @@ use Illuminate\Contracts\Config\Repository as Config;
  * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogStyler
+class LogStyler implements LogStylerInterface
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
