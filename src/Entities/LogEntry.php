@@ -111,6 +111,36 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
         return $this;
     }
 
+    /**
+     * Get translated level name with icon
+     *
+     * @return string
+     */
+    public function level()
+    {
+        return $this->icon() . ' ' . $this->name();
+    }
+
+    /**
+     * Get translated level name
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return trans('log-viewer::levels.' . $this->level);
+    }
+
+    /**
+     * Get level icon
+     *
+     * @return string
+     */
+    public function icon()
+    {
+        return log_styler()->icon($this->level);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Check Functions
      | ------------------------------------------------------------------------------------------------
