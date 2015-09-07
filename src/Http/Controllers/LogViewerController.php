@@ -59,10 +59,10 @@ class LogViewerController extends Controller
     /**
      * Filter the log entries by level
      *
-     * @param  string $date
-     * @param  string $level
+     * @param  string  $date
+     * @param  string  $level
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function showByLevel($date, $level)
     {
