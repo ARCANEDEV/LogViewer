@@ -321,6 +321,19 @@ abstract class TestCase extends BaseTestCase
         }
     }
 
+    /**
+     * Assert HEX Color
+     *
+     * @param  string  $color
+     * @param  string  $message
+     */
+    protected function assertHexColor($color, $message = '')
+    {
+        $pattern = '/^#?([a-f0-9]{3}|[a-f0-9]{6})$/i';
+
+        $this->assertRegExp($pattern, $color, $message);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
