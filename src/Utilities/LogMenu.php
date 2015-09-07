@@ -44,18 +44,19 @@ class LogMenu implements LogMenuInterface
     /**
      * Make log menu
      *
-     * @param  Log  $log
+     * @param  Log   $log
+     * @param  bool  $trans
      *
      * @return array
      */
-    public function make(Log $log)
+    public function make(Log $log, $trans = true)
     {
         $items = [];
 
-        foreach($log->tree(true) as $level => $item) {
+        foreach($log->tree($trans) as $level => $item) {
             $items[$level] = array_merge($item, [
-                'link'  => route('log-viewer::logs.filter', [$log->date, $level]),
-                'icon'  => $this->isIconsEnabled() ? $this->styler->icon($level) : '',
+                'url'  => route('log-viewer::logs.filter', [$log->date, $level]),
+                'icon' => $this->isIconsEnabled() ? $this->styler->icon($level) : '',
             ]);
         }
 

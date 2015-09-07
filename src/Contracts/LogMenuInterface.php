@@ -16,9 +16,10 @@ interface LogMenuInterface
     /**
      * Make log menu
      *
-     * @param  Log  $log
+     * @param  Log   $log
+     * @param  bool  $trans
      *
      * @return array
      */
-    public function make(Log $log);
+    public function make(Log $log, $trans = true);
 }
