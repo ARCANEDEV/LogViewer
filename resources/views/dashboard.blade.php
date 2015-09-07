@@ -17,7 +17,7 @@
                                 <span class="label label-info">{{ $header }}</span>
                             @else
                                 <span class="level level-{{ $key }}">
-                                    {!! log_lvl_icon($key) . ' ' . $header !!}
+                                    {!! log_styler()->icon($key) . ' ' . $header !!}
                                 </span>
                             @endif
                         </th>

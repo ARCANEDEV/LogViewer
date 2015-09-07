@@ -8,7 +8,7 @@
             <div class="col-md-4">
                 <h5>
                     <span class="level level-{{ $level }}">
-                        {!! log_lvl_icon($level) . ' ' . $item['name'] !!} - {!! $item['percent'] !!} %
+                        {!! log_styler()->icon($level) . ' ' . $item['name'] !!} - {!! $item['percent'] !!} %
                     </span>
                 </h5>
                 <div class="progress">
@@ -31,7 +31,7 @@
 
             new Chart($('#stats-doughnut-chart')[0].getContext('2d'))
                 .Doughnut(data, {
-                    animationEasing : "easeOutQuart",
+                    animationEasing : "easeOutQuart"
                 });
         });
     </script>
