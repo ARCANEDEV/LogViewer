@@ -1,4 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
+use Arcanedev\LogViewer\Entities\Log;
 
 /**
  * Interface  LogMenuInterface
@@ -13,14 +14,11 @@ interface LogMenuInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Make menu item
+     * Make log menu
      *
-     * @param  string      $level
-     * @param  int         $count
-     * @param  bool|false  $translateName
-     * @param  bool|false  $withIcon
+     * @param  Log  $log
      *
      * @return array
      */
-    public function item($level, $count, $translateName = false, $withIcon = false);
+    public function make(Log $log);
 }
