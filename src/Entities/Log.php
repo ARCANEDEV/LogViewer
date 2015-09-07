@@ -1,8 +1,10 @@
 <?php namespace Arcanedev\LogViewer\Entities;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
+use SplFileInfo;
 
 /**
  * Class     Log
@@ -25,6 +27,9 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     /** @var LogEntryCollection */
     private $entries;
 
+    /** @var SplFileInfo */
+    private $file;
+
     /** @var string */
     private $raw;
 
@@ -44,6 +49,7 @@ class Log implements Arrayable, Jsonable, JsonSerializable
         $this->entries = new LogEntryCollection;
         $this->date    = $date;
         $this->path    = $path;
+        $this->file    = new SplFileInfo($path);
         $this->raw     = $raw;
 
         $this->entries->load($raw);
@@ -71,6 +77,46 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     public function getRaw()
     {
         return $this->raw;
+    }
+
+    /**
+     * Get file info
+     *
+     * @return SplFileInfo
+     */
+    public function file()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Get file size
+     *
+     * @return string
+     */
+    public function size()
+    {
+        return $this->formatSize($this->file->getSize());
+    }
+
+    /**
+     * Get file creation date
+     *
+     * @return \Carbon\Carbon
+     */
+    public function createdAt()
+    {
+        return Carbon::createFromTimestamp($this->file()->getATime());
+    }
+
+    /**
+     * Get file modification date
+     *
+     * @return \Carbon\Carbon
+     */
+    public function updatedAt()
+    {
+        return Carbon::createFromTimestamp($this->file()->getMTime());
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -191,5 +237,28 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     public function jsonSerialize()
     {
         return $this->toArray();
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Format the file size
+     *
+     * @param  int  $bytes
+     * @param  int  $precision
+     *
+     * @return string
+     */
+    private function formatSize($bytes, $precision = 2)
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+        $bytes = max($bytes, 0);
+        $pow   = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow   = min($pow, count($units) - 1);
+
+        return round($bytes / pow(1024, $pow), $precision) . ' ' . $units[$pow];
     }
 }
