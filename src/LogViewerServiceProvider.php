@@ -42,9 +42,7 @@ class LogViewerServiceProvider extends PackageServiceProvider
         $this->registerConfig();
 
         $this->app->register(Providers\UtilitiesServiceProvider::class);
-
         $this->registerLogViewer();
-
         $this->app->register(Providers\CommandsServiceProvider::class);
     }
 
@@ -56,7 +54,6 @@ class LogViewerServiceProvider extends PackageServiceProvider
         $this->publishConfig();
         $this->registerViews();
         $this->registerTranslations();
-
         $this->app->register(Providers\RouteServiceProvider::class);
     }
 
@@ -151,9 +148,6 @@ class LogViewerServiceProvider extends PackageServiceProvider
 
             return new LogViewer($factory, $filesystem, $levels);
         });
-
-        $this->app->alias('arcanedev.log-viewer',              LogViewer::class);
-        $this->app->alias(Contracts\LogViewerInterface::class, LogViewer::class);
 
         // Registering the Facade
         $this->addFacade('LogViewer', Facades\LogViewer::class);

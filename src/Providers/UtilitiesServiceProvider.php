@@ -1,9 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Providers;
 
-use Arcanedev\LogViewer\Contracts\FactoryInterface;
 use Arcanedev\LogViewer\Contracts\FilesystemInterface;
 use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
-use Arcanedev\LogViewer\Contracts\LogMenuInterface;
 use Arcanedev\LogViewer\Utilities\Factory;
 use Arcanedev\LogViewer\Utilities\Filesystem;
 use Arcanedev\LogViewer\Utilities\LogLevels;
@@ -11,9 +9,9 @@ use Arcanedev\LogViewer\Utilities\LogMenu;
 use Arcanedev\LogViewer\Utilities\LogStyler;
 use Arcanedev\Support\Laravel\ServiceProvider;
 use Closure;
+use Illuminate\Config\Repository as Config;
 use Illuminate\Foundation\Application;
 use Illuminate\Translation\Translator;
-use Illuminate\Config\Repository as Config;
 
 /**
  * Class     UtilitiesServiceProvider
@@ -73,9 +71,6 @@ class UtilitiesServiceProvider extends ServiceProvider
 
             return new LogLevels($trans);
         });
-
-        $this->app->alias('arcanedev.log-viewer.levels', LogLevels::class);
-        $this->app->alias(LogLevelsInterface::class,     LogLevels::class);
     }
 
     /**
@@ -93,9 +88,6 @@ class UtilitiesServiceProvider extends ServiceProvider
 
             return new LogMenu($config, $trans);
         });
-
-        $this->app->alias('arcanedev.log-viewer.menu', LogMenu::class);
-        $this->app->alias(LogMenuInterface::class,     LogMenu::class);
     }
 
     /**
@@ -108,9 +100,6 @@ class UtilitiesServiceProvider extends ServiceProvider
 
             return new Filesystem($files, storage_path('logs'));
         });
-
-        $this->app->alias('arcanedev.log-viewer.filesystem', Filesystem::class);
-        $this->app->alias(FilesystemInterface::class,        Filesystem::class);
     }
 
     /**
@@ -128,9 +117,6 @@ class UtilitiesServiceProvider extends ServiceProvider
 
             return new Factory($filesystem, $level);
         });
-
-        $this->app->alias('arcanedev.log-viewer.factory', Factory::class);
-        $this->app->alias(FactoryInterface::class,        Factory::class);
     }
 
     /**
@@ -144,6 +130,7 @@ class UtilitiesServiceProvider extends ServiceProvider
             return new LogStyler($config);
         });
     }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
