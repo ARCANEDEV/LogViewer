@@ -55,6 +55,18 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
+    public function it_must_redirect_on_all_level()
+    {
+        $date     = '2015-01-01';
+        $level    = 'all';
+        $response = $this->route('GET', 'log-viewer::logs.filter', [$date, $level]);
+
+        $this->assertTrue($response->isRedirection());
+        $this->assertEquals(302, $response->status());
+        // TODO: Add more assertion to check the redirect url
+    }
+
+    /** @test */
     public function it_can_download_a_log_page()
     {
         $date     = '2015-01-01';
@@ -69,5 +81,16 @@ class RoutesTest extends TestCase
         $this->assertEquals(
             "laravel-$date.log", $response->getFile()->getFilename()
         );
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @expectedExceptionMessage Log not found in this date [0000-00-00]
+     */
+    public function it_must_throw_log_not_found_exception()
+    {
+        $this->route('GET', 'log-viewer::logs.show', ['0000-00-00']);
     }
 }

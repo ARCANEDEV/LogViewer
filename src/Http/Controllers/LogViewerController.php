@@ -1,6 +1,8 @@
 <?php namespace Arcanedev\LogViewer\Http\Controllers;
 
 use Arcanedev\LogViewer\Bases\Controller;
+use Arcanedev\LogViewer\Entities\Log;
+use Arcanedev\LogViewer\Exceptions\LogNotFound;
 
 /**
  * Class     LogViewerController
@@ -23,18 +25,17 @@ class LogViewerController extends Controller
      */
     public function index()
     {
-        $stats     = $this->logViewer->statsTable();
+        $stats    = $this->logViewer->statsTable();
 
-        $headers   = $stats->header();
-        $rows      = $stats->rows();
-        $footer    = $stats->footer();
-        $reports   = $stats->totalsJson();
-        $percents  = $this->calcPercentages($footer, $headers);
+        $headers  = $stats->header();
+        $rows     = $stats->rows();
+        $footer   = $stats->footer();
+        $reports  = $stats->totalsJson();
+        $percents = $this->calcPercentages($footer, $headers);
 
-        return view(
-            'log-viewer::dashboard',
-            compact('headers', 'rows', 'footer', 'reports', 'percents')
-        );
+        $data     = compact('headers', 'rows', 'footer', 'reports', 'percents');
+
+        return view('log-viewer::dashboard', $data);
     }
 
     /**
@@ -46,11 +47,13 @@ class LogViewerController extends Controller
      */
     public function show($date)
     {
-        $log     = $this->logViewer->get($date);
+        $log     = $this->getLogOrFail($date);
         $levels  = $this->logViewer->levelsNames();
         $entries = $log->entries();
 
-        return view('log-viewer::show', compact('log', 'levels', 'entries'));
+        $data    = compact('log', 'levels', 'entries');
+
+        return view('log-viewer::show', $data);
     }
 
     /**
@@ -63,11 +66,18 @@ class LogViewerController extends Controller
      */
     public function showByLevel($date, $level)
     {
-        $log     = $this->logViewer->get($date);
+        $log = $this->getLogOrFail($date);
+
+        if ($level == 'all') {
+            return redirect()->route('log-viewer::logs.show', [$date]);
+        }
+
         $levels  = $this->logViewer->levelsNames();
         $entries = $this->logViewer->entries($date, $level);
 
-        return view('log-viewer::show', compact('log', 'levels', 'entries'));
+        $data    = compact('log', 'levels', 'entries');
+
+        return view('log-viewer::show', $data);
     }
 
     /**
@@ -85,6 +95,31 @@ class LogViewerController extends Controller
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get a log or fail
+     *
+     * @param  string  $date
+     *
+     * @return Log|null
+     */
+    private function getLogOrFail($date)
+    {
+        try {
+            return $this->logViewer->get($date);
+        }
+        catch(LogNotFound $e) {
+            abort(404, $e->getMessage());
+        }
+    }
+
+    /**
+     * Calculate the percentage
+     *
+     * @param  array  $total
+     * @param  array  $names
+     *
+     * @return array
      */
     private function calcPercentages(array $total, array $names)
     {
