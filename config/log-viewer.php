@@ -73,46 +73,16 @@ return [
      */
     'colors' =>  [
         'levels'    => [
-            'empty'     => [
-                'background' => '#D1D1D1',
-                'font'       => "#FFF",
-            ],
-            'all'       => [
-                'background' => '#8A8A8A',
-                'font'       => "#FFF",
-            ],
-            'emergency' => [
-                'background' => "#B71C1C",
-                'font'       => "#FFF",
-            ],
-            'alert'     => [
-                'background' => "#D32F2F",
-                'font'       => "#FFF",
-            ],
-            'critical'  => [
-                'background' => '#F44336',
-                'font'       => "#FFF",
-            ],
-            'error'     => [
-                'background' => '#FF5722',
-                'font'       => "#FFF",
-            ],
-            'warning'   => [
-                'background' => '#FF9100',
-                'font'       => "#FFF",
-            ],
-            'notice'    => [
-                'background' => '#4CAF50',
-                'font'       => "#FFF",
-            ],
-            'info'      => [
-                'background' => "#1976D2",
-                'font'       => "#FFF",
-            ],
-            'debug'     => [
-                'background' => "#90CAF9",
-                'font'       => "#FFF",
-            ],
+            'empty'     => '#D1D1D1',
+            'all'       => '#8A8A8A',
+            'emergency' => '#B71C1C',
+            'alert'     => '#D32F2F',
+            'critical'  => '#F44336',
+            'error'     => '#FF5722',
+            'warning'   => '#FF9100',
+            'notice'    => '#4CAF50',
+            'info'      => '#1976D2',
+            'debug'     => '#90CAF9',
         ],
     ],
 ];
