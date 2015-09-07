@@ -22,7 +22,7 @@
                         <tr>
                             <td>Size :</td>
                             <td>{{ $log->size() }}</td>
-                            <td>Create at :</td>
+                            <td>Created at :</td>
                             <td>{{ $log->createdAt() }}</td>
                             <td>Updated at :</td>
                             <td>{{ $log->updatedAt() }}</td>
