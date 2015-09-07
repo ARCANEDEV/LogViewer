@@ -17,6 +17,7 @@ class LogStyler
     /** @var Config */
     protected $config;
 
+
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
@@ -43,7 +44,7 @@ class LogStyler
      *
      * @return mixed
      */
-    public function config($key, $default = null)
+    private function get($key, $default = null)
     {
         return $this->config->get('log-viewer.' . $key, $default);
     }
@@ -55,24 +56,26 @@ class LogStyler
     /**
      * Make level icon.
      *
-     * @param  string  $level
+     * @param  string       $level
+     * @param  string|null  $default
      *
      * @return string
      */
-    public function icon($level)
+    public function icon($level, $default = null)
     {
-        return '<i class="' . $this->config('icons.' . $level) . '"></i>';
+        return '<i class="' . $this->get('icons.' . $level, $default) . '"></i>';
     }
 
     /**
      * Get level color.
      *
-     * @param  string  $level
+     * @param  string       $level
+     * @param  string|null  $default
      *
      * @return string
      */
-    public function color($level)
+    public function color($level, $default = null)
     {
-        return $this->config('colors.levels.' . $level . '.background');
+        return $this->get('colors.levels.' . $level, $default);
     }
 }

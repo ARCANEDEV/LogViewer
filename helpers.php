@@ -11,35 +11,14 @@ if ( ! function_exists('log_viewer')) {
     }
 }
 
-if ( ! function_exists('log_lvl_color')) {
+if ( ! function_exists('log_styler')) {
     /**
-     * Get Log level color.
+     * Get the LogViewer instance.
      *
-     * @param  string  $level
-     * @param  string  $default
-     *
-     * @return mixed
+     * @return \Arcanedev\LogViewer\Utilities\LogStyler
      */
-    function log_lvl_colors($level, $default = '') {
-        return config('log-viewer.colors.levels.' . $level, $default);
-    }
-}
-
-if ( ! function_exists('log_lvl_icon')) {
-    /**
-     * Get Log level color
-     *
-     * @param  string  $level
-     * @param  string  $default
-     *
-     * @return string
-     */
-    function log_lvl_icon($level, $default = '') {
-        $name = 'log-viewer.icons.' . $level;
-
-        if ( ! config()->has($name)) return '';
-
-        return '<i class="' . config($name, $default) . '"></i>';
+    function log_styler() {
+        return app('arcanedev.log-viewer.styler');
     }
 }
 
