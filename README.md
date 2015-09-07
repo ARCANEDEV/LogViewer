@@ -46,6 +46,7 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
 
 ### TODOS
 
+  - [ ] Lumen support
   - [ ] Laravel 5.0 support
   - [ ] Adding more localizations
 
