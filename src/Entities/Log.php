@@ -196,7 +196,7 @@ class Log implements Arrayable, Jsonable, JsonSerializable
      */
     public function menu($trans = true)
     {
-        return $this->entries->menu($trans);
+        return log_menu()->make($this, $trans);
     }
 
     /* ------------------------------------------------------------------------------------------------

@@ -86,19 +86,6 @@ class LogEntryCollection extends Collection
         return $tree;
     }
 
-    /**
-     * Get log entries menu.
-     *
-     * @param  bool|true  $trans
-     *
-     * @return array
-     */
-    public function menu($trans = true)
-    {
-        // TODO: Add the icons and stuff
-        return $this->tree($trans);
-    }
-
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
