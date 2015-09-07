@@ -11,9 +11,20 @@ if ( ! function_exists('log_viewer')) {
     }
 }
 
+if ( ! function_exists('log_menu')) {
+    /**
+     * Get the LogMenu instance.
+     *
+     * @return \Arcanedev\LogViewer\Utilities\LogMenu
+     */
+    function log_menu() {
+        return app('arcanedev.log-viewer.menu');
+    }
+}
+
 if ( ! function_exists('log_styler')) {
     /**
-     * Get the LogViewer instance.
+     * Get the LogStyler instance.
      *
      * @return \Arcanedev\LogViewer\Utilities\LogStyler
      */
