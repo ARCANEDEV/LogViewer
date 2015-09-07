@@ -8,17 +8,17 @@
             @include('log-viewer::_partials.menu', ['menu' => $log->menu(), 'date' => $log->date])
         </div>
         <div class="col-md-10">
-            <div class="table-responsive">
-                <table class="table table-condensed">
-                    <thead>
+            <div class="panel panel-default">
+                <div class="panel-heading">Log info :</div>
+                <div class="table-responsive">
+                    <table class="table table-condensed">
+                        <thead>
                         <tr>
                             <td>File path :</td>
-                            <td colspan="5">
-                                {{ $log->getPath() }}
-                            </td>
+                            <td colspan="5">{{ $log->getPath() }}</td>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         <tr>
                             <td>Size :</td>
                             <td>{{ $log->size() }}</td>
@@ -27,13 +27,13 @@
                             <td>Updated at :</td>
                             <td>{{ $log->updatedAt() }}</td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-
             <div class="table-responsive">
-                <table class="table table-hover table-condensed">
+                <table class="table table-hover table-condensed" id="entries">
                     <thead>
                     <tr>
                         <th style="width: 120px;">Level</th>
@@ -42,15 +42,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($entries as $entry)
+                    @foreach($entries as $key => $entry)
                         <tr>
-                            <td>{{ $entry->level }}</td>
                             <td>
-                        <span class="label label-default">
-                            {{ $entry->datetime->format('H:i:s') }}
-                        </span>
+                                <span class="level level-{{ $entry->level }}">
+                                    {!! $entry->level() !!}
+                                </span>
                             </td>
-                            <td>{{ $entry->header }}</td>
+                            <td>
+                                <span class="label label-default">
+                                    {{ $entry->datetime->format('H:i:s') }}
+                                </span>
+                            </td>
+                            <td>
+                                <p>{{ $entry->header }}</p>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

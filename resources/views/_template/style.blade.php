@@ -110,47 +110,56 @@
     }
 
     .progress-bar.level-all,
-    span.level.level-all {
+    span.level.level-all,
+    .badge.level-all {
         background-color: {{ log_styler()->color('all') }};
     }
 
     .progress-bar.level-emergency,
-    span.level.level-emergency {
+    span.level.level-emergency,
+    .badge.level-emergency {
         background-color: {{ log_styler()->color('emergency') }};
     }
 
     .progress-bar.level-alert,
-    span.level.level-alert {
+    span.level.level-alert,
+    .badge.level-alert {
         background-color: {{ log_styler()->color('alert') }};
     }
 
     .progress-bar.level-critical,
-    span.level.level-critical {
+    span.level.level-critical,
+    .badge.level-critical {
         background-color: {{ log_styler()->color('critical') }};
     }
 
     .progress-bar.level-error,
-    span.level.level-error {
+    span.level.level-error,
+    .badge.level-error {
         background-color: {{ log_styler()->color('error') }};
     }
 
     .progress-bar.level-warning,
-    span.level.level-warning {
+    span.level.level-warning,
+    .badge.level-warning {
         background-color: {{ log_styler()->color('warning') }};
     }
 
     .progress-bar.level-notice,
-    span.level.level-notice {
-        background-color: {{ log_styler()->color('notice.background') }};
+    span.level.level-notice,
+    .badge.level-notice {
+        background-color: {{ log_styler()->color('notice') }};
     }
 
     .progress-bar.level-info,
-    span.level.level-info {
-        background-color: {{ log_styler()->color('info.background') }};
+    span.level.level-info,
+    .badge.level-info {
+        background-color: {{ log_styler()->color('info') }};
     }
 
     .progress-bar.level-debug,
-    span.level.level-debug {
-        background-color: {{ log_styler()->color('debug.background') }};
+    span.level.level-debug,
+    .badge.level-debug {
+        background-color: {{ log_styler()->color('debug') }};
     }
 </style>
