@@ -212,4 +212,16 @@ abstract class Table implements TableInterface
     {
         return self::trans()->get('log-viewer::' . $key,  [], $this->locale);
     }
+
+    /**
+     * Get log level color.
+     *
+     * @param  string  $level
+     *
+     * @return string
+     */
+    protected function color($level)
+    {
+        return log_styler()->color($level);
+    }
 }

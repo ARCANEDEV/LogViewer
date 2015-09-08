@@ -1,4 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
+
 use Arcanedev\LogViewer\Entities\Log;
 
 /**
@@ -14,7 +15,7 @@ interface LogMenuInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Make log menu
+     * Make log menu.
      *
      * @param  Log   $log
      * @param  bool  $trans

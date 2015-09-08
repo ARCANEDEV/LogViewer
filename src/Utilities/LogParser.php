@@ -24,7 +24,7 @@ class LogParser
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Parse file content
+     * Parse file content.
      *
      * @param  string  $raw
      *
@@ -57,7 +57,7 @@ class LogParser
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Parse raw data
+     * Parse raw data.
      *
      * @param  string  $raw
      *
@@ -78,7 +78,7 @@ class LogParser
     }
 
     /**
-     * Populate entries
+     * Populate entries.
      *
      * @param  array  $heading
      * @param  array  $data
@@ -87,20 +87,18 @@ class LogParser
     private static function populateEntries($heading, $data, $key)
     {
         foreach (LogLevels::all() as $level) {
-            if ( ! self::hasLogLevel($heading[$key], $level)) {
-                continue;
+            if (self::hasLogLevel($heading[$key], $level)) {
+                self::$parsed[] = [
+                    'level'  => $level,
+                    'header' => $heading[$key],
+                    'stack'  => $data[$key]
+                ];
             }
-
-            self::$parsed[] = [
-                'level'  => $level,
-                'header' => $heading[$key],
-                'stack'  => $data[$key]
-            ];
         }
     }
 
     /**
-     * Check if header has a log level
+     * Check if header has a log level.
      *
      * @param  string  $heading
      * @param  string  $level
@@ -109,6 +107,6 @@ class LogParser
      */
     private static function hasLogLevel($heading, $level)
     {
-        return (bool) strpos(strtolower($heading), strtolower('.' . $level));
+        return str_contains(strtolower($heading), strtolower('.' . $level));
     }
 }

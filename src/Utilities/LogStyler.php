@@ -18,7 +18,6 @@ class LogStyler implements LogStylerInterface
     /** @var Config */
     protected $config;
 
-
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
@@ -38,7 +37,7 @@ class LogStyler implements LogStylerInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get config
+     * Get config.
      *
      * @param  string      $key
      * @param  mixed|null  $default

@@ -14,25 +14,29 @@ use Arcanedev\LogViewer\Tables\StatsTable;
 interface FactoryInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get all logs
+     * Get all logs.
      *
      * @return LogCollection
      */
     public function logs();
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
-     * Get all logs (alias)
+     * Get all logs (alias).
      *
      * @return LogCollection
      */
     public function all();
 
     /**
-     * Get a log by date
+     * Get a log by date.
      *
      * @param  string  $date
      *
@@ -41,7 +45,7 @@ interface FactoryInterface
     public function log($date);
 
     /**
-     * Get a log by date (alias)
+     * Get a log by date (alias).
      *
      * @param  string  $date
      *
@@ -50,7 +54,7 @@ interface FactoryInterface
     public function get($date);
 
     /**
-     * Get log entries
+     * Get log entries.
      *
      * @param  string  $date
      * @param  string  $level
@@ -67,14 +71,14 @@ interface FactoryInterface
     public function dates();
 
     /**
-     * Get logs count
+     * Get logs count.
      *
      * @return int
      */
     public function count();
 
     /**
-     * Get total log entries
+     * Get total log entries.
      *
      * @param  string  $level
      *
@@ -83,7 +87,7 @@ interface FactoryInterface
     public function total($level = 'all');
 
     /**
-     * Get tree menu
+     * Get tree menu.
      *
      * @param  bool|false  $trans
      *
@@ -92,7 +96,7 @@ interface FactoryInterface
     public function tree($trans = false);
 
     /**
-     * Get tree menu
+     * Get tree menu.
      *
      * @param  bool|true  $trans
      *
@@ -101,14 +105,14 @@ interface FactoryInterface
     public function menu($trans = true);
 
     /**
-     * Get logs statistics
+     * Get logs statistics.
      *
      * @return array
      */
     public function stats();
 
     /**
-     * Get logs statistics table
+     * Get logs statistics table.
      *
      * @param  string|null  $locale
      *

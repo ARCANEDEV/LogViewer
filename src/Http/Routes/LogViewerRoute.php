@@ -17,13 +17,26 @@ class LogViewerRoute extends RouteRegister
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Map all routes.
+     *
+     * @param  Registrar  $router
+     */
     public function map(Registrar $router)
     {
         parent::map($router);
 
-        $this->registerDashboardRoute();
+        $this->get('/', [
+            'as'    => 'dashboard',
+            'uses'  => 'LogViewerController@index',
+        ]);
 
-        $this->registerLogsRoutes();
+        $this->group([
+            'as'     => 'logs.',
+            'prefix' => 'logs/{date}',
+        ], function() {
+            $this->registerLogsRoutes();
+        });
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -31,39 +44,23 @@ class LogViewerRoute extends RouteRegister
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Register dashboard route
-     */
-    private function registerDashboardRoute()
-    {
-        $this->get('/', [
-            'as'    => 'dashboard',
-            'uses'  => 'LogViewerController@index',
-        ]);
-    }
-
-    /**
-     * Register logs routes
+     * Register logs routes.
      */
     private function registerLogsRoutes()
     {
-        $this->group([
-            'as'     => 'logs.',
-            'prefix' => 'logs/{date}',
-        ], function() {
-            $this->get('/', [
-                'as'    => 'show',
-                'uses'  => 'LogViewerController@show',
-            ]);
+        $this->get('/', [
+            'as'    => 'show',
+            'uses'  => 'LogViewerController@show',
+        ]);
 
-            $this->get('download', [
-                'as'    => 'download',
-                'uses'  => 'LogViewerController@download',
-            ]);
+        $this->get('download', [
+            'as'    => 'download',
+            'uses'  => 'LogViewerController@download',
+        ]);
 
-            $this->get('{level}', [
-                'as'    => 'filter',
-                'uses'  => 'LogViewerController@showByLevel',
-            ]);
-        });
+        $this->get('{level}', [
+            'as'    => 'filter',
+            'uses'  => 'LogViewerController@showByLevel',
+        ]);
     }
 }

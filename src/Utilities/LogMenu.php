@@ -42,7 +42,7 @@ class LogMenu implements LogMenuInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Make log menu
+     * Make log menu.
      *
      * @param  Log   $log
      * @param  bool  $trans
@@ -82,7 +82,7 @@ class LogMenu implements LogMenuInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get config
+     * Get config.
      *
      * @param  string      $key
      * @param  mixed|null  $default

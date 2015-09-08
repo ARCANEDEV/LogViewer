@@ -14,6 +14,11 @@ class LogViewerServiceProvider extends PackageServiceProvider
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Package name.
+     *
+     * @var string
+     */
     protected $package = 'log-viewer';
 
     /* ------------------------------------------------------------------------------------------------
@@ -21,7 +26,7 @@ class LogViewerServiceProvider extends PackageServiceProvider
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get the base path
+     * Get the base path.
      *
      * @return string
      */
@@ -74,7 +79,7 @@ class LogViewerServiceProvider extends PackageServiceProvider
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get config file path
+     * Get config file path.
      *
      * @return string
      */

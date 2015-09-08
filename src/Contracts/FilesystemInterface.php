@@ -1,4 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
+
 use Arcanedev\LogViewer\Exceptions\FilesystemException;
 
 /**

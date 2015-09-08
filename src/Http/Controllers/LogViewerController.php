@@ -19,7 +19,7 @@ class LogViewerController extends Controller
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Show the dashboard
+     * Show the dashboard.
      *
      * @return \Illuminate\View\View
      */
@@ -39,7 +39,7 @@ class LogViewerController extends Controller
     }
 
     /**
-     * Show the log
+     * Show the log.
      *
      * @param  string  $date
      *
@@ -57,7 +57,7 @@ class LogViewerController extends Controller
     }
 
     /**
-     * Filter the log entries by level
+     * Filter the log entries by level.
      *
      * @param  string  $date
      * @param  string  $level

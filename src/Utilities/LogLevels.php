@@ -1,9 +1,9 @@
 <?php namespace Arcanedev\LogViewer\Utilities;
 
 use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
+use Illuminate\Translation\Translator;
 use Psr\Log\LogLevel;
 use ReflectionClass;
-use Illuminate\Translation\Translator;
 
 /**
  * Class     LogLevels

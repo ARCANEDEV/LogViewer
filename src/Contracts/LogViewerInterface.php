@@ -80,14 +80,14 @@ interface LogViewerInterface
     public function download($date, $filename = null, $headers = []);
 
     /**
-     * Get logs statistics
+     * Get logs statistics.
      *
      * @return array
      */
     public function stats();
 
     /**
-     * Get logs statistics table
+     * Get logs statistics table.
      *
      * @param  string|null  $locale
      *

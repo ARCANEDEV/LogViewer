@@ -111,8 +111,8 @@ class StatsTable extends Table
             $json[] = [
                 'label'     => $this->translate("levels.$level"),
                 'value'     => $count,
-                'color'     => config("log-viewer.colors.levels.$level"),
-                'highlight' => config("log-viewer.colors.levels.$level"),
+                'color'     => $this->color($level),
+                'highlight' => $this->color($level),
             ];
         }
 

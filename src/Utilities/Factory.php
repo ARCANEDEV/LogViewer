@@ -3,9 +3,9 @@
 use Arcanedev\LogViewer\Contracts\FactoryInterface;
 use Arcanedev\LogViewer\Contracts\FilesystemInterface;
 use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
-use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
+use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
@@ -78,12 +78,8 @@ class Factory implements FactoryInterface
         return $this;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
     /**
-     * Get all logs
+     * Get all logs.
      *
      * @return LogCollection
      */
@@ -92,8 +88,12 @@ class Factory implements FactoryInterface
         return new LogCollection;
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
-     * Get all logs (alias)
+     * Get all logs. (alias)
      *
      * @return LogCollection
      */
@@ -103,7 +103,7 @@ class Factory implements FactoryInterface
     }
 
     /**
-     * Get a log by date
+     * Get a log by date.
      *
      * @param  string  $date
      *
@@ -115,7 +115,7 @@ class Factory implements FactoryInterface
     }
 
     /**
-     * Get a log by date (alias)
+     * Get a log by date (alias).
      *
      * @param  string  $date
      *
@@ -127,7 +127,7 @@ class Factory implements FactoryInterface
     }
 
     /**
-     * Get log entries
+     * Get log entries.
      *
      * @param  string  $date
      * @param  string  $level
@@ -140,7 +140,7 @@ class Factory implements FactoryInterface
     }
 
     /**
-     * Get logs statistics
+     * Get logs statistics.
      *
      * @return array
      */
@@ -150,7 +150,7 @@ class Factory implements FactoryInterface
     }
 
     /**
-     * Get logs statistics table
+     * Get logs statistics table.
      *
      * @param  string|null  $locale
      *
@@ -172,7 +172,7 @@ class Factory implements FactoryInterface
     }
 
     /**
-     * Get logs count
+     * Get logs count.
      *
      * @return int
      */
@@ -182,7 +182,7 @@ class Factory implements FactoryInterface
     }
 
     /**
-     * Get total log entries
+     * Get total log entries.
      *
      * @param  string  $level
      *
@@ -194,7 +194,7 @@ class Factory implements FactoryInterface
     }
 
     /**
-     * Get tree menu
+     * Get tree menu.
      *
      * @param  bool|false  $trans
      *
@@ -206,7 +206,7 @@ class Factory implements FactoryInterface
     }
 
     /**
-     * Get tree menu
+     * Get tree menu.
      *
      * @param  bool|true  $trans
      *

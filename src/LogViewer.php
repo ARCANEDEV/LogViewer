@@ -161,7 +161,7 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
-     * Get logs statistics
+     * Get logs statistics.
      *
      * @return array
      */
@@ -171,7 +171,7 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
-     * Get logs statistics table
+     * Get logs statistics table.
      *
      * @param  string|null  $locale
      *
