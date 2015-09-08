@@ -15,6 +15,23 @@ use Arcanedev\LogViewer\Exceptions\LogNotFound;
 class LogViewerController extends Controller
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Properties
+     | ------------------------------------------------------------------------------------------------
+     */
+    protected $perPage = 30;
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Constructor
+     | ------------------------------------------------------------------------------------------------
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->perPage = config('log-viewer.per-page', $this->perPage);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -33,9 +50,10 @@ class LogViewerController extends Controller
         $reports  = $stats->totalsJson();
         $percents = $this->calcPercentages($footer, $headers);
 
-        $data     = compact('headers', 'rows', 'footer', 'reports', 'percents');
-
-        return view('log-viewer::dashboard', $data);
+        return view(
+            'log-viewer::dashboard',
+            compact('headers', 'rows', 'footer', 'reports', 'percents')
+        );
     }
 
     /**
@@ -49,11 +67,12 @@ class LogViewerController extends Controller
     {
         $log     = $this->getLogOrFail($date);
         $levels  = $this->logViewer->levelsNames();
-        $entries = $log->entries()->paginate();
+        $entries = $log->entries()->paginate($this->perPage);
 
-        $data    = compact('log', 'levels', 'entries');
-
-        return view('log-viewer::show', $data);
+        return view(
+            'log-viewer::show',
+            compact('log', 'levels', 'entries')
+        );
     }
 
     /**
@@ -73,11 +92,14 @@ class LogViewerController extends Controller
         }
 
         $levels  = $this->logViewer->levelsNames();
-        $entries = $this->logViewer->entries($date, $level)->paginate();
+        $entries = $this->logViewer
+            ->entries($date, $level)
+            ->paginate($this->perPage);
 
-        $data    = compact('log', 'levels', 'entries');
-
-        return view('log-viewer::show', $data);
+        return view(
+            'log-viewer::show',
+            compact('log', 'levels', 'entries')
+        );
     }
 
     /**
