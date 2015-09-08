@@ -29,7 +29,7 @@ abstract class TestCase extends BaseTestCase
     /** @var array */
     protected static $logLevels;
 
-    protected static $locales = ['ar', 'en', 'fr'];
+    protected static $locales = ['ar', 'en', 'fr', 'nl'];
 
     /* ------------------------------------------------------------------------------------------------
      |  Main functions
