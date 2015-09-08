@@ -21,7 +21,7 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
 
 ## Features
 
-  - View, download and delete logs.
+  - View, paginate, filter, download and delete logs.
   - Generate logs menu/tree (With localized levels).
   - Grouped logs by dates and levels.
   - Works great with big logs !!
@@ -36,19 +36,23 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
 5. [Extras](https://github.com/ARCANEDEV/LogViewer/wiki/5.-Extras)
 6. [FAQ](https://github.com/ARCANEDEV/LogViewer/wiki/6.-FAQ)
 
+### PREVIEW
+
+![Dashboard](https://github.com/ARCANEDEV/LogViewer/blob/master/_screenshots/1-dashboard.jpg)
+![Logs list](https://github.com/ARCANEDEV/LogViewer/blob/master/_screenshots/2-logs-list.jpg)
+![Single log](https://github.com/ARCANEDEV/LogViewer/blob/master/_screenshots/3-single-log.jpg)
+
 ### ONGOING
 
-  - [ ] Log viewer CLI
-  - [ ] Log viewer Statistics
-  - [ ] Customized log levels icons (font awesome)
-  - [ ] Complete the documentation + Examples (Wiki)
-  - [ ] Ready to use (Views, Routes, controllers &hellip; Included) [IMPORTANT: No public assets to publish]
+  - [ ] Log viewer CLI.
+  - [ ] Log viewer Statistics & Charts.
+  - [ ] Complete the documentation + Examples (Wiki).
 
 ### TODOS
 
-  - [ ] Lumen support
-  - [ ] Laravel 5.0 support
-  - [ ] Adding more localizations
+  - [ ] Laravel 5.0 support.
+  - [ ] Lumen support.
+  - [ ] Adding more localizations.
 
 ### DONE
 
@@ -59,6 +63,8 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
   - [x] Log viewer menu/tree.
   - [x] Logs and Log entries pagination.
   - [x] Download the log file.
+  - [x] Customized log levels icons (font awesome).
+  - [x] Ready to use (Views, Routes, controllers &hellip; Out of the box) [Note: No need to publish assets]
 
 ## Contribution
 
