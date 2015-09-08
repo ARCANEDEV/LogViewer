@@ -4,6 +4,7 @@ use Arcanedev\LogViewer\Contracts\TableInterface;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
+use Arcanedev\LogViewer\Http\Routes\LogViewerRoute;
 use Arcanedev\LogViewer\LogViewerServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Jsonable;
@@ -90,7 +91,9 @@ abstract class TestCase extends BaseTestCase
     {
         $app['path.storage'] = __DIR__ . '/fixtures';
 
-        $this->registerRoutes($app['router']);
+        (new LogViewerRoute)->map($app['router']);
+
+        // $this->registerRoutes($app['router']);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -528,22 +531,36 @@ abstract class TestCase extends BaseTestCase
 
             $router->group([
                 'as'     => 'logs.',
-                'prefix' => 'logs/{date}',
+                'prefix' => 'logs',
             ], function(Router $router) {
                 $router->get('/', [
-                    'as'    => 'show',
-                    'uses'  => 'LogViewerController@show',
+                    'as'    => 'list',
+                    'uses'  => 'LogViewerController@listLogs',
                 ]);
 
-                $router->get('download', [
-                    'as'    => 'download',
-                    'uses'  => 'LogViewerController@download',
+                $router->delete('delete', [
+                    'as'    => 'delete',
+                    'uses'  => 'LogViewerController@delete',
                 ]);
 
-                $router->get('{level}', [
-                    'as'    => 'filter',
-                    'uses'  => 'LogViewerController@showByLevel',
-                ]);
+                $router->group([
+                    'prefix'    => '{date}',
+                ], function(Router $router) {
+                    $router->get('/', [
+                        'as'    => 'show',
+                        'uses'  => 'LogViewerController@show',
+                    ]);
+
+                    $router->get('download', [
+                        'as'    => 'download',
+                        'uses'  => 'LogViewerController@download',
+                    ]);
+
+                    $router->get('{level}', [
+                        'as'    => 'filter',
+                        'uses'  => 'LogViewerController@showByLevel',
+                    ]);
+                });
             });
         });
     }
