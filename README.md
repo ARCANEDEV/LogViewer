@@ -21,6 +21,8 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
 
 ## Features
 
+  - A great Log viewer API. 
+  - Ready to use (Views, Routes, controllers &hellip; Out of the box) [Note: No need to publish assets]
   - View, paginate, filter, download and delete logs.
   - Generate logs menu/tree (With localized levels).
   - Grouped logs by dates and levels.
@@ -64,7 +66,6 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
   - [x] Logs and Log entries pagination.
   - [x] Download the log file.
   - [x] Customized log levels icons (font awesome).
-  - [x] Ready to use (Views, Routes, controllers &hellip; Out of the box) [Note: No need to publish assets]
 
 ## Contribution
 
