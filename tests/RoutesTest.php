@@ -15,7 +15,7 @@ class RoutesTest extends TestCase
      | ------------------------------------------------------------------------------------------------
      */
     /** @test */
-    public function it_can_see_the_dashboard_page()
+    public function it_can_see_dashboard_page()
     {
         $response = $this->route('GET', 'log-viewer::dashboard');
 
@@ -24,6 +24,19 @@ class RoutesTest extends TestCase
             '<h1 class="page-header">Dashboard</h1>',
             $response->getContent()
         );
+    }
+
+    /** @test */
+    public function it_can_see_logs_page()
+    {
+        $response = $this->route('GET', 'log-viewer::logs.list');
+
+        $this->assertResponseOk();
+        $this->assertContains(
+            '<h1 class="page-header">Logs</h1>',
+            $response->getContent()
+        );
+        // TODO: Add more assertion => list all logs
     }
 
     /** @test */
@@ -37,6 +50,7 @@ class RoutesTest extends TestCase
             '<h1 class="page-header">Log [' . $date . ']</h1>',
             $response->getContent()
         );
+        // TODO: Add more assertion => list all log entries
     }
 
     /** @test */
@@ -51,7 +65,7 @@ class RoutesTest extends TestCase
             '<h1 class="page-header">Log [' . $date . ']</h1>',
             $response->getContent()
         );
-        // TODO: Add more assertion to check if the log entries is filtered by a level
+        // TODO: Add more assertion => log entries is filtered by a level
     }
 
     /** @test */
@@ -83,14 +97,63 @@ class RoutesTest extends TestCase
         );
     }
 
+    /** @test */
+    public function it_can_delete_a_log()
+    {
+        $date = date('Y-m-d');
+
+        $this->createDummyLog($date);
+
+        $server   = ['HTTP_X-Requested-With' => 'XMLHttpRequest'];
+
+        /** @var \Illuminate\Http\JsonResponse $response */
+        $response = $this->route('DELETE', 'log-viewer::logs.delete', compact('date'), [], [], [], $server);
+        $data     = $response->getData(true);
+
+        $this->assertResponseOk();
+        $this->assertArrayHasKey('result', $data);
+        $this->assertEquals($data['result'], 'success');
+    }
     /**
      * @test
      *
      * @expectedException        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @expectedExceptionMessage Log not found in this date [0000-00-00]
      */
-    public function it_must_throw_log_not_found_exception()
+    public function it_must_throw_log_not_found_exception_on_show()
     {
         $this->route('GET', 'log-viewer::logs.show', ['0000-00-00']);
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException
+     */
+    public function it_must_throw_log_not_found_exception_on_delete()
+    {
+        try {
+            $server = ['HTTP_X-Requested-With' => 'XMLHttpRequest'];
+
+            $this->route('DELETE', 'log-viewer::logs.delete', ['0000-00-00'], [], [], [], $server);
+        }
+        catch(\Exception $exception) {
+            $this->assertInstanceOf(
+                \Arcanedev\LogViewer\Exceptions\FilesystemException::class,
+                $exception
+            );
+            $this->assertStringStartsWith('The log(s) could not be located at : ', $exception->getMessage());
+        }
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException        \Symfony\Component\HttpKernel\Exception\HttpException
+     * @expectedExceptionMessage Method Not Allowed
+     */
+    public function it_must_throw_method_not_allowed_on_delete()
+    {
+        $this->route('DELETE', 'log-viewer::logs.delete');
     }
 }
