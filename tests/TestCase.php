@@ -5,7 +5,6 @@ use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\LogViewerServiceProvider;
-use Arcanedev\LogViewer\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Foundation\Application;
@@ -91,9 +90,7 @@ abstract class TestCase extends BaseTestCase
     {
         $app['path.storage'] = __DIR__ . '/fixtures';
 
-        (new RouteServiceProvider($app))->map($app['router']);
-
-        // $this->registerRoutes($app['router']);
+        $this->registerRoutes($app['router']);
     }
 
     /* ------------------------------------------------------------------------------------------------
