@@ -20,7 +20,7 @@ class LogViewer implements LogViewerInterface
     /**
      * LogViewer Version
      */
-    const VERSION = '2.12.0';
+    const VERSION = '2.12.2';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
