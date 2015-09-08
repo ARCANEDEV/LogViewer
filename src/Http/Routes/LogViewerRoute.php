@@ -57,24 +57,32 @@ class LogViewerRoute extends RouteRegister
                 'uses'  => 'LogViewerController@delete',
             ]);
 
-            $this->group([
-                'prefix'    => '{date}',
-            ], function() {
-                $this->get('/', [
-                    'as'    => 'show',
-                    'uses'  => 'LogViewerController@show',
-                ]);
+            $this->registerSingleLogRoutes();
+        });
+    }
 
-                $this->get('download', [
-                    'as'    => 'download',
-                    'uses'  => 'LogViewerController@download',
-                ]);
+    /**
+     * Register single log routes.
+     */
+    private function registerSingleLogRoutes()
+    {
+        $this->group([
+            'prefix'    => '{date}',
+        ], function() {
+            $this->get('/', [
+                'as'    => 'show',
+                'uses'  => 'LogViewerController@show',
+            ]);
 
-                $this->get('{level}', [
-                    'as'    => 'filter',
-                    'uses'  => 'LogViewerController@showByLevel',
-                ]);
-            });
+            $this->get('download', [
+                'as'    => 'download',
+                'uses'  => 'LogViewerController@download',
+            ]);
+
+            $this->get('{level}', [
+                'as'    => 'filter',
+                'uses'  => 'LogViewerController@showByLevel',
+            ]);
         });
     }
 }
