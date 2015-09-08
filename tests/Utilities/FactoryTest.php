@@ -87,6 +87,17 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
+    public function it_can_paginate_all_logs()
+    {
+        $logs = $this->logFactory->paginate();
+        $this->assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $logs);
+        $this->assertEquals(30, $logs->perPage());
+        $this->assertEquals(2, $logs->total());
+        $this->assertEquals(1, $logs->lastPage());
+        $this->assertEquals(1, $logs->currentPage());
+    }
+
+    /** @test */
     public function it_can_get_count()
     {
         $this->assertEquals(2, $this->logFactory->count());
