@@ -23,7 +23,13 @@
 
     .navbar-inverse {
         background-color: #1a237e;
-        border-color: #283593;
+        border-color: #1a237e;
+    }
+
+    .navbar-inverse .navbar-nav>.active>a,
+    .navbar-inverse .navbar-nav>.active>a:focus,
+    .navbar-inverse .navbar-nav>.active>a:hover {
+        background-color: #3949ab;
     }
 
     .navbar-inverse .navbar-brand {
@@ -36,29 +42,6 @@
 
     .navbar-fixed-top {
         border: 0;
-    }
-
-    .sidebar {
-        margin-top: 20px;
-        padding: 20px;
-        border: 1px solid #eee;
-        background-color: #F5F5F5;
-    }
-
-    .nav-sidebar {
-        margin: 0 -21px; /* 20px padding + 1px border */
-    }
-
-    .nav-sidebar > li > a {
-        padding-right: 20px;
-        padding-left: 20px;
-    }
-
-    .nav-sidebar > .active > a,
-    .nav-sidebar > .active > a:hover,
-    .nav-sidebar > .active > a:focus {
-        color: #fff;
-        background-color: #428BCA;
     }
 
     .main {
