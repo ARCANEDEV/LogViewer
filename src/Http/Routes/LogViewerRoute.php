@@ -31,12 +31,7 @@ class LogViewerRoute extends RouteRegister
             'uses'  => 'LogViewerController@index',
         ]);
 
-        $this->group([
-            'as'     => 'logs.',
-            'prefix' => 'logs/{date}',
-        ], function() {
-            $this->registerLogsRoutes();
-        });
+        $this->registerLogsRoutes();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -48,19 +43,38 @@ class LogViewerRoute extends RouteRegister
      */
     private function registerLogsRoutes()
     {
-        $this->get('/', [
-            'as'    => 'show',
-            'uses'  => 'LogViewerController@show',
-        ]);
+        $this->group([
+            'as'     => 'logs.',
+            'prefix' => 'logs',
+        ], function() {
+            $this->get('/', [
+                'as'    => 'list',
+                'uses'  => 'LogViewerController@listLogs',
+            ]);
 
-        $this->get('download', [
-            'as'    => 'download',
-            'uses'  => 'LogViewerController@download',
-        ]);
+            $this->delete('delete', [
+                'as'    => 'delete',
+                'uses'  => 'LogViewerController@delete',
+            ]);
 
-        $this->get('{level}', [
-            'as'    => 'filter',
-            'uses'  => 'LogViewerController@showByLevel',
-        ]);
+            $this->group([
+                'prefix'    => '{date}',
+            ], function() {
+                $this->get('/', [
+                    'as'    => 'show',
+                    'uses'  => 'LogViewerController@show',
+                ]);
+
+                $this->get('download', [
+                    'as'    => 'download',
+                    'uses'  => 'LogViewerController@download',
+                ]);
+
+                $this->get('{level}', [
+                    'as'    => 'filter',
+                    'uses'  => 'LogViewerController@showByLevel',
+                ]);
+            });
+        });
     }
 }
