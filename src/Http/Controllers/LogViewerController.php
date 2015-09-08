@@ -43,17 +43,32 @@ class LogViewerController extends Controller
     public function index()
     {
         $stats    = $this->logViewer->statsTable();
-
-        $headers  = $stats->header();
-        $rows     = $stats->rows();
-        $footer   = $stats->footer();
         $reports  = $stats->totalsJson();
-        $percents = $this->calcPercentages($footer, $headers);
+        $percents = $this->calcPercentages($stats->footer(), $stats->header());
 
-        return view(
-            'log-viewer::dashboard',
-            compact('headers', 'rows', 'footer', 'reports', 'percents')
+        return $this->view('dashboard', compact('reports', 'percents'));
+    }
+
+    public function listLogs()
+    {
+        $stats   = $this->logViewer->statsTable();
+
+        $headers = $stats->header();
+        // $footer   = $stats->footer();
+
+        $page    = request()->input('page', 1);
+        $offset  = ($page * $this->perPage) - $this->perPage;
+
+        $rows    = new \Illuminate\Pagination\LengthAwarePaginator(
+            array_slice($stats->rows(), $offset, $this->perPage, true),
+            count($stats->rows()),
+            $this->perPage,
+            $page
         );
+
+        $rows->setPath(request()->url());
+
+        return $this->view('logs', compact('headers', 'rows', 'footer'));
     }
 
     /**
@@ -69,10 +84,7 @@ class LogViewerController extends Controller
         $levels  = $this->logViewer->levelsNames();
         $entries = $log->entries()->paginate($this->perPage);
 
-        return view(
-            'log-viewer::show',
-            compact('log', 'levels', 'entries')
-        );
+        return $this->view('show', compact('log', 'levels', 'entries'));
     }
 
     /**
@@ -96,10 +108,7 @@ class LogViewerController extends Controller
             ->entries($date, $level)
             ->paginate($this->perPage);
 
-        return view(
-            'log-viewer::show',
-            compact('log', 'levels', 'entries')
-        );
+        return $this->view('show', compact('log', 'levels', 'entries'));
     }
 
     /**
@@ -112,6 +121,20 @@ class LogViewerController extends Controller
     public function download($date)
     {
         return $this->logViewer->download($date);
+    }
+
+    public function delete()
+    {
+        if ( ! request()->ajax()) {
+            abort(405, 'Method Not Allowed');
+        }
+
+        $date = request()->get('date');
+        $ajax = [
+            'result' => $this->logViewer->delete($date) ? 'success' : 'error'
+        ];
+
+        return response()->json($ajax);
     }
 
     /* ------------------------------------------------------------------------------------------------
