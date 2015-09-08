@@ -30,4 +30,22 @@ abstract class Controller extends IlluminateController
     {
         $this->logViewer = app('arcanedev.log-viewer');
     }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get the evaluated view contents for the given view.
+     *
+     * @param  string  $view
+     * @param  array   $data
+     * @param  array   $mergeData
+     *
+     * @return \Illuminate\View\View
+     */
+    public function view($view = null, $data = [], $mergeData = [])
+    {
+        return view('log-viewer::' . $view, $data, $mergeData);
+    }
 }
