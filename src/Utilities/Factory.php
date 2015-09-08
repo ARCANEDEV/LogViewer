@@ -3,9 +3,7 @@
 use Arcanedev\LogViewer\Contracts\FactoryInterface;
 use Arcanedev\LogViewer\Contracts\FilesystemInterface;
 use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
-use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
-use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
@@ -81,7 +79,7 @@ class Factory implements FactoryInterface
     /**
      * Get all logs.
      *
-     * @return LogCollection
+     * @return \Arcanedev\LogViewer\Entities\LogCollection
      */
     public function logs()
     {
@@ -95,7 +93,7 @@ class Factory implements FactoryInterface
     /**
      * Get all logs. (alias)
      *
-     * @return LogCollection
+     * @return \Arcanedev\LogViewer\Entities\LogCollection
      */
     public function all()
     {
@@ -119,7 +117,7 @@ class Factory implements FactoryInterface
      *
      * @param  string  $date
      *
-     * @return Log
+     * @return \Arcanedev\LogViewer\Entities\Log
      */
     public function log($date)
     {
@@ -131,7 +129,7 @@ class Factory implements FactoryInterface
      *
      * @param  string  $date
      *
-     * @return Log
+     * @return \Arcanedev\LogViewer\Entities\Log
      */
     public function get($date)
     {
@@ -144,7 +142,7 @@ class Factory implements FactoryInterface
      * @param  string  $date
      * @param  string  $level
      *
-     * @return LogEntryCollection
+     * @return \Arcanedev\LogViewer\Entities\LogEntryCollection
      */
     public function entries($date, $level = 'all')
     {
@@ -166,7 +164,7 @@ class Factory implements FactoryInterface
      *
      * @param  string|null  $locale
      *
-     * @return StatsTable
+     * @return \Arcanedev\LogViewer\Tables\StatsTable
      */
     public function statsTable($locale = null)
     {
