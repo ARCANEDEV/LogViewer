@@ -52,12 +52,13 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
 
 ### DONE
 
-  - [x] Well documented package (IDE Friendly)
-  - [x] 100% Code coverage + Maximum code quality 
-  - [x] Localized log levels
-  - [x] Laravel 5.1 support
-  - [x] Log viewer menu/tree
-  - [x] Download the log file
+  - [x] Well documented package (IDE Friendly).
+  - [x] 100% Code coverage + Maximum code quality. 
+  - [x] Localized log levels.
+  - [x] Laravel 5.1 support.
+  - [x] Log viewer menu/tree.
+  - [x] Logs and Log entries pagination.
+  - [x] Download the log file.
 
 ## Contribution
 
