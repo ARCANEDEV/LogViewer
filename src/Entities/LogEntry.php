@@ -18,6 +18,9 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      | ------------------------------------------------------------------------------------------------
      */
     /** @var string */
+    public $env;
+
+    /** @var string */
     public $level;
 
     /** @var Carbon */
@@ -74,8 +77,30 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     private function setHeader($header)
     {
-        $this->header = $this->cleanHeader($header);
         $this->setDatetime(extract_datetime($header));
+
+        $header = $this->cleanHeader($header);
+
+        if (preg_match('/^[a-z]+.[A-Z]+:/', $header, $out)) {
+            $this->setEnv($out[0]);
+            $header = trim(str_replace($out[0], '', $header));
+        }
+
+        $this->header = $header;
+
+        return $this;
+    }
+
+    /**
+     * Set entry environment.
+     *
+     * @param  string  $env
+     *
+     * @return self
+     */
+    private function setEnv($env)
+    {
+        $this->env = head(explode('.', $env));
 
         return $this;
     }
