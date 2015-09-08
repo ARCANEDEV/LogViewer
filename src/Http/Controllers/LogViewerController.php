@@ -123,11 +123,14 @@ class LogViewerController extends Controller
         return $this->logViewer->download($date);
     }
 
+    /**
+     * Delete a log.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete()
     {
-        if ( ! request()->ajax()) {
-            abort(405, 'Method Not Allowed');
-        }
+        if ( ! request()->ajax()) abort(405, 'Method Not Allowed');
 
         $date = request()->get('date');
         $ajax = [
