@@ -11,6 +11,8 @@ use SplFileInfo;
  *
  * @package  Arcanedev\LogViewer\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ *
+ * @todo     Add a stats method
  */
 class Log implements Arrayable, Jsonable, JsonSerializable
 {
