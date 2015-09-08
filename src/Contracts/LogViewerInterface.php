@@ -47,7 +47,14 @@ interface LogViewerInterface
      */
     public function all();
 
-    // TODO: Add pagination
+    /**
+     * Paginate all logs.
+     *
+     * @param  int  $perPage
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function paginate($perPage = 30);
 
     /**
      * Get a log.

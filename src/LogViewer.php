@@ -4,9 +4,6 @@ use Arcanedev\LogViewer\Contracts\FactoryInterface;
 use Arcanedev\LogViewer\Contracts\FilesystemInterface;
 use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
 use Arcanedev\LogViewer\Contracts\LogViewerInterface;
-use Arcanedev\LogViewer\Entities\Log;
-use Arcanedev\LogViewer\Entities\LogCollection;
-use Arcanedev\LogViewer\Entities\LogEntryCollection;
 
 /**
  * Class     LogViewer
@@ -106,21 +103,31 @@ class LogViewer implements LogViewerInterface
     /**
      * Get all logs.
      *
-     * @return LogCollection
+     * @return Entities\LogCollection
      */
     public function all()
     {
         return $this->factory->all();
     }
 
-    // TODO: Add pagination
+    /**
+     * Paginate all logs.
+     *
+     * @param  int  $perPage
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function paginate($perPage = 30)
+    {
+        return $this->factory->paginate($perPage);
+    }
 
     /**
      * Get a log.
      *
      * @param  string  $date
      *
-     * @return Log
+     * @return Entities\Log
      */
     public function get($date)
     {
@@ -133,7 +140,7 @@ class LogViewer implements LogViewerInterface
      * @param  string  $date
      * @param  string  $level
      *
-     * @return LogEntryCollection
+     * @return Entities\LogEntryCollection
      */
     public function entries($date, $level = 'all')
     {

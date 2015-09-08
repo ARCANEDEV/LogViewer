@@ -4,6 +4,7 @@ use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Tables\StatsTable;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Interface  FactoryInterface
@@ -34,6 +35,15 @@ interface FactoryInterface
      * @return LogCollection
      */
     public function all();
+
+    /**
+     * Paginate all logs.
+     *
+     * @param  int  $perPage
+     *
+     * @return LengthAwarePaginator
+     */
+    public function paginate($perPage = 30);
 
     /**
      * Get a log by date.

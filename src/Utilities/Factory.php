@@ -103,6 +103,18 @@ class Factory implements FactoryInterface
     }
 
     /**
+     * Paginate all logs.
+     *
+     * @param  int  $perPage
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function paginate($perPage = 30)
+    {
+        return $this->logs()->paginate($perPage);
+    }
+
+    /**
      * Get a log by date.
      *
      * @param  string  $date

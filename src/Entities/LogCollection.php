@@ -3,6 +3,7 @@
 use Arcanedev\LogViewer\Contracts\FilesystemInterface;
 use Arcanedev\LogViewer\Exceptions\LogNotFound;
 use Arcanedev\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class     LogCollection
@@ -98,6 +99,24 @@ class LogCollection extends Collection
         }
 
         return parent::get($date, $default);
+    }
+
+    /**
+     * Paginate logs.
+     *
+     * @param  int  $perPage
+     *
+     * @return LengthAwarePaginator
+     */
+    public function paginate($perPage = 30)
+    {
+        $page      = request()->input('page', 1);
+        $items     = $this->slice(($page * $perPage) - $perPage, $perPage, true);
+        $paginator = new LengthAwarePaginator($items, $this->count(), $perPage, $page);
+
+        $paginator->setPath(request()->url());
+
+        return $paginator;
     }
 
     /**

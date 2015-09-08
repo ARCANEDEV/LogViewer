@@ -49,7 +49,7 @@ class LogViewerController extends Controller
     {
         $log     = $this->getLogOrFail($date);
         $levels  = $this->logViewer->levelsNames();
-        $entries = $log->entries();
+        $entries = $log->entries()->paginate();
 
         $data    = compact('log', 'levels', 'entries');
 
@@ -73,7 +73,7 @@ class LogViewerController extends Controller
         }
 
         $levels  = $this->logViewer->levelsNames();
-        $entries = $this->logViewer->entries($date, $level);
+        $entries = $this->logViewer->entries($date, $level)->paginate();
 
         $data    = compact('log', 'levels', 'entries');
 
