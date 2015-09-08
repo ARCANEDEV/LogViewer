@@ -87,6 +87,12 @@
     }
 
     /* Log level labels & progress bars */
+    .label-env {
+        padding: 2px 6px;
+        background-color: #6A1B9A;
+        font-size: .85em;
+    }
+
     span.level {
         padding: 2px 6px;
         text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
