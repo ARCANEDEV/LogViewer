@@ -1,5 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Tests;
 
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 /**
  * Class     RoutesTest
  *
@@ -88,10 +90,8 @@ class RoutesTest extends TestCase
 
         $this->assertResponseOk();
 
-        $this->assertInstanceOf(
-            \Symfony\Component\HttpFoundation\BinaryFileResponse::class, $response
-        );
-        /** @var \Symfony\Component\HttpFoundation\BinaryFileResponse $response */
+        $this->assertInstanceOf(BinaryFileResponse::class, $response);
+        /** @var BinaryFileResponse $response */
         $this->assertEquals(
             "laravel-$date.log", $response->getFile()->getFilename()
         );
