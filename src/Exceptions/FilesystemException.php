@@ -6,4 +6,4 @@
  * @package  Arcanedev\LogViewer\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class FilesystemException extends \Exception {}
+class FilesystemException extends LogViewerException {}

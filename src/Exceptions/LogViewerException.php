@@ -1,9 +1,9 @@
 <?php namespace Arcanedev\LogViewer\Exceptions;
 
 /**
- * Class     LogNotFound
+ * Class     LogViewerException
  *
  * @package  Arcanedev\LogViewer\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogNotFound extends LogViewerException {}
+class LogViewerException extends \Exception {}
