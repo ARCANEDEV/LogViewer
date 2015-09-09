@@ -1,10 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Tests\Utilities;
 
-use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Tests\TestCase;
 use Arcanedev\LogViewer\Utilities\Factory;
-use Arcanedev\LogViewer\Utilities\Filesystem;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class     FactoryTest
@@ -46,14 +43,17 @@ class FactoryTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(Factory::class, $this->logFactory);
+        $this->assertInstanceOf(
+            'Arcanedev\\LogViewer\\Utilities\\Factory',
+            $this->logFactory
+        );
     }
 
     /** @test */
     public function it_can_get_filesystem_object()
     {
         $this->assertInstanceOf(
-            Filesystem::class,
+            'Arcanedev\\LogViewer\\Utilities\\Filesystem',
             $this->logFactory->getFilesystem()
         );
     }
@@ -83,7 +83,10 @@ class FactoryTest extends TestCase
     {
         $logs = $this->logFactory->all();
 
-        $this->assertInstanceOf(LogCollection::class, $logs);
+        $this->assertInstanceOf(
+            'Arcanedev\\LogViewer\\Entities\\LogCollection',
+            $logs
+        );
         $this->assertCount(2, $logs);
     }
 
@@ -91,7 +94,11 @@ class FactoryTest extends TestCase
     public function it_can_paginate_all_logs()
     {
         $logs = $this->logFactory->paginate();
-        $this->assertInstanceOf(LengthAwarePaginator::class, $logs);
+
+        $this->assertInstanceOf(
+            'Illuminate\\Pagination\\LengthAwarePaginator',
+            $logs
+        );
         $this->assertEquals(30, $logs->perPage());
         $this->assertEquals(2, $logs->total());
         $this->assertEquals(1, $logs->lastPage());

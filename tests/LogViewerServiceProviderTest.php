@@ -25,7 +25,7 @@ class LogViewerServiceProviderTest extends TestCase
     {
         parent::setUp();
 
-        $this->provider = $this->app->getProvider(LogViewerServiceProvider::class);
+        $this->provider = $this->app->getProvider('Arcanedev\\LogViewer\\LogViewerServiceProvider');
     }
 
     public function tearDown()

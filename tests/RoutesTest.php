@@ -78,7 +78,7 @@ class RoutesTest extends TestCase
         $response = $this->route('GET', 'log-viewer::logs.filter', [$date, $level]);
 
         $this->assertTrue($response->isRedirection());
-        $this->assertEquals(302, $response->status());
+        $this->assertEquals(302, $response->getStatusCode());
         // TODO: Add more assertion to check the redirect url
     }
 
@@ -86,14 +86,17 @@ class RoutesTest extends TestCase
     public function it_can_download_a_log_page()
     {
         $date     = '2015-01-01';
+        /** @var BinaryFileResponse $response */
         $response = $this->route('GET', 'log-viewer::logs.download', [$date]);
 
         $this->assertResponseOk();
-
-        $this->assertInstanceOf(BinaryFileResponse::class, $response);
-        /** @var BinaryFileResponse $response */
+        $this->assertInstanceOf(
+            'Symfony\\Component\\HttpFoundation\\BinaryFileResponse',
+            $response
+        );
         $this->assertEquals(
-            "laravel-$date.log", $response->getFile()->getFilename()
+            "laravel-$date.log",
+            $response->getFile()->getFilename()
         );
     }
 
@@ -139,7 +142,7 @@ class RoutesTest extends TestCase
         }
         catch(\Exception $exception) {
             $this->assertInstanceOf(
-                \Arcanedev\LogViewer\Exceptions\FilesystemException::class,
+                '\Arcanedev\\LogViewer\\Exceptions\\FilesystemException',
                 $exception
             );
             $this->assertStringStartsWith('The log(s) could not be located at : ', $exception->getMessage());
