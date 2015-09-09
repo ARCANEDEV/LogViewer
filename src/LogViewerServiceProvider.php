@@ -46,9 +46,9 @@ class LogViewerServiceProvider extends PackageServiceProvider
     {
         $this->registerConfig();
 
-        $this->app->register(Providers\UtilitiesServiceProvider::class);
+        $this->app->register('Arcanedev\\LogViewer\\Providers\\UtilitiesServiceProvider');
         $this->registerLogViewer();
-        $this->app->register(Providers\CommandsServiceProvider::class);
+        $this->app->register('Arcanedev\\LogViewer\\Providers\\CommandsServiceProvider');
     }
 
     /**
@@ -59,7 +59,7 @@ class LogViewerServiceProvider extends PackageServiceProvider
         $this->publishConfig();
         $this->registerViews();
         $this->registerTranslations();
-        $this->app->register(Providers\RouteServiceProvider::class);
+        $this->app->register('Arcanedev\\LogViewer\\Providers\\RouteServiceProvider');
     }
 
     /**
@@ -155,6 +155,6 @@ class LogViewerServiceProvider extends PackageServiceProvider
         });
 
         // Registering the Facade
-        $this->addFacade('LogViewer', Facades\LogViewer::class);
+        $this->addFacade('LogViewer', 'Arcanedev\\LogViewer\\Facades\\LogViewer');
     }
 }
