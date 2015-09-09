@@ -27,7 +27,7 @@ class LogViewerRoute extends RouteRegister
         parent::map($router);
 
         $this->get('/', [
-            'as'    => 'dashboard',
+            'as'    => 'log-viewer::dashboard',
             'uses'  => 'LogViewerController@index',
         ]);
 
@@ -44,16 +44,15 @@ class LogViewerRoute extends RouteRegister
     private function registerLogsRoutes()
     {
         $this->group([
-            'as'     => 'logs.',
             'prefix' => 'logs',
         ], function() {
             $this->get('/', [
-                'as'    => 'list',
+                'as'    => 'log-viewer::logs.list',
                 'uses'  => 'LogViewerController@listLogs',
             ]);
 
             $this->delete('delete', [
-                'as'    => 'delete',
+                'as'    => 'log-viewer::logs.delete',
                 'uses'  => 'LogViewerController@delete',
             ]);
 
@@ -70,17 +69,17 @@ class LogViewerRoute extends RouteRegister
             'prefix'    => '{date}',
         ], function() {
             $this->get('/', [
-                'as'    => 'show',
+                'as'    => 'log-viewer::logs.show',
                 'uses'  => 'LogViewerController@show',
             ]);
 
             $this->get('download', [
-                'as'    => 'download',
+                'as'    => 'log-viewer::logs.download',
                 'uses'  => 'LogViewerController@download',
             ]);
 
             $this->get('{level}', [
-                'as'    => 'filter',
+                'as'    => 'log-viewer::logs.filter',
                 'uses'  => 'LogViewerController@showByLevel',
             ]);
         });
