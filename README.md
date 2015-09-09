@@ -1,4 +1,4 @@
-LogViewer (For Laravel 5) [![Packagist License][badge_license]](https://github.com/ARCANEDEV/LogViewer/blob/master/LICENSE.md)
+LogViewer ![For Laravel 5][badge_laravel] [![Packagist License][badge_license]](https://github.com/ARCANEDEV/LogViewer/blob/master/LICENSE.md)
 ==============
 [![Travis Status][badge_build]](https://travis-ci.org/ARCANEDEV/LogViewer)
 [![Coverage Status][badge_coverage]](https://scrutinizer-ci.com/g/ARCANEDEV/LogViewer/?branch=master)
@@ -7,6 +7,7 @@ LogViewer (For Laravel 5) [![Packagist License][badge_license]](https://github.c
 [![Packagist Release][badge_release]](https://packagist.org/packages/arcanedev/log-viewer)
 [![Packagist Downloads][badge_downloads]](https://packagist.org/packages/arcanedev/log-viewer)
 
+[badge_laravel]:   https://img.shields.io/badge/for%20Laravel-5.0%7C5.1-orange.svg?style=flat-square
 [badge_license]:   https://img.shields.io/packagist/l/arcanedev/log-viewer.svg?style=flat-square
 [badge_build]:     https://img.shields.io/travis/ARCANEDEV/LogViewer.svg?style=flat-square
 [badge_coverage]:  https://img.shields.io/scrutinizer/coverage/g/ARCANEDEV/LogViewer.svg?style=flat-square
@@ -38,12 +39,6 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
 5. [Extras](https://github.com/ARCANEDEV/LogViewer/wiki/5.-Extras)
 6. [FAQ](https://github.com/ARCANEDEV/LogViewer/wiki/6.-FAQ)
 
-### PREVIEW
-
-![Dashboard](https://github.com/ARCANEDEV/LogViewer/blob/master/_screenshots/1-dashboard.jpg)
-![Logs list](https://github.com/ARCANEDEV/LogViewer/blob/master/_screenshots/2-logs-list.jpg)
-![Single log](https://github.com/ARCANEDEV/LogViewer/blob/master/_screenshots/3-single-log.jpg)
-
 ### ONGOING
 
   - [ ] Log viewer CLI.
@@ -52,8 +47,6 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
 
 ### TODOS
 
-  - [ ] Laravel 5.0 support.
-  - [ ] Lumen support.
   - [ ] Adding more localizations.
 
 ### DONE
@@ -61,7 +54,8 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
   - [x] Well documented package (IDE Friendly).
   - [x] 100% Code coverage + Maximum code quality. 
   - [x] Localized log levels.
-  - [x] Laravel 5.1 support.
+  - [x] Laravel 5.1 supported.
+  - [x] Laravel 5.0 supported.
   - [x] Log viewer menu/tree.
   - [x] Logs and Log entries pagination.
   - [x] Download the log file.
@@ -70,3 +64,9 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
 ## Contribution
 
 Any ideas are welcome. Feel free to submit any issues or pull requests.
+
+## PREVIEW
+
+![Dashboard](https://github.com/ARCANEDEV/LogViewer/blob/master/_screenshots/1-dashboard.jpg)
+![Logs list](https://github.com/ARCANEDEV/LogViewer/blob/master/_screenshots/2-logs-list.jpg)
+![Single log](https://github.com/ARCANEDEV/LogViewer/blob/master/_screenshots/3-single-log.jpg)
