@@ -3,6 +3,7 @@
 use Arcanedev\LogViewer\Bases\Controller;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Exceptions\LogNotFound;
+use Illuminate\Http\Request;
 
 /**
  * Class     LogViewerController
@@ -49,14 +50,14 @@ class LogViewerController extends Controller
         return $this->view('dashboard', compact('reports', 'percents'));
     }
 
-    public function listLogs()
+    public function listLogs(Request $request)
     {
         $stats   = $this->logViewer->statsTable();
 
         $headers = $stats->header();
         // $footer   = $stats->footer();
 
-        $page    = request()->input('page', 1);
+        $page    = $request->input('page', 1);
         $offset  = ($page * $this->perPage) - $this->perPage;
 
         $rows    = new \Illuminate\Pagination\LengthAwarePaginator(
@@ -66,7 +67,7 @@ class LogViewerController extends Controller
             $page
         );
 
-        $rows->setPath(request()->url());
+        $rows->setPath($request->url());
 
         return $this->view('logs', compact('headers', 'rows', 'footer'));
     }
@@ -128,11 +129,11 @@ class LogViewerController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete()
+    public function delete(Request $request)
     {
-        if ( ! request()->ajax()) abort(405, 'Method Not Allowed');
+        if ( ! $request->ajax()) abort(405, 'Method Not Allowed');
 
-        $date = request()->get('date');
+        $date = $request->get('date');
         $ajax = [
             'result' => $this->logViewer->delete($date) ? 'success' : 'error'
         ];
