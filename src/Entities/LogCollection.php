@@ -155,9 +155,14 @@ class LogCollection extends Collection
      */
     public function stats()
     {
-        return $this->map(function (Log $log) {
-            return $log->stats();
-        })->toArray();
+        $stats = [];
+
+        foreach ($this->items as $date => $log) {
+            /** @var Log $log */
+            $stats[$date] = $log->stats();
+        }
+
+        return $stats;
     }
 
     /**
@@ -193,9 +198,14 @@ class LogCollection extends Collection
      */
     public function tree($trans = false)
     {
-        return $this->map(function (Log $log) use ($trans) {
-            return $log->tree($trans);
-        })->toArray();
+        $tree = [];
+
+        foreach ($this->items as $date => $log) {
+            /** @var Log $log */
+            $tree[$date] = $log->tree($trans);
+        }
+
+        return $tree;
     }
 
     /**
@@ -207,8 +217,13 @@ class LogCollection extends Collection
      */
     public function menu($trans = true)
     {
-        return $this->map(function (Log $log) use ($trans) {
-            return $log->menu($trans);
-        })->toArray();
+        $menu = [];
+
+        foreach ($this->items as $date => $log) {
+            /** @var Log $log */
+            $menu[$date] = $log->menu($trans);
+        }
+
+        return $menu;
     }
 }

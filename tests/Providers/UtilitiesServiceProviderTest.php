@@ -35,7 +35,9 @@ class UtilitiesServiceProviderTest extends TestCase
     {
         parent::setUp();
 
-        $this->provider = $this->app->getProvider(UtilitiesServiceProvider::class);
+        $this->provider = $this->app->getProvider(
+            'Arcanedev\\LogViewer\\Providers\\UtilitiesServiceProvider'
+        );
     }
 
     public function tearDown()

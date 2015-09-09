@@ -16,11 +16,11 @@ class StatsCommand extends Command
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * The name and signature of the console command.
+     * The console command name.
      *
      * @var string
      */
-    protected $signature   = 'log-viewer:stats';
+    protected $name        = 'log-viewer:stats';
 
     /**
      * The console command description.
@@ -28,6 +28,13 @@ class StatsCommand extends Command
      * @var string
      */
     protected $description = 'Display stats of all logs.';
+
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature   = 'log-viewer:stats';
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

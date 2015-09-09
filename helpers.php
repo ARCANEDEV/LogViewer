@@ -62,3 +62,46 @@ if ( ! function_exists('extract_datetime')) {
         );
     }
 }
+
+if ( ! function_exists('laravel_version')) {
+    /**
+     * Get laravel version or check if the same version
+     *
+     * @param  string|null $version
+     *
+     * @return string
+     */
+    function laravel_version($version = null) {
+        $app = app();
+
+        $appVersion = $app::VERSION;
+
+        if (is_null($version)) {
+            return $appVersion;
+        }
+
+        return substr($appVersion, 0, strlen($version)) === $version;
+    }
+}
+
+if ( ! function_exists('request')) {
+    /**
+     * Get an instance of the current request or an input item from the request.
+     *
+     * @param  string  $key
+     * @param  mixed   $default
+     *
+     * @return \Illuminate\Http\Request|string|array
+     */
+    function request($key = null, $default = null)
+    {
+        /** @var Illuminate\Http\Request $request */
+        $request = app('request');
+
+        if (is_null($key)) {
+            return $request;
+        }
+
+        return $request->input($key, $default);
+    }
+}

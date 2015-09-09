@@ -32,7 +32,9 @@ class CommandsServiceProviderTest extends TestCase
     {
         parent::setUp();
 
-        $this->provider = $this->app->getProvider(CommandsServiceProvider::class);
+        $this->provider = $this->app->getProvider(
+            'Arcanedev\\LogViewer\\Providers\\CommandsServiceProvider'
+        );
     }
 
     public function tearDown()

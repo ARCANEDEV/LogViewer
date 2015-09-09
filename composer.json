@@ -12,12 +12,12 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.4.0",
         "psr/log": "~1.0",
         "arcanedev/support": "~2.0"
     },
     "require-dev": {
-        "orchestra/testbench": "~3.1.0",
+        "orchestra/testbench": "~3.0",
         "phpunit/phpunit": "~4.0",
         "phpunit/phpcov": "~2.0"
     },

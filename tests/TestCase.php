@@ -4,12 +4,10 @@ use Arcanedev\LogViewer\Contracts\TableInterface;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
-use Arcanedev\LogViewer\LogViewerServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Foundation\Application;
 use Illuminate\Routing\Router;
-use JsonSerializable;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Psr\Log\LogLevel;
 use ReflectionClass;
@@ -63,7 +61,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            LogViewerServiceProvider::class
+            'Arcanedev\\LogViewer\\LogViewerServiceProvider'
         ];
     }
 
@@ -105,10 +103,10 @@ abstract class TestCase extends BaseTestCase
      */
     public static function assertJsonObject($object, $message = '')
     {
-        self::assertInstanceOf(Jsonable::class, $object);
+        self::assertInstanceOf('Illuminate\\Contracts\\Support\\Jsonable', $object);
         self::assertJson($object->toJson(JSON_PRETTY_PRINT), $message);
 
-        self::assertInstanceOf(JsonSerializable::class, $object);
+        self::assertInstanceOf('JsonSerializable', $object);
         self::assertJson(json_encode($object, JSON_PRETTY_PRINT), $message);
     }
 
@@ -148,7 +146,7 @@ abstract class TestCase extends BaseTestCase
         $dt = Carbon::createFromFormat('Y-m-d', $date);
 
         $this->assertInLogLevels($entry->level);
-        $this->assertInstanceOf(Carbon::class, $entry->datetime);
+        $this->assertInstanceOf('Carbon\\Carbon', $entry->datetime);
         $this->assertTrue($entry->datetime->isSameDay($dt));
         $this->assertNotEmpty($entry->header);
         $this->assertNotEmpty($entry->stack);
@@ -345,7 +343,7 @@ abstract class TestCase extends BaseTestCase
      */
     public function illuminateFile()
     {
-        return $this->app['files'];
+        return app('files');
     }
 
     /**
@@ -355,7 +353,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function filesystem()
     {
-        return $this->app['arcanedev.log-viewer.filesystem'];
+        return app('arcanedev.log-viewer.filesystem');
     }
 
     /**
@@ -518,25 +516,23 @@ abstract class TestCase extends BaseTestCase
     private function registerRoutes(Router $router)
     {
         $router->group([
-            'as'        => 'log-viewer::',
             'namespace' => 'Arcanedev\\LogViewer\\Http\\Controllers'
         ], function(Router $router) {
             $router->get('/', [
-                'as'    => 'dashboard',
+                'as'    => 'log-viewer::dashboard',
                 'uses'  => 'LogViewerController@index',
             ]);
 
             $router->group([
-                'as'     => 'logs.',
                 'prefix' => 'logs',
             ], function(Router $router) {
                 $router->get('/', [
-                    'as'    => 'list',
+                    'as'    => 'log-viewer::logs.list',
                     'uses'  => 'LogViewerController@listLogs',
                 ]);
 
                 $router->delete('delete', [
-                    'as'    => 'delete',
+                    'as'    => 'log-viewer::logs.delete',
                     'uses'  => 'LogViewerController@delete',
                 ]);
 
@@ -544,17 +540,17 @@ abstract class TestCase extends BaseTestCase
                     'prefix'    => '{date}',
                 ], function(Router $router) {
                     $router->get('/', [
-                        'as'    => 'show',
+                        'as'    => 'log-viewer::logs.show',
                         'uses'  => 'LogViewerController@show',
                     ]);
 
                     $router->get('download', [
-                        'as'    => 'download',
+                        'as'    => 'log-viewer::logs.download',
                         'uses'  => 'LogViewerController@download',
                     ]);
 
                     $router->get('{level}', [
-                        'as'    => 'filter',
+                        'as'    => 'log-viewer::logs.filter',
                         'uses'  => 'LogViewerController@showByLevel',
                     ]);
                 });

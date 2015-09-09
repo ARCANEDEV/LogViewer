@@ -29,8 +29,9 @@ class StatsTableTest extends TestCase
     {
         parent::setUp();
 
+        $this->rawData = $this->app['arcanedev.log-viewer']->stats();
         $this->table   = new StatsTable(
-            $this->rawData = $this->app['arcanedev.log-viewer']->stats(),
+            $this->rawData,
             $this->app['arcanedev.log-viewer.levels']
         );
     }
@@ -49,7 +50,10 @@ class StatsTableTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(StatsTable::class, $this->table);
+        $this->assertInstanceOf(
+            'Arcanedev\\LogViewer\\Tables\\StatsTable',
+            $this->table
+        );
     }
 
     /** @test */

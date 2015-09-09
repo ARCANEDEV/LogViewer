@@ -42,7 +42,10 @@ class LogStylerTest extends TestCase
     /** @test */
     public function it_can_ben_instantiated()
     {
-        $this->assertInstanceOf(LogStyler::class, $this->styler);
+        $this->assertInstanceOf(
+            'Arcanedev\\LogViewer\\Utilities\\LogStyler',
+            $this->styler
+        );
     }
 
     /** @test */

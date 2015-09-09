@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Tests\Entities;
 
-use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Tests\TestCase;
 
@@ -44,7 +43,7 @@ class LogCollectionTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(LogCollection::class, $this->logs);
+        $this->assertInstanceOf('Arcanedev\\LogViewer\\Entities\\LogCollection', $this->logs);
     }
 
     /** @test */
@@ -54,11 +53,11 @@ class LogCollectionTest extends TestCase
         $this->assertEquals(2,  $this->logs->count());
         $this->assertEquals(16, $this->logs->total());
 
-        $this->logs->each(function (Log $log, $date) {
+        foreach ($this->logs as $date => $log) {
             $this->assertLog($log, $date);
             $this->assertCount(8,  $log->entries());
             $this->assertEquals(8, $log->entries()->count());
-        });
+        }
     }
 
     /** @test */
