@@ -61,22 +61,11 @@ class PublishCommand extends Command
         $tag = $this->option('tag');
 
         if ( ! is_null($tag)) {
-            $args['--tag'] = $tag;
+            $args['--tag'] = laravel_version('5.1') ? [$tag] : $tag;
         }
 
         $this->displayLogViewer();
         $this->call('vendor:publish', $args);
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [
-        ];
     }
 
     /**
