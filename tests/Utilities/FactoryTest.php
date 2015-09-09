@@ -4,6 +4,7 @@ use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Tests\TestCase;
 use Arcanedev\LogViewer\Utilities\Factory;
 use Arcanedev\LogViewer\Utilities\Filesystem;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class     FactoryTest
@@ -90,7 +91,7 @@ class FactoryTest extends TestCase
     public function it_can_paginate_all_logs()
     {
         $logs = $this->logFactory->paginate();
-        $this->assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $logs);
+        $this->assertInstanceOf(LengthAwarePaginator::class, $logs);
         $this->assertEquals(30, $logs->perPage());
         $this->assertEquals(2, $logs->total());
         $this->assertEquals(1, $logs->lastPage());

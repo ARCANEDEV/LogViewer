@@ -2,6 +2,7 @@
 
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\LogViewer;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -94,7 +95,7 @@ class LogViewerTest extends TestCase
     public function it_can_paginate_all_logs()
     {
         $logs = $this->logViewer->paginate();
-        $this->assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $logs);
+        $this->assertInstanceOf(LengthAwarePaginator::class, $logs);
         $this->assertEquals(30, $logs->perPage());
         $this->assertEquals(2, $logs->total());
         $this->assertEquals(1, $logs->lastPage());

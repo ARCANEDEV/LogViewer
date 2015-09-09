@@ -3,6 +3,7 @@
 use Arcanedev\LogViewer\Bases\Controller;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Exceptions\LogNotFound;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class     LogViewerController
@@ -59,7 +60,7 @@ class LogViewerController extends Controller
         $page    = request()->input('page', 1);
         $offset  = ($page * $this->perPage) - $this->perPage;
 
-        $rows    = new \Illuminate\Pagination\LengthAwarePaginator(
+        $rows    = new LengthAwarePaginator(
             array_slice($stats->rows(), $offset, $this->perPage, true),
             count($stats->rows()),
             $this->perPage,
