@@ -1,7 +1,8 @@
 <?php namespace Arcanedev\LogViewer\Commands;
 
 use Arcanedev\LogViewer\Bases\Command;
-use Arcanedev\LogViewer\LogViewerServiceProvider;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class     PublishCommand
@@ -16,13 +17,11 @@ class PublishCommand extends Command
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * The name and signature of the console command.
+     * The console command name.
      *
      * @var string
      */
-    protected $signature = 'log-viewer:publish
-            {--tag= : One or many tags that have assets you want to publish.}
-            {--force : Overwrite any existing files.}';
+    protected $name      = 'log-viewer:publish';
 
     /**
      * The console command description.
@@ -31,17 +30,28 @@ class PublishCommand extends Command
      */
     protected $description = 'Publish all LogViewer resources and config files';
 
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'log-viewer:publish
+            {--tag= : One or many tags that have assets you want to publish.}
+            {--force : Overwrite any existing files.}';
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * Execute the console command.
+     *
+     * @return mixed
      */
     public function handle()
     {
         $args = [
-            '--provider' => LogViewerServiceProvider::class
+            '--provider' => 'Arcanedev\\LogViewer\\LogViewerServiceProvider'
         ];
 
         if ((bool) $this->option('force')) {
@@ -51,10 +61,34 @@ class PublishCommand extends Command
         $tag = $this->option('tag');
 
         if ( ! is_null($tag)) {
-            $args['--tag'] = [$tag];
+            $args['--tag'] = $tag;
         }
 
         $this->displayLogViewer();
         $this->call('vendor:publish', $args);
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+        ];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['tag', 't', InputOption::VALUE_OPTIONAL, 'One or many tags that have assets you want to publish.', ''],
+            ['force', 'f', InputOption::VALUE_OPTIONAL, 'Overwrite any existing files.', false],
+        ];
     }
 }
