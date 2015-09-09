@@ -74,10 +74,13 @@ if ( ! function_exists('request')) {
      */
     function request($key = null, $default = null)
     {
+        /** @var Illuminate\Http\Request $request */
+        $request = app('request');
+
         if (is_null($key)) {
-            return app('request');
+            return $request;
         }
 
-        return app('request')->input($key, $default);
+        return $request->input($key, $default);
     }
 }
