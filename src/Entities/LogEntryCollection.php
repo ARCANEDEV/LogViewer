@@ -75,11 +75,10 @@ class LogEntryCollection extends Collection
     {
         $counters = $this->initStats();
 
-        $this->groupBy('level')
-            ->each(function (LogEntryCollection $entries, $level) use (&$counters) {
-                $counters[$level] = $count = $entries->count();
-                $counters['all'] += $count;
-            });
+        foreach ($this->groupBy('level') as $level => $entries) {
+            $counters[$level] = $count = count($entries);
+            $counters['all'] += $count;
+        }
 
         return $counters;
     }
