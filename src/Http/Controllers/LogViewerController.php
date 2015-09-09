@@ -57,7 +57,7 @@ class LogViewerController extends Controller
         $headers = $stats->header();
         // $footer   = $stats->footer();
 
-        $page    = request()->input('page', 1);
+        $page    = request('page', 1);
         $offset  = ($page * $this->perPage) - $this->perPage;
 
         $rows    = new LengthAwarePaginator(
