@@ -1,7 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Commands;
 
 use Arcanedev\LogViewer\Bases\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -72,6 +71,8 @@ class PublishCommand extends Command
      * Get the console command options.
      *
      * @return array
+     *
+     * @codeCoverageIgnore
      */
     protected function getOptions()
     {
