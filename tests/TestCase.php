@@ -88,7 +88,7 @@ abstract class TestCase extends BaseTestCase
     {
         $app['path.storage'] = __DIR__ . '/fixtures';
 
-        $this->registerRoutes($app['router']);
+        // $this->registerRoutes($app['router']);
     }
 
     /* ------------------------------------------------------------------------------------------------
