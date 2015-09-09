@@ -44,7 +44,7 @@ abstract class Controller extends IlluminateController
      *
      * @return \Illuminate\View\View
      */
-    public function view($view = null, $data = [], $mergeData = [])
+    public function view($view, $data = [], $mergeData = [])
     {
         return view('log-viewer::' . $view, $data, $mergeData);
     }
