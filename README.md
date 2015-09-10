@@ -1,4 +1,4 @@
-LogViewer ![For Laravel 5][badge_laravel] [![Packagist License][badge_license]](https://github.com/ARCANEDEV/LogViewer/blob/master/LICENSE.md)
+LogViewer [![For Laravel 5][badge_laravel]](https://github.com/ARCANEDEV/LogViewer#logviewer) [![Packagist License][badge_license]](https://github.com/ARCANEDEV/LogViewer/blob/master/LICENSE.md)
 ==============
 [![Travis Status][badge_build]](https://travis-ci.org/ARCANEDEV/LogViewer)
 [![Coverage Status][badge_coverage]](https://scrutinizer-ci.com/g/ARCANEDEV/LogViewer/?branch=master)
