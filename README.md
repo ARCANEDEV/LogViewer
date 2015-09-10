@@ -18,7 +18,13 @@ LogViewer ![For Laravel 5][badge_laravel] [![Packagist License][badge_license]](
 
 *By [ARCANEDEV&copy;](http://www.arcanedev.net/)*
 
+This package allows you to manage and keep track of each one of your logs files stored under `storage_path('logs')`. Minimal configuration required.
+
+ > NOTE: You can also use LogViewer as an API.
+
 Official documentation for LogViewer can be found at the [LogViewer Wiki](https://github.com/ARCANEDEV/LogViewer/wiki).
+
+Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/releases), [license](https://github.com/ARCANEDEV/LogViewer/blob/master/LICENSE.md), and [contribution guidelines](https://github.com/ARCANEDEV/LogViewer/blob/master/LICENSE.md).
 
 ## Features
 
@@ -63,7 +69,7 @@ Official documentation for LogViewer can be found at the [LogViewer Wiki](https:
 
 ## Contribution
 
-Any ideas are welcome. Feel free to submit any issues or pull requests.
+Any ideas are welcome. Feel free to submit any issues or pull requests, please check the [contribution guidelines](https://github.com/ARCANEDEV/LogViewer/blob/master/LICENSE.md).
 
 ## PREVIEW
 
