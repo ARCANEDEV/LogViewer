@@ -25,6 +25,7 @@ class UtilitiesServiceProviderTest extends TestCase
         'arcanedev.log-viewer.menu',
         'arcanedev.log-viewer.filesystem',
         'arcanedev.log-viewer.factory',
+        'arcanedev.log-viewer.checker',
     ];
 
     /* ------------------------------------------------------------------------------------------------

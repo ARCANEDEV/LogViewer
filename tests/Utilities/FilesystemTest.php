@@ -70,7 +70,7 @@ class FilesystemTest extends TestCase
     public function it_can_get_all_log_files()
     {
         $files = $this->filesystem->all();
-        $this->assertCount(3, $files);
+        $this->assertCount(4, $files);
 
         foreach ($files as $file) {
             $this->assertStringEndsWith('.log', $file);

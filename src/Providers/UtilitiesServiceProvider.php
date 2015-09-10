@@ -5,6 +5,7 @@ use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
 use Arcanedev\LogViewer\Contracts\LogStylerInterface;
 use Arcanedev\LogViewer\Utilities\Factory;
 use Arcanedev\LogViewer\Utilities\Filesystem;
+use Arcanedev\LogViewer\Utilities\LogChecker;
 use Arcanedev\LogViewer\Utilities\LogLevels;
 use Arcanedev\LogViewer\Utilities\LogMenu;
 use Arcanedev\LogViewer\Utilities\LogStyler;
@@ -45,6 +46,7 @@ class UtilitiesServiceProvider extends ServiceProvider
         $this->registerLogMenu();
         $this->registerFilesystem();
         $this->registerFactory();
+        $this->registerChecker();
     }
 
     /**
@@ -80,6 +82,7 @@ class UtilitiesServiceProvider extends ServiceProvider
     private function registerStyler()
     {
         $this->registerUtility('styler', function ($app) {
+            /** @var  Config  $config */
             $config = $app['config'];
 
             return new LogStyler($config);
@@ -93,8 +96,8 @@ class UtilitiesServiceProvider extends ServiceProvider
     {
         $this->registerUtility('menu', function ($app) {
             /**
-             * @var Config             $config
-             * @var LogStylerInterface $trans
+             * @var  Config              $config
+             * @var  LogStylerInterface  $trans
              */
             $config = $app['config'];
             $styler  = $this->getUtility($app, 'styler');
@@ -109,6 +112,9 @@ class UtilitiesServiceProvider extends ServiceProvider
     private function registerFilesystem()
     {
         $this->registerUtility('filesystem', function ($app) {
+            /**
+             * @var  \Illuminate\Filesystem\Filesystem  $files
+             */
             $files = $app['files'];
 
             return new Filesystem($files, storage_path('logs'));
@@ -122,13 +128,27 @@ class UtilitiesServiceProvider extends ServiceProvider
     {
         $this->registerUtility('factory', function ($app) {
             /**
-             * @var FilesystemInterface $filesystem
-             * @var LogLevelsInterface  $level
+             * @var  FilesystemInterface  $filesystem
+             * @var  LogLevelsInterface   $level
              */
             $filesystem = $this->getUtility($app, 'filesystem');
             $level      = $this->getUtility($app, 'levels');
 
             return new Factory($filesystem, $level);
+        });
+    }
+
+    private function registerChecker()
+    {
+        $this->registerUtility('checker', function ($app) {
+            /**
+             * @var  Config               $config
+             * @var  FilesystemInterface  $filesystem
+             */
+            $config     = $app['config'];
+            $filesystem = $this->getUtility($app, 'filesystem');
+
+            return new LogChecker($config, $filesystem);
         });
     }
 
