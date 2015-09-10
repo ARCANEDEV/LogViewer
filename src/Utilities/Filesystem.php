@@ -65,15 +65,23 @@ class Filesystem implements FilesystemInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * List the log files.
+     * Get all log files.
      *
      * @return array
      */
-    public function files()
+    public function all()
     {
-        $files = array_map('realpath', glob($this->storagePath . '/laravel-*.log', GLOB_BRACE));
+        return $this->getFiles('*');
+    }
 
-        return array_filter($files);
+    /**
+     * Get all valid log files.
+     *
+     * @return array
+     */
+    public function logs()
+    {
+        return $this->getFiles('laravel-*');
     }
 
     /**
@@ -85,7 +93,7 @@ class Filesystem implements FilesystemInterface
      */
     public function dates($withPaths = false)
     {
-        $files = array_reverse($this->files());
+        $files = array_reverse($this->logs());
         $dates = $this->extractDates($files);
 
         if ($withPaths) {
@@ -158,6 +166,22 @@ class Filesystem implements FilesystemInterface
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Get all files.
+     *
+     * @param  string $pattern
+     * @param  string $extension
+     *
+     * @return array
+     */
+    private function getFiles($pattern, $extension = '.log')
+    {
+        $pattern = $this->storagePath . DS . $pattern . $extension;
+        $files   = array_map('realpath', glob($pattern, GLOB_BRACE));
+
+        return array_filter($files);
+    }
+
     /**
      * Get the log file path.
      *

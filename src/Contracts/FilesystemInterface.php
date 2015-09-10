@@ -26,11 +26,18 @@ interface FilesystemInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * List the log files.
+     * Get all log files.
      *
      * @return array
      */
-    public function files();
+    public function all();
+
+    /**
+     * Get all valid log files.
+     *
+     * @return array
+     */
+    public function logs();
 
     /**
      * List the log files (Only dates).

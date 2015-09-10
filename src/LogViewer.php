@@ -204,13 +204,13 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
-     * List the log files.
+     * Get all valid log files.
      *
      * @return array
      */
     public function files()
     {
-        return $this->filesystem->files();
+        return $this->filesystem->logs();
     }
 
     /**

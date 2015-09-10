@@ -59,11 +59,22 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_log_files()
+    public function it_can_get_all_valid_log_files()
     {
-        $files = $this->filesystem->files();
+        $files = $this->filesystem->logs();
 
         $this->assertCount(2, $files);
+    }
+
+    /** @test */
+    public function it_can_get_all_log_files()
+    {
+        $files = $this->filesystem->all();
+        $this->assertCount(3, $files);
+
+        foreach ($files as $file) {
+            $this->assertStringEndsWith('.log', $file);
+        }
     }
 
     /** @test */
@@ -105,7 +116,7 @@ class FilesystemTest extends TestCase
     /** @test */
     public function it_can_get_files()
     {
-        $files = $this->filesystem->files();
+        $files = $this->filesystem->logs();
 
         $this->assertCount(2, $files);
         foreach ($files as $file) {
