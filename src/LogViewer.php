@@ -268,4 +268,18 @@ class LogViewer implements LogViewerInterface
     {
         return $this->factory->menu($trans);
     }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Check Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Determine if the log folder is empty or not.
+     *
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return $this->factory->isEmpty();
+    }
 }

@@ -129,4 +129,15 @@ interface FactoryInterface
      * @return StatsTable
      */
     public function statsTable($locale = null);
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Check Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Determine if the log folder is empty or not.
+     *
+     * @return bool
+     */
+    public function isEmpty();
 }

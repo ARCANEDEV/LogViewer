@@ -173,6 +173,12 @@ class FactoryTest extends TestCase
         $this->assertTable($this->logFactory->statsTable());
     }
 
+    /** @test */
+    public function it_can_check_is_not_empty()
+    {
+        $this->assertFalse($this->logFactory->isEmpty());
+    }
+
     /**
      * @test
      *

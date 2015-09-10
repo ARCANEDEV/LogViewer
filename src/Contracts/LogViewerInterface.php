@@ -160,4 +160,15 @@ interface LogViewerInterface
      * @return array
      */
     public function menu($trans = true);
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Check Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Determine if the log folder is empty or not.
+     *
+     * @return bool
+     */
+    public function isEmpty();
 }

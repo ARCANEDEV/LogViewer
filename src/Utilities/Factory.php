@@ -226,4 +226,18 @@ class Factory implements FactoryInterface
     {
         return $this->logs()->menu($trans);
     }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Check Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Determine if the log folder is empty or not.
+     *
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return $this->logs()->isEmpty();
+    }
 }
