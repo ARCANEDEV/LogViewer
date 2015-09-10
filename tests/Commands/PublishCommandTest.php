@@ -37,6 +37,7 @@ class PublishCommandTest extends TestCase
         $this->artisan('log-viewer:publish');
         $this->assertHasConfigFile();
         $this->assertHasLocalizationFiles();
+        // TODO: Add views assertions
     }
 
     /** @test */
@@ -48,6 +49,7 @@ class PublishCommandTest extends TestCase
 
         $this->assertHasConfigFile();
         $this->assertHasLocalizationFiles();
+        // TODO: Add views assertions
     }
 
     /** @test */
@@ -59,6 +61,7 @@ class PublishCommandTest extends TestCase
 
         $this->assertHasConfigFile();
         $this->assertHasNotLocalizationFiles();
+        // TODO: Add views assertions
     }
 
     /** @test */
@@ -70,6 +73,7 @@ class PublishCommandTest extends TestCase
 
         $this->assertHasNotConfigFile();
         $this->assertHasLocalizationFiles();
+        // TODO: Add views assertions
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -159,7 +163,7 @@ class PublishCommandTest extends TestCase
      */
     private function getLocalizationFolder()
     {
-        return realpath(base_path() . '/resources/lang/arcanedev/log-viewer');
+        return realpath(base_path() . '/resources/lang/vendor/log-viewer');
     }
 
     /**

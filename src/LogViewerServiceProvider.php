@@ -115,7 +115,7 @@ class LogViewerServiceProvider extends PackageServiceProvider
 
         $this->loadTranslationsFrom($langPath, $this->package);
         $this->publishes([
-            $langPath => base_path("resources/lang/arcanedev/{$this->package}"),
+            $langPath => base_path('resources/lang/vendor/' . $this->package),
         ], 'translations');
     }
 
@@ -128,7 +128,7 @@ class LogViewerServiceProvider extends PackageServiceProvider
 
         $this->loadViewsFrom($viewsPath, $this->package);
         $this->publishes([
-            $viewsPath => base_path("resources/views/arcanedev/{$this->package}"),
+            $viewsPath => base_path('resources/views/vendor/' . $this->package),
         ], 'views');
     }
 
