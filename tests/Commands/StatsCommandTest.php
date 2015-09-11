@@ -31,6 +31,8 @@ class StatsCommandTest extends TestCase
     /** @test */
     public function it_can_display_stats()
     {
-        $this->artisan('log-viewer:stats');
+        $code = $this->artisan('log-viewer:stats');
+
+        $this->assertEquals(0, $code);
     }
 }

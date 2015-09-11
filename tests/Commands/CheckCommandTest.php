@@ -32,7 +32,7 @@ class CheckCommandTest extends TestCase
     public function it_can_check()
     {
         $code = $this->artisan('log-viewer:check');
-        
+
         $this->assertEquals(0, $code);
     }
 }
