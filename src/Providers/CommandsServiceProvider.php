@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Providers;
 
+use Arcanedev\LogViewer\Commands\CheckCommand;
 use Arcanedev\LogViewer\Commands\PublishCommand;
 use Arcanedev\LogViewer\Commands\StatsCommand;
 use Arcanedev\Support\Laravel\ServiceProvider;
@@ -39,6 +40,7 @@ class CommandsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerCheckCommand();
         $this->registerPublishCommand();
         $this->registerStatsCommand();
     }
@@ -58,6 +60,18 @@ class CommandsServiceProvider extends ServiceProvider
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Register the check command.
+     */
+    private function registerCheckCommand()
+    {
+        $this->registerCommand('check', function ($app) {
+            $logViewer = $app['arcanedev.log-viewer'];
+
+            return new CheckCommand($logViewer);
+        });
+    }
+
+    /**
      * Register the publish command.
      */
     private function registerPublishCommand()
@@ -72,7 +86,7 @@ class CommandsServiceProvider extends ServiceProvider
     /**
      * Register the stats command.
      */
-    public function registerStatsCommand()
+    private function registerStatsCommand()
     {
         $this->registerCommand('stats', function ($app) {
             $logViewer = $app['arcanedev.log-viewer'];

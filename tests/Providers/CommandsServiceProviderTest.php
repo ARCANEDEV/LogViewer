@@ -20,6 +20,7 @@ class CommandsServiceProviderTest extends TestCase
 
     /** @var array */
     private $commands = [
+        'arcanedev.log-viewer.commands.check',
         'arcanedev.log-viewer.commands.publish',
         'arcanedev.log-viewer.commands.stats',
     ];
