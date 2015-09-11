@@ -9,7 +9,7 @@ use Arcanedev\LogViewer\Utilities\LogChecker;
 use Arcanedev\LogViewer\Utilities\LogLevels;
 use Arcanedev\LogViewer\Utilities\LogMenu;
 use Arcanedev\LogViewer\Utilities\LogStyler;
-use Arcanedev\Support\Laravel\ServiceProvider;
+use Arcanedev\Support\ServiceProvider;
 use Closure;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Foundation\Application;
@@ -29,6 +29,12 @@ class UtilitiesServiceProvider extends ServiceProvider
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var string */
+    protected $vendor  = 'arcanedev';
+
+    /** @var string */
+    protected $package = 'log-viewer';
+
     /** @var array */
     private $utilities = [];
 
@@ -195,6 +201,6 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function getUtilityName($name)
     {
-        return "arcanedev.log-viewer.$name";
+        return "{$this->vendor}.{$this->package}.$name";
     }
 }

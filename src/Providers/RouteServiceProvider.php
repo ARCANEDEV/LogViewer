@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Providers;
 
-use Arcanedev\Support\Laravel\Providers\RouteServiceProvider as ServiceProvider;
+use Arcanedev\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
 
 /**

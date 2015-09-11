@@ -3,7 +3,8 @@
 use Arcanedev\LogViewer\Commands\CheckCommand;
 use Arcanedev\LogViewer\Commands\PublishCommand;
 use Arcanedev\LogViewer\Commands\StatsCommand;
-use Arcanedev\Support\Laravel\ServiceProvider;
+use Arcanedev\LogViewer\LogViewer;
+use Arcanedev\Support\ServiceProvider;
 use Closure;
 
 /**
@@ -18,8 +19,14 @@ class CommandsServiceProvider extends ServiceProvider
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var string */
+    protected $vendor   = 'arcanedev';
+
+    /** @var string */
+    protected $package  = 'log-viewer';
+
     /** @var array */
-    private $commands = [];
+    protected $commands = [];
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -64,8 +71,8 @@ class CommandsServiceProvider extends ServiceProvider
      */
     private function registerCheckCommand()
     {
-        $this->registerCommand('check', function ($app) {
-            $logViewer = $app['arcanedev.log-viewer'];
+        $this->registerCommand('check', function () {
+            $logViewer = $this->getLogViewer();
 
             return new CheckCommand($logViewer);
         });
@@ -76,8 +83,8 @@ class CommandsServiceProvider extends ServiceProvider
      */
     private function registerPublishCommand()
     {
-        $this->registerCommand('publish', function ($app) {
-            $logViewer = $app['arcanedev.log-viewer'];
+        $this->registerCommand('publish', function () {
+            $logViewer = $this->getLogViewer();
 
             return new PublishCommand($logViewer);
         });
@@ -88,8 +95,8 @@ class CommandsServiceProvider extends ServiceProvider
      */
     private function registerStatsCommand()
     {
-        $this->registerCommand('stats', function ($app) {
-            $logViewer = $app['arcanedev.log-viewer'];
+        $this->registerCommand('stats', function () {
+            $logViewer = $this->getLogViewer();
 
             return new StatsCommand($logViewer);
         });
@@ -100,14 +107,24 @@ class CommandsServiceProvider extends ServiceProvider
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Get the LogViewer instance.
+     *
+     * @return LogViewer
+     */
+    private function getLogViewer()
+    {
+        return $this->app['arcanedev.log-viewer'];
+    }
+
+    /**
      * Register a command.
      *
      * @param  string   $name
      * @param  Closure  $callback
      */
-    private function registerCommand($name, Closure $callback)
+    protected function registerCommand($name, Closure $callback)
     {
-        $command = "arcanedev.log-viewer.commands.$name";
+        $command = "{$this->vendor}.{$this->package}.commands.$name";
 
         $this->app->singleton($command, $callback);
 
