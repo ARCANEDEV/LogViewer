@@ -49,7 +49,7 @@ class StatsCommand extends Command
         $stats   = $this->logViewer->statsTable('en');
 
         $rows    = $stats->rows();
-        $rows[]  = $this->getTableSeparator();
+        $rows[]  = $this->tableSeparator();
         $rows[]  = $this->prepareFooter($stats);
 
         // Display Data
