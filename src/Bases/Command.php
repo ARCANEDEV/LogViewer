@@ -2,8 +2,7 @@
 
 use Arcanedev\LogViewer\Contracts\LogViewerInterface;
 use Arcanedev\LogViewer\LogViewer;
-use Illuminate\Console\Command as IlluminateCommand;
-use Symfony\Component\Console\Helper\TableSeparator;
+use Arcanedev\Support\Bases\Command as BaseCommand;
 
 /**
  * Class     Command
@@ -11,7 +10,7 @@ use Symfony\Component\Console\Helper\TableSeparator;
  * @package  Arcanedev\LogViewer\Bases
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-abstract class Command extends IlluminateCommand
+abstract class Command extends BaseCommand
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -37,15 +36,6 @@ abstract class Command extends IlluminateCommand
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Execute the console command.
-     */
-    abstract public function handle();
-
-    /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
@@ -63,29 +53,5 @@ abstract class Command extends IlluminateCommand
         $this->line('');
         $this->comment('Version ' . LogViewer::VERSION . ' - Created by ARCANEDEV' . chr(169));
         $this->line('');
-    }
-
-    /**
-     * Get table separator
-     *
-     * @return TableSeparator
-     */
-    protected function getTableSeparator()
-    {
-        return new TableSeparator;
-    }
-
-    /**
-     * Display header
-     *
-     * @param  string  $header
-     */
-    protected function header($header)
-    {
-        $line   = '+' . str_repeat('-', strlen($header) + 4) . '+';
-
-        $this->info($line);
-        $this->info("|  $header  |");
-        $this->info($line);
     }
 }
