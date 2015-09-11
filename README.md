@@ -53,7 +53,8 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 
 ### TODOS
 
-  - [ ] Adding more localizations.
+  - [ ] Adding more localizations. (Dear artisans, i need your help ( ^_^)b)
+  - [ ] Adding a dummy logs generator ??
 
 ### DONE
 
@@ -69,7 +70,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 
 ## Contribution
 
-Any ideas are welcome. Feel free to submit any issues or pull requests, please check the [contribution guidelines](https://github.com/ARCANEDEV/LogViewer/blob/master/LICENSE.md).
+Any ideas are welcome. Feel free to submit any issues or pull requests, please check the [contribution guidelines](https://github.com/ARCANEDEV/LogViewer/blob/master/CONTRIBUTING.md).
 
 ## PREVIEW
 
