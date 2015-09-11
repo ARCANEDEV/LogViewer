@@ -74,4 +74,18 @@ abstract class Command extends IlluminateCommand
     {
         return new TableSeparator;
     }
+
+    /**
+     * Display header
+     *
+     * @param  string  $header
+     */
+    protected function header($header)
+    {
+        $line   = '+' . str_repeat('-', strlen($header) + 4) . '+';
+
+        $this->info($line);
+        $this->info("|  $header  |");
+        $this->info($line);
+    }
 }
