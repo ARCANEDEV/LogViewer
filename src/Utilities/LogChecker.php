@@ -259,9 +259,10 @@ class LogChecker implements LogCheckerInterface
             return;
         }
 
-        $this->messages['handler'] = 'You should set the log handler to `daily` mode. '
-            .'Please visit the LogViwer wiki page '.
-            '(https://github.com/ARCANEDEV/LogViewer/wiki/1.-Requirements#application-requirements) for more details.';
+        $this->messages['handler'] = implode(' ', [
+            'You should set the log handler to `daily` mode.',
+            'Please check the LogViwer wiki page (Requirements) for more details.'
+        ]);
     }
 
     /**
