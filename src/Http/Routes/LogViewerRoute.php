@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Http\Routes;
 
-use Arcanedev\Support\Laravel\RouteRegister;
+use Arcanedev\Support\Bases\RouteRegister;
 use Illuminate\Contracts\Routing\Registrar;
 
 /**
