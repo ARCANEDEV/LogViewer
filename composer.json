@@ -14,7 +14,7 @@
     "require": {
         "php": ">=5.4.0",
         "psr/log": "~1.0",
-        "arcanedev/support": "~2.0"
+        "arcanedev/support": "~3.0"
     },
     "require-dev": {
         "orchestra/testbench": "~3.0",
