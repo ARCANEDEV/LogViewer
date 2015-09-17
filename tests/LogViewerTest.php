@@ -304,4 +304,10 @@ class LogViewerTest extends TestCase
     {
         $this->assertFalse($this->logViewer->isEmpty());
     }
+
+    /** @test */
+    public function it_can_get_version()
+    {
+        $this->assertEquals(LogViewer::VERSION, $this->logViewer->version());
+    }
 }

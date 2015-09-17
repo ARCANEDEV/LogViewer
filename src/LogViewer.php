@@ -20,7 +20,7 @@ class LogViewer implements LogViewerInterface
     /**
      * LogViewer Version
      */
-    const VERSION = '3.4.1';
+    const VERSION = '3.4.2';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -281,5 +281,19 @@ class LogViewer implements LogViewerInterface
     public function isEmpty()
     {
         return $this->factory->isEmpty();
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get the LogViewer version.
+     *
+     * @return string
+     */
+    public function version()
+    {
+        return self::VERSION;
     }
 }

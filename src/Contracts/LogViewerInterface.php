@@ -171,4 +171,15 @@ interface LogViewerInterface
      * @return bool
      */
     public function isEmpty();
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get the LogViewer version.
+     *
+     * @return string
+     */
+    public function version();
 }
