@@ -282,4 +282,18 @@ class LogViewer implements LogViewerInterface
     {
         return $this->factory->isEmpty();
     }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get the LogViewer version.
+     *
+     * @return string
+     */
+    public function version()
+    {
+        return self::VERSION;
+    }
 }
