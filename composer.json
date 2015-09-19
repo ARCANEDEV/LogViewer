@@ -32,6 +32,9 @@
             "Arcanedev\\LogViewer\\Tests\\": "tests/"
         }
     },
+    "scripts": {
+        "test": "phpunit --coverage-text"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "4.0.x-dev"
