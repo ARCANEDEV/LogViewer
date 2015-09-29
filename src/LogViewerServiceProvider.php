@@ -39,7 +39,7 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     public function getBasePath()
     {
-        return __DIR__ . '/..';
+        return dirname(__DIR__);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -84,24 +84,6 @@ class LogViewerServiceProvider extends PackageServiceProvider
      |  Resources
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * Get config file path.
-     *
-     * @return string
-     */
-    protected function getConfigFile()
-    {
-        return realpath($this->getBasePath() . "/config/{$this->package}.php");
-    }
-
-    /**
-     * Register configs.
-     */
-    protected function registerConfig($seperator = '.')
-    {
-        $this->mergeConfigFrom($this->getConfigFile(), $this->package);
-    }
-
     /**
      * Publishes configs.
      */
