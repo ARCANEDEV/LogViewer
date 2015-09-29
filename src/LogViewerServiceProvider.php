@@ -97,7 +97,7 @@ class LogViewerServiceProvider extends PackageServiceProvider
     /**
      * Register configs.
      */
-    protected function registerConfig()
+    protected function registerConfig($seperator = '.')
     {
         $this->mergeConfigFrom($this->getConfigFile(), $this->package);
     }
