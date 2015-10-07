@@ -45,6 +45,19 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 5. [Extras](https://github.com/ARCANEDEV/LogViewer/wiki/5.-Extras)
 6. [FAQ](https://github.com/ARCANEDEV/LogViewer/wiki/6.-FAQ)
 
+### Supported localizations
+
+* [ar] Arabic.
+* [de] German.
+* [en] English.
+* [es] Spanish.
+* [fr] French.
+* [it] Italian.
+* [nl] Dutch.
+* [sv] Swedish.
+
+ > Dear artisans, i'm counting on you to help me to add more translations ( ^_^)b
+
 ### ONGOING
 
   - [ ] Log viewer CLI.
@@ -53,7 +66,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 
 ### TODOS
 
-  - [ ] Adding more localizations. (Dear artisans, i need your help ( ^_^)b)
+  - [ ] Adding more localizations.
   - [ ] Adding a dummy logs generator ??
 
 ### DONE
