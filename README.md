@@ -47,16 +47,16 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 
 ### Supported localizations
 
-* [ar] Arabic.
-* [de] German.
-* [en] English.
-* [es] Spanish.
-* [fr] French.
-* [it] Italian.
-* [nl] Dutch.
-* [sv] Swedish.
-
  > Dear artisans, i'm counting on you to help me to add more translations ( ^_^)b
+
+* ar - Arabic.
+* de - German.
+* en - English.
+* es - Spanish.
+* fr - French.
+* it - Italian.
+* nl - Dutch.
+* sv - Swedish.
 
 ### ONGOING
 
