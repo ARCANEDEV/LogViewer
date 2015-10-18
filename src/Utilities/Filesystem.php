@@ -81,9 +81,7 @@ class Filesystem implements FilesystemInterface
      */
     public function logs()
     {
-        $date = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'; // TODO: Refactor this regex
-
-        return $this->getFiles('laravel-' . $date);
+        return $this->getFiles('laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]');
     }
 
     /**

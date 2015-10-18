@@ -205,36 +205,6 @@ class LogChecker implements LogCheckerInterface
     }
 
     /**
-     * Is a single handler mode ?
-     *
-     * @return bool
-     */
-//    public function isSingle()
-//    {
-//        return $this->isSameHandler(self::HANDLER_SINGLE);
-//    }
-
-    /**
-     * Is a syslog handler mode ?
-     *
-     * @return bool
-     */
-//    public function isSyslog()
-//    {
-//        return $this->isSameHandler(self::HANDLER_SYSLOG);
-//    }
-
-    /**
-     * Is a errorlog handler mode ?
-     *
-     * @return bool
-     */
-//    public function isErrorlog()
-//    {
-//        return $this->isSameHandler(self::HANDLER_ERRORLOG);
-//    }
-
-    /**
      * Is the handler is the same as the application log handler.
      *
      * @param  string  $handler
