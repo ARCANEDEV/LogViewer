@@ -1,25 +1,27 @@
 {
-    "name": "arcanedev/log-viewer",
+    "name":        "arcanedev/log-viewer",
     "description": "Provides a Log Viewer for Laravel 5",
-    "keywords": ["arcanesoft", "laravel", "log", "log viewer", "logviewer"],
-    "homepage": "https://github.com/ARCANEDEV/LogViewer",
-    "license": "MIT",
+    "keywords":    ["arcanedev", "arcanesoft", "laravel", "log", "log viewer", "log-viewer", "logviewer"],
+    "homepage":    "https://github.com/ARCANEDEV/LogViewer",
     "authors": [
         {
-            "name": "ARCANEDEV",
-            "email": "arcanedev.maroc@gmail.com",
-            "homepage": "https://github.com/ARCANEDEV"
+            "name":     "ARCANEDEV",
+            "email":    "arcanedev.maroc@gmail.com",
+            "homepage": "https://github.com/ARCANEDEV",
+            "role":     "Developer"
         }
     ],
+    "type":    "library",
+    "license": "MIT",
     "require": {
-        "php": ">=5.4.0",
-        "psr/log": "~1.0",
-        "arcanedev/support": "~3.3.0"
+        "php":                 ">=5.4.0",
+        "psr/log":             "~1.0",
+        "arcanedev/support":   "~3.0"
     },
     "require-dev": {
         "orchestra/testbench": "~3.0",
-        "phpunit/phpunit": "~4.0",
-        "phpunit/phpcov": "~2.0"
+        "phpunit/phpcov":      "~2.0",
+        "phpunit/phpunit":     "~4.0|~5.0"
     },
     "autoload": {
         "psr-4": {
