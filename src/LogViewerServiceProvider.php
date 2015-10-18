@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\LogViewer;
 
-use Arcanedev\Support\PackageServiceProvider;
+use Arcanedev\Support\PackageServiceProvider as ServiceProvider;
 
 /**
  * Class     LogViewerServiceProvider
@@ -8,7 +8,7 @@ use Arcanedev\Support\PackageServiceProvider;
  * @package  Arcanedev\LogViewer
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogViewerServiceProvider extends PackageServiceProvider
+class LogViewerServiceProvider extends ServiceProvider
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

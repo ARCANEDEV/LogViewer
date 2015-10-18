@@ -65,7 +65,7 @@ class CheckCommand extends Command
     {
         $requirements = $this->checker->requirements();
 
-        $this->header('Application requirements');
+        $this->frame('Application requirements');
 
         $this->table([
             'Status', 'Message'
@@ -86,7 +86,7 @@ class CheckCommand extends Command
             $rows[] = [$file, $message];
         }
 
-        $this->header('LogViewer messages');
+        $this->frame('LogViewer messages');
         $this->table(['File', 'Message'], $rows);
     }
 }
