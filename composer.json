@@ -14,12 +14,12 @@
     "type":    "library",
     "license": "MIT",
     "require": {
-        "php":                 ">=5.4.0",
+        "php":                 ">=5.5.9",
         "psr/log":             "~1.0",
         "arcanedev/support":   "~3.0"
     },
     "require-dev": {
-        "orchestra/testbench": "~3.0",
+        "orchestra/testbench": "~3.1",
         "phpunit/phpcov":      "~2.0",
         "phpunit/phpunit":     "~4.0|~5.0"
     },
