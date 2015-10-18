@@ -1,18 +1,27 @@
-LogViewer [![For Laravel 5][badge_laravel]](https://github.com/ARCANEDEV/LogViewer#logviewer) [![Packagist License][badge_license]](https://github.com/ARCANEDEV/LogViewer/blob/master/LICENSE.md)
-==============
+# LogViewer [![Packagist License][badge_license]](LICENSE.md) [![For Laravel 5][badge_laravel]](https://github.com/ARCANEDEV/LogViewer#logviewer)
+
 [![Travis Status][badge_build]](https://travis-ci.org/ARCANEDEV/LogViewer)
+[![HHVM Status][badge_hhvm]](http://hhvm.h4cc.de/package/arcanedev/log-viewer)
 [![Coverage Status][badge_coverage]](https://scrutinizer-ci.com/g/ARCANEDEV/LogViewer/?branch=master)
 [![Scrutinizer Code Quality][badge_quality]](https://scrutinizer-ci.com/g/ARCANEDEV/LogViewer/?branch=master)
+[![SensioLabs Insight][badge_insight]](https://insight.sensiolabs.com/projects/d6b4587a-e00d-4dac-98db-f979731fdc4d)
 [![Github Issues][badge_issues]](https://github.com/ARCANEDEV/LogViewer/issues)
+
+[![Packagist][badge_package]](https://packagist.org/packages/arcanedev/log-viewer)
 [![Packagist Release][badge_release]](https://packagist.org/packages/arcanedev/log-viewer)
 [![Packagist Downloads][badge_downloads]](https://packagist.org/packages/arcanedev/log-viewer)
 
 [badge_laravel]:   https://img.shields.io/badge/for%20Laravel-5.0%7C5.1-orange.svg?style=flat-square
 [badge_license]:   https://img.shields.io/packagist/l/arcanedev/log-viewer.svg?style=flat-square
+
 [badge_build]:     https://img.shields.io/travis/ARCANEDEV/LogViewer.svg?style=flat-square
+[badge_hhvm]:      https://img.shields.io/hhvm/arcanedev/log-viewer.svg?style=flat-square
 [badge_coverage]:  https://img.shields.io/scrutinizer/coverage/g/ARCANEDEV/LogViewer.svg?style=flat-square
 [badge_quality]:   https://img.shields.io/scrutinizer/g/ARCANEDEV/LogViewer.svg?style=flat-square
+[badge_insight]:   https://img.shields.io/sensiolabs/i/d6b4587a-e00d-4dac-98db-f979731fdc4d.svg?style=flat-square
 [badge_issues]:    https://img.shields.io/github/issues/ARCANEDEV/LogViewer.svg?style=flat-square
+
+[badge_package]:   https://img.shields.io/badge/package-arcanedev/log--viewer-blue.svg?style=flat-square
 [badge_release]:   https://img.shields.io/packagist/v/arcanedev/log-viewer.svg?style=flat-square
 [badge_downloads]: https://img.shields.io/packagist/dt/arcanedev/log-viewer.svg?style=flat-square
 
@@ -87,6 +96,6 @@ Any ideas are welcome. Feel free to submit any issues or pull requests, please c
 
 ## PREVIEW
 
-![Dashboard](https://github.com/ARCANEDEV/LogViewer/blob/master/_screenshots/1-dashboard.jpg)
-![Logs list](https://github.com/ARCANEDEV/LogViewer/blob/master/_screenshots/2-logs-list.jpg)
-![Single log](https://github.com/ARCANEDEV/LogViewer/blob/master/_screenshots/3-single-log.jpg)
+![Dashboard](https://raw.githubusercontent.com/ARCANEDEV/LogViewer/master/_screenshots/1-dashboard.jpg)
+![Logs list](https://raw.githubusercontent.com/ARCANEDEV/LogViewer/master/_screenshots/2-logs-list.jpg)
+![Single log](https://raw.githubusercontent.com/ARCANEDEV/LogViewer/master/_screenshots/3-single-log.jpg)
