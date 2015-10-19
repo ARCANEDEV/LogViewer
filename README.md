@@ -11,7 +11,7 @@
 [![Packagist Release][badge_release]](https://packagist.org/packages/arcanedev/log-viewer)
 [![Packagist Downloads][badge_downloads]](https://packagist.org/packages/arcanedev/log-viewer)
 
-[badge_laravel]:   https://img.shields.io/badge/for%20Laravel-5.0%7C5.1-orange.svg?style=flat-square
+[badge_laravel]:   https://img.shields.io/badge/For%20Laravel-5.0%7C5.1-orange.svg?style=flat-square
 [badge_license]:   https://img.shields.io/packagist/l/arcanedev/log-viewer.svg?style=flat-square
 
 [badge_build]:     https://img.shields.io/travis/ARCANEDEV/LogViewer.svg?style=flat-square
@@ -33,7 +33,7 @@ This package allows you to manage and keep track of each one of your logs files 
 
 Official documentation for LogViewer can be found at the [LogViewer Wiki](https://github.com/ARCANEDEV/LogViewer/wiki).
 
-Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/releases), [license](https://github.com/ARCANEDEV/LogViewer/blob/master/LICENSE.md), and [contribution guidelines](https://github.com/ARCANEDEV/LogViewer/blob/master/CONTRIBUTING.md).
+Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/releases), [license](LICENSE.md), and [contribution guidelines](CONTRIBUTING.md).
 
 ## Features
 
@@ -65,6 +65,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 * fr - French.
 * it - Italian.
 * nl - Dutch.
+* ro - Romanian.
 * sv - Swedish.
 
 ### ONGOING
@@ -92,7 +93,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 
 ## Contribution
 
-Any ideas are welcome. Feel free to submit any issues or pull requests, please check the [contribution guidelines](https://github.com/ARCANEDEV/LogViewer/blob/master/CONTRIBUTING.md).
+Any ideas are welcome. Feel free to submit any issues or pull requests, please check the [contribution guidelines](CONTRIBUTING.md).
 
 ## PREVIEW
 
