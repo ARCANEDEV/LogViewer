@@ -37,14 +37,14 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 
 ## Features
 
-  - A great Log viewer API. 
+  - A great Log viewer API.
   - Ready to use (Views, Routes, controllers &hellip; Out of the box) [Note: No need to publish assets]
   - View, paginate, filter, download and delete logs.
   - Generate logs menu/tree (With localized levels).
   - Grouped logs by dates and levels.
   - Works great with big logs !!
   - Well tested (100% code coverage with maximum code quality).
-  
+
 ## Table of contents
 
 1. [Requirements](https://github.com/ARCANEDEV/LogViewer/wiki/1.-Requirements)
@@ -58,15 +58,16 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 
  > Dear artisans, i'm counting on you to help me to add more translations ( ^_^)b
 
-* ar - Arabic.
-* de - German.
-* en - English.
-* es - Spanish.
-* fr - French.
-* it - Italian.
-* nl - Dutch.
-* ro - Romanian.
-* sv - Swedish.
+* `'ar'` - Arabic.
+* `'de'` - German.
+* `'en'` - English.
+* `'es'` - Spanish.
+* `'fr'` - French.
+* `'it'` - Italian.
+* `'nl'` - Dutch.
+* `'ro'` - Romanian.
+* `'sv'` - Swedish.
+* `'tr'` - Turkish.
 
 ### ONGOING
 
@@ -76,13 +77,12 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 
 ### TODOS
 
-  - [ ] Adding more localizations.
   - [ ] Adding a dummy logs generator ??
 
 ### DONE
 
   - [x] Well documented package (IDE Friendly).
-  - [x] 100% Code coverage + Maximum code quality. 
+  - [x] 100% Code coverage + Maximum code quality.
   - [x] Localized log levels.
   - [x] Laravel 5.1 supported.
   - [x] Laravel 5.0 supported.
