@@ -21,6 +21,15 @@ interface FilesystemInterface
      */
     public function getInstance();
 
+    /**
+     * Set the log storage path.
+     *
+     * @param  string  $storagePath
+     *
+     * @return self
+     */
+    public function setStoragePath($storagePath);
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------

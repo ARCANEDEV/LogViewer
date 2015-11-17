@@ -310,4 +310,17 @@ class LogViewerTest extends TestCase
     {
         $this->assertEquals(LogViewer::VERSION, $this->logViewer->version());
     }
+
+    /** @test */
+    public function it_can_set_custom_storage_path()
+    {
+        $this->logViewer->setPath(storage_path('custom-path-logs'));
+
+        $dates = $this->logViewer->dates();
+
+        $this->assertCount(1, $dates);
+        $this->assertDates($dates);
+
+        $this->assertEquals('2015-01-03', head($dates));
+    }
 }

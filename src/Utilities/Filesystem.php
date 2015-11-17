@@ -43,7 +43,7 @@ class Filesystem implements FilesystemInterface
     public function __construct(IlluminateFilesystem $files, $storagePath)
     {
         $this->filesystem  = $files;
-        $this->storagePath = $storagePath;
+        $this->setStoragePath($storagePath);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -58,6 +58,20 @@ class Filesystem implements FilesystemInterface
     public function getInstance()
     {
         return $this->filesystem;
+    }
+
+    /**
+     * Set the log storage path.
+     *
+     * @param  string  $storagePath
+     *
+     * @return self
+     */
+    public function setStoragePath($storagePath)
+    {
+        $this->storagePath = $storagePath;
+
+        return $this;
     }
 
     /* ------------------------------------------------------------------------------------------------

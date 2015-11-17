@@ -120,10 +120,12 @@ class UtilitiesServiceProvider extends ServiceProvider
         $this->registerUtility('filesystem', function ($app) {
             /**
              * @var  \Illuminate\Filesystem\Filesystem  $files
+             * @var  \Illuminate\Config\Repository      $config
              */
-            $files = $app['files'];
+            $files  = $app['files'];
+            $config = $app['config'];
 
-            return new Filesystem($files, storage_path('logs'));
+            return new Filesystem($files, $config->get('log-viewer.storage-path'));
         });
     }
 
