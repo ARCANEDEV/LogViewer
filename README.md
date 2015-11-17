@@ -70,6 +70,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 * `'ru'` - Russian.
 * `'sv'` - Swedish.
 * `'tr'` - Turkish.
+* `'zh'` - Chinese (Simplified).
 
 ### ONGOING
 
