@@ -85,6 +85,7 @@ class LogChecker implements LogCheckerInterface
     {
         $this->config     = $config;
         $this->filesystem = $filesystem;
+        $this->files      = [];
 
         $this->refresh();
     }
