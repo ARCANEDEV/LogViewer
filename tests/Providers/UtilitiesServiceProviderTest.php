@@ -18,14 +18,24 @@ class UtilitiesServiceProviderTest extends TestCase
     /** @var UtilitiesServiceProvider */
     private $provider;
 
-    /** @var array */
+    /**
+     * The services provided by the provider.
+     *
+     * @var array
+     */
     private $utilities = [
         'arcanedev.log-viewer.levels',
+        'Arcanedev\LogViewer\Contracts\LogLevelsInterface',
         'arcanedev.log-viewer.styler',
+        'Arcanedev\LogViewer\Contracts\LogStylerInterface',
         'arcanedev.log-viewer.menu',
+        'Arcanedev\LogViewer\Contracts\LogMenuInterface',
         'arcanedev.log-viewer.filesystem',
+        'Arcanedev\LogViewer\Contracts\FilesystemInterface',
         'arcanedev.log-viewer.factory',
+        'Arcanedev\LogViewer\Contracts\FactoryInterface',
         'arcanedev.log-viewer.checker',
+        'Arcanedev\LogViewer\Contracts\LogCheckerInterface',
     ];
 
     /* ------------------------------------------------------------------------------------------------
@@ -53,7 +63,7 @@ class UtilitiesServiceProviderTest extends TestCase
      | ------------------------------------------------------------------------------------------------
      */
     /** @test */
-    public function it_can_get_provides_list()
+    public function it_can_get_provides()
     {
         $provided = $this->provider->provides();
 
