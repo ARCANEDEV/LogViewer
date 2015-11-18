@@ -32,7 +32,7 @@ interface FactoryInterface
      *
      * @return self
      */
-    public function setStoragePath($storagePath);
+    public function setPath($storagePath);
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

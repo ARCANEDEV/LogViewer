@@ -112,6 +112,21 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
+    public function it_can_can_set_custom_path()
+    {
+        $this->logFactory->setPath(storage_path('custom-path-logs'));
+
+        $this->assertEquals(1, $this->logFactory->count());
+
+        $date       = '2015-01-03';
+        $logEntries = $this->logFactory->entries($date);
+
+        foreach ($logEntries as $logEntry) {
+            $this->assertLogEntry($date, $logEntry);
+        }
+    }
+
+    /** @test */
     public function it_can_get_total()
     {
         $this->assertEquals(16, $this->logFactory->total());

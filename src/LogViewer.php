@@ -105,7 +105,7 @@ class LogViewer implements LogViewerInterface
      */
     public function setPath($path)
     {
-        $this->factory->setStoragePath($path);
+        $this->factory->setPath($path);
 
         return $this;
     }

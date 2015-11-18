@@ -83,9 +83,9 @@ class Factory implements FactoryInterface
      *
      * @return self
      */
-    public function setStoragePath($storagePath)
+    public function setPath($storagePath)
     {
-        $this->filesystem->setStoragePath($storagePath);
+        $this->filesystem->setPath($storagePath);
 
         return $this;
     }
