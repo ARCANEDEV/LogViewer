@@ -85,7 +85,12 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['path.storage'] = __DIR__ . '/fixtures';
+        $app['path.storage'] = realpath(__DIR__ . '/fixtures');
+
+        /** @var \Illuminate\Config\Repository $config */
+        $config = $app['config'];
+
+        $config->set('log-viewer.storage-path', $app['path.storage'] . DS  .'logs');
     }
 
     /* ------------------------------------------------------------------------------------------------

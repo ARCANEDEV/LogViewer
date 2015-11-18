@@ -77,13 +77,27 @@ class Factory implements FactoryInterface
     }
 
     /**
+     * Set the log storage path.
+     *
+     * @param  string  $storagePath
+     *
+     * @return self
+     */
+    public function setPath($storagePath)
+    {
+        $this->filesystem->setPath($storagePath);
+
+        return $this;
+    }
+
+    /**
      * Get all logs.
      *
      * @return \Arcanedev\LogViewer\Entities\LogCollection
      */
     public function logs()
     {
-        return new LogCollection;
+        return LogCollection::make()->setFilesystem($this->filesystem);
     }
 
     /* ------------------------------------------------------------------------------------------------

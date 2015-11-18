@@ -26,7 +26,7 @@ class LogCollectionTest extends TestCase
     {
         parent::setUp();
 
-        $this->logs = new LogCollection;
+        $this->logs = LogCollection::make();
     }
 
     public function tearDown()

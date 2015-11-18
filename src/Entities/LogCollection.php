@@ -53,7 +53,7 @@ class LogCollection extends Collection
      *
      * @return self
      */
-    private function setFilesystem(FilesystemInterface $filesystem)
+    public function setFilesystem(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
 

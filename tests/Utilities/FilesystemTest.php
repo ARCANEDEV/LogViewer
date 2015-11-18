@@ -125,6 +125,20 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
+    public function it_can_set_a_custom_path()
+    {
+        $this->filesystem->setPath(storage_path('custom-path-logs'));
+
+        $files = $this->filesystem->logs();
+
+        $this->assertCount(1, $files);
+        foreach ($files as $file) {
+            $this->assertFileExists($file);
+        }
+    }
+
+
+    /** @test */
     public function it_can_get_file_path_by_date()
     {
         $this->assertFileExists(

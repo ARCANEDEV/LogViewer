@@ -96,6 +96,20 @@ class LogViewer implements LogViewerInterface
         return $this->levels->names($locale);
     }
 
+    /**
+     * Set the log storage path.
+     *
+     * @param  string  $path
+     *
+     * @return \Arcanedev\LogViewer\LogViewer
+     */
+    public function setPath($path)
+    {
+        $this->factory->setPath($path);
+
+        return $this;
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------

@@ -18,11 +18,15 @@ class LogMenu implements LogMenuInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * The config repository.
+     *
      * @var Config
      */
     protected $config;
 
     /**
+     * The log styler instance.
+     *
      * @var LogStylerInterface
      */
     private $styler;
@@ -31,7 +35,13 @@ class LogMenu implements LogMenuInterface
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
-    public function __construct(Config $config, $styler)
+    /**
+     * Create the LogMenu instance.
+     *
+     * @param  Config              $config
+     * @param  LogStylerInterface  $styler
+     */
+    public function __construct(Config $config, LogStylerInterface $styler)
     {
         $this->config = $config;
         $this->styler = $styler;
@@ -68,7 +78,7 @@ class LogMenu implements LogMenuInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Is icons enabled from configs ?
+     * Check if the icons are enabled.
      *
      * @return bool
      */

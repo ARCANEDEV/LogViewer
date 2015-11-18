@@ -25,6 +25,15 @@ interface FactoryInterface
      */
     public function logs();
 
+    /**
+     * Set the log storage path.
+     *
+     * @param  string  $storagePath
+     *
+     * @return self
+     */
+    public function setPath($storagePath);
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
