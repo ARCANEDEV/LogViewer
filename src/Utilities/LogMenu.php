@@ -3,7 +3,7 @@
 use Arcanedev\LogViewer\Contracts\LogMenuInterface;
 use Arcanedev\LogViewer\Contracts\LogStylerInterface;
 use Arcanedev\LogViewer\Entities\Log;
-use Illuminate\Config\Repository as Config;
+use Illuminate\Contracts\Config\Repository as Config;
 
 /**
  * Class     LogMenu
@@ -18,16 +18,16 @@ class LogMenu implements LogMenuInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * The config repository.
+     * The config repository instance.
      *
-     * @var Config
+     * @var \Illuminate\Contracts\Config\Repository
      */
     protected $config;
 
     /**
      * The log styler instance.
      *
-     * @var LogStylerInterface
+     * @var \Arcanedev\LogViewer\Contracts\LogStylerInterface
      */
     private $styler;
 
@@ -44,7 +44,25 @@ class LogMenu implements LogMenuInterface
     public function __construct(Config $config, LogStylerInterface $styler)
     {
         $this->config = $config;
+        $this->setLogStyler($styler);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Set the log styler instance.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\LogStylerInterface  $styler
+     *
+     * @return self
+     */
+    public function setLogStyler(LogStylerInterface $styler)
+    {
         $this->styler = $styler;
+
+        return $this;
     }
 
     /* ------------------------------------------------------------------------------------------------

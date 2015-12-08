@@ -19,7 +19,7 @@ class Filesystem implements FilesystemInterface
     /**
      * The filesystem instance.
      *
-     * @var IlluminateFilesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $filesystem;
 
@@ -37,8 +37,8 @@ class Filesystem implements FilesystemInterface
     /**
      * Create a new instance.
      *
-     * @param  IlluminateFilesystem  $files
-     * @param  string                $storagePath
+     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  string                             $storagePath
      */
     public function __construct(IlluminateFilesystem $files, $storagePath)
     {
@@ -124,7 +124,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return string
      *
-     * @throws FilesystemException
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function read($date)
     {
@@ -145,7 +145,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return bool
      *
-     * @throws FilesystemException
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function delete($date)
     {
@@ -169,7 +169,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return string
      *
-     * @throws FilesystemException
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function path($date)
     {
@@ -203,7 +203,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return string
      *
-     * @throws FilesystemException
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     private function getLogPath($date)
     {
