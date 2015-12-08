@@ -37,17 +37,17 @@ class UtilitiesServiceProvider extends ServiceProvider
     {
         return [
             'arcanedev.log-viewer.levels',
-            'Arcanedev\LogViewer\Contracts\LogLevelsInterface',
+            'Arcanedev\\LogViewer\\Contracts\\LogLevelsInterface',
             'arcanedev.log-viewer.styler',
-            'Arcanedev\LogViewer\Contracts\LogStylerInterface',
+            'Arcanedev\\LogViewer\\Contracts\\LogStylerInterface',
             'arcanedev.log-viewer.menu',
-            'Arcanedev\LogViewer\Contracts\LogMenuInterface',
+            'Arcanedev\\LogViewer\\Contracts\\LogMenuInterface',
             'arcanedev.log-viewer.filesystem',
-            'Arcanedev\LogViewer\Contracts\FilesystemInterface',
+            'Arcanedev\\LogViewer\\Contracts\\FilesystemInterface',
             'arcanedev.log-viewer.factory',
-            'Arcanedev\LogViewer\Contracts\FactoryInterface',
+            'Arcanedev\\LogViewer\\Contracts\\FactoryInterface',
             'arcanedev.log-viewer.checker',
-            'Arcanedev\LogViewer\Contracts\LogCheckerInterface',
+            'Arcanedev\\LogViewer\\Contracts\\LogCheckerInterface',
         ];
     }
 
@@ -66,7 +66,7 @@ class UtilitiesServiceProvider extends ServiceProvider
         );
 
         $this->bind(
-            'Arcanedev\LogViewer\Contracts\LogLevelsInterface',
+            'Arcanedev\\LogViewer\\Contracts\\LogLevelsInterface',
             'arcanedev.log-viewer.levels'
         );
     }
@@ -78,11 +78,11 @@ class UtilitiesServiceProvider extends ServiceProvider
     {
         $this->singleton(
             'arcanedev.log-viewer.styler',
-            'Arcanedev\LogViewer\Utilities\LogStyler'
+            'Arcanedev\\LogViewer\\Utilities\\LogStyler'
         );
 
         $this->bind(
-            'Arcanedev\LogViewer\Contracts\LogStylerInterface',
+            'Arcanedev\\LogViewer\\Contracts\\LogStylerInterface',
             'arcanedev.log-viewer.styler'
         );
     }
@@ -94,11 +94,11 @@ class UtilitiesServiceProvider extends ServiceProvider
     {
         $this->singleton(
             'arcanedev.log-viewer.menu',
-            'Arcanedev\LogViewer\Utilities\LogMenu'
+            'Arcanedev\\LogViewer\\Utilities\\LogMenu'
         );
 
         $this->bind(
-            'Arcanedev\LogViewer\Contracts\LogMenuInterface',
+            'Arcanedev\\LogViewer\\Contracts\\LogMenuInterface',
             'arcanedev.log-viewer.menu'
         );
     }
@@ -119,30 +119,31 @@ class UtilitiesServiceProvider extends ServiceProvider
             return new Filesystem($files, $config->get('log-viewer.storage-path'));
         });
 
+
         $this->bind(
-            'Arcanedev\LogViewer\Contracts\FilesystemInterface',
+            'Arcanedev\\LogViewer\\Contracts\\FilesystemInterface',
             'arcanedev.log-viewer.filesystem'
         );
     }
 
     /**
-     * Register the log factory.
+     * Register the log factory class.
      */
     private function registerFactory()
     {
         $this->singleton(
             'arcanedev.log-viewer.factory',
-            'Arcanedev\LogViewer\Utilities\Factory'
+            'Arcanedev\\LogViewer\\Utilities\\Factory'
         );
 
         $this->bind(
-            'Arcanedev\LogViewer\Contracts\FactoryInterface',
+            'Arcanedev\\LogViewer\\Contracts\\FactoryInterface',
             'arcanedev.log-viewer.factory'
         );
     }
 
     /**
-     * Register the log checker.
+     * Register the log checker service.
      */
     private function registerChecker()
     {
@@ -152,7 +153,7 @@ class UtilitiesServiceProvider extends ServiceProvider
         );
 
         $this->bind(
-            'Arcanedev\LogViewer\Contracts\LogCheckerInterface',
+            'Arcanedev\\LogViewer\\Contracts\\LogCheckerInterface',
             'arcanedev.log-viewer.checker'
         );
     }
