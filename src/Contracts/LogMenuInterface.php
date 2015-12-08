@@ -11,6 +11,19 @@ use Arcanedev\LogViewer\Entities\Log;
 interface LogMenuInterface
 {
     /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Set the log styler instance.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\LogStylerInterface  $styler
+     *
+     * @return self
+     */
+    public function setLogStyler(LogStylerInterface $styler);
+
+    /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
