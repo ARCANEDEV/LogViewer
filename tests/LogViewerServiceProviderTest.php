@@ -59,7 +59,7 @@ class LogViewerServiceProviderTest extends TestCase
     {
         $expected = [
             'arcanedev.log-viewer',
-            'Arcanedev\LogViewer\Contracts\LogViewerInterface',
+            'Arcanedev\\LogViewer\\Contracts\\LogViewerInterface',
         ];
 
         $this->assertEquals($expected, $this->provider->provides());

@@ -80,7 +80,7 @@ class LogViewerServiceProvider extends ServiceProvider
     {
         return [
             'arcanedev.log-viewer',
-            'Arcanedev\LogViewer\Contracts\LogViewerInterface',
+            'Arcanedev\\LogViewer\\Contracts\\LogViewerInterface',
         ];
     }
 
@@ -139,7 +139,7 @@ class LogViewerServiceProvider extends ServiceProvider
         );
 
         $this->bind(
-            'Arcanedev\LogViewer\Contracts\LogViewerInterface',
+            'Arcanedev\\LogViewer\\Contracts\\LogViewerInterface',
             'arcanedev.log-viewer'
         );
 
