@@ -27,11 +27,11 @@
 
 *By [ARCANEDEV&copy;](http://www.arcanedev.net/)*
 
-This package allows you to manage and keep track of each one of your logs files stored under `storage_path('logs')`. Minimal configuration required.
+This package allows you to manage and keep track of each one of your logs files.
 
- > NOTE: You can also use LogViewer as an API.
+ > **NOTE: You can also use LogViewer as an API.**
 
-Official documentation for LogViewer can be found at the [LogViewer Wiki](https://github.com/ARCANEDEV/LogViewer/wiki).
+Official documentation for LogViewer can be found at the [_docs folder](_docs/0.Home.md).
 
 Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/releases), [license](LICENSE.md), and [contribution guidelines](CONTRIBUTING.md).
 
@@ -40,6 +40,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
   - A great Log viewer API.
   - Ready to use (Views, Routes, controllers &hellip; Out of the box) [Note: No need to publish assets]
   - View, paginate, filter, download and delete logs.
+  - Load a custom logs storage path.
   - Generate logs menu/tree (With localized levels).
   - Grouped logs by dates and levels.
   - Works great with big logs !!
@@ -47,16 +48,16 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 
 ## Table of contents
 
-1. [Requirements](https://github.com/ARCANEDEV/LogViewer/wiki/1.-Requirements)
-2. [Installation and Setup](https://github.com/ARCANEDEV/LogViewer/wiki/2.-Installation-and-Setup)
-3. [Configuration](https://github.com/ARCANEDEV/LogViewer/wiki/3.-Configuration)
-4. [Usage](https://github.com/ARCANEDEV/LogViewer/wiki/4.-Usage)
-5. [Extras](https://github.com/ARCANEDEV/LogViewer/wiki/5.-Extras)
-6. [FAQ](https://github.com/ARCANEDEV/LogViewer/wiki/6.-FAQ)
+1. [Requirements](_docs/1.Requirements.md)
+2. [Installation and Setup](_docs/2.Installation-and-Setup.md)
+3. [Configuration](_docs/3.Configuration.md)
+4. [Usage](_docs/4.Usage.md)
+5. [Extras](_docs/5.Extras.md)
+6. [FAQ](_docs/6.FAQ.md)
 
 ### Supported localizations
 
- > Dear artisans, i'm counting on you to help me to add more translations ( ^_^)b
+ > Dear artisans, i'm counting on you to help me out to add more translations ( ^_^)b
 
 * `'ar'` - Arabic.
 * `'de'` - German.
