@@ -55,8 +55,9 @@ class LogViewerServiceProvider extends ServiceProvider
 
         $this->app->register('Arcanedev\\LogViewer\\Providers\\UtilitiesServiceProvider');
         $this->registerLogViewer();
-        $this->registerLogViewerFacade();
-        $this->app->register('Arcanedev\\LogViewer\\Providers\\CommandsServiceProvider');
+        if ($this->app->runningInConsole()) {
+            $this->app->register('Arcanedev\\LogViewer\\Providers\\CommandsServiceProvider');
+        }
     }
 
     /**
@@ -77,7 +78,10 @@ class LogViewerServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['arcanedev.log-viewer'];
+        return [
+            'arcanedev.log-viewer',
+            'Arcanedev\LogViewer\Contracts\LogViewerInterface',
+        ];
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -129,45 +133,20 @@ class LogViewerServiceProvider extends ServiceProvider
      */
     private function registerLogViewer()
     {
-        $this->app->singleton("{$this->vendor}.log-viewer", function () {
-            /**
-             * @var  Contracts\FactoryInterface     $factory
-             * @var  Contracts\FilesystemInterface  $filesystem
-             * @var  Contracts\LogLevelsInterface   $levels
-             */
-            $factory    = $this->getUtility('factory');
-            $filesystem = $this->getUtility('filesystem');
-            $levels     = $this->getUtility('levels');
+        $this->singleton(
+            'arcanedev.log-viewer',
+            'Arcanedev\\LogViewer\\LogViewer'
+        );
 
-            return new LogViewer($factory, $filesystem, $levels);
-        });
-    }
+        $this->bind(
+            'Arcanedev\LogViewer\Contracts\LogViewerInterface',
+            'arcanedev.log-viewer'
+        );
 
-    /**
-     * Register LogViewer Facade
-     */
-    private function registerLogViewerFacade()
-    {
         // Registering the Facade
-        $this->addFacade(
+        $this->alias(
             $this->app['config']->get('log-viewer.facade', 'LogViewer'),
             'Arcanedev\\LogViewer\\Facades\\LogViewer'
         );
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Get a utility instance.
-     *
-     * @param  string  $name
-     *
-     * @return mixed
-     */
-    private function getUtility($name)
-    {
-        return $this->app["{$this->vendor}.{$this->package}.$name"];
     }
 }
