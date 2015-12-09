@@ -2,7 +2,7 @@
 
 use Arcanedev\LogViewer\Contracts\FilesystemInterface;
 use Arcanedev\LogViewer\Contracts\LogCheckerInterface;
-use Illuminate\Config\Repository as Config;
+use Illuminate\Contracts\Config\Repository as Config;
 
 /**
  * Class     LogChecker
@@ -22,17 +22,19 @@ class LogChecker implements LogCheckerInterface
      * @link http://laravel.com/docs/5.1/errors#configuration
      * @link https://github.com/Seldaek/monolog/blob/master/doc/02-handlers-formatters-processors.md#log-to-files-and-syslog
      */
-    const HANDLER_DAILY     = 'daily';
-    const HANDLER_SINGLE    = 'single';
-    const HANDLER_SYSLOG    = 'syslog';
-    const HANDLER_ERRORLOG  = 'errorlog';
+    const HANDLER_DAILY    = 'daily';
+    const HANDLER_SINGLE   = 'single';
+    const HANDLER_SYSLOG   = 'syslog';
+    const HANDLER_ERRORLOG = 'errorlog';
 
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @var \Illuminate\Config\Repository
+     * The config repository instance.
+     *
+     * @var \Illuminate\Contracts\Config\Repository
      */
     private $config;
 
@@ -78,43 +80,50 @@ class LogChecker implements LogCheckerInterface
     /**
      * Make LogChecker instance.
      *
-     * @param  Config               $config
-     * @param  FilesystemInterface  $filesystem
+     * @param  \Illuminate\Contracts\Config\Repository             $config
+     * @param  \Arcanedev\LogViewer\Contracts\FilesystemInterface  $filesystem
      */
     public function __construct(Config $config, FilesystemInterface $filesystem)
     {
-        $this->config     = $config;
-        $this->filesystem = $filesystem;
+        $this->setConfig($config);
+        $this->setFilesystem($filesystem);
         $this->files      = [];
 
         $this->refresh();
-    }
-
-    /**
-     * Refresh the checks.
-     *
-     * @return self
-     */
-    private function refresh()
-    {
-        $this->setHandler($this->config->get('app.log', 'single'));
-
-        $this->messages   = [
-            'handler'   => '',
-            'files'     => [],
-        ];
-        $this->files      = [];
-
-        $this->checkHandler();
-        $this->checkLogFiles();
-
-        return $this;
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Set the config instance.
+     *
+     * @param  \Illuminate\Contracts\Config\Repository  $config
+     *
+     * @return self
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+
+    /**
+     * Set the Filesystem instance.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\FilesystemInterface  $filesystem
+     *
+     * @return self
+     */
+    public function setFilesystem(FilesystemInterface $filesystem)
+    {
+        $this->filesystem = $filesystem;
+
+        return $this;
+    }
+
     /**
      * Set the log handler mode.
      *
@@ -146,7 +155,7 @@ class LogChecker implements LogCheckerInterface
     }
 
     /**
-     * Check passes ??
+     * Check if the check passes.
      *
      * @return bool
      */
@@ -158,7 +167,7 @@ class LogChecker implements LogCheckerInterface
     }
 
     /**
-     * Check fails ??
+     * Check if the check fails.
      *
      * @return bool
      */
@@ -168,7 +177,7 @@ class LogChecker implements LogCheckerInterface
     }
 
     /**
-     * Get the requirements
+     * Get the requirements.
      *
      * @return array
      */
@@ -221,6 +230,27 @@ class LogChecker implements LogCheckerInterface
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Refresh the checks.
+     *
+     * @return self
+     */
+    private function refresh()
+    {
+        $this->setHandler($this->config->get('app.log', 'single'));
+
+        $this->messages   = [
+            'handler'   => '',
+            'files'     => [],
+        ];
+        $this->files      = [];
+
+        $this->checkHandler();
+        $this->checkLogFiles();
+
+        return $this;
+    }
+
     /**
      * Check the handler mode
      */
