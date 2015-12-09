@@ -183,8 +183,8 @@ class Filesystem implements FilesystemInterface
     /**
      * Get all files.
      *
-     * @param  string $pattern
-     * @param  string $extension
+     * @param  string  $pattern
+     * @param  string  $extension
      *
      * @return array
      */

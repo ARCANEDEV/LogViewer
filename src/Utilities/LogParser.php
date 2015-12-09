@@ -13,7 +13,7 @@ class LogParser
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Parsed data
+     * Parsed data.
      *
      * @var array
      */
@@ -35,11 +35,11 @@ class LogParser
         self::$parsed          = [];
         list($headings, $data) = self::parseRawData($raw);
 
+        // @codeCoverageIgnoreStart
         if ( ! is_array($headings)) {
-            // @codeCoverageIgnoreStart
             return self::$parsed;
-            // @codeCoverageIgnoreEnd
         }
+        // @codeCoverageIgnoreEnd
 
         foreach ($headings as $heading) {
             for ($i = 0, $j = count($heading); $i < $j; $i++) {
