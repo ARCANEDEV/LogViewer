@@ -119,7 +119,6 @@ class UtilitiesServiceProvider extends ServiceProvider
             return new Filesystem($files, $config->get('log-viewer.storage-path'));
         });
 
-
         $this->bind(
             'Arcanedev\\LogViewer\\Contracts\\FilesystemInterface',
             'arcanedev.log-viewer.filesystem'

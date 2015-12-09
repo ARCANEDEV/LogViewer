@@ -15,7 +15,11 @@ class LogStyler implements LogStylerInterface
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var Config */
+    /**
+     * The config repository instance.
+     *
+     * @var Config
+     */
     protected $config;
 
     /* ------------------------------------------------------------------------------------------------

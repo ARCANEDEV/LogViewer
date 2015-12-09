@@ -72,8 +72,8 @@ class LogMenu implements LogMenuInterface
     /**
      * Make log menu.
      *
-     * @param  Log   $log
-     * @param  bool  $trans
+     * @param  \Arcanedev\LogViewer\Entities\Log  $log
+     * @param  bool                               $trans
      *
      * @return array
      */

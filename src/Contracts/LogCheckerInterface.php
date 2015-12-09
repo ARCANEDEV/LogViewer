@@ -1,5 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
 
+use \Illuminate\Contracts\Config\Repository as Config;
+
 /**
  * Interface  LogCheckerInterface
  *
@@ -8,6 +10,28 @@
  */
 interface LogCheckerInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Set the config instance.
+     *
+     * @param  \Illuminate\Contracts\Config\Repository  $config
+     *
+     * @return self
+     */
+    public function setConfig(Config $config);
+
+    /**
+     * Set the Filesystem instance.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\FilesystemInterface  $filesystem
+     *
+     * @return self
+     */
+    public function setFilesystem(FilesystemInterface $filesystem);
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------

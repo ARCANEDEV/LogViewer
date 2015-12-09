@@ -21,12 +21,12 @@ class Factory implements FactoryInterface
     /**
      * The filesystem instance.
      *
-     * @var FilesystemInterface
+     * @var \Arcanedev\LogViewer\Contracts\FilesystemInterface
      */
     protected $filesystem;
 
     /**
-     * @var LogLevelsInterface
+     * @var \Arcanedev\LogViewer\Contracts\LogLevelsInterface
      */
     private $levels;
 
@@ -37,15 +37,15 @@ class Factory implements FactoryInterface
     /**
      * Create a new instance.
      *
-     * @param  FilesystemInterface  $filesystem
-     * @param  LogLevelsInterface   $levels
+     * @param  \Arcanedev\LogViewer\Contracts\FilesystemInterface  $filesystem
+     * @param  \Arcanedev\LogViewer\Contracts\LogLevelsInterface   $levels
      */
     public function __construct(
         FilesystemInterface $filesystem,
         LogLevelsInterface $levels
     ) {
         $this->setFilesystem($filesystem);
-        $this->levels = $levels;
+        $this->setLevels($levels);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ class Factory implements FactoryInterface
     /**
      * Get the filesystem instance.
      *
-     * @return FilesystemInterface
+     * @return \Arcanedev\LogViewer\Contracts\FilesystemInterface
      */
     public function getFilesystem()
     {
@@ -65,13 +65,37 @@ class Factory implements FactoryInterface
     /**
      * Set the filesystem instance.
      *
-     * @param  FilesystemInterface  $filesystem
+     * @param  \Arcanedev\LogViewer\Contracts\FilesystemInterface  $filesystem
      *
      * @return self
      */
-    private function setFilesystem(FilesystemInterface $filesystem)
+    public function setFilesystem(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
+
+        return $this;
+    }
+
+    /**
+     * Get the log levels instance.
+     *
+     * @return \Arcanedev\LogViewer\Contracts\LogLevelsInterface $levels
+     */
+    public function getLevels()
+    {
+        return $this->levels;
+    }
+
+    /**
+     * Set the log levels instance.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\LogLevelsInterface $levels
+     *
+     * @return self
+     */
+    public function setLevels(LogLevelsInterface $levels)
+    {
+        $this->levels = $levels;
 
         return $this;
     }

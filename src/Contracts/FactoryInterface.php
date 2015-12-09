@@ -1,11 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
 
-use Arcanedev\LogViewer\Entities\Log;
-use Arcanedev\LogViewer\Entities\LogCollection;
-use Arcanedev\LogViewer\Entities\LogEntryCollection;
-use Arcanedev\LogViewer\Tables\StatsTable;
-use Illuminate\Pagination\LengthAwarePaginator;
-
 /**
  * Interface  FactoryInterface
  *
@@ -15,15 +9,40 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface FactoryInterface
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Getters & Setters
+     |  Getter & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get all logs.
+     * Get the filesystem instance.
      *
-     * @return LogCollection
+     * @return \Arcanedev\LogViewer\Contracts\FilesystemInterface
      */
-    public function logs();
+    public function getFilesystem();
+
+    /**
+     * Set the filesystem instance.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\FilesystemInterface  $filesystem
+     *
+     * @return self
+     */
+    public function setFilesystem(FilesystemInterface $filesystem);
+
+    /**
+     * Get the log levels instance.
+     *
+     * @return  \Arcanedev\LogViewer\Contracts\LogLevelsInterface  $levels
+     */
+    public function getLevels();
+
+    /**
+     * Set the log levels instance.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\LogLevelsInterface  $levels
+     *
+     * @return self
+     */
+    public function setLevels(LogLevelsInterface $levels);
 
     /**
      * Set the log storage path.
@@ -34,6 +53,13 @@ interface FactoryInterface
      */
     public function setPath($storagePath);
 
+    /**
+     * Get all logs.
+     *
+     * @return \Arcanedev\LogViewer\Entities\LogCollection
+     */
+    public function logs();
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -41,7 +67,7 @@ interface FactoryInterface
     /**
      * Get all logs (alias).
      *
-     * @return LogCollection
+     * @return \Arcanedev\LogViewer\Entities\LogCollection
      */
     public function all();
 
@@ -50,7 +76,7 @@ interface FactoryInterface
      *
      * @param  int  $perPage
      *
-     * @return LengthAwarePaginator
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function paginate($perPage = 30);
 
@@ -59,7 +85,7 @@ interface FactoryInterface
      *
      * @param  string  $date
      *
-     * @return Log
+     * @return \Arcanedev\LogViewer\Entities\Log
      */
     public function log($date);
 
@@ -68,7 +94,7 @@ interface FactoryInterface
      *
      * @param  string  $date
      *
-     * @return Log
+     * @return \Arcanedev\LogViewer\Entities\Log
      */
     public function get($date);
 
@@ -78,7 +104,7 @@ interface FactoryInterface
      * @param  string  $date
      * @param  string  $level
      *
-     * @return LogEntryCollection
+     * @return \Arcanedev\LogViewer\Entities\LogEntryCollection
      */
     public function entries($date, $level = 'all');
 
@@ -135,7 +161,7 @@ interface FactoryInterface
      *
      * @param  string|null  $locale
      *
-     * @return StatsTable
+     * @return \Arcanedev\LogViewer\Tables\StatsTable
      */
     public function statsTable($locale = null);
 

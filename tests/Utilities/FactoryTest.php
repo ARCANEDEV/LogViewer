@@ -52,10 +52,27 @@ class FactoryTest extends TestCase
     /** @test */
     public function it_can_get_filesystem_object()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\LogViewer\\Utilities\\Filesystem',
-            $this->logFactory->getFilesystem()
-        );
+        $expectations = [
+            'Arcanedev\\LogViewer\\Contracts\\FilesystemInterface',
+            'Arcanedev\\LogViewer\\Utilities\\Filesystem'
+        ];
+
+        foreach ($expectations as $expected) {
+            $this->assertInstanceOf($expected, $this->logFactory->getFilesystem());
+        }
+    }
+
+    /** @test */
+    public function it_can_get_levels_object()
+    {
+        $expectations = [
+            'Arcanedev\\LogViewer\\Contracts\\LogLevelsInterface',
+            'Arcanedev\\LogViewer\\Utilities\\LogLevels'
+        ];
+
+        foreach ($expectations as $expected) {
+            $this->assertInstanceOf($expected, $this->logFactory->getLevels());
+        }
     }
 
     /** @test */
