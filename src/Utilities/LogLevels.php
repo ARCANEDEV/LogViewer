@@ -25,7 +25,9 @@ class LogLevels implements LogLevelsInterface
     protected static $levels = [];
 
     /**
-     * @var Translator
+     * The Translator instance.
+     *
+     * @var \Illuminate\Translation\Translator
      */
     private $translator;
 
@@ -36,11 +38,29 @@ class LogLevels implements LogLevelsInterface
     /**
      * Create LogLevels instance.
      *
-     * @param Translator $translator
+     * @param  \Illuminate\Translation\Translator  $translator
      */
     public function __construct(Translator $translator)
     {
+        $this->setTranslator($translator);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Set the Translator instance.
+     *
+     * @param  \Illuminate\Translation\Translator  $translator
+     *
+     * @return self
+     */
+    public function setTranslator(Translator $translator)
+    {
         $this->translator = $translator;
+
+        return $this;
     }
 
     /* ------------------------------------------------------------------------------------------------

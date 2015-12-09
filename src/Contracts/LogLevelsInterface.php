@@ -1,5 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
 
+use Illuminate\Translation\Translator;
+
 /**
  * Interface  LogLevelsInterface
  *
@@ -8,6 +10,19 @@
  */
 interface LogLevelsInterface
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Set the Translator instance.
+     *
+     * @param  \Illuminate\Translation\Translator  $translator
+     *
+     * @return self
+     */
+    public function setTranslator(Translator $translator);
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
