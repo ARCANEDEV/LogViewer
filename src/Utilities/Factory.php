@@ -79,7 +79,7 @@ class Factory implements FactoryInterface
     /**
      * Get the log levels instance.
      *
-     * @return \Arcanedev\LogViewer\Contracts\LogLevelsInterface $levels
+     * @return \Arcanedev\LogViewer\Contracts\LogLevelsInterface
      */
     public function getLevels()
     {
@@ -89,7 +89,7 @@ class Factory implements FactoryInterface
     /**
      * Set the log levels instance.
      *
-     * @param  \Arcanedev\LogViewer\Contracts\LogLevelsInterface $levels
+     * @param  \Arcanedev\LogViewer\Contracts\LogLevelsInterface  $levels
      *
      * @return self
      */

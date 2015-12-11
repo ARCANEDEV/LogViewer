@@ -3,7 +3,7 @@
 use Arcanedev\LogViewer\Contracts\LogMenuInterface;
 use Arcanedev\LogViewer\Contracts\LogStylerInterface;
 use Arcanedev\LogViewer\Entities\Log;
-use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class     LogMenu
@@ -38,12 +38,12 @@ class LogMenu implements LogMenuInterface
     /**
      * Create the LogMenu instance.
      *
-     * @param  Config              $config
-     * @param  LogStylerInterface  $styler
+     * @param  \Illuminate\Contracts\Config\Repository            $config
+     * @param  \Arcanedev\LogViewer\Contracts\LogStylerInterface  $styler
      */
-    public function __construct(Config $config, LogStylerInterface $styler)
+    public function __construct(Repository $config, LogStylerInterface $styler)
     {
-        $this->config = $config;
+        $this->setConfig($config);
         $this->setLogStyler($styler);
     }
 
@@ -51,6 +51,20 @@ class LogMenu implements LogMenuInterface
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Set the config instance.
+     *
+     * @param  \Illuminate\Contracts\Config\Repository  $config
+     *
+     * @return self
+     */
+    public function setConfig(Repository $config)
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+
     /**
      * Set the log styler instance.
      *
@@ -80,10 +94,11 @@ class LogMenu implements LogMenuInterface
     public function make(Log $log, $trans = true)
     {
         $items = [];
+        $route = $this->config('menu.filter-route');
 
         foreach($log->tree($trans) as $level => $item) {
             $items[$level] = array_merge($item, [
-                'url'  => route('log-viewer::logs.filter', [$log->date, $level]),
+                'url'  => route($route, [$log->date, $level]),
                 'icon' => $this->isIconsEnabled() ? $this->styler->icon($level) : '',
             ]);
         }
