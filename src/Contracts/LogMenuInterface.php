@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
 
 use Arcanedev\LogViewer\Entities\Log;
+use Illuminate\Contracts\Config\Repository;
 
 /**
  * Interface  LogMenuInterface
@@ -14,6 +15,15 @@ interface LogMenuInterface
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Set the config instance.
+     *
+     * @param  \Illuminate\Contracts\Config\Repository  $config
+     *
+     * @return self
+     */
+    public function setConfig(Repository $config);
+
     /**
      * Set the log styler instance.
      *
@@ -30,8 +40,8 @@ interface LogMenuInterface
     /**
      * Make log menu.
      *
-     * @param  Log   $log
-     * @param  bool  $trans
+     * @param  \Arcanedev\LogViewer\Entities\Log  $log
+     * @param  bool                               $trans
      *
      * @return array
      */
