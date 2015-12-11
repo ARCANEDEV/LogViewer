@@ -155,7 +155,7 @@ class LogChecker implements LogCheckerInterface
     }
 
     /**
-     * Check if the check passes.
+     * Check if the checker passes.
      *
      * @return bool
      */
@@ -167,7 +167,7 @@ class LogChecker implements LogCheckerInterface
     }
 
     /**
-     * Check if the check fails.
+     * Check if the checker fails.
      *
      * @return bool
      */
