@@ -55,6 +55,8 @@ class LogViewerServiceProvider extends ServiceProvider
 
         $this->app->register('Arcanedev\\LogViewer\\Providers\\UtilitiesServiceProvider');
         $this->registerLogViewer();
+        $this->registerAliases();
+
         if ($this->app->runningInConsole()) {
             $this->app->register('Arcanedev\\LogViewer\\Providers\\CommandsServiceProvider');
         }
