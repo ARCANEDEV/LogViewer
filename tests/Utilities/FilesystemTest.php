@@ -31,9 +31,9 @@ class FilesystemTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->filesystem);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------

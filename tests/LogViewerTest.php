@@ -31,9 +31,9 @@ class LogViewerTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->logViewer);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------

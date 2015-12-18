@@ -38,9 +38,9 @@ class StatsTableTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->table);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------

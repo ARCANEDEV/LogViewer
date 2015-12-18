@@ -31,9 +31,9 @@ class LogCollectionTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->logs);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------

@@ -31,6 +31,8 @@ class LogEntryTest extends TestCase
 
     public function tearDown()
     {
+        unset($this->entry);
+
         parent::tearDown();
     }
 

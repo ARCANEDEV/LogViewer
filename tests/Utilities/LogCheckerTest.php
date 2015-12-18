@@ -31,9 +31,9 @@ class LogCheckerTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->checker);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
