@@ -73,15 +73,11 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 * `'tr'` - Turkish.
 * `'zh'` - Chinese (Simplified).
 
-### ONGOING
+### TODOS
 
   - [ ] Log viewer CLI.
   - [ ] Log viewer Statistics & Charts.
-  - [ ] Complete the documentation + Examples (Wiki).
-
-### TODOS
-
-  - [ ] Adding a dummy logs generator ??
+  - [ ] Complete the documentation.
 
 ### DONE
 
