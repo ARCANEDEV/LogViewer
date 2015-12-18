@@ -154,14 +154,16 @@ class LogViewerController extends Controller
      */
     private function getLogOrFail($date)
     {
+        $log = null;
+
         try {
-            return $this->logViewer->get($date);
+            $log = $this->logViewer->get($date);
         }
         catch(LogNotFound $e) {
             abort(404, $e->getMessage());
-
-            return null;
         }
+
+        return $log;
     }
 
     /**
