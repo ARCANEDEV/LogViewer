@@ -158,7 +158,9 @@ class LogViewerController extends Controller
             return $this->logViewer->get($date);
         }
         catch(LogNotFound $e) {
-            return abort(404, $e->getMessage());
+            abort(404, $e->getMessage());
+
+            return null;
         }
     }
 
