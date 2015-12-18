@@ -26,7 +26,7 @@
             </div>
         </div>
     </div>
-@stop
+@endsection
 
 @section('scripts')
     <script>
@@ -39,4 +39,4 @@
                     });
         });
     </script>
-@stop
+@endsection

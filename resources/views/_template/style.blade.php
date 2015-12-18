@@ -151,4 +151,29 @@
     .badge.level-debug {
         background-color: {{ log_styler()->color('debug') }};
     }
+
+    .pagination {
+        margin: 0;
+    }
+
+    .pagination > li > a,
+    .pagination > li > span {
+        padding: 4px 10px;
+    }
+
+    .table-condensed > tbody > tr > td.stack,
+    .table-condensed > tfoot > tr > td.stack,
+    .table-condensed > thead > tr > td.stack {
+        padding: 0;
+        border-top: none;
+    }
+
+    .stack-content {
+        padding: 8px;
+        background-color: #F6F6F6;
+        border-top: 1px solid #D1D1D1;
+        color: #AE0E0E;
+        font-family: consolas,sans-serif;
+        font-size: 12px;
+    }
 </style>
