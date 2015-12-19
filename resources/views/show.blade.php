@@ -95,14 +95,14 @@
                                         <p>{{ $entry->header }}</p>
                                     </td>
                                     <td class="text-right">
-                                        @if ($entry->stack != "\n")
+                                        @if ($entry->hasStack())
                                             <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#log-stack-{{ $key }}" aria-expanded="false" aria-controls="log-stack-{{ $key }}">
                                                 <i class="fa fa-toggle-on"></i> Stack
                                             </a>
                                         @endif
                                     </td>
                                 </tr>
-                                @if ($entry->stack != "\n")
+                                @if ($entry->hasStack())
                                     <tr>
                                         <td colspan="5" class="stack">
                                             <div class="stack-content collapse" id="log-stack-{{ $key }}">
