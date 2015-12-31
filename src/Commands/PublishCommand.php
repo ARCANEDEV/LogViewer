@@ -58,7 +58,7 @@ class PublishCommand extends Command
         $tag = $this->option('tag');
 
         if ( ! is_null($tag)) {
-            $args['--tag'] = version_compare(laravel_version(), '5.1.O', '>=') ? [$tag] : $tag;
+            $args['--tag'] = version_compare(laravel_version(), '5.1.0', '>=') ? [$tag] : $tag;
         }
 
         $this->displayLogViewer();
