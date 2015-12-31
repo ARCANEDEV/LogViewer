@@ -11,7 +11,7 @@
 [![Packagist Release][badge_release]](https://packagist.org/packages/arcanedev/log-viewer)
 [![Packagist Downloads][badge_downloads]](https://packagist.org/packages/arcanedev/log-viewer)
 
-[badge_laravel]:   https://img.shields.io/badge/For%20Laravel-5.0%7C5.1-orange.svg?style=flat-square
+[badge_laravel]:   https://img.shields.io/badge/For-Laravel%205.x-orange.svg?style=flat-square
 [badge_license]:   https://img.shields.io/packagist/l/arcanedev/log-viewer.svg?style=flat-square
 
 [badge_build]:     https://img.shields.io/travis/ARCANEDEV/LogViewer.svg?style=flat-square
@@ -84,8 +84,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
   - [x] Well documented package (IDE Friendly).
   - [x] 100% Code coverage + Maximum code quality.
   - [x] Localized log levels.
-  - [x] Laravel 5.1 supported.
-  - [x] Laravel 5.0 supported.
+  - [x] Laravel 5.0, 5.1 & 5.2 are supported.
   - [x] Log viewer menu/tree.
   - [x] Logs and Log entries pagination.
   - [x] Download the log file.
