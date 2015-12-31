@@ -7,21 +7,20 @@
         {
             "name":     "ARCANEDEV",
             "email":    "arcanedev.maroc@gmail.com",
-            "homepage": "https://github.com/ARCANEDEV",
+            "homepage": "https://github.com/arcanedev-maroc",
             "role":     "Developer"
         }
     ],
     "type":    "library",
     "license": "MIT",
     "require": {
-        "php":                 ">=5.5.9",
-        "psr/log":             "~1.0",
-        "arcanedev/support":   "~3.0"
+        "php":               ">=5.5.9",
+        "psr/log":           "~1.0",
+        "arcanedev/support": "~3.0"
     },
     "require-dev": {
-        "orchestra/testbench": "~3.1",
-        "phpunit/phpcov":      "~2.0",
-        "phpunit/phpunit":     "~4.0|~5.0"
+        "phpunit/phpcov":    "~2.0",
+        "phpunit/phpunit":   "~4.0|~5.0"
     },
     "autoload": {
         "psr-4": {
@@ -35,7 +34,7 @@
         }
     },
     "scripts": {
-        "test": "phpunit --coverage-text"
+        "testbench": "composer require --dev \"orchestra/testbench=~3.0\""
     },
     "extra": {
         "branch-alias": {
