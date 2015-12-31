@@ -67,6 +67,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 * `'hy'` - Armenian.
 * `'it'` - Italian.
 * `'nl'` - Dutch.
+* `'pl'` - Polish.
 * `'ro'` - Romanian.
 * `'ru'` - Russian.
 * `'sv'` - Swedish.

@@ -11,7 +11,7 @@ return [
      |  Locale
      | ------------------------------------------------------------------------------------------------
      |  Supported locales :
-     |    'auto', 'ar', 'de', 'en', 'es', 'fr', 'hy', 'it', 'nl', 'ro', 'ru', 'sv', 'tr', 'zh'
+     |    'auto', 'ar', 'de', 'en', 'es', 'fr', 'hy', 'it', 'nl', 'pl', 'ro', 'ru', 'sv', 'tr', 'zh'
      */
     'locale'        => 'auto',
 
