@@ -25,9 +25,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function routeAttributes()
     {
-        $attributes = $this->config('attributes', []);
-
-        return array_merge($attributes, [
+        return array_merge($this->config('attributes', []), [
             'namespace' => 'Arcanedev\\LogViewer\\Http\\Controllers',
         ]);
     }
@@ -42,38 +40,6 @@ class RouteServiceProvider extends ServiceProvider
         return $this->config('enabled', false);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Get the routes namespace
-     *
-     * @return string
-     */
-    protected function getRouteNamespace()
-    {
-        return 'Arcanedev\\LogViewer\\Http\\Routes';
-    }
-
-    /**
-     * Define the routes for the application.
-     *
-     * @param  \Illuminate\Contracts\Routing\Registrar  $router
-     */
-    public function map(Router $router)
-    {
-        if ($this->isEnabled()) {
-            $router->group($this->routeAttributes(), function(Router $router) {
-                LogViewerRoute::register($router);
-            });
-        }
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
     /**
      * Get config value by key
      *
@@ -88,5 +54,23 @@ class RouteServiceProvider extends ServiceProvider
         $config = $this->app['config'];
 
         return $config->get('log-viewer.route.' . $key, $default);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Define the routes for the application.
+     *
+     * @param  \Illuminate\Contracts\Routing\Registrar  $router
+     */
+    public function map(Router $router)
+    {
+        if ($this->isEnabled()) {
+            $router->group($this->routeAttributes(), function(Router $router) {
+                LogViewerRoute::register($router);
+            });
+        }
     }
 }
