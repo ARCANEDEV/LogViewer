@@ -9,8 +9,6 @@ use Illuminate\Contracts\Routing\Registrar as Router;
  *
  * @package  Arcanedev\LogViewer\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- *
- * @codeCoverageIgnore
  */
 class RouteServiceProvider extends ServiceProvider
 {
