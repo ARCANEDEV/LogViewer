@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Http\Routes;
 
 use Arcanedev\Support\Bases\RouteRegister;
-use Illuminate\Contracts\Routing\Registrar;
+use Illuminate\Contracts\Routing\Registrar as Router;
 
 /**
  * Class     LogViewerRoute
@@ -20,12 +20,10 @@ class LogViewerRoute extends RouteRegister
     /**
      * Map all routes.
      *
-     * @param  Registrar  $router
+     * @param  \Illuminate\Contracts\Routing\Registrar  $router
      */
-    public function map(Registrar $router)
+    public function map(Router $router)
     {
-        parent::map($router);
-
         $this->get('/', [
             'as'    => 'log-viewer::dashboard',
             'uses'  => 'LogViewerController@index',
