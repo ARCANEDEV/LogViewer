@@ -77,7 +77,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     private function setHeader($header)
     {
-        $this->setDatetime(extract_datetime($header));
+        $this->setDatetime($this->extractDatetime($header));
 
         $header = $this->cleanHeader($header);
 
@@ -251,5 +251,17 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     private function cleanHeader($header)
     {
         return preg_replace('/\[' . REGEX_DATETIME_PATTERN . '\][ ]/', '', $header);
+    }
+
+    /**
+     * Extract datetime from the header.
+     *
+     * @param  string  $header
+     *
+     * @return string
+     */
+    private function extractDatetime($header)
+    {
+        return preg_replace('/^\[(' . REGEX_DATETIME_PATTERN . ')\].*/', '$1', $header);
     }
 }

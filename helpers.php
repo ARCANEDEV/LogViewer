@@ -47,18 +47,3 @@ if ( ! function_exists('extract_date')) {
         );
     }
 }
-
-if ( ! function_exists('extract_datetime')) {
-    /**
-     * Extract date and time from string (format : YYYY-MM-DD HH:MM:SS).
-     *
-     * @param  string  $string
-     *
-     * @return string
-     */
-    function extract_datetime($string) {
-        return preg_replace(
-            '/.*(' . REGEX_DATETIME_PATTERN . ').*/', '$1', $string
-        );
-    }
-}
