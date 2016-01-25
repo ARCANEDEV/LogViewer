@@ -183,7 +183,7 @@ class LogViewerController extends Controller
             $percents[$level] = [
                 'name'    => $names[$level],
                 'count'   => $count,
-                'percent' => round(($count / $all) * 100, 2),
+                'percent' => $all ? round(($count / $all) * 100, 2) : 0,
             ];
         }
 
