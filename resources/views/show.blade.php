@@ -106,7 +106,7 @@
                                     <tr>
                                         <td colspan="5" class="stack">
                                             <div class="stack-content collapse" id="log-stack-{{ $key }}">
-                                                {{ $entry->stack }}
+                                                {!! preg_replace("/\n/", '<br>', $entry->stack) !!}
                                             </div>
                                         </td>
                                     </tr>
