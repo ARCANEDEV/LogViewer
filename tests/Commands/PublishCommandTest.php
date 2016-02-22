@@ -112,7 +112,11 @@ class PublishCommandTest extends TestCase
         $directories = $this->illuminateFile()->directories($path);
         $locales     = array_map('basename', $directories);
 
-        $this->assertEquals(self::$locales, $locales);
+        $this->assertEmpty(
+            $missing = array_diff($locales, self::$locales),
+            'The locales [' . implode(', ', $missing) . '] are missing in the Arcanedev\\LogViewer\\Tests\\TestCase::$locales (line 29) for tests purposes.'
+        );
+
         foreach ($directories as $directory) {
             $this->assertFileExists($directory . '/levels.php');
         }
