@@ -8,22 +8,29 @@
             <canvas id="stats-doughnut-chart"></canvas>
         </div>
         <div class="col-md-9">
-            <div class="row">
-                @foreach($percents as $level => $item)
-                <div class="col-md-4">
-                    <h5>
-                        <span class="level level-{{ $level }}">
-                            {!! log_styler()->icon($level) . ' ' . $item['name'] !!} - {!! $item['percent'] !!} %
-                        </span>
-                    </h5>
-                    <div class="progress">
-                        <div class="progress-bar level-{{ $level }}" role="progressbar" aria-valuenow="{{ $item['percent'] }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $item['percent'] }}%">
-                            {{ $item['count'] }}
+            <section class="box-body">
+                <div class="row">
+                    @foreach($percents as $level => $item)
+                        <div class="col-md-4">
+                            <div class="info-box level level-{{ $level }} {{ $item['count'] === 0 ? 'level-empty' : '' }}">
+                                <span class="info-box-icon">
+                                    {!! log_styler()->icon($level) !!}
+                                </span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">{{ $item['name'] }}</span>
+                                    <span class="info-box-number">
+                                        {{ $item['count'] }} entries - {!! $item['percent'] !!} %
+                                    </span>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: {{ $item['percent'] }}%"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
-                @endforeach
-            </div>
+            </section>
         </div>
     </div>
 @endsection
@@ -34,9 +41,9 @@
             var data = {!! $reports !!};
 
             new Chart($('#stats-doughnut-chart')[0].getContext('2d'))
-                    .Doughnut(data, {
-                        animationEasing : "easeOutQuart"
-                    });
+                .Doughnut(data, {
+                    animationEasing : "easeOutQuart"
+                });
         });
     </script>
 @endsection
