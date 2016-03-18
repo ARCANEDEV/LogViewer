@@ -30,10 +30,12 @@
                     <td class="{{ $key == 'date' ? 'text-left' : 'text-center' }}">
                         @if ($key == 'date')
                             <span class="label label-primary">{{ $value }}</span>
+                        @elseif ($value == 0)
+                            <span class="level level-empty">{{ $value }}</span>
                         @else
-                            <span class="level level-{{ $value !== 0 ? $key : 'empty' }}">
-                                <a href="{{ route('log-viewer::logs.filter', [$date, $key]) }}">{{ $value }}</a>
-                            </span>
+                            <a href="{{ route('log-viewer::logs.filter', [$date, $key]) }}">
+                                <span class="level level-{{ $key }}">{{ $value }}</span>
+                            </a>
                         @endif
                     </td>
                     @endforeach
