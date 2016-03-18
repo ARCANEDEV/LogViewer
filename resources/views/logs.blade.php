@@ -32,7 +32,7 @@
                             <span class="label label-primary">{{ $value }}</span>
                         @else
                             <span class="level level-{{ $value !== 0 ? $key : 'empty' }}">
-                                {{ $value }}
+                                <a href="{{ route('log-viewer::logs.filter', [$date, $key]) }}">{{ $value }}</a>
                             </span>
                         @endif
                     </td>
