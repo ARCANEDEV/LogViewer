@@ -63,6 +63,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 * `'de'` - German.
 * `'en'` - English.
 * `'es'` - Spanish.
+* `'fa'` - Farsi.
 * `'fr'` - French.
 * `'hy'` - Armenian.
 * `'it'` - Italian.
