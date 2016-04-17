@@ -68,8 +68,8 @@ class LogViewerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishConfig();
-        $this->registerViews();
-        $this->registerTranslations();
+        $this->publishViews();
+        $this->publishTranslations();
         $this->app->register('Arcanedev\\LogViewer\\Providers\\RouteServiceProvider');
     }
 
@@ -84,46 +84,6 @@ class LogViewerServiceProvider extends ServiceProvider
             'arcanedev.log-viewer',
             'Arcanedev\\LogViewer\\Contracts\\LogViewerInterface',
         ];
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Resources
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Publishes configs.
-     */
-    private function publishConfig()
-    {
-        $this->publishes([
-            $this->getConfigFile() => config_path("{$this->package}.php")
-        ], 'config');
-    }
-
-    /**
-     * Register and publishes Translations.
-     */
-    private function registerTranslations()
-    {
-        $langPath = $this->getBasePath() . '/resources/lang';
-
-        $this->loadTranslationsFrom($langPath, $this->package);
-        $this->publishes([
-            $langPath => base_path('resources/lang/vendor/' . $this->package),
-        ], 'translations');
-    }
-
-    /**
-     * Register and published Views.
-     */
-    private function registerViews()
-    {
-        $viewsPath = $this->getBasePath() . '/resources/views';
-
-        $this->loadViewsFrom($viewsPath, $this->package);
-        $this->publishes([
-            $viewsPath => base_path('resources/views/vendor/' . $this->package),
-        ], 'views');
     }
 
     /* ------------------------------------------------------------------------------------------------
