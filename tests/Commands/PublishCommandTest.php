@@ -72,7 +72,7 @@ class PublishCommandTest extends TestCase
     public function it_can_publish_only_translations()
     {
         $code = $this->artisan('log-viewer:publish', [
-            '--tag' => 'translations'
+            '--tag' => 'lang'
         ]);
 
         $this->assertEquals(0, $code);
