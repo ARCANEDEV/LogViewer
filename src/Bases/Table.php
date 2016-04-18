@@ -48,7 +48,7 @@ abstract class Table implements TableInterface
     public function __construct(array $data, LogLevelsInterface $levels, $locale = null)
     {
         $this->setLevels($levels);
-        $this->setLocale($locale);
+        $this->setLocale(is_null($locale) ? config('log-viewer.locale') : $locale);
         $this->setData($data);
         $this->init();
     }

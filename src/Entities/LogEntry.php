@@ -153,7 +153,13 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     public function name()
     {
-        return trans('log-viewer::levels.' . $this->level);
+        $locale = config('log-viewer.locale', 'auto');
+
+        if (is_null($locale) || $locale === 'auto') {
+            $locale = app()->getLocale();
+        }
+
+        return trans('log-viewer::levels.' . $this->level, [], 'messages', $locale);
     }
 
     /**
