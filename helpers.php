@@ -11,6 +11,17 @@ if ( ! function_exists('log_viewer')) {
     }
 }
 
+if ( ! function_exists('log_levels')) {
+    /**
+     * Get the LogLevels instance.
+     *
+     * @return \Arcanedev\LogViewer\Contracts\LogLevelsInterface
+     */
+    function log_levels() {
+        return app('arcanedev.log-viewer.levels');
+    }
+}
+
 if ( ! function_exists('log_menu')) {
     /**
      * Get the LogMenu instance.

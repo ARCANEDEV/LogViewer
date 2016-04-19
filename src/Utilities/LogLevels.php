@@ -31,6 +31,13 @@ class LogLevels implements LogLevelsInterface
      */
     private $translator;
 
+    /**
+     * The selected locale.
+     *
+     * @var string
+     */
+    private $locale;
+
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
@@ -39,10 +46,12 @@ class LogLevels implements LogLevelsInterface
      * Create LogLevels instance.
      *
      * @param  \Illuminate\Translation\Translator  $translator
+     * @param  string                              $locale
      */
-    public function __construct(Translator $translator)
+    public function __construct(Translator $translator, $locale)
     {
         $this->setTranslator($translator);
+        $this->setLocale($locale);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -59,6 +68,32 @@ class LogLevels implements LogLevelsInterface
     public function setTranslator(Translator $translator)
     {
         $this->translator = $translator;
+
+        return $this;
+    }
+
+    /**
+     * Get the selected locale.
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale === 'auto'
+            ? $this->translator->getLocale()
+            : $this->locale;
+    }
+
+    /**
+     * Set the selected locale.
+     *
+     * @param  string  $locale
+     *
+     * @return self
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = is_null($locale) ? 'auto' : $locale;
 
         return $this;
     }
@@ -91,7 +126,7 @@ class LogLevels implements LogLevelsInterface
         $levels = self::all(true);
 
         array_walk($levels, function (&$name, $level) use ($locale) {
-            $name = $this->getTranslatedName($level, $locale);
+            $name = $this->get($level, $locale);
         });
 
         return $levels;
@@ -114,24 +149,20 @@ class LogLevels implements LogLevelsInterface
         return $flip ? array_flip(self::$levels) : self::$levels;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
     /**
-     * Translate a level.
+     * Get the translated level.
      *
-     * @param  string       $level
+     * @param  string       $key
      * @param  string|null  $locale
      *
      * @return string
      */
-    private function getTranslatedName($level, $locale)
+    public function get($key, $locale = null)
     {
-        if ($locale === 'auto') {
-            $locale = null;
+        if (is_null($locale) || $locale === 'auto') {
+            $locale = $this->getLocale();
         }
 
-        return $this->translator->get('log-viewer::levels.' . $level, [], $locale);
+        return $this->translator->get("log-viewer::levels.$key", [], $locale);
     }
 }

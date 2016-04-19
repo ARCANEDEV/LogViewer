@@ -23,6 +23,22 @@ interface LogLevelsInterface
      */
     public function setTranslator(Translator $translator);
 
+    /**
+     * Get the selected locale.
+     *
+     * @return string
+     */
+    public function getLocale();
+
+    /**
+     * Set the selected locale.
+     *
+     * @param  string  $locale
+     *
+     * @return self
+     */
+    public function setLocale($locale);
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -53,4 +69,14 @@ interface LogLevelsInterface
      * @return array
      */
     public static function all($flip = false);
+
+    /**
+     * Get the translated level.
+     *
+     * @param  string       $key
+     * @param  string|null  $locale
+     *
+     * @return string
+     */
+    public function get($key, $locale = null);
 }
