@@ -15,7 +15,7 @@ class LogLevelsTest extends TestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var LogLevels */
+    /** @var \Arcanedev\LogViewer\Utilities\LogLevels  */
     private $levels;
 
     /* ------------------------------------------------------------------------------------------------
@@ -74,6 +74,18 @@ class LogLevelsTest extends TestCase
     }
 
     /** @test */
+    public function it_must_choose_the_log_viewer_locale_instead_of_app_locale()
+    {
+        $this->assertNotEquals('auto', $this->levels->getLocale());
+        $this->assertEquals($this->app->getLocale(), $this->levels->getLocale());
+
+        $this->levels->setLocale('fr');
+
+        $this->assertEquals('fr', $this->levels->getLocale());
+        $this->assertNotEquals($this->app->getLocale(), $this->levels->getLocale());
+    }
+
+    /** @test */
     public function it_can_translate_levels_automatically()
     {
         foreach (self::$locales as $locale) {
@@ -87,6 +99,10 @@ class LogLevelsTest extends TestCase
             $this->assertTranslatedLevels(
                 $this->app->getLocale(),
                 $this->levels->names('auto')
+            );
+
+            $this->assertTranslatedLevels(
+                $locale, $this->levels->names($locale)
             );
         }
     }

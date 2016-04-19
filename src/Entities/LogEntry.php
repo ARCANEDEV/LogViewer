@@ -153,7 +153,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     public function name()
     {
-        return trans('log-viewer::levels.' . $this->level);
+        return log_levels()->get($this->level);
     }
 
     /**
