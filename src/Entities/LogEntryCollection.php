@@ -94,15 +94,9 @@ class LogEntryCollection extends Collection
     {
         $tree = $this->stats();
 
-        $locale = config('log-viewer.locale', 'auto');
-
-        if (is_null($locale) || $locale === 'auto') {
-            $locale = app()->getLocale();
-        }
-
-        array_walk($tree, function(&$count, $level) use ($trans, $locale) {
+        array_walk($tree, function(&$count, $level) use ($trans) {
             $count = [
-                'name'  => $trans ? trans("log-viewer::levels.$level", [], 'messages', $locale) : $level,
+                'name'  => $trans ? log_levels()->get($level) : $level,
                 'count' => $count,
             ];
         });
