@@ -6,7 +6,7 @@
  * @package   Arcanedev\LogViewer\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface FactoryInterface
+interface FactoryInterface extends Patternable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

@@ -8,6 +8,16 @@ return [
     'storage-path'  => storage_path('logs'),
 
     /* ------------------------------------------------------------------------------------------------
+     |  Log files pattern
+     | ------------------------------------------------------------------------------------------------
+     */
+    'pattern'       => [
+        'prefix'    => \Arcanedev\LogViewer\Contracts\FilesystemInterface::PATTERN_PREFIX,
+        'date'      => \Arcanedev\LogViewer\Contracts\FilesystemInterface::PATTERN_DATE,
+        'extension' => \Arcanedev\LogViewer\Contracts\FilesystemInterface::PATTERN_EXTENSION,
+    ],
+
+    /* ------------------------------------------------------------------------------------------------
      |  Locale
      | ------------------------------------------------------------------------------------------------
      |  Supported locales :

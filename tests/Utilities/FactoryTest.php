@@ -220,4 +220,54 @@ class FactoryTest extends TestCase
     {
         $this->logFactory->get('2222-11-11'); // Future FTW
     }
+
+    /** @test */
+    public function it_can_set_and_get_pattern()
+    {
+        $prefix    = 'laravel-';
+        $date      = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';
+        $extension = '.log';
+
+        $this->assertEquals(
+            $prefix . $date . $extension,
+            $this->logFactory->getPattern()
+        );
+
+        $this->logFactory->setPattern($prefix, $date, $extension = '');
+
+        $this->assertEquals(
+            $prefix . $date . $extension,
+            $this->logFactory->getPattern()
+        );
+
+        $this->logFactory->setPattern($prefix = 'laravel-cli-', $date, $extension);
+
+        $this->assertEquals(
+            $prefix . $date . $extension,
+            $this->logFactory->getPattern()
+        );
+
+        $this->logFactory->setPattern($prefix, $date = '[0-9][0-9][0-9][0-9]', $extension);
+
+        $this->assertEquals(
+            $prefix . $date . $extension,
+            $this->logFactory->getPattern()
+        );
+
+        $this->logFactory->setPattern();
+
+        $this->assertEquals(
+            'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
+            $this->logFactory->getPattern()
+        );
+
+        $this->logFactory->setPattern(
+            'laravel-', '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]', '.log'
+        );
+
+        $this->assertEquals(
+            'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
+            $this->logFactory->getPattern()
+        );
+    }
 }

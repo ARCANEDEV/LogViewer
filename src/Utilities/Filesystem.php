@@ -30,6 +30,27 @@ class Filesystem implements FilesystemInterface
      */
     protected $storagePath;
 
+    /**
+     * The log files prefix pattern.
+     *
+     * @var string
+     */
+    protected $prefixPattern;
+
+    /**
+     * The log files date pattern.
+     *
+     * @var string
+     */
+    protected $datePattern;
+
+    /**
+     * The log files extension.
+     *
+     * @var string
+     */
+    protected $extension;
+
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
@@ -44,6 +65,7 @@ class Filesystem implements FilesystemInterface
     {
         $this->filesystem  = $files;
         $this->setPath($storagePath);
+        $this->setPattern();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -74,6 +96,79 @@ class Filesystem implements FilesystemInterface
         return $this;
     }
 
+    /**
+     * Get the log pattern.
+     *
+     * @return string
+     */
+    public function getPattern()
+    {
+        return $this->prefixPattern . $this->datePattern . $this->extension;
+    }
+
+    /**
+     * Set the log pattern.
+     *
+     * @param  string  $date
+     * @param  string  $prefix
+     * @param  string  $extension
+     *
+     * @return self
+     */
+    public function setPattern(
+        $prefix    = self::PATTERN_PREFIX,
+        $date      = self::PATTERN_DATE,
+        $extension = self::PATTERN_EXTENSION
+    ) {
+        $this->setPrefixPattern($prefix);
+        $this->setDatePattern($date);
+        $this->setExtension($extension);
+
+        return $this;
+    }
+
+    /**
+     * Set the log date pattern.
+     *
+     * @param  string  $datePattern
+     *
+     * @return self
+     */
+    public function setDatePattern($datePattern)
+    {
+        $this->datePattern = $datePattern;
+
+        return $this;
+    }
+
+    /**
+     * Set the log prefix pattern.
+     *
+     * @param  string  $prefixPattern
+     *
+     * @return self
+     */
+    public function setPrefixPattern($prefixPattern)
+    {
+        $this->prefixPattern = $prefixPattern;
+
+        return $this;
+    }
+
+    /**
+     * Set the log extension.
+     *
+     * @param  string  $extension
+     *
+     * @return self
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -85,7 +180,7 @@ class Filesystem implements FilesystemInterface
      */
     public function all()
     {
-        return $this->getFiles('*');
+        return $this->getFiles('*' . $this->extension);
     }
 
     /**
@@ -95,7 +190,7 @@ class Filesystem implements FilesystemInterface
      */
     public function logs()
     {
-        return $this->getFiles('laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]');
+        return $this->getFiles($this->getPattern());
     }
 
     /**
@@ -184,16 +279,17 @@ class Filesystem implements FilesystemInterface
      * Get all files.
      *
      * @param  string  $pattern
-     * @param  string  $extension
      *
      * @return array
      */
-    private function getFiles($pattern, $extension = '.log')
+    private function getFiles($pattern)
     {
-        $pattern = $this->storagePath . DS . $pattern . $extension;
-        $files   = array_map('realpath', glob($pattern, GLOB_BRACE));
+        $files = $this->filesystem->glob(
+            $this->storagePath . DS . $pattern,
+            GLOB_BRACE
+        );
 
-        return array_filter($files);
+        return array_filter(array_map('realpath', $files));
     }
 
     /**
@@ -207,7 +303,7 @@ class Filesystem implements FilesystemInterface
      */
     private function getLogPath($date)
     {
-        $path = "{$this->storagePath}/laravel-{$date}.log";
+        $path = $this->storagePath . DS . $this->prefixPattern . $date . $this->extension;
 
         if ( ! $this->filesystem->exists($path)) {
             throw new FilesystemException(

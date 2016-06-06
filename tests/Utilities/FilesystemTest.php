@@ -67,10 +67,20 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_all_custom_log_files()
+    {
+        $files = $this->filesystem
+            ->setPrefixPattern('laravel-cli-')
+            ->logs();
+
+        $this->assertCount(1, $files);
+    }
+
+    /** @test */
     public function it_can_get_all_log_files()
     {
         $files = $this->filesystem->all();
-        $this->assertCount(4, $files);
+        $this->assertCount(5, $files);
 
         foreach ($files as $file) {
             $this->assertStringEndsWith('.log', $file);
@@ -183,5 +193,51 @@ class FilesystemTest extends TestCase
     public function it_must_throw_a_filesystem_exception_on_delete()
     {
         $this->filesystem->delete('2222-11-11'); // Future FTW
+    }
+
+    /** @test */
+    public function it_can_set_and_get_pattern()
+    {
+        $this->assertEquals(
+            'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
+            $this->filesystem->getPattern()
+        );
+
+        $this->filesystem->setExtension('');
+
+        $this->assertEquals(
+            'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]',
+            $this->filesystem->getPattern()
+        );
+
+        $this->filesystem->setPrefixPattern('laravel-cli-');
+
+        $this->assertEquals(
+            'laravel-cli-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]',
+            $this->filesystem->getPattern()
+        );
+
+        $this->filesystem->setDatePattern('[0-9][0-9][0-9][0-9]');
+
+        $this->assertEquals(
+            'laravel-cli-[0-9][0-9][0-9][0-9]',
+            $this->filesystem->getPattern()
+        );
+
+        $this->filesystem->setPattern();
+
+        $this->assertEquals(
+            'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
+            $this->filesystem->getPattern()
+        );
+
+        $this->filesystem->setPattern(
+            'laravel-', '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]', '.log'
+        );
+
+        $this->assertEquals(
+            'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
+            $this->filesystem->getPattern()
+        );
     }
 }
