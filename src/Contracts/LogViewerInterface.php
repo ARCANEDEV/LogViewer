@@ -12,7 +12,7 @@ use Arcanedev\LogViewer\Tables\StatsTable;
  * @package   Arcanedev\LogViewer\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface LogViewerInterface
+interface LogViewerInterface extends Patternable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
@@ -35,6 +35,15 @@ interface LogViewerInterface
      * @return array
      */
     public function levelsNames($locale = null);
+
+    /**
+     * Set the log storage path.
+     *
+     * @param  string  $path
+     *
+     * @return \Arcanedev\LogViewer\LogViewer
+     */
+    public function setPath($path);
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

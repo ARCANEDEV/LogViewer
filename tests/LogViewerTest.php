@@ -323,4 +323,54 @@ class LogViewerTest extends TestCase
 
         $this->assertEquals('2015-01-03', head($dates));
     }
+
+    /** @test */
+    public function it_can_set_and_get_pattern()
+    {
+        $prefix    = 'laravel-';
+        $date      = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';
+        $extension = '.log';
+
+        $this->assertEquals(
+            $prefix . $date . $extension,
+            $this->logViewer->getPattern()
+        );
+
+        $this->logViewer->setPattern($prefix, $date, $extension = '');
+
+        $this->assertEquals(
+            $prefix . $date . $extension,
+            $this->logViewer->getPattern()
+        );
+
+        $this->logViewer->setPattern($prefix = 'laravel-cli-', $date, $extension);
+
+        $this->assertEquals(
+            $prefix . $date . $extension,
+            $this->logViewer->getPattern()
+        );
+
+        $this->logViewer->setPattern($prefix, $date = '[0-9][0-9][0-9][0-9]', $extension);
+
+        $this->assertEquals(
+            $prefix . $date . $extension,
+            $this->logViewer->getPattern()
+        );
+
+        $this->logViewer->setPattern();
+
+        $this->assertEquals(
+            'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
+            $this->logViewer->getPattern()
+        );
+
+        $this->logViewer->setPattern(
+            'laravel-', '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]', '.log'
+        );
+
+        $this->assertEquals(
+            'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
+            $this->logViewer->getPattern()
+        );
+    }
 }

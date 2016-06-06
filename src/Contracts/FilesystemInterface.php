@@ -8,8 +8,16 @@ use Arcanedev\LogViewer\Exceptions\FilesystemException;
  * @package   Arcanedev\LogViewer\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface FilesystemInterface
+interface FilesystemInterface extends Patternable
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const PATTERN_PREFIX    = 'laravel-';
+    const PATTERN_DATE      = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';
+    const PATTERN_EXTENSION = '.log';
+
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
@@ -29,6 +37,33 @@ interface FilesystemInterface
      * @return self
      */
     public function setPath($storagePath);
+
+    /**
+     * Set the log date pattern.
+     *
+     * @param  string  $datePattern
+     *
+     * @return self
+     */
+    public function setDatePattern($datePattern);
+
+    /**
+     * Set the log prefix pattern.
+     *
+     * @param  string  $prefixPattern
+     *
+     * @return self
+     */
+    public function setPrefixPattern($prefixPattern);
+
+    /**
+     * Set the log extension.
+     *
+     * @param  string  $extension
+     *
+     * @return self
+     */
+    public function setExtension($extension);
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions

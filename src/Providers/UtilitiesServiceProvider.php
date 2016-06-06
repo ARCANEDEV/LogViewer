@@ -120,10 +120,17 @@ class UtilitiesServiceProvider extends ServiceProvider
              * @var  \Illuminate\Config\Repository      $config
              * @var  \Illuminate\Filesystem\Filesystem  $files
              */
-            $config = $app['config'];
-            $files  = $app['files'];
+            $config     = $app['config'];
+            $files      = $app['files'];
+            $filesystem = new Filesystem($files, $config->get('log-viewer.storage-path'));
 
-            return new Filesystem($files, $config->get('log-viewer.storage-path'));
+            $filesystem->setPattern(
+                $config->get('log-viewer.pattern.prefix',    Filesystem::PATTERN_PREFIX),
+                $config->get('log-viewer.pattern.date',      Filesystem::PATTERN_DATE),
+                $config->get('log-viewer.pattern.extension', Filesystem::PATTERN_EXTENSION)
+            );
+
+            return $filesystem;
         });
 
         $this->bind(
