@@ -61,6 +61,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 | `ro`    | Romanian              |
 | `ru`    | Russian               |
 | `sv`    | Swedish               |
+| `th`    | Thai                  |
 | `tr`    | Turkish               |
 | `zh`    | Chinese (Simplified)  |
 | `zh-TW` | Chinese (Traditional) |
