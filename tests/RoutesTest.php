@@ -115,20 +115,28 @@ class RoutesTest extends TestCase
         $this->assertArrayHasKey('result', $data);
         $this->assertEquals($data['result'], 'success');
     }
+
     /** @test */
     public function it_must_throw_log_not_found_exception_on_show()
     {
-        $this->route('GET', 'log-viewer::logs.show', ['0000-00-00']);
+        try {
+            $this->route('GET', 'log-viewer::logs.show', ['0000-00-00']);
 
-        $this->assertSame(404, $this->response->getStatusCode());
-        $this->assertInstanceOf(
-            \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
-            $this->response->exception
-        );
-        $this->assertSame(
-            'Log not found in this date [0000-00-00]',
-            $this->response->exception->getMessage()
-        );
+            $code    = $this->response->getStatusCode();
+            $message = $this->response->exception->getMessage();
+
+            $this->assertInstanceOf(
+                \Symfony\Component\HttpKernel\Exception\HttpException::class,
+                $this->response->exception
+            );
+        }
+        catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+            $code    = $e->getStatusCode();
+            $message = $e->getMessage();
+        }
+
+        $this->assertSame(404, $code);
+        $this->assertSame('Log not found in this date [0000-00-00]', $message);
     }
 
     /**
@@ -155,16 +163,23 @@ class RoutesTest extends TestCase
     /** @test */
     public function it_must_throw_method_not_allowed_on_delete()
     {
-        $this->route('DELETE', 'log-viewer::logs.delete');
+        try {
+            $this->route('DELETE', 'log-viewer::logs.delete');
 
-        $this->assertSame(405, $this->response->getStatusCode());
-        $this->assertInstanceOf(
-            \Symfony\Component\HttpKernel\Exception\HttpException::class,
-            $this->response->exception
-        );
-        $this->assertSame(
-            'Method Not Allowed',
-            $this->response->exception->getMessage()
-        );
+            $code    = $this->response->getStatusCode();
+            $message = $this->response->exception->getMessage();
+
+            $this->assertInstanceOf(
+                \Symfony\Component\HttpKernel\Exception\HttpException::class,
+                $this->response->exception
+            );
+        }
+        catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+            $code    = $e->getStatusCode();
+            $message = $e->getMessage();
+        }
+
+        $this->assertSame(405, $code);
+        $this->assertSame('Method Not Allowed', $message);
     }
 }
