@@ -23,7 +23,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     /** @var string */
     public $level;
 
-    /** @var Carbon */
+    /** @var \Carbon\Carbon */
     public $datetime;
 
     /** @var string */
@@ -110,14 +110,11 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      *
      * @param  string  $datetime
      *
-     * @return self
+     * @return \Arcanedev\LogViewer\Entities\LogEntry
      */
     private function setDatetime($datetime)
     {
-        $this->datetime = Carbon::createFromFormat(
-            'Y-m-d H:i:s',
-            $datetime
-        );
+        $this->datetime = Carbon::createFromFormat('Y-m-d H:i:s', $datetime);
 
         return $this;
     }
@@ -137,17 +134,17 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Get translated level name with icon
+     * Get translated level name with icon.
      *
      * @return string
      */
     public function level()
     {
-        return $this->icon() . ' ' . $this->name();
+        return $this->icon().' '.$this->name();
     }
 
     /**
-     * Get translated level name
+     * Get translated level name.
      *
      * @return string
      */
@@ -157,7 +154,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Get level icon
+     * Get level icon.
      *
      * @return string
      */
@@ -171,7 +168,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check if same log level
+     * Check if same log level.
      *
      * @param  string  $level
      *
@@ -214,7 +211,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Serialize the log entry object to json data
+     * Serialize the log entry object to json data.
      *
      * @return array
      */
