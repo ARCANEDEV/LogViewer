@@ -2,6 +2,7 @@
 
 use Arcanedev\LogViewer\Providers\UtilitiesServiceProvider;
 use Arcanedev\LogViewer\Tests\TestCase;
+use Arcanedev\LogViewer\Contracts;
 
 /**
  * Class     UtilitiesServiceProviderTest
@@ -27,7 +28,7 @@ class UtilitiesServiceProviderTest extends TestCase
         parent::setUp();
 
         $this->provider = $this->app->getProvider(
-            'Arcanedev\\LogViewer\\Providers\\UtilitiesServiceProvider'
+            \Arcanedev\LogViewer\Providers\UtilitiesServiceProvider::class
         );
     }
 
@@ -47,9 +48,9 @@ class UtilitiesServiceProviderTest extends TestCase
     public function it_can_be_instantiated()
     {
         $expectations = [
-            'Illuminate\\Support\\ServiceProvider',
-            'Arcanedev\\Support\\ServiceProvider',
-            'Arcanedev\\LogViewer\\Providers\\UtilitiesServiceProvider',
+            \Illuminate\Support\ServiceProvider::class,
+            \Arcanedev\Support\ServiceProvider::class,
+            \Arcanedev\LogViewer\Providers\UtilitiesServiceProvider::class,
         ];
 
         foreach ($expectations as $expected) {
@@ -62,17 +63,17 @@ class UtilitiesServiceProviderTest extends TestCase
     {
         $expected = [
             'arcanedev.log-viewer.levels',
-            'Arcanedev\\LogViewer\\Contracts\\LogLevelsInterface',
+            Contracts\Utilities\LogLevels::class,
             'arcanedev.log-viewer.styler',
-            'Arcanedev\\LogViewer\\Contracts\\LogStylerInterface',
+            Contracts\Utilities\LogStyler::class,
             'arcanedev.log-viewer.menu',
-            'Arcanedev\\LogViewer\\Contracts\\LogMenuInterface',
+            Contracts\Utilities\LogMenu::class,
             'arcanedev.log-viewer.filesystem',
-            'Arcanedev\\LogViewer\\Contracts\\FilesystemInterface',
+            Contracts\Utilities\Filesystem::class,
             'arcanedev.log-viewer.factory',
-            'Arcanedev\\LogViewer\\Contracts\\FactoryInterface',
+            Contracts\Utilities\Factory::class,
             'arcanedev.log-viewer.checker',
-            'Arcanedev\\LogViewer\\Contracts\\LogCheckerInterface',
+            Contracts\Utilities\LogChecker::class,
         ];
 
         $this->assertEquals($expected, $this->provider->provides());

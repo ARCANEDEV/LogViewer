@@ -53,8 +53,8 @@ class FactoryTest extends TestCase
     public function it_can_get_filesystem_object()
     {
         $expectations = [
-            'Arcanedev\\LogViewer\\Contracts\\FilesystemInterface',
-            'Arcanedev\\LogViewer\\Utilities\\Filesystem'
+            \Arcanedev\LogViewer\Contracts\Utilities\Filesystem::class,
+            \Arcanedev\LogViewer\Utilities\Filesystem::class,
         ];
 
         foreach ($expectations as $expected) {
@@ -66,8 +66,8 @@ class FactoryTest extends TestCase
     public function it_can_get_levels_object()
     {
         $expectations = [
-            'Arcanedev\\LogViewer\\Contracts\\LogLevelsInterface',
-            'Arcanedev\\LogViewer\\Utilities\\LogLevels'
+            \Arcanedev\LogViewer\Contracts\Utilities\LogLevels::class,
+            \Arcanedev\LogViewer\Utilities\LogLevels::class,
         ];
 
         foreach ($expectations as $expected) {
@@ -100,10 +100,7 @@ class FactoryTest extends TestCase
     {
         $logs = $this->logFactory->all();
 
-        $this->assertInstanceOf(
-            'Arcanedev\\LogViewer\\Entities\\LogCollection',
-            $logs
-        );
+        $this->assertInstanceOf(\Arcanedev\LogViewer\Entities\LogCollection::class, $logs);
         $this->assertCount(2, $logs);
     }
 
@@ -112,14 +109,11 @@ class FactoryTest extends TestCase
     {
         $logs = $this->logFactory->paginate();
 
-        $this->assertInstanceOf(
-            'Illuminate\\Pagination\\LengthAwarePaginator',
-            $logs
-        );
+        $this->assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $logs);
         $this->assertEquals(30, $logs->perPage());
-        $this->assertEquals(2, $logs->total());
-        $this->assertEquals(1, $logs->lastPage());
-        $this->assertEquals(1, $logs->currentPage());
+        $this->assertEquals(2,  $logs->total());
+        $this->assertEquals(1,  $logs->lastPage());
+        $this->assertEquals(1,  $logs->currentPage());
     }
 
     /** @test */
@@ -214,7 +208,7 @@ class FactoryTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \Arcanedev\LogViewer\Exceptions\LogNotFound
+     * @expectedException \Arcanedev\LogViewer\Exceptions\LogNotFoundException
      */
     public function it_must_throw_a_filesystem_exception()
     {
