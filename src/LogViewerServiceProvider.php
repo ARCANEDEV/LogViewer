@@ -53,12 +53,12 @@ class LogViewerServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
 
-        $this->app->register('Arcanedev\\LogViewer\\Providers\\UtilitiesServiceProvider');
+        $this->app->register(Providers\UtilitiesServiceProvider::class);
         $this->registerLogViewer();
         $this->registerAliases();
 
         if ($this->app->runningInConsole()) {
-            $this->app->register('Arcanedev\\LogViewer\\Providers\\CommandsServiceProvider');
+            $this->app->register(Providers\CommandsServiceProvider::class);
         }
     }
 
@@ -70,7 +70,7 @@ class LogViewerServiceProvider extends ServiceProvider
         $this->publishConfig();
         $this->publishViews();
         $this->publishTranslations();
-        $this->app->register('Arcanedev\\LogViewer\\Providers\\RouteServiceProvider');
+        $this->app->register(Providers\RouteServiceProvider::class);
     }
 
     /**
@@ -82,7 +82,7 @@ class LogViewerServiceProvider extends ServiceProvider
     {
         return [
             'arcanedev.log-viewer',
-            'Arcanedev\\LogViewer\\Contracts\\LogViewerInterface',
+            Contracts\LogViewer::class,
         ];
     }
 
@@ -95,20 +95,14 @@ class LogViewerServiceProvider extends ServiceProvider
      */
     private function registerLogViewer()
     {
-        $this->singleton(
-            'arcanedev.log-viewer',
-            'Arcanedev\\LogViewer\\LogViewer'
-        );
+        $this->singleton('arcanedev.log-viewer', LogViewer::class);
 
-        $this->bind(
-            'Arcanedev\\LogViewer\\Contracts\\LogViewerInterface',
-            'arcanedev.log-viewer'
-        );
+        $this->bind(Contracts\LogViewer::class, 'arcanedev.log-viewer');
 
         // Registering the Facade
         $this->alias(
-            $this->app['config']->get('log-viewer.facade', 'LogViewer'),
-            'Arcanedev\\LogViewer\\Facades\\LogViewer'
+            $this->config()->get('log-viewer.facade', 'LogViewer'),
+            Facades\LogViewer::class
         );
     }
 }
