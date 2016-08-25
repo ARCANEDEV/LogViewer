@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Bases;
 
-use Arcanedev\LogViewer\Contracts\LogViewerInterface;
+use Arcanedev\LogViewer\Contracts\LogViewer as LogViewerContract;
 use Arcanedev\Support\Bases\Command as BaseCommand;
 
 /**
@@ -15,7 +15,7 @@ abstract class Command extends BaseCommand
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var LogViewerInterface */
+    /** @var \Arcanedev\LogViewer\Contracts\LogViewer */
     protected $logViewer;
 
     /* ------------------------------------------------------------------------------------------------
@@ -25,9 +25,9 @@ abstract class Command extends BaseCommand
     /**
      * Create the command instance.
      *
-     * @param  LogViewerInterface  $logViewer
+     * @param  \Arcanedev\LogViewer\Contracts\LogViewer  $logViewer
      */
-    public function __construct(LogViewerInterface $logViewer)
+    public function __construct(LogViewerContract $logViewer)
     {
         parent::__construct();
 
