@@ -1,12 +1,12 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
 
 /**
- * Interface  TableInterface
+ * Interface  Table
  *
  * @package   Arcanedev\LogViewer\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface TableInterface
+interface Table
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

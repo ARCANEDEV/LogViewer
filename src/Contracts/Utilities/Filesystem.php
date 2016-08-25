@@ -1,14 +1,14 @@
-<?php namespace Arcanedev\LogViewer\Contracts;
+<?php namespace Arcanedev\LogViewer\Contracts\Utilities;
 
-use Arcanedev\LogViewer\Exceptions\FilesystemException;
+use Arcanedev\LogViewer\Contracts\Patternable;
 
 /**
- * Interface  FilesystemInterface
+ * Interface  Filesystem
  *
- * @package   Arcanedev\LogViewer\Contracts
+ * @package   Arcanedev\LogViewer\Contracts\Utilities
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface FilesystemInterface extends Patternable
+interface Filesystem extends Patternable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constants
@@ -86,7 +86,7 @@ interface FilesystemInterface extends Patternable
     /**
      * List the log files (Only dates).
      *
-     * @param  bool|false  $withPaths
+     * @param  bool  $withPaths
      *
      * @return array
      */
@@ -99,7 +99,7 @@ interface FilesystemInterface extends Patternable
      *
      * @return string
      *
-     * @throws FilesystemException
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function read($date);
 
@@ -110,7 +110,7 @@ interface FilesystemInterface extends Patternable
      *
      * @return bool
      *
-     * @throws FilesystemException
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function delete($date);
 
@@ -120,8 +120,6 @@ interface FilesystemInterface extends Patternable
      * @param  string  $date
      *
      * @return string
-     *
-     * @throws FilesystemException
      */
     public function path($date);
 }

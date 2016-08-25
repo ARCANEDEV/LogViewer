@@ -1,12 +1,12 @@
-<?php namespace Arcanedev\LogViewer\Contracts;
+<?php namespace Arcanedev\LogViewer\Contracts\Utilities;
 
 /**
- * Interface  LogStylerInterface
+ * Interface  LogStyler
  *
- * @package   Arcanedev\LogViewer\Contracts
+ * @package   Arcanedev\LogViewer\Contracts\Utilities
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface LogStylerInterface
+interface LogStyler
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
