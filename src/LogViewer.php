@@ -81,7 +81,7 @@ class LogViewer implements LogViewerInterface
      */
     public function levels($flip = false)
     {
-        return $this->levels->lists($flip);
+        return $this->levels->pluck($flip);
     }
 
     /**
