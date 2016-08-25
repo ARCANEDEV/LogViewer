@@ -24,12 +24,16 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 ## Features
 
   - A great Log viewer API.
+  - Laravel `5.0 | 5.1 | 5.2 | 5.3` are supported.
   - Ready to use (Views, Routes, controllers &hellip; Out of the box) [Note: No need to publish assets]
   - View, paginate, filter, download and delete logs.
   - Load a custom logs storage path.
-  - Generate logs menu/tree (With localized levels).
+  - Localized log levels.
+  - Logs menu/tree generator.
   - Grouped logs by dates and levels.
+  - Customized log levels icons (font awesome by default).
   - Works great with big logs !!
+  - Well documented package (IDE Friendly).
   - Well tested (100% code coverage with maximum code quality).
 
 ## Table of contents
@@ -66,23 +70,6 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 | `tr`    | Turkish               |
 | `zh`    | Chinese (Simplified)  |
 | `zh-TW` | Chinese (Traditional) |
-
-### DONE
-
-  - [x] Well documented package (IDE Friendly).
-  - [x] 100% Code coverage + Maximum code quality.
-  - [x] Localized log levels.
-  - [x] Laravel 5.0, 5.1 & 5.2 are supported.
-  - [x] Log viewer menu/tree.
-  - [x] Logs and Log entries pagination.
-  - [x] Download the log file.
-  - [x] Customized log levels icons (font awesome).
-
-### TODOS
-
-  - [ ] Log viewer CLI.
-  - [ ] Log viewer Statistics & Charts.
-  - [ ] Complete the documentation.
 
 ## Contribution
 
