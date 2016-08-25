@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Utilities;
 
-use Arcanedev\LogViewer\Contracts\FilesystemInterface;
+use Arcanedev\LogViewer\Contracts\Utilities\Filesystem as FilesystemContract;
 use Arcanedev\LogViewer\Exceptions\FilesystemException;
 use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 
@@ -10,7 +10,7 @@ use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
  * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class Filesystem implements FilesystemInterface
+class Filesystem implements FilesystemContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -56,7 +56,7 @@ class Filesystem implements FilesystemInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Create a new instance.
+     * Filesystem constructor.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $files
      * @param  string                             $storagePath
@@ -87,7 +87,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param  string  $storagePath
      *
-     * @return self
+     * @return \Arcanedev\LogViewer\Utilities\Filesystem
      */
     public function setPath($storagePath)
     {
@@ -113,7 +113,7 @@ class Filesystem implements FilesystemInterface
      * @param  string  $prefix
      * @param  string  $extension
      *
-     * @return self
+     * @return \Arcanedev\LogViewer\Utilities\Filesystem
      */
     public function setPattern(
         $prefix    = self::PATTERN_PREFIX,
@@ -132,7 +132,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param  string  $datePattern
      *
-     * @return self
+     * @return \Arcanedev\LogViewer\Utilities\Filesystem
      */
     public function setDatePattern($datePattern)
     {
@@ -146,7 +146,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param  string  $prefixPattern
      *
-     * @return self
+     * @return \Arcanedev\LogViewer\Utilities\Filesystem
      */
     public function setPrefixPattern($prefixPattern)
     {
@@ -160,7 +160,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param  string  $extension
      *
-     * @return self
+     * @return \Arcanedev\LogViewer\Utilities\Filesystem
      */
     public function setExtension($extension)
     {
@@ -196,7 +196,7 @@ class Filesystem implements FilesystemInterface
     /**
      * List the log files (Only dates).
      *
-     * @param  bool|false  $withPaths
+     * @param  bool  $withPaths
      *
      * @return array
      */
@@ -248,9 +248,7 @@ class Filesystem implements FilesystemInterface
 
         // @codeCoverageIgnoreStart
         if ( ! $this->filesystem->delete($path)) {
-            throw new FilesystemException(
-                'There was an error deleting the log.'
-            );
+            throw new FilesystemException('There was an error deleting the log.');
         }
         // @codeCoverageIgnoreEnd
 
@@ -263,8 +261,6 @@ class Filesystem implements FilesystemInterface
      * @param  string  $date
      *
      * @return string
-     *
-     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function path($date)
     {
@@ -285,8 +281,7 @@ class Filesystem implements FilesystemInterface
     private function getFiles($pattern)
     {
         $files = $this->filesystem->glob(
-            $this->storagePath . DS . $pattern,
-            GLOB_BRACE
+            $this->storagePath.DS.$pattern, GLOB_BRACE
         );
 
         return array_filter(array_map('realpath', $files));
@@ -306,9 +301,7 @@ class Filesystem implements FilesystemInterface
         $path = $this->storagePath . DS . $this->prefixPattern . $date . $this->extension;
 
         if ( ! $this->filesystem->exists($path)) {
-            throw new FilesystemException(
-                'The log(s) could not be located at : ' . $path
-            );
+            throw new FilesystemException("The log(s) could not be located at : $path");
         }
 
         return realpath($path);
