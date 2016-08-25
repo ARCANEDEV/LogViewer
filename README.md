@@ -53,6 +53,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 | `es`    | Spanish               |
 | `fa`    | Farsi                 |
 | `fr`    | French                |
+| `hu`    | Hungarian             |
 | `hy`    | Armenian              |
 | `it`    | Italian               |
 | `nl`    | Dutch                 |
