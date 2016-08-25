@@ -14,16 +14,17 @@ return [
      | ------------------------------------------------------------------------------------------------
      */
     'pattern'       => [
-        'prefix'    => Filesystem::PATTERN_PREFIX,
-        'date'      => Filesystem::PATTERN_DATE,
-        'extension' => Filesystem::PATTERN_EXTENSION,
+        'prefix'    => Filesystem::PATTERN_PREFIX,    // 'laravel-'
+        'date'      => Filesystem::PATTERN_DATE,      // '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'
+        'extension' => Filesystem::PATTERN_EXTENSION, // '.log'
     ],
 
     /* ------------------------------------------------------------------------------------------------
      |  Locale
      | ------------------------------------------------------------------------------------------------
      |  Supported locales :
-     |    'auto', 'ar', 'de', 'en', 'es', 'fa', 'fr', 'hu', 'hy', 'it', 'nl', 'pl', 'pt-BR', 'ro', 'ru', 'sv', 'th', 'tr', 'zh-TW', 'zh'
+     |    'auto', 'ar', 'de', 'en', 'es', 'fa', 'fr', 'hu', 'hy', 'it', 'nl', 'pl', 'pt-BR', 'ro', 'ru',
+     |    'sv', 'th', 'tr', 'zh-TW', 'zh'
      */
     'locale'        => 'auto',
 
