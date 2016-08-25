@@ -1,5 +1,7 @@
 <?php
 
+use Arcanedev\LogViewer\Contracts\Utilities\Filesystem;
+
 return [
     /* ------------------------------------------------------------------------------------------------
      |  Log files storage path
@@ -12,9 +14,9 @@ return [
      | ------------------------------------------------------------------------------------------------
      */
     'pattern'       => [
-        'prefix'    => \Arcanedev\LogViewer\Contracts\FilesystemInterface::PATTERN_PREFIX,
-        'date'      => \Arcanedev\LogViewer\Contracts\FilesystemInterface::PATTERN_DATE,
-        'extension' => \Arcanedev\LogViewer\Contracts\FilesystemInterface::PATTERN_EXTENSION,
+        'prefix'    => Filesystem::PATTERN_PREFIX,
+        'date'      => Filesystem::PATTERN_DATE,
+        'extension' => Filesystem::PATTERN_EXTENSION,
     ],
 
     /* ------------------------------------------------------------------------------------------------
