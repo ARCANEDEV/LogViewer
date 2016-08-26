@@ -1,14 +1,14 @@
-<?php namespace Arcanedev\LogViewer\Contracts;
+<?php namespace Arcanedev\LogViewer\Contracts\Utilities;
 
 use Illuminate\Translation\Translator;
 
 /**
- * Interface  LogLevelsInterface
+ * Interface  LogLevels
  *
- * @package   Arcanedev\LogViewer\Contracts
+ * @package   Arcanedev\LogViewer\Contracts\Utilities
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface LogLevelsInterface
+interface LogLevels
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
@@ -46,7 +46,7 @@ interface LogLevelsInterface
     /**
      * Get the log levels.
      *
-     * @param  bool|false  $flip
+     * @param  bool  $flip
      *
      * @return array
      */
@@ -64,7 +64,7 @@ interface LogLevelsInterface
     /**
      * Get PSR log levels.
      *
-     * @param  bool|false  $flip
+     * @param  bool  $flip
      *
      * @return array
      */

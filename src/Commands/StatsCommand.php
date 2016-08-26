@@ -62,9 +62,9 @@ class StatsCommand extends Command
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Prepare footer
+     * Prepare footer.
      *
-     * @param  StatsTable  $stats
+     * @param  \Arcanedev\LogViewer\Tables\StatsTable  $stats
      *
      * @return array
      */

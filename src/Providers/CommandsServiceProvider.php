@@ -1,8 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Providers;
 
-use Arcanedev\LogViewer\Commands\CheckCommand;
-use Arcanedev\LogViewer\Commands\PublishCommand;
-use Arcanedev\LogViewer\Commands\StatsCommand;
+use Arcanedev\LogViewer\Commands;
 use Arcanedev\LogViewer\LogViewer;
 use Arcanedev\Support\ServiceProvider;
 use Closure;
@@ -74,7 +72,7 @@ class CommandsServiceProvider extends ServiceProvider
         $this->registerCommand('check', function () {
             $logViewer = $this->getLogViewer();
 
-            return new CheckCommand($logViewer);
+            return new Commands\CheckCommand($logViewer);
         });
     }
 
@@ -86,7 +84,7 @@ class CommandsServiceProvider extends ServiceProvider
         $this->registerCommand('publish', function () {
             $logViewer = $this->getLogViewer();
 
-            return new PublishCommand($logViewer);
+            return new Commands\PublishCommand($logViewer);
         });
     }
 
@@ -98,7 +96,7 @@ class CommandsServiceProvider extends ServiceProvider
         $this->registerCommand('stats', function () {
             $logViewer = $this->getLogViewer();
 
-            return new StatsCommand($logViewer);
+            return new Commands\StatsCommand($logViewer);
         });
     }
 

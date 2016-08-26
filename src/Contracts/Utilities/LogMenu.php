@@ -1,14 +1,15 @@
-<?php namespace Arcanedev\LogViewer\Contracts;
+<?php namespace Arcanedev\LogViewer\Contracts\Utilities;
 
-use \Illuminate\Contracts\Config\Repository as Config;
+use Arcanedev\LogViewer\Entities\Log;
+use Illuminate\Contracts\Config\Repository as ConfigContract;
 
 /**
- * Interface  LogCheckerInterface
+ * Interface  LogMenu
  *
- * @package   Arcanedev\LogViewer\Contracts
+ * @package   Arcanedev\LogViewer\Contracts\Utilities
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface LogCheckerInterface
+interface LogMenu
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
@@ -21,46 +22,28 @@ interface LogCheckerInterface
      *
      * @return self
      */
-    public function setConfig(Config $config);
+    public function setConfig(ConfigContract $config);
 
     /**
-     * Set the Filesystem instance.
+     * Set the log styler instance.
      *
-     * @param  \Arcanedev\LogViewer\Contracts\FilesystemInterface  $filesystem
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogStyler  $styler
      *
      * @return self
      */
-    public function setFilesystem(FilesystemInterface $filesystem);
+    public function setLogStyler(LogStyler $styler);
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get messages.
+     * Make log menu.
+     *
+     * @param  \Arcanedev\LogViewer\Entities\Log  $log
+     * @param  bool                               $trans
      *
      * @return array
      */
-    public function messages();
-
-    /**
-     * Check passes ??
-     *
-     * @return bool
-     */
-    public function passes();
-
-    /**
-     * Check fails ??
-     *
-     * @return bool
-     */
-    public function fails();
-
-    /**
-     * Get the requirements
-     *
-     * @return array
-     */
-    public function requirements();
+    public function make(Log $log, $trans = true);
 }

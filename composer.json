@@ -14,7 +14,7 @@
     "type":    "library",
     "license": "MIT",
     "require": {
-        "php":               ">=5.5.9",
+        "php":               ">=5.6",
         "psr/log":           "~1.0",
         "arcanedev/support": "~3.0"
     },
@@ -38,7 +38,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.10.x-dev"
+            "dev-master": "4.0.x-dev"
         }
     }
 }

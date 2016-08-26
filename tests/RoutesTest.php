@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Tests;
 
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-
 /**
  * Class     RoutesTest
  *
@@ -86,12 +84,12 @@ class RoutesTest extends TestCase
     public function it_can_download_a_log_page()
     {
         $date     = '2015-01-01';
-        /** @var BinaryFileResponse $response */
+        /** @var \Symfony\Component\HttpFoundation\BinaryFileResponse $response */
         $response = $this->route('GET', 'log-viewer::logs.download', [$date]);
 
         $this->assertResponseOk();
         $this->assertInstanceOf(
-            'Symfony\\Component\\HttpFoundation\\BinaryFileResponse',
+            \Symfony\Component\HttpFoundation\BinaryFileResponse::class,
             $response
         );
         $this->assertEquals(
@@ -117,15 +115,28 @@ class RoutesTest extends TestCase
         $this->assertArrayHasKey('result', $data);
         $this->assertEquals($data['result'], 'success');
     }
-    /**
-     * @test
-     *
-     * @expectedException        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @expectedExceptionMessage Log not found in this date [0000-00-00]
-     */
+
+    /** @test */
     public function it_must_throw_log_not_found_exception_on_show()
     {
-        $this->route('GET', 'log-viewer::logs.show', ['0000-00-00']);
+        try {
+            $this->route('GET', 'log-viewer::logs.show', ['0000-00-00']);
+
+            $code    = $this->response->getStatusCode();
+            $message = $this->response->exception->getMessage();
+
+            $this->assertInstanceOf(
+                \Symfony\Component\HttpKernel\Exception\HttpException::class,
+                $this->response->exception
+            );
+        }
+        catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+            $code    = $e->getStatusCode();
+            $message = $e->getMessage();
+        }
+
+        $this->assertSame(404, $code);
+        $this->assertSame('Log not found in this date [0000-00-00]', $message);
     }
 
     /**
@@ -142,21 +153,33 @@ class RoutesTest extends TestCase
         }
         catch(\Exception $exception) {
             $this->assertInstanceOf(
-                '\Arcanedev\\LogViewer\\Exceptions\\FilesystemException',
+                \Arcanedev\LogViewer\Exceptions\FilesystemException::class,
                 $exception
             );
             $this->assertStringStartsWith('The log(s) could not be located at : ', $exception->getMessage());
         }
     }
 
-    /**
-     * @test
-     *
-     * @expectedException        \Symfony\Component\HttpKernel\Exception\HttpException
-     * @expectedExceptionMessage Method Not Allowed
-     */
+    /** @test */
     public function it_must_throw_method_not_allowed_on_delete()
     {
-        $this->route('DELETE', 'log-viewer::logs.delete');
+        try {
+            $this->route('DELETE', 'log-viewer::logs.delete');
+
+            $code    = $this->response->getStatusCode();
+            $message = $this->response->exception->getMessage();
+
+            $this->assertInstanceOf(
+                \Symfony\Component\HttpKernel\Exception\HttpException::class,
+                $this->response->exception
+            );
+        }
+        catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+            $code    = $e->getStatusCode();
+            $message = $e->getMessage();
+        }
+
+        $this->assertSame(405, $code);
+        $this->assertSame('Method Not Allowed', $message);
     }
 }

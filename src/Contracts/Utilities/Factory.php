@@ -1,12 +1,14 @@
-<?php namespace Arcanedev\LogViewer\Contracts;
+<?php namespace Arcanedev\LogViewer\Contracts\Utilities;
+
+use Arcanedev\LogViewer\Contracts\Patternable;
 
 /**
- * Interface  FactoryInterface
+ * Interface  Factory
  *
- * @package   Arcanedev\LogViewer\Contracts
+ * @package   Arcanedev\LogViewer\Contracts\Utilities
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface FactoryInterface extends Patternable
+interface Factory extends Patternable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
@@ -15,34 +17,34 @@ interface FactoryInterface extends Patternable
     /**
      * Get the filesystem instance.
      *
-     * @return \Arcanedev\LogViewer\Contracts\FilesystemInterface
+     * @return \Arcanedev\LogViewer\Contracts\Utilities\Filesystem
      */
     public function getFilesystem();
 
     /**
      * Set the filesystem instance.
      *
-     * @param  \Arcanedev\LogViewer\Contracts\FilesystemInterface  $filesystem
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\Filesystem  $filesystem
      *
      * @return self
      */
-    public function setFilesystem(FilesystemInterface $filesystem);
+    public function setFilesystem(Filesystem $filesystem);
 
     /**
      * Get the log levels instance.
      *
-     * @return  \Arcanedev\LogViewer\Contracts\LogLevelsInterface  $levels
+     * @return  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels  $levels
      */
     public function getLevels();
 
     /**
      * Set the log levels instance.
      *
-     * @param  \Arcanedev\LogViewer\Contracts\LogLevelsInterface  $levels
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels  $levels
      *
      * @return self
      */
-    public function setLevels(LogLevelsInterface $levels);
+    public function setLevels(LogLevels $levels);
 
     /**
      * Set the log storage path.
@@ -134,7 +136,7 @@ interface FactoryInterface extends Patternable
     /**
      * Get tree menu.
      *
-     * @param  bool|false  $trans
+     * @param  bool  $trans
      *
      * @return array
      */
@@ -143,7 +145,7 @@ interface FactoryInterface extends Patternable
     /**
      * Get tree menu.
      *
-     * @param  bool|true  $trans
+     * @param  bool  $trans
      *
      * @return array
      */

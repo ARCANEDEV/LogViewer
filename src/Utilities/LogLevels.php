@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Utilities;
 
-use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
+use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
 use Illuminate\Translation\Translator;
 use Psr\Log\LogLevel;
 use ReflectionClass;
@@ -11,7 +11,7 @@ use ReflectionClass;
  * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogLevels implements LogLevelsInterface
+class LogLevels implements LogLevelsContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -43,7 +43,7 @@ class LogLevels implements LogLevelsInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Create LogLevels instance.
+     * LogLevels constructor.
      *
      * @param  \Illuminate\Translation\Translator  $translator
      * @param  string                              $locale
@@ -63,7 +63,7 @@ class LogLevels implements LogLevelsInterface
      *
      * @param  \Illuminate\Translation\Translator  $translator
      *
-     * @return self
+     * @return \Arcanedev\LogViewer\Utilities\LogLevels
      */
     public function setTranslator(Translator $translator)
     {
@@ -89,7 +89,7 @@ class LogLevels implements LogLevelsInterface
      *
      * @param  string  $locale
      *
-     * @return self
+     * @return \Arcanedev\LogViewer\Utilities\LogLevels
      */
     public function setLocale($locale)
     {
@@ -105,7 +105,7 @@ class LogLevels implements LogLevelsInterface
     /**
      * Get the log levels.
      *
-     * @param  bool|false  $flip
+     * @param  bool  $flip
      *
      * @return array
      */
@@ -135,15 +135,15 @@ class LogLevels implements LogLevelsInterface
     /**
      * Get PSR log levels.
      *
-     * @param  bool|false  $flip
+     * @param  bool  $flip
      *
      * @return array
      */
     public static function all($flip = false)
     {
         if (empty(self::$levels)) {
-            $class        = new ReflectionClass(new LogLevel);
-            self::$levels = $class->getConstants();
+            self::$levels = (new ReflectionClass(LogLevel::class))
+                ->getConstants();
         }
 
         return $flip ? array_flip(self::$levels) : self::$levels;

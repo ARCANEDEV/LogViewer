@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Tests;
 
-use Arcanedev\LogViewer\Contracts\TableInterface;
+use Arcanedev\LogViewer\Contracts\Table as TableContract;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
@@ -28,7 +28,8 @@ abstract class TestCase extends BaseTestCase
 
     /** @var array */
     protected static $locales   = [
-        'ar', 'de', 'en', 'es', 'fa', 'fr', 'hu', 'hy', 'it', 'nl', 'pl', 'pt-BR', 'ro', 'ru', 'sv', 'th', 'tr', 'zh-TW', 'zh'
+        'ar', 'de', 'en', 'es', 'fa', 'fr', 'hu', 'hy', 'it', 'nl', 'pl', 'pt-BR', 'ro', 'ru', 'sv', 'th', 'tr',
+        'zh-TW', 'zh'
     ];
 
     /* ------------------------------------------------------------------------------------------------
@@ -63,21 +64,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            'Arcanedev\\LogViewer\\LogViewerServiceProvider'
-        ];
-    }
-
-    /**
-     * Get package aliases.
-     *
-     * @param  Application  $app
-     *
-     * @return array
-     */
-    protected function getPackageAliases($app)
-    {
-        return [
-            // 'LogViewer' => \Arcanedev\LogViewer\Facades\LogViewer::class
+            \Arcanedev\LogViewer\LogViewerServiceProvider::class,
         ];
     }
 
@@ -88,12 +75,12 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['path.storage'] = realpath(__DIR__ . '/fixtures');
+        $app['path.storage'] = realpath(__DIR__.'/fixtures');
 
         /** @var \Illuminate\Config\Repository $config */
         $config = $app['config'];
 
-        $config->set('log-viewer.storage-path', $app['path.storage'] . DS  .'logs');
+        $config->set('log-viewer.storage-path', $app['path.storage'].DS.'logs');
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -108,7 +95,7 @@ abstract class TestCase extends BaseTestCase
      */
     public static function assertJsonObject($object, $message = '')
     {
-        self::assertInstanceOf('Illuminate\\Contracts\\Support\\Jsonable', $object);
+        self::assertInstanceOf(\Illuminate\Contracts\Support\Jsonable::class, $object);
         self::assertJson($object->toJson(JSON_PRETTY_PRINT), $message);
 
         self::assertInstanceOf('JsonSerializable', $object);
@@ -116,10 +103,10 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Assert Log object
+     * Assert Log object.
      *
-     * @param  Log     $log
-     * @param  string  $date
+     * @param  \Arcanedev\LogViewer\Entities\Log  $log
+     * @param  string                             $date
      */
     protected function assertLog(Log $log, $date)
     {
@@ -128,10 +115,10 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Assert Log entries object
+     * Assert Log entries object.
      *
-     * @param  string              $date
-     * @param  LogEntryCollection  $entries
+     * @param  string                                            $date
+     * @param  \Arcanedev\LogViewer\Entities\LogEntryCollection  $entries
      */
     protected function assertLogEntries($date, LogEntryCollection $entries)
     {
@@ -141,24 +128,24 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Assert log entry object
+     * Assert log entry object.
      *
-     * @param  string    $date
-     * @param  LogEntry  $entry
+     * @param  string                                  $date
+     * @param  \Arcanedev\LogViewer\Entities\LogEntry  $entry
      */
     protected function assertLogEntry($date, LogEntry $entry)
     {
         $dt = Carbon::createFromFormat('Y-m-d', $date);
 
         $this->assertInLogLevels($entry->level);
-        $this->assertInstanceOf('Carbon\\Carbon', $entry->datetime);
+        $this->assertInstanceOf(\Carbon\Carbon::class, $entry->datetime);
         $this->assertTrue($entry->datetime->isSameDay($dt));
         $this->assertNotEmpty($entry->header);
         $this->assertNotEmpty($entry->stack);
     }
 
     /**
-     * Assert in log levels
+     * Assert in log levels.
      *
      * @param  string  $level
      * @param  string  $message
@@ -169,7 +156,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Assert levels
+     * Assert levels.
      *
      * @param  array  $levels
      */
@@ -184,7 +171,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Assert translated level
+     * Assert translated level.
      *
      * @param  string  $locale
      * @param  array   $levels
@@ -197,7 +184,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Assert translated level
+     * Assert translated level.
      *
      * @param  string  $locale
      * @param  string  $level
@@ -211,7 +198,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Assert dates
+     * Assert dates.
      *
      * @param  array   $dates
      * @param  string  $message
@@ -224,23 +211,23 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Assert date [YYYY-MM-DD]
+     * Assert date [YYYY-MM-DD].
      *
      * @param  string  $date
      * @param  string  $message
      */
     public function assertDate($date, $message = '')
     {
-        $this->assertRegExp('/' . REGEX_DATE_PATTERN . '/', $date, $message);
+        $this->assertRegExp('/'.REGEX_DATE_PATTERN.'/', $date, $message);
     }
 
     /**
      * Assert Menu item.
      *
-     * @param  array      $item
-     * @param  string     $name
-     * @param  int        $count
-     * @param  bool|true  $withIcons
+     * @param  array   $item
+     * @param  string  $name
+     * @param  int     $count
+     * @param  bool    $withIcons
      */
     protected function assertMenuItem($item, $name, $count, $withIcons = true)
     {
@@ -261,9 +248,9 @@ abstract class TestCase extends BaseTestCase
     /**
      * Assert table instance.
      *
-     * @param  TableInterface  $table
+     * @param  \Arcanedev\LogViewer\Contracts\Table  $table
      */
-    protected function assertTable(TableInterface $table)
+    protected function assertTable(TableContract $table)
     {
         $this->assertTableHeader($table);
         $this->assertTableRows($table);
@@ -273,9 +260,9 @@ abstract class TestCase extends BaseTestCase
     /**
      * Assert table header.
      *
-     * @param  TableInterface  $table
+     * @param  \Arcanedev\LogViewer\Contracts\Table  $table
      */
-    protected function assertTableHeader(TableInterface $table)
+    protected function assertTableHeader(TableContract $table)
     {
         $header = $table->header();
 
@@ -286,9 +273,9 @@ abstract class TestCase extends BaseTestCase
     /**
      * Assert table rows.
      *
-     * @param  TableInterface  $table
+     * @param  \Arcanedev\LogViewer\Contracts\Table  $table
      */
-    protected function assertTableRows(TableInterface $table)
+    protected function assertTableRows(TableContract $table)
     {
         foreach ($table->rows() as $date => $row) {
             $this->assertDate($date);
@@ -315,9 +302,9 @@ abstract class TestCase extends BaseTestCase
     /**
      * Assert table footer.
      *
-     * @param  TableInterface  $table
+     * @param  \Arcanedev\LogViewer\Contracts\Table  $table
      */
-    protected function assertTableFooter(TableInterface $table)
+    protected function assertTableFooter(TableContract $table)
     {
         foreach ($table->footer() as $key => $value) {
             $this->assertEquals($key === 'all' ? 16 : 2, $value);
@@ -325,7 +312,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Assert HEX Color
+     * Assert HEX Color.
      *
      * @param  string  $color
      * @param  string  $message
@@ -342,7 +329,7 @@ abstract class TestCase extends BaseTestCase
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get Illuminate Filesystem
+     * Get Illuminate Filesystem instance.
      *
      * @return \Illuminate\Filesystem\Filesystem
      */
@@ -352,7 +339,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get Filesystem utility
+     * Get Filesystem Utility instance.
      *
      * @return \Arcanedev\LogViewer\Utilities\Filesystem
      */
@@ -362,7 +349,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get translator repository
+     * Get Translator Repository.
      *
      * @return \Illuminate\Translation\Translator
      */
@@ -372,7 +359,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get config repository
+     * Get Config Repository.
      *
      * @return \Illuminate\Config\Repository
      */
@@ -382,9 +369,9 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get log path
+     * Get log path.
      *
-     * @param  string $date
+     * @param  string  $date
      *
      * @return string
      */
@@ -394,13 +381,11 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get log content
+     * Get log content.
      *
      * @param  string  $date
      *
      * @return string
-     *
-     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function getLogContent($date)
     {
@@ -408,7 +393,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get logs dates
+     * Get logs dates.
      *
      * @return array
      */
@@ -418,11 +403,11 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get log object from fixture
+     * Get log object from fixture.
      *
      * @param  string  $date
      *
-     * @return Log
+     * @return \Arcanedev\LogViewer\Entities\Log
      */
     protected function getLog($date)
     {
@@ -453,9 +438,8 @@ abstract class TestCase extends BaseTestCase
      */
     protected static function getLogLevels()
     {
-        $class = new ReflectionClass(new LogLevel);
-
-        return self::$logLevels = $class->getConstants();
+        return self::$logLevels = (new ReflectionClass(LogLevel::class))
+            ->getConstants();
     }
 
     /**
@@ -483,10 +467,7 @@ abstract class TestCase extends BaseTestCase
      */
     private function getTranslatedLevel($locale, $key)
     {
-        return array_get(
-            $this->getTranslatedLevels(),
-            "$locale.$key"
-        );
+        return array_get($this->getTranslatedLevels(), "$locale.$key");
     }
 
     /**

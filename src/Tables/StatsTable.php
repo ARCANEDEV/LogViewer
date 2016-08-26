@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Tables;
 
 use Arcanedev\LogViewer\Bases\Table;
-use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
+use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
 
 /**
  * Class     StatsTable
@@ -18,13 +18,13 @@ class StatsTable extends Table
     /**
      * Make a stats table instance.
      *
-     * @param  array               $data
-     * @param  LogLevelsInterface  $levels
-     * @param  string|null         $locale
+     * @param  array                                               $data
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels  $levels
+     * @param  string|null                                         $locale
      *
-     * @return self
+     * @return \Arcanedev\LogViewer\Tables\StatsTable
      */
-    public static function make(array $data, LogLevelsInterface $levels, $locale = null)
+    public static function make(array $data, LogLevelsContract $levels, $locale = null)
     {
         return new self($data, $levels, $locale);
     }
@@ -96,7 +96,7 @@ class StatsTable extends Table
     /**
      * Get json chart data.
      *
-     * @param  string|null $locale
+     * @param  string|null  $locale
      *
      * @return array
      */

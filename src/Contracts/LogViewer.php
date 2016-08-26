@@ -7,12 +7,12 @@ use Arcanedev\LogViewer\Exceptions\FilesystemException;
 use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
- * Interface  LogViewerInterface
+ * Interface  LogViewer
  *
  * @package   Arcanedev\LogViewer\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface LogViewerInterface extends Patternable
+interface LogViewer extends Patternable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters

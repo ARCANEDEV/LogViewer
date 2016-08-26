@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Entities;
 
-use Arcanedev\LogViewer\Utilities\LogParser;
+use Arcanedev\LogViewer\Helpers\LogParser;
 use Arcanedev\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -17,7 +17,7 @@ class LogEntryCollection extends Collection
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Load raw log entries
+     * Load raw log entries.
      *
      * @param  string  $raw
      *
@@ -39,25 +39,28 @@ class LogEntryCollection extends Collection
      *
      * @param  int  $perPage
      *
-     * @return LengthAwarePaginator
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function paginate($perPage = 20)
     {
-        $page      = request()->input('page', 1);
-        $items     = $this->slice(($page * $perPage) - $perPage, $perPage, true);
-        $paginator = new LengthAwarePaginator($items, $this->count(), $perPage, $page);
+        $request   = request();
+        $page      = $request->input('page', 1);
+        $paginator = new LengthAwarePaginator(
+            $this->slice(($page * $perPage) - $perPage, $perPage),
+            $this->count(),
+            $perPage,
+            $page
+        );
 
-        $paginator->setPath(request()->url());
-
-        return $paginator;
+        return $paginator->setPath($request->url());
     }
 
     /**
-     * Get filtered log entries by level
+     * Get filtered log entries by level.
      *
      * @param  string  $level
      *
-     * @return LogEntryCollection
+     * @return \Arcanedev\LogViewer\Entities\LogEntryCollection
      */
     public function filterByLevel($level)
     {

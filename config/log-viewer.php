@@ -1,5 +1,7 @@
 <?php
 
+use Arcanedev\LogViewer\Contracts\Utilities\Filesystem;
+
 return [
     /* ------------------------------------------------------------------------------------------------
      |  Log files storage path
@@ -12,16 +14,17 @@ return [
      | ------------------------------------------------------------------------------------------------
      */
     'pattern'       => [
-        'prefix'    => \Arcanedev\LogViewer\Contracts\FilesystemInterface::PATTERN_PREFIX,
-        'date'      => \Arcanedev\LogViewer\Contracts\FilesystemInterface::PATTERN_DATE,
-        'extension' => \Arcanedev\LogViewer\Contracts\FilesystemInterface::PATTERN_EXTENSION,
+        'prefix'    => Filesystem::PATTERN_PREFIX,    // 'laravel-'
+        'date'      => Filesystem::PATTERN_DATE,      // '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'
+        'extension' => Filesystem::PATTERN_EXTENSION, // '.log'
     ],
 
     /* ------------------------------------------------------------------------------------------------
      |  Locale
      | ------------------------------------------------------------------------------------------------
      |  Supported locales :
-     |    'auto', 'ar', 'de', 'en', 'es', 'fa', 'fr', 'hu', 'hy', 'it', 'nl', 'pl', 'pt-BR', 'ro', 'ru', 'sv', 'th', 'tr', 'zh-TW', 'zh'
+     |    'auto', 'ar', 'de', 'en', 'es', 'fa', 'fr', 'hu', 'hy', 'it', 'nl', 'pl', 'pt-BR', 'ro', 'ru',
+     |    'sv', 'th', 'tr', 'zh-TW', 'zh'
      */
     'locale'        => 'auto',
 

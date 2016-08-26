@@ -15,7 +15,7 @@ class LogViewerTest extends TestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var LogViewer */
+    /** @var \Arcanedev\LogViewer\LogViewer */
     private $logViewer;
 
     /* ------------------------------------------------------------------------------------------------
@@ -43,13 +43,13 @@ class LogViewerTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\LogViewer\\LogViewer',  $this->logViewer);
+        $this->assertInstanceOf(LogViewer::class,  $this->logViewer);
     }
 
     /** @test */
     public function it_can_be_instantiated_with_helper()
     {
-        $this->assertInstanceOf('Arcanedev\\LogViewer\\LogViewer', log_viewer());
+        $this->assertInstanceOf(LogViewer::class, log_viewer());
     }
 
     /** @test */
@@ -94,7 +94,7 @@ class LogViewerTest extends TestCase
     {
         $logs = $this->logViewer->paginate();
 
-        $this->assertInstanceOf('Illuminate\\Pagination\\LengthAwarePaginator', $logs);
+        $this->assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $logs);
         $this->assertEquals(30, $logs->perPage());
         $this->assertEquals(2, $logs->total());
         $this->assertEquals(1, $logs->lastPage());
@@ -288,9 +288,10 @@ class LogViewerTest extends TestCase
         $file     = $download->getFile();
 
         $this->assertInstanceOf(
-            'Symfony\\Component\\HttpFoundation\\BinaryFileResponse',
+            \Symfony\Component\HttpFoundation\BinaryFileResponse::class,
             $download
         );
+
         $this->assertFalse($download->isEmpty());
         $this->assertFalse($download->isInvalid());
 

@@ -1,8 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Http\Controllers;
 
 use Arcanedev\LogViewer\Bases\Controller;
-use Arcanedev\LogViewer\Entities\Log;
-use Arcanedev\LogViewer\Exceptions\LogNotFound;
+use Arcanedev\LogViewer\Exceptions\LogNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -19,11 +18,15 @@ class LogViewerController extends Controller
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var int */
     protected $perPage = 30;
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * LogViewerController constructor.
      */
     public function __construct()
     {
@@ -53,10 +56,7 @@ class LogViewerController extends Controller
     public function listLogs()
     {
         $stats   = $this->logViewer->statsTable();
-
         $headers = $stats->header();
-        // $footer   = $stats->footer();
-
         $page    = request('page', 1);
         $offset  = ($page * $this->perPage) - $this->perPage;
 
@@ -100,9 +100,8 @@ class LogViewerController extends Controller
     {
         $log = $this->getLogOrFail($date);
 
-        if ($level == 'all') {
+        if ($level == 'all')
             return redirect()->route('log-viewer::logs.show', [$date]);
-        }
 
         $levels  = $this->logViewer->levelsNames();
         $entries = $this->logViewer
@@ -131,7 +130,8 @@ class LogViewerController extends Controller
      */
     public function delete()
     {
-        if ( ! request()->ajax()) abort(405, 'Method Not Allowed');
+        if ( ! request()->ajax())
+            abort(405, 'Method Not Allowed');
 
         $date = request()->get('date');
         $ajax = [
@@ -150,7 +150,7 @@ class LogViewerController extends Controller
      *
      * @param  string  $date
      *
-     * @return Log|null
+     * @return \Arcanedev\LogViewer\Entities\Log|null
      */
     private function getLogOrFail($date)
     {
@@ -159,7 +159,7 @@ class LogViewerController extends Controller
         try {
             $log = $this->logViewer->get($date);
         }
-        catch(LogNotFound $e) {
+        catch (LogNotFoundException $e) {
             abort(404, $e->getMessage());
         }
 
@@ -167,7 +167,7 @@ class LogViewerController extends Controller
     }
 
     /**
-     * Calculate the percentage
+     * Calculate the percentage.
      *
      * @param  array  $total
      * @param  array  $names

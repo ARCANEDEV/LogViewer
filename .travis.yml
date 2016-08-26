@@ -3,12 +3,9 @@ language: php
 sudo: false
 
 php:
-  - 5.5.9
-  - 5.5
   - 5.6
   - 7.0
   - nightly
-  - hhvm
 
 matrix:
   allow_failures:
@@ -18,6 +15,7 @@ env:
   - TESTBENCH_VERSION=3.0.*
   - TESTBENCH_VERSION=3.1.*
   - TESTBENCH_VERSION=3.2.*
+  - TESTBENCH_VERSION=3.3.*
 
 before_script:
   - travis_retry composer self-update
@@ -29,5 +27,5 @@ script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
-  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ] && [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ] && [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
