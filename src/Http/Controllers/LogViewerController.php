@@ -2,15 +2,15 @@
 
 use Arcanedev\LogViewer\Bases\Controller;
 use Arcanedev\LogViewer\Exceptions\LogNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 
 /**
  * Class     LogViewerController
  *
  * @package  LogViewer\Http\Controllers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- *
- * @todo     Refactoring & Testing
  */
 class LogViewerController extends Controller
 {
@@ -20,6 +20,9 @@ class LogViewerController extends Controller
      */
     /** @var int */
     protected $perPage = 30;
+
+    /** @var string */
+    protected $showRoute = 'log-viewer::logs.show';
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
@@ -53,21 +56,18 @@ class LogViewerController extends Controller
         return $this->view('dashboard', compact('reports', 'percents'));
     }
 
-    public function listLogs()
+    /**
+     * List all logs.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\View\View
+     */
+    public function listLogs(Request $request)
     {
         $stats   = $this->logViewer->statsTable();
         $headers = $stats->header();
-        $page    = request('page', 1);
-        $offset  = ($page * $this->perPage) - $this->perPage;
-
-        $rows    = new LengthAwarePaginator(
-            array_slice($stats->rows(), $offset, $this->perPage, true),
-            count($stats->rows()),
-            $this->perPage,
-            $page
-        );
-
-        $rows->setPath(request()->url());
+        $rows    = $this->paginate($stats->rows(), $request);
 
         return $this->view('logs', compact('headers', 'rows', 'footer'));
     }
@@ -100,8 +100,8 @@ class LogViewerController extends Controller
     {
         $log = $this->getLogOrFail($date);
 
-        if ($level == 'all')
-            return redirect()->route('log-viewer::logs.show', [$date]);
+        if ($level === 'all')
+            return redirect()->route($this->showRoute, [$date]);
 
         $levels  = $this->logViewer->levelsNames();
         $entries = $this->logViewer
@@ -126,19 +126,20 @@ class LogViewerController extends Controller
     /**
      * Delete a log.
      *
+     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete()
+    public function delete(Request $request)
     {
-        if ( ! request()->ajax())
+        if ( ! $request->ajax())
             abort(405, 'Method Not Allowed');
 
-        $date = request()->get('date');
-        $ajax = [
-            'result' => $this->logViewer->delete($date) ? 'success' : 'error'
-        ];
+        $date = $request->get('date');
 
-        return response()->json($ajax);
+        return response()->json([
+            'result' => $this->logViewer->delete($date) ? 'success' : 'error'
+        ]);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -146,13 +147,33 @@ class LogViewerController extends Controller
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Paginate logs.
+     *
+     * @param  array                     $data
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    protected function paginate(array $data, Request $request)
+    {
+        $page   = $request->get('page', 1);
+        $offset = ($page * $this->perPage) - $this->perPage;
+        $items  = array_slice($data, $offset, $this->perPage, true);
+        $rows   = new LengthAwarePaginator($items, count($data), $this->perPage, $page);
+
+        $rows->setPath($request->url());
+
+        return $rows;
+    }
+
+    /**
      * Get a log or fail
      *
      * @param  string  $date
      *
      * @return \Arcanedev\LogViewer\Entities\Log|null
      */
-    private function getLogOrFail($date)
+    protected function getLogOrFail($date)
     {
         $log = null;
 
@@ -174,10 +195,10 @@ class LogViewerController extends Controller
      *
      * @return array
      */
-    private function calcPercentages(array $total, array $names)
+    protected function calcPercentages(array $total, array $names)
     {
         $percents = [];
-        $all      = array_get($total, 'all');
+        $all      = Arr::get($total, 'all');
 
         foreach ($total as $level => $count) {
             $percents[$level] = [
