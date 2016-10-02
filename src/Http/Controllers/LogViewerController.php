@@ -101,7 +101,7 @@ class LogViewerController extends Controller
         $log = $this->getLogOrFail($date);
 
         if ($level == 'all')
-            return redirect()->route('log-viewer::logs.show', [$date]);
+            return redirect()->action( '\\' . __CLASS__ . '@show', ['date' => $date]);
 
         $levels  = $this->logViewer->levelsNames();
         $entries = $this->logViewer
