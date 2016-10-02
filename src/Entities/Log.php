@@ -32,9 +32,6 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     /** @var SplFileInfo */
     private $file;
 
-    /** @var string */
-    private $raw;
-
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
@@ -48,13 +45,10 @@ class Log implements Arrayable, Jsonable, JsonSerializable
      */
     public function __construct($date, $path, $raw)
     {
-        $this->entries = new LogEntryCollection;
         $this->date    = $date;
         $this->path    = $path;
         $this->file    = new SplFileInfo($path);
-        $this->raw     = $raw;
-
-        $this->entries->load($raw);
+        $this->entries = (new LogEntryCollection)->load($raw);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -69,16 +63,6 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     public function getPath()
     {
         return $this->path;
-    }
-
-    /**
-     * Get raw log content.
-     *
-     * @return string
-     */
-    public function getRaw()
-    {
-        return $this->raw;
     }
 
     /**

@@ -83,16 +83,6 @@ class LogTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_raw_content()
-    {
-        $this->assertNotEmpty($this->log->getRaw());
-        $this->assertEquals(
-            $this->getLog($this->log->date)->getRaw(),
-            $this->log->getRaw()
-        );
-    }
-
-    /** @test */
     public function it_can_get_all_entries()
     {
         $dates = [
