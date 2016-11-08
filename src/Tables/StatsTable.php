@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Tables;
 
-use Arcanedev\LogViewer\Bases\Table;
 use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
 
 /**
@@ -9,7 +8,7 @@ use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
  * @package  Arcanedev\LogViewer\Tables
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class StatsTable extends Table
+class StatsTable extends AbstractTable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
