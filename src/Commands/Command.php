@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\LogViewer\Bases;
+<?php namespace Arcanedev\LogViewer\Commands;
 
 use Arcanedev\LogViewer\Contracts\LogViewer as LogViewerContract;
 use Arcanedev\Support\Bases\Command as BaseCommand;
