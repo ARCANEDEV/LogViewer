@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Http\Controllers;
 
-use Arcanedev\LogViewer\Bases\Controller;
 use Arcanedev\LogViewer\Exceptions\LogNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
