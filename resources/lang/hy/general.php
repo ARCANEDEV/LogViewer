@@ -3,5 +3,5 @@
 return [
     'all'        => 'Բոլորը',
     'date'       => 'Ամսաթիվ',
-    'empty-logs' => 'The list of logs is empty!',
+    'empty-logs' => 'Լոգերի ցուցակը դատարկ է։',
 ];
