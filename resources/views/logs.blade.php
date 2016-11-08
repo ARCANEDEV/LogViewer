@@ -24,34 +24,42 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($rows as $date => $row)
-                <tr>
-                    @foreach($row as $key => $value)
-                    <td class="{{ $key == 'date' ? 'text-left' : 'text-center' }}">
-                        @if ($key == 'date')
-                            <span class="label label-primary">{{ $value }}</span>
-                        @elseif ($value == 0)
-                            <span class="level level-empty">{{ $value }}</span>
-                        @else
-                            <a href="{{ route('log-viewer::logs.filter', [$date, $key]) }}">
-                                <span class="level level-{{ $key }}">{{ $value }}</span>
+                @if ($rows->count() > 0)
+                    @foreach($rows as $date => $row)
+                    <tr>
+                        @foreach($row as $key => $value)
+                            <td class="{{ $key == 'date' ? 'text-left' : 'text-center' }}">
+                                @if ($key == 'date')
+                                    <span class="label label-primary">{{ $value }}</span>
+                                @elseif ($value == 0)
+                                    <span class="level level-empty">{{ $value }}</span>
+                                @else
+                                    <a href="{{ route('log-viewer::logs.filter', [$date, $key]) }}">
+                                        <span class="level level-{{ $key }}">{{ $value }}</span>
+                                    </a>
+                                @endif
+                            </td>
+                        @endforeach
+                        <td class="text-right">
+                            <a href="{{ route('log-viewer::logs.show', [$date]) }}" class="btn btn-xs btn-info">
+                                <i class="fa fa-search"></i>
                             </a>
-                        @endif
-                    </td>
+                            <a href="{{ route('log-viewer::logs.download', [$date]) }}" class="btn btn-xs btn-success">
+                                <i class="fa fa-download"></i>
+                            </a>
+                            <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-log-date="{{ $date }}">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
+                        </td>
+                    </tr>
                     @endforeach
-                    <td class="text-right">
-                        <a href="{{ route('log-viewer::logs.show', [$date]) }}" class="btn btn-xs btn-info">
-                            <i class="fa fa-search"></i>
-                        </a>
-                        <a href="{{ route('log-viewer::logs.download', [$date]) }}" class="btn btn-xs btn-success">
-                            <i class="fa fa-download"></i>
-                        </a>
-                        <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-log-date="{{ $date }}">
-                            <i class="fa fa-trash-o"></i>
-                        </a>
-                    </td>
-                </tr>
-                @endforeach
+                @else
+                    <tr>
+                        <td colspan="11" class="text-center">
+                            <span class="label label-default">{{ trans('log-viewer::general.empty-logs') }}</span>
+                        </td>
+                    </tr>
+                @endif
             </tbody>
         </table>
     </div>
