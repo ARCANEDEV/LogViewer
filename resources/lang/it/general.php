@@ -3,5 +3,5 @@
 return [
     'all'        => 'Tutti',
     'date'       => 'Data',
-    'empty-logs' => 'The list of logs is empty!',
+    'empty-logs' => 'L\'elenco dei log è vuoto!',
 ];
