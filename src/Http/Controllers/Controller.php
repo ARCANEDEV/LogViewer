@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\LogViewer\Bases;
+<?php namespace Arcanedev\LogViewer\Http\Controllers;
 
 use Illuminate\Routing\Controller as IlluminateController;
 

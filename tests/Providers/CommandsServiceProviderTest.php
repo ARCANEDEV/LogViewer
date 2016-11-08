@@ -18,13 +18,6 @@ class CommandsServiceProviderTest extends TestCase
     /** @var CommandsServiceProvider */
     private $provider;
 
-    /** @var array */
-    private $commands = [
-        'arcanedev.log-viewer.commands.check',
-        'arcanedev.log-viewer.commands.publish',
-        'arcanedev.log-viewer.commands.stats',
-    ];
-
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -34,7 +27,7 @@ class CommandsServiceProviderTest extends TestCase
         parent::setUp();
 
         $this->provider = $this->app->getProvider(
-            'Arcanedev\\LogViewer\\Providers\\CommandsServiceProvider'
+            \Arcanedev\LogViewer\Providers\CommandsServiceProvider::class
         );
     }
 
@@ -50,11 +43,28 @@ class CommandsServiceProviderTest extends TestCase
      | ------------------------------------------------------------------------------------------------
      */
     /** @test */
-    public function it_can_get_provides_list()
+    public function it_can_be_instantiated()
     {
-        $provided = $this->provider->provides();
+        $expectations = [
+            \Illuminate\Support\ServiceProvider::class,
+            \Arcanedev\Support\ServiceProvider::class,
+            \Arcanedev\LogViewer\Providers\CommandsServiceProvider::class
+        ];
 
-        $this->assertCount(count($this->commands), $provided);
-        $this->assertEquals($this->commands, $provided);
+        foreach ($expectations as $expected) {
+            $this->assertInstanceOf($expected, $this->provider);
+        }
+    }
+
+    /** @test */
+    public function it_can_provides()
+    {
+        $expected = [
+            \Arcanedev\LogViewer\Commands\PublishCommand::class,
+            \Arcanedev\LogViewer\Commands\StatsCommand::class,
+            \Arcanedev\LogViewer\Commands\CheckCommand::class,
+        ];
+
+        $this->assertEquals($expected, $this->provider->provides());
     }
 }

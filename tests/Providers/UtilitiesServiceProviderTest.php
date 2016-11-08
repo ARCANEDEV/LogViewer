@@ -76,6 +76,6 @@ class UtilitiesServiceProviderTest extends TestCase
             Contracts\Utilities\LogChecker::class,
         ];
 
-        $this->assertEquals($expected, $this->provider->provides());
+        $this->assertSame($expected, $this->provider->provides());
     }
 }

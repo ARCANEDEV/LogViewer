@@ -35,7 +35,8 @@ class LogCollection extends Collection
 
         parent::__construct($items);
 
-        if (empty($items)) $this->load();
+        if (empty($items))
+            $this->load();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -68,9 +69,9 @@ class LogCollection extends Collection
     private function load()
     {
         foreach($this->filesystem->dates(true) as $date => $path) {
-            $raw = $this->filesystem->read($date);
+            $log = Log::make($date, $path, $this->filesystem->read($date));
 
-            $this->put($date, Log::make($date, $path, $raw));
+            $this->put($date, $log);
         }
 
         return $this;

@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Commands;
 
-use Arcanedev\LogViewer\Bases\Command;
 use Symfony\Component\Console\Input\InputOption;
 
 /**

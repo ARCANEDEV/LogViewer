@@ -1,15 +1,15 @@
-<?php namespace Arcanedev\LogViewer\Bases;
+<?php namespace Arcanedev\LogViewer\Tables;
 
-use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
 use Arcanedev\LogViewer\Contracts\Table as TableContract;
+use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
 
 /**
- * Class     Table
+ * Class     AbstractTable
  *
  * @package  Arcanedev\LogViewer\Bases
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-abstract class Table implements TableContract
+abstract class AbstractTable implements TableContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -61,7 +61,7 @@ abstract class Table implements TableContract
      *
      * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels  $levels
      *
-     * @return \Arcanedev\LogViewer\Bases\Table
+     * @return \Arcanedev\LogViewer\Tables\AbstractTable
      */
     protected function setLevels(LogLevelsContract $levels)
     {
@@ -75,7 +75,7 @@ abstract class Table implements TableContract
      *
      * @param  string|null  $locale
      *
-     * @return \Arcanedev\LogViewer\Bases\Table
+     * @return \Arcanedev\LogViewer\Tables\AbstractTable
      */
     protected function setLocale($locale)
     {
