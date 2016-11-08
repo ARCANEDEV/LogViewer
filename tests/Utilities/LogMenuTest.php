@@ -31,9 +31,9 @@ class LogMenuTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->menu);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------

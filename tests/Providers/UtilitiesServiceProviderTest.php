@@ -2,6 +2,7 @@
 
 use Arcanedev\LogViewer\Providers\UtilitiesServiceProvider;
 use Arcanedev\LogViewer\Tests\TestCase;
+use Arcanedev\LogViewer\Contracts;
 
 /**
  * Class     UtilitiesServiceProviderTest
@@ -18,16 +19,6 @@ class UtilitiesServiceProviderTest extends TestCase
     /** @var UtilitiesServiceProvider */
     private $provider;
 
-    /** @var array */
-    private $utilities = [
-        'arcanedev.log-viewer.levels',
-        'arcanedev.log-viewer.styler',
-        'arcanedev.log-viewer.menu',
-        'arcanedev.log-viewer.filesystem',
-        'arcanedev.log-viewer.factory',
-        'arcanedev.log-viewer.checker',
-    ];
-
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -37,15 +28,15 @@ class UtilitiesServiceProviderTest extends TestCase
         parent::setUp();
 
         $this->provider = $this->app->getProvider(
-            'Arcanedev\\LogViewer\\Providers\\UtilitiesServiceProvider'
+            \Arcanedev\LogViewer\Providers\UtilitiesServiceProvider::class
         );
     }
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->provider);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -53,11 +44,38 @@ class UtilitiesServiceProviderTest extends TestCase
      | ------------------------------------------------------------------------------------------------
      */
     /** @test */
-    public function it_can_get_provides_list()
-    {
-        $provided = $this->provider->provides();
 
-        $this->assertCount(count($this->utilities), $provided);
-        $this->assertEquals($this->utilities, $provided);
+    public function it_can_be_instantiated()
+    {
+        $expectations = [
+            \Illuminate\Support\ServiceProvider::class,
+            \Arcanedev\Support\ServiceProvider::class,
+            \Arcanedev\LogViewer\Providers\UtilitiesServiceProvider::class,
+        ];
+
+        foreach ($expectations as $expected) {
+            $this->assertInstanceOf($expected, $this->provider);
+        }
+    }
+
+    /** @test */
+    public function it_can_provides()
+    {
+        $expected = [
+            'arcanedev.log-viewer.levels',
+            Contracts\Utilities\LogLevels::class,
+            'arcanedev.log-viewer.styler',
+            Contracts\Utilities\LogStyler::class,
+            'arcanedev.log-viewer.menu',
+            Contracts\Utilities\LogMenu::class,
+            'arcanedev.log-viewer.filesystem',
+            Contracts\Utilities\Filesystem::class,
+            'arcanedev.log-viewer.factory',
+            Contracts\Utilities\Factory::class,
+            'arcanedev.log-viewer.checker',
+            Contracts\Utilities\LogChecker::class,
+        ];
+
+        $this->assertSame($expected, $this->provider->provides());
     }
 }

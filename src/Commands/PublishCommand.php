@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Commands;
 
-use Arcanedev\LogViewer\Bases\Command;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -58,7 +57,7 @@ class PublishCommand extends Command
         $tag = $this->option('tag');
 
         if ( ! is_null($tag)) {
-            $args['--tag'] = laravel_version('5.1') ? [$tag] : $tag;
+            $args['--tag'] = version_compare(laravel_version(), '5.1.0', '>=') ? [$tag] : $tag;
         }
 
         $this->displayLogViewer();

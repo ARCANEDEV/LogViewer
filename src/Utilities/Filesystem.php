@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Utilities;
 
-use Arcanedev\LogViewer\Contracts\FilesystemInterface;
+use Arcanedev\LogViewer\Contracts\Utilities\Filesystem as FilesystemContract;
 use Arcanedev\LogViewer\Exceptions\FilesystemException;
 use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 
@@ -10,7 +10,7 @@ use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
  * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class Filesystem implements FilesystemInterface
+class Filesystem implements FilesystemContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -19,7 +19,7 @@ class Filesystem implements FilesystemInterface
     /**
      * The filesystem instance.
      *
-     * @var IlluminateFilesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $filesystem;
 
@@ -30,20 +30,42 @@ class Filesystem implements FilesystemInterface
      */
     protected $storagePath;
 
+    /**
+     * The log files prefix pattern.
+     *
+     * @var string
+     */
+    protected $prefixPattern;
+
+    /**
+     * The log files date pattern.
+     *
+     * @var string
+     */
+    protected $datePattern;
+
+    /**
+     * The log files extension.
+     *
+     * @var string
+     */
+    protected $extension;
+
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Create a new instance.
+     * Filesystem constructor.
      *
-     * @param  IlluminateFilesystem  $files
-     * @param  string                $storagePath
+     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  string                             $storagePath
      */
     public function __construct(IlluminateFilesystem $files, $storagePath)
     {
         $this->filesystem  = $files;
-        $this->storagePath = $storagePath;
+        $this->setPath($storagePath);
+        $this->setPattern();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -60,6 +82,93 @@ class Filesystem implements FilesystemInterface
         return $this->filesystem;
     }
 
+    /**
+     * Set the log storage path.
+     *
+     * @param  string  $storagePath
+     *
+     * @return \Arcanedev\LogViewer\Utilities\Filesystem
+     */
+    public function setPath($storagePath)
+    {
+        $this->storagePath = $storagePath;
+
+        return $this;
+    }
+
+    /**
+     * Get the log pattern.
+     *
+     * @return string
+     */
+    public function getPattern()
+    {
+        return $this->prefixPattern . $this->datePattern . $this->extension;
+    }
+
+    /**
+     * Set the log pattern.
+     *
+     * @param  string  $date
+     * @param  string  $prefix
+     * @param  string  $extension
+     *
+     * @return \Arcanedev\LogViewer\Utilities\Filesystem
+     */
+    public function setPattern(
+        $prefix    = self::PATTERN_PREFIX,
+        $date      = self::PATTERN_DATE,
+        $extension = self::PATTERN_EXTENSION
+    ) {
+        $this->setPrefixPattern($prefix);
+        $this->setDatePattern($date);
+        $this->setExtension($extension);
+
+        return $this;
+    }
+
+    /**
+     * Set the log date pattern.
+     *
+     * @param  string  $datePattern
+     *
+     * @return \Arcanedev\LogViewer\Utilities\Filesystem
+     */
+    public function setDatePattern($datePattern)
+    {
+        $this->datePattern = $datePattern;
+
+        return $this;
+    }
+
+    /**
+     * Set the log prefix pattern.
+     *
+     * @param  string  $prefixPattern
+     *
+     * @return \Arcanedev\LogViewer\Utilities\Filesystem
+     */
+    public function setPrefixPattern($prefixPattern)
+    {
+        $this->prefixPattern = $prefixPattern;
+
+        return $this;
+    }
+
+    /**
+     * Set the log extension.
+     *
+     * @param  string  $extension
+     *
+     * @return \Arcanedev\LogViewer\Utilities\Filesystem
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -71,7 +180,7 @@ class Filesystem implements FilesystemInterface
      */
     public function all()
     {
-        return $this->getFiles('*');
+        return $this->getFiles('*' . $this->extension);
     }
 
     /**
@@ -81,15 +190,13 @@ class Filesystem implements FilesystemInterface
      */
     public function logs()
     {
-        $date = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'; // TODO: Refactor this regex
-
-        return $this->getFiles('laravel-' . $date);
+        return $this->getFiles($this->getPattern());
     }
 
     /**
      * List the log files (Only dates).
      *
-     * @param  bool|false  $withPaths
+     * @param  bool  $withPaths
      *
      * @return array
      */
@@ -112,7 +219,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return string
      *
-     * @throws FilesystemException
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function read($date)
     {
@@ -133,7 +240,7 @@ class Filesystem implements FilesystemInterface
      *
      * @return bool
      *
-     * @throws FilesystemException
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function delete($date)
     {
@@ -141,9 +248,7 @@ class Filesystem implements FilesystemInterface
 
         // @codeCoverageIgnoreStart
         if ( ! $this->filesystem->delete($path)) {
-            throw new FilesystemException(
-                'There was an error deleting the log.'
-            );
+            throw new FilesystemException('There was an error deleting the log.');
         }
         // @codeCoverageIgnoreEnd
 
@@ -156,8 +261,6 @@ class Filesystem implements FilesystemInterface
      * @param  string  $date
      *
      * @return string
-     *
-     * @throws FilesystemException
      */
     public function path($date)
     {
@@ -171,17 +274,17 @@ class Filesystem implements FilesystemInterface
     /**
      * Get all files.
      *
-     * @param  string $pattern
-     * @param  string $extension
+     * @param  string  $pattern
      *
      * @return array
      */
-    private function getFiles($pattern, $extension = '.log')
+    private function getFiles($pattern)
     {
-        $pattern = $this->storagePath . DS . $pattern . $extension;
-        $files   = array_map('realpath', glob($pattern, GLOB_BRACE));
+        $files = $this->filesystem->glob(
+            $this->storagePath.DS.$pattern, GLOB_BRACE
+        );
 
-        return array_filter($files);
+        return array_filter(array_map('realpath', $files));
     }
 
     /**
@@ -191,16 +294,14 @@ class Filesystem implements FilesystemInterface
      *
      * @return string
      *
-     * @throws FilesystemException
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     private function getLogPath($date)
     {
-        $path = "{$this->storagePath}/laravel-{$date}.log";
+        $path = $this->storagePath . DS . $this->prefixPattern . $date . $this->extension;
 
         if ( ! $this->filesystem->exists($path)) {
-            throw new FilesystemException(
-                'The log(s) could not be located at : ' . $path
-            );
+            throw new FilesystemException("The log(s) could not be located at : $path");
         }
 
         return realpath($path);

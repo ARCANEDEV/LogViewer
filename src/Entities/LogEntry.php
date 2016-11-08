@@ -23,7 +23,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     /** @var string */
     public $level;
 
-    /** @var Carbon */
+    /** @var \Carbon\Carbon */
     public $datetime;
 
     /** @var string */
@@ -77,7 +77,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     private function setHeader($header)
     {
-        $this->setDatetime(extract_datetime($header));
+        $this->setDatetime($this->extractDatetime($header));
 
         $header = $this->cleanHeader($header);
 
@@ -110,14 +110,11 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      *
      * @param  string  $datetime
      *
-     * @return self
+     * @return \Arcanedev\LogViewer\Entities\LogEntry
      */
     private function setDatetime($datetime)
     {
-        $this->datetime = Carbon::createFromFormat(
-            'Y-m-d H:i:s',
-            $datetime
-        );
+        $this->datetime = Carbon::createFromFormat('Y-m-d H:i:s', $datetime);
 
         return $this;
     }
@@ -137,27 +134,27 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Get translated level name with icon
+     * Get translated level name with icon.
      *
      * @return string
      */
     public function level()
     {
-        return $this->icon() . ' ' . $this->name();
+        return $this->icon().' '.$this->name();
     }
 
     /**
-     * Get translated level name
+     * Get translated level name.
      *
      * @return string
      */
     public function name()
     {
-        return trans('log-viewer::levels.' . $this->level);
+        return log_levels()->get($this->level);
     }
 
     /**
-     * Get level icon
+     * Get level icon.
      *
      * @return string
      */
@@ -171,7 +168,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Check if same log level
+     * Check if same log level.
      *
      * @param  string  $level
      *
@@ -214,13 +211,27 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Serialize the log entry object to json data
+     * Serialize the log entry object to json data.
      *
      * @return array
      */
     public function jsonSerialize()
     {
         return $this->toArray();
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Check Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Check if the entry has a stack.
+     *
+     * @return bool
+     */
+    public function hasStack()
+    {
+        return $this->stack !== "\n";
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -237,5 +248,17 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     private function cleanHeader($header)
     {
         return preg_replace('/\[' . REGEX_DATETIME_PATTERN . '\][ ]/', '', $header);
+    }
+
+    /**
+     * Extract datetime from the header.
+     *
+     * @param  string  $header
+     *
+     * @return string
+     */
+    private function extractDatetime($header)
+    {
+        return preg_replace('/^\[(' . REGEX_DATETIME_PATTERN . ')\].*/', '$1', $header);
     }
 }

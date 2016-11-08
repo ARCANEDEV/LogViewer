@@ -7,12 +7,12 @@ use Arcanedev\LogViewer\Exceptions\FilesystemException;
 use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
- * Interface  LogViewerInterface
+ * Interface  LogViewer
  *
  * @package   Arcanedev\LogViewer\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface LogViewerInterface
+interface LogViewer extends Patternable
 {
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
@@ -35,6 +35,15 @@ interface LogViewerInterface
      * @return array
      */
     public function levelsNames($locale = null);
+
+    /**
+     * Set the log storage path.
+     *
+     * @param  string  $path
+     *
+     * @return \Arcanedev\LogViewer\LogViewer
+     */
+    public function setPath($path);
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -171,4 +180,15 @@ interface LogViewerInterface
      * @return bool
      */
     public function isEmpty();
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get the LogViewer version.
+     *
+     * @return string
+     */
+    public function version();
 }

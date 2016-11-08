@@ -1,43 +1,17 @@
 <?php namespace Arcanedev\LogViewer\Providers;
 
-use Arcanedev\LogViewer\Contracts\FilesystemInterface;
-use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
-use Arcanedev\LogViewer\Contracts\LogStylerInterface;
-use Arcanedev\LogViewer\Utilities\Factory;
-use Arcanedev\LogViewer\Utilities\Filesystem;
-use Arcanedev\LogViewer\Utilities\LogChecker;
-use Arcanedev\LogViewer\Utilities\LogLevels;
-use Arcanedev\LogViewer\Utilities\LogMenu;
-use Arcanedev\LogViewer\Utilities\LogStyler;
+use Arcanedev\LogViewer\Contracts;
+use Arcanedev\LogViewer\Utilities;
 use Arcanedev\Support\ServiceProvider;
-use Closure;
-use Illuminate\Config\Repository as Config;
-use Illuminate\Foundation\Application;
-use Illuminate\Translation\Translator;
 
 /**
  * Class     UtilitiesServiceProvider
  *
  * @package  Arcanedev\LogViewer\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- *
- * @todo     Refactoring
  */
 class UtilitiesServiceProvider extends ServiceProvider
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Properties
-     | ------------------------------------------------------------------------------------------------
-     */
-    /** @var string */
-    protected $vendor  = 'arcanedev';
-
-    /** @var string */
-    protected $package = 'log-viewer';
-
-    /** @var array */
-    private $utilities = [];
-
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -58,15 +32,28 @@ class UtilitiesServiceProvider extends ServiceProvider
     /**
      * Get the services provided by the provider.
      *
-     * @return string[]
+     * @return array
      */
     public function provides()
     {
-        return $this->utilities;
+        return [
+            'arcanedev.log-viewer.levels',
+            Contracts\Utilities\LogLevels::class,
+            'arcanedev.log-viewer.styler',
+            Contracts\Utilities\LogStyler::class,
+            'arcanedev.log-viewer.menu',
+            Contracts\Utilities\LogMenu::class,
+            'arcanedev.log-viewer.filesystem',
+            Contracts\Utilities\Filesystem::class,
+            'arcanedev.log-viewer.factory',
+            Contracts\Utilities\Factory::class,
+            'arcanedev.log-viewer.checker',
+            Contracts\Utilities\LogChecker::class,
+        ];
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Utility Registrations
+     |  The LogViewer Utilities
      | ------------------------------------------------------------------------------------------------
      */
     /**
@@ -74,12 +61,18 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function registerLogLevels()
     {
-        $this->registerUtility('levels', function ($app) {
-            /** @var Translator $trans */
-            $trans  = $app['translator'];
+        $this->singleton('arcanedev.log-viewer.levels', function ($app) {
+            /**
+             * @var  \Illuminate\Config\Repository       $config
+             * @var  \Illuminate\Translation\Translator  $translator
+             */
+            $config     = $app['config'];
+            $translator = $app['translator'];
 
-            return new LogLevels($trans);
+            return new Utilities\LogLevels($translator, $config->get('log-viewer.locale'));
         });
+
+        $this->bind(Contracts\Utilities\LogLevels::class, 'arcanedev.log-viewer.levels');
     }
 
     /**
@@ -87,12 +80,9 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function registerStyler()
     {
-        $this->registerUtility('styler', function ($app) {
-            /** @var  Config  $config */
-            $config = $app['config'];
+        $this->singleton('arcanedev.log-viewer.styler', Utilities\LogStyler::class);
 
-            return new LogStyler($config);
-        });
+        $this->bind(Contracts\Utilities\LogStyler::class, 'arcanedev.log-viewer.styler');
     }
 
     /**
@@ -100,31 +90,34 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function registerLogMenu()
     {
-        $this->registerUtility('menu', function ($app) {
-            /**
-             * @var  Config              $config
-             * @var  LogStylerInterface  $trans
-             */
-            $config = $app['config'];
-            $styler  = $this->getUtility($app, 'styler');
-
-            return new LogMenu($config, $styler);
-        });
+        $this->singleton('arcanedev.log-viewer.menu', Utilities\LogMenu::class);
+        $this->bind(Contracts\Utilities\LogMenu::class, 'arcanedev.log-viewer.menu');
     }
 
     /**
-     * Register the log filesystem class.
+     * Register the log filesystem.
      */
     private function registerFilesystem()
     {
-        $this->registerUtility('filesystem', function ($app) {
+        $this->singleton('arcanedev.log-viewer.filesystem', function ($app) {
             /**
+             * @var  \Illuminate\Config\Repository      $config
              * @var  \Illuminate\Filesystem\Filesystem  $files
              */
-            $files = $app['files'];
+            $config     = $app['config'];
+            $files      = $app['files'];
+            $filesystem = new Utilities\Filesystem($files, $config->get('log-viewer.storage-path'));
 
-            return new Filesystem($files, storage_path('logs'));
+            $filesystem->setPattern(
+                $config->get('log-viewer.pattern.prefix',    Utilities\Filesystem::PATTERN_PREFIX),
+                $config->get('log-viewer.pattern.date',      Utilities\Filesystem::PATTERN_DATE),
+                $config->get('log-viewer.pattern.extension', Utilities\Filesystem::PATTERN_EXTENSION)
+            );
+
+            return $filesystem;
         });
+
+        $this->bind(Contracts\Utilities\Filesystem::class, 'arcanedev.log-viewer.filesystem');
     }
 
     /**
@@ -132,75 +125,18 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function registerFactory()
     {
-        $this->registerUtility('factory', function ($app) {
-            /**
-             * @var  FilesystemInterface  $filesystem
-             * @var  LogLevelsInterface   $level
-             */
-            $filesystem = $this->getUtility($app, 'filesystem');
-            $level      = $this->getUtility($app, 'levels');
+        $this->singleton('arcanedev.log-viewer.factory', Utilities\Factory::class);
 
-            return new Factory($filesystem, $level);
-        });
+        $this->bind(Contracts\Utilities\Factory::class, 'arcanedev.log-viewer.factory');
     }
 
+    /**
+     * Register the log checker service.
+     */
     private function registerChecker()
     {
-        $this->registerUtility('checker', function ($app) {
-            /**
-             * @var  Config               $config
-             * @var  FilesystemInterface  $filesystem
-             */
-            $config     = $app['config'];
-            $filesystem = $this->getUtility($app, 'filesystem');
+        $this->singleton('arcanedev.log-viewer.checker', Utilities\LogChecker::class);
 
-            return new LogChecker($config, $filesystem);
-        });
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Get the utility.
-     *
-     * @param  Application  $app
-     * @param  string       $name
-     *
-     * @return mixed
-     */
-    private function getUtility($app, $name)
-    {
-        $name = $this->getUtilityName($name);
-
-        return $app[$name];
-    }
-
-    /**
-     * Register the utility.
-     *
-     * @param  string   $name
-     * @param  Closure  $callback
-     */
-    private function registerUtility($name, Closure $callback)
-    {
-        $name = $this->getUtilityName($name);
-
-        $this->app->singleton($name, $callback);
-
-        $this->utilities[] = $name;
-    }
-
-    /**
-     * Get utility name
-     *
-     * @param  string  $name
-     *
-     * @return string
-     */
-    private function getUtilityName($name)
-    {
-        return "{$this->vendor}.{$this->package}.$name";
+        $this->bind(Contracts\Utilities\LogChecker::class, 'arcanedev.log-viewer.checker');
     }
 }

@@ -25,14 +25,14 @@ class LogViewerServiceProviderTest extends TestCase
     {
         parent::setUp();
 
-        $this->provider = $this->app->getProvider('Arcanedev\\LogViewer\\LogViewerServiceProvider');
+        $this->provider = $this->app->getProvider(\Arcanedev\LogViewer\LogViewerServiceProvider::class);
     }
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->provider);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -40,12 +40,28 @@ class LogViewerServiceProviderTest extends TestCase
      | ------------------------------------------------------------------------------------------------
      */
     /** @test */
-    public function it_can_get_provides_list()
+    public function it_can_be_instantiated()
     {
-        $provided = $this->provider->provides();
-        $defaults = ['arcanedev.log-viewer'];
+        $expectations = [
+            \Illuminate\Support\ServiceProvider::class,
+            \Arcanedev\Support\ServiceProvider::class,
+            \Arcanedev\Support\PackageServiceProvider::class,
+            \Arcanedev\LogViewer\LogViewerServiceProvider::class,
+        ];
 
-        $this->assertCount(count($defaults), $provided);
-        $this->assertEquals($defaults, $provided);
+        foreach ($expectations as $expected) {
+            $this->assertInstanceOf($expected, $this->provider);
+        }
+    }
+
+    /** @test */
+    public function it_can_provides()
+    {
+        $expected = [
+            'arcanedev.log-viewer',
+            \Arcanedev\LogViewer\Contracts\LogViewer::class,
+        ];
+
+        $this->assertEquals($expected, $this->provider->provides());
     }
 }

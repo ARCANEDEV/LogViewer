@@ -1,26 +1,35 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
 
-use Arcanedev\LogViewer\Entities\Log;
-
 /**
- * Interface  LogMenuInterface
+ * Interface  Table
  *
  * @package   Arcanedev\LogViewer\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface LogMenuInterface
+interface Table
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
+     |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Make log menu.
-     *
-     * @param  Log   $log
-     * @param  bool  $trans
+     * Get table header.
      *
      * @return array
      */
-    public function make(Log $log, $trans = true);
+    public function header();
+
+    /**
+     * Get table rows.
+     *
+     * @return array
+     */
+    public function rows();
+
+    /**
+     * Get table footer.
+     *
+     * @return array
+     */
+    public function footer();
 }

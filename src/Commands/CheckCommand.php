@@ -1,8 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Commands;
 
-use Arcanedev\LogViewer\Bases\Command;
-use Arcanedev\LogViewer\Utilities\LogChecker;
-
 /**
  * Class     PublishCommand
  *
@@ -36,9 +33,7 @@ class CheckCommand extends Command
      */
     protected $signature = 'log-viewer:check';
 
-    /**
-     * @var LogChecker
-     */
+    /** @var \Arcanedev\LogViewer\Contracts\Utilities\LogChecker */
     private $checker;
 
     /* ------------------------------------------------------------------------------------------------
@@ -59,13 +54,13 @@ class CheckCommand extends Command
     }
 
     /**
-     * Display LogViewer requirements
+     * Display LogViewer requirements.
      */
     private function displayRequirements()
     {
         $requirements = $this->checker->requirements();
 
-        $this->header('Application requirements');
+        $this->frame('Application requirements');
 
         $this->table([
             'Status', 'Message'
@@ -75,7 +70,7 @@ class CheckCommand extends Command
     }
 
     /**
-     * Display LogViewer messages
+     * Display LogViewer messages.
      */
     private function displayMessages()
     {
@@ -86,7 +81,7 @@ class CheckCommand extends Command
             $rows[] = [$file, $message];
         }
 
-        $this->header('LogViewer messages');
+        $this->frame('LogViewer messages');
         $this->table(['File', 'Message'], $rows);
     }
 }

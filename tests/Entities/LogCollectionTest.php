@@ -26,14 +26,14 @@ class LogCollectionTest extends TestCase
     {
         parent::setUp();
 
-        $this->logs = new LogCollection;
+        $this->logs = LogCollection::make();
     }
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->logs);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ class LogCollectionTest extends TestCase
     /**
      * @test
      *
-     * @expectedException        \Arcanedev\LogViewer\Exceptions\LogNotFound
+     * @expectedException        \Arcanedev\LogViewer\Exceptions\LogNotFoundException
      * @expectedExceptionMessage Log not found in this date [2222-01-01]
      */
     public function it_must_throw_a_log_not_found_on_get_method()
@@ -180,7 +180,7 @@ class LogCollectionTest extends TestCase
     /**
      * @test
      *
-     * @expectedException        \Arcanedev\LogViewer\Exceptions\LogNotFound
+     * @expectedException        \Arcanedev\LogViewer\Exceptions\LogNotFoundException
      * @expectedExceptionMessage Log not found in this date [2222-01-01]
      */
     public function it_must_throw_a_log_not_found_on_log_method()

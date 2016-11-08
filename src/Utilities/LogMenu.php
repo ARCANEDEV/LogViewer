@@ -1,9 +1,9 @@
 <?php namespace Arcanedev\LogViewer\Utilities;
 
-use Arcanedev\LogViewer\Contracts\LogMenuInterface;
-use Arcanedev\LogViewer\Contracts\LogStylerInterface;
+use Arcanedev\LogViewer\Contracts\Utilities\LogMenu as LogMenuContract;
+use Arcanedev\LogViewer\Contracts\Utilities\LogStyler as LogStylerContract;
 use Arcanedev\LogViewer\Entities\Log;
-use Illuminate\Config\Repository as Config;
+use Illuminate\Contracts\Config\Repository as ConfigContract;
 
 /**
  * Class     LogMenu
@@ -11,19 +11,23 @@ use Illuminate\Config\Repository as Config;
  * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogMenu implements LogMenuInterface
+class LogMenu implements LogMenuContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * @var Config
+     * The config repository instance.
+     *
+     * @var \Illuminate\Contracts\Config\Repository
      */
     protected $config;
 
     /**
-     * @var LogStylerInterface
+     * The log styler instance.
+     *
+     * @var \Arcanedev\LogViewer\Contracts\Utilities\LogStyler
      */
     private $styler;
 
@@ -31,10 +35,48 @@ class LogMenu implements LogMenuInterface
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
-    public function __construct(Config $config, $styler)
+    /**
+     * LogMenu constructor.
+     *
+     * @param  \Illuminate\Contracts\Config\Repository   $config
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogStyler  $styler
+     */
+    public function __construct(ConfigContract $config, LogStylerContract $styler)
+    {
+        $this->setConfig($config);
+        $this->setLogStyler($styler);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Getters & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Set the config instance.
+     *
+     * @param  \Illuminate\Contracts\Config\Repository  $config
+     *
+     * @return \Arcanedev\LogViewer\Utilities\LogMenu
+     */
+    public function setConfig(ConfigContract $config)
     {
         $this->config = $config;
+
+        return $this;
+    }
+
+    /**
+     * Set the log styler instance.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogStyler  $styler
+     *
+     * @return \Arcanedev\LogViewer\Utilities\LogMenu
+     */
+    public function setLogStyler(LogStylerContract $styler)
+    {
         $this->styler = $styler;
+
+        return $this;
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -44,18 +86,19 @@ class LogMenu implements LogMenuInterface
     /**
      * Make log menu.
      *
-     * @param  Log   $log
-     * @param  bool  $trans
+     * @param  \Arcanedev\LogViewer\Entities\Log  $log
+     * @param  bool                               $trans
      *
      * @return array
      */
     public function make(Log $log, $trans = true)
     {
         $items = [];
+        $route = $this->config('menu.filter-route');
 
         foreach($log->tree($trans) as $level => $item) {
             $items[$level] = array_merge($item, [
-                'url'  => route('log-viewer::logs.filter', [$log->date, $level]),
+                'url'  => route($route, [$log->date, $level]),
                 'icon' => $this->isIconsEnabled() ? $this->styler->icon($level) : '',
             ]);
         }
@@ -68,7 +111,7 @@ class LogMenu implements LogMenuInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Is icons enabled from configs ?
+     * Check if the icons are enabled.
      *
      * @return bool
      */
@@ -84,13 +127,13 @@ class LogMenu implements LogMenuInterface
     /**
      * Get config.
      *
-     * @param  string      $key
-     * @param  mixed|null  $default
+     * @param  string  $key
+     * @param  mixed   $default
      *
      * @return mixed
      */
     private function config($key, $default = null)
     {
-        return $this->config->get('log-viewer.' . $key, $default);
+        return $this->config->get("log-viewer.$key", $default);
     }
 }

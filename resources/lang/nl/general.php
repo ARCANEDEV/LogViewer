@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'all'  => 'All',
-    'date' => 'Datum',
+    'all'        => 'Alles',
+    'date'       => 'Datum',
+    'empty-logs' => 'De lijst met logs is leeg!',
 ];

@@ -1,6 +1,7 @@
-/tests            export-ignore
-/examples         export-ignore
+/_docs            export-ignore
 /_screenshots     export-ignore
+/tests            export-ignore
+/.editorconfig    export-ignore
 /.gitattributes   export-ignore
 /.gitignore       export-ignore
 /.scrutinizer.yml export-ignore

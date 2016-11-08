@@ -15,13 +15,6 @@ class LogViewerServiceProvider extends PackageServiceProvider
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Vendor name.
-     *
-     * @var string
-     */
-    protected $vendor  = 'arcanedev';
-
-    /**
      * Package name.
      *
      * @var string
@@ -39,7 +32,7 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     public function getBasePath()
     {
-        return __DIR__ . '/..';
+        return dirname(__DIR__);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -53,10 +46,13 @@ class LogViewerServiceProvider extends PackageServiceProvider
     {
         $this->registerConfig();
 
-        $this->app->register('Arcanedev\\LogViewer\\Providers\\UtilitiesServiceProvider');
+        $this->app->register(Providers\UtilitiesServiceProvider::class);
         $this->registerLogViewer();
-        $this->registerLogViewerFacade();
-        $this->app->register('Arcanedev\\LogViewer\\Providers\\CommandsServiceProvider');
+        $this->registerAliases();
+
+        if ($this->app->runningInConsole()) {
+            $this->app->register(Providers\CommandsServiceProvider::class);
+        }
     }
 
     /**
@@ -65,9 +61,9 @@ class LogViewerServiceProvider extends PackageServiceProvider
     public function boot()
     {
         $this->publishConfig();
-        $this->registerViews();
-        $this->registerTranslations();
-        $this->app->register('Arcanedev\\LogViewer\\Providers\\RouteServiceProvider');
+        $this->publishViews();
+        $this->publishTranslations();
+        $this->app->register(Providers\RouteServiceProvider::class);
     }
 
     /**
@@ -77,65 +73,10 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     public function provides()
     {
-        return ['arcanedev.log-viewer'];
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Resources
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Get config file path.
-     *
-     * @return string
-     */
-    protected function getConfigFile()
-    {
-        return realpath($this->getBasePath() . "/config/{$this->package}.php");
-    }
-
-    /**
-     * Register configs.
-     */
-    protected function registerConfig()
-    {
-        $this->mergeConfigFrom($this->getConfigFile(), $this->package);
-    }
-
-    /**
-     * Publishes configs.
-     */
-    private function publishConfig()
-    {
-        $this->publishes([
-            $this->getConfigFile() => config_path("{$this->package}.php")
-        ], 'config');
-    }
-
-    /**
-     * Register and publishes Translations.
-     */
-    private function registerTranslations()
-    {
-        $langPath = $this->getBasePath() . '/resources/lang';
-
-        $this->loadTranslationsFrom($langPath, $this->package);
-        $this->publishes([
-            $langPath => base_path('resources/lang/vendor/' . $this->package),
-        ], 'translations');
-    }
-
-    /**
-     * Register and published Views.
-     */
-    private function registerViews()
-    {
-        $viewsPath = $this->getBasePath() . '/resources/views';
-
-        $this->loadViewsFrom($viewsPath, $this->package);
-        $this->publishes([
-            $viewsPath => base_path('resources/views/vendor/' . $this->package),
-        ], 'views');
+        return [
+            'arcanedev.log-viewer',
+            Contracts\LogViewer::class,
+        ];
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -147,45 +88,14 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     private function registerLogViewer()
     {
-        $this->app->singleton("{$this->vendor}.log-viewer", function () {
-            /**
-             * @var  Contracts\FactoryInterface     $factory
-             * @var  Contracts\FilesystemInterface  $filesystem
-             * @var  Contracts\LogLevelsInterface   $levels
-             */
-            $factory    = $this->getUtility('factory');
-            $filesystem = $this->getUtility('filesystem');
-            $levels     = $this->getUtility('levels');
+        $this->singleton('arcanedev.log-viewer', LogViewer::class);
 
-            return new LogViewer($factory, $filesystem, $levels);
-        });
-    }
+        $this->bind(Contracts\LogViewer::class, 'arcanedev.log-viewer');
 
-    /**
-     * Register LogViewer Facade
-     */
-    private function registerLogViewerFacade()
-    {
         // Registering the Facade
-        $this->addFacade(
-            $this->app['config']->get('log-viewer.facade', 'LogViewer'),
-            'Arcanedev\\LogViewer\\Facades\\LogViewer'
+        $this->alias(
+            $this->config()->get('log-viewer.facade', 'LogViewer'),
+            Facades\LogViewer::class
         );
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Get a utility instance.
-     *
-     * @param  string  $name
-     *
-     * @return mixed
-     */
-    private function getUtility($name)
-    {
-        return $this->app["{$this->vendor}.{$this->package}.$name"];
     }
 }

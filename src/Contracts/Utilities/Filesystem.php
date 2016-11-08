@@ -1,15 +1,23 @@
-<?php namespace Arcanedev\LogViewer\Contracts;
+<?php namespace Arcanedev\LogViewer\Contracts\Utilities;
 
-use Arcanedev\LogViewer\Exceptions\FilesystemException;
+use Arcanedev\LogViewer\Contracts\Patternable;
 
 /**
- * Interface  FilesystemInterface
+ * Interface  Filesystem
  *
- * @package   Arcanedev\LogViewer\Contracts
+ * @package   Arcanedev\LogViewer\Contracts\Utilities
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-interface FilesystemInterface
+interface Filesystem extends Patternable
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Constants
+     | ------------------------------------------------------------------------------------------------
+     */
+    const PATTERN_PREFIX    = 'laravel-';
+    const PATTERN_DATE      = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';
+    const PATTERN_EXTENSION = '.log';
+
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
@@ -20,6 +28,42 @@ interface FilesystemInterface
      * @return \Illuminate\Filesystem\Filesystem
      */
     public function getInstance();
+
+    /**
+     * Set the log storage path.
+     *
+     * @param  string  $storagePath
+     *
+     * @return self
+     */
+    public function setPath($storagePath);
+
+    /**
+     * Set the log date pattern.
+     *
+     * @param  string  $datePattern
+     *
+     * @return self
+     */
+    public function setDatePattern($datePattern);
+
+    /**
+     * Set the log prefix pattern.
+     *
+     * @param  string  $prefixPattern
+     *
+     * @return self
+     */
+    public function setPrefixPattern($prefixPattern);
+
+    /**
+     * Set the log extension.
+     *
+     * @param  string  $extension
+     *
+     * @return self
+     */
+    public function setExtension($extension);
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -42,7 +86,7 @@ interface FilesystemInterface
     /**
      * List the log files (Only dates).
      *
-     * @param  bool|false  $withPaths
+     * @param  bool  $withPaths
      *
      * @return array
      */
@@ -55,7 +99,7 @@ interface FilesystemInterface
      *
      * @return string
      *
-     * @throws FilesystemException
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function read($date);
 
@@ -66,7 +110,7 @@ interface FilesystemInterface
      *
      * @return bool
      *
-     * @throws FilesystemException
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function delete($date);
 
@@ -76,8 +120,6 @@ interface FilesystemInterface
      * @param  string  $date
      *
      * @return string
-     *
-     * @throws FilesystemException
      */
     public function path($date);
 }

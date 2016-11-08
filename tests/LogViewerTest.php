@@ -15,7 +15,7 @@ class LogViewerTest extends TestCase
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var LogViewer */
+    /** @var \Arcanedev\LogViewer\LogViewer */
     private $logViewer;
 
     /* ------------------------------------------------------------------------------------------------
@@ -31,9 +31,9 @@ class LogViewerTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->logViewer);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -43,13 +43,13 @@ class LogViewerTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\LogViewer\\LogViewer',  $this->logViewer);
+        $this->assertInstanceOf(LogViewer::class,  $this->logViewer);
     }
 
     /** @test */
     public function it_can_be_instantiated_with_helper()
     {
-        $this->assertInstanceOf('Arcanedev\\LogViewer\\LogViewer', log_viewer());
+        $this->assertInstanceOf(LogViewer::class, log_viewer());
     }
 
     /** @test */
@@ -94,7 +94,7 @@ class LogViewerTest extends TestCase
     {
         $logs = $this->logViewer->paginate();
 
-        $this->assertInstanceOf('Illuminate\\Pagination\\LengthAwarePaginator', $logs);
+        $this->assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $logs);
         $this->assertEquals(30, $logs->perPage());
         $this->assertEquals(2, $logs->total());
         $this->assertEquals(1, $logs->lastPage());
@@ -288,9 +288,10 @@ class LogViewerTest extends TestCase
         $file     = $download->getFile();
 
         $this->assertInstanceOf(
-            'Symfony\\Component\\HttpFoundation\\BinaryFileResponse',
+            \Symfony\Component\HttpFoundation\BinaryFileResponse::class,
             $download
         );
+
         $this->assertFalse($download->isEmpty());
         $this->assertFalse($download->isInvalid());
 
@@ -303,5 +304,74 @@ class LogViewerTest extends TestCase
     public function it_can_check_is_not_empty()
     {
         $this->assertFalse($this->logViewer->isEmpty());
+    }
+
+    /** @test */
+    public function it_can_get_version()
+    {
+        $this->assertEquals(LogViewer::VERSION, $this->logViewer->version());
+    }
+
+    /** @test */
+    public function it_can_set_custom_storage_path()
+    {
+        $this->logViewer->setPath(storage_path('custom-path-logs'));
+
+        $dates = $this->logViewer->dates();
+
+        $this->assertCount(1, $dates);
+        $this->assertDates($dates);
+
+        $this->assertEquals('2015-01-03', head($dates));
+    }
+
+    /** @test */
+    public function it_can_set_and_get_pattern()
+    {
+        $prefix    = 'laravel-';
+        $date      = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';
+        $extension = '.log';
+
+        $this->assertEquals(
+            $prefix . $date . $extension,
+            $this->logViewer->getPattern()
+        );
+
+        $this->logViewer->setPattern($prefix, $date, $extension = '');
+
+        $this->assertEquals(
+            $prefix . $date . $extension,
+            $this->logViewer->getPattern()
+        );
+
+        $this->logViewer->setPattern($prefix = 'laravel-cli-', $date, $extension);
+
+        $this->assertEquals(
+            $prefix . $date . $extension,
+            $this->logViewer->getPattern()
+        );
+
+        $this->logViewer->setPattern($prefix, $date = '[0-9][0-9][0-9][0-9]', $extension);
+
+        $this->assertEquals(
+            $prefix . $date . $extension,
+            $this->logViewer->getPattern()
+        );
+
+        $this->logViewer->setPattern();
+
+        $this->assertEquals(
+            'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
+            $this->logViewer->getPattern()
+        );
+
+        $this->logViewer->setPattern(
+            'laravel-', '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]', '.log'
+        );
+
+        $this->assertEquals(
+            'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
+            $this->logViewer->getPattern()
+        );
     }
 }

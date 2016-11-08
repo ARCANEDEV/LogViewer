@@ -8,8 +8,8 @@
     <div class="table-responsive">
         <table class="table table-condensed table-hover table-stats">
             <thead>
-            <tr>
-                @foreach($headers as $key => $header)
+                <tr>
+                    @foreach($headers as $key => $header)
                     <th class="{{ $key == 'date' ? 'text-left' : 'text-center' }}">
                         @if ($key == 'date')
                             <span class="label label-info">{{ $header }}</span>
@@ -19,41 +19,48 @@
                             </span>
                         @endif
                     </th>
-                @endforeach
-                <th class="text-right">Actions</th>
-            </tr>
+                    @endforeach
+                    <th class="text-right">Actions</th>
+                </tr>
             </thead>
             <tbody>
-            @foreach($rows as $date => $row)
-                <tr>
-                    @foreach($row as $key => $value)
-                        <td class="{{ $key == 'date' ? 'text-left' : 'text-center' }}">
-                            @if ($key == 'date')
-                                <span class="label label-primary">{{ $value }}</span>
-                            @else
-                                <span class="level level-{{ $value !== 0 ? $key : 'empty' }}">
-                                    {{ $value }}
-                                </span>
-                            @endif
+                @if ($rows->count() > 0)
+                    @foreach($rows as $date => $row)
+                    <tr>
+                        @foreach($row as $key => $value)
+                            <td class="{{ $key == 'date' ? 'text-left' : 'text-center' }}">
+                                @if ($key == 'date')
+                                    <span class="label label-primary">{{ $value }}</span>
+                                @elseif ($value == 0)
+                                    <span class="level level-empty">{{ $value }}</span>
+                                @else
+                                    <a href="{{ route('log-viewer::logs.filter', [$date, $key]) }}">
+                                        <span class="level level-{{ $key }}">{{ $value }}</span>
+                                    </a>
+                                @endif
+                            </td>
+                        @endforeach
+                        <td class="text-right">
+                            <a href="{{ route('log-viewer::logs.show', [$date]) }}" class="btn btn-xs btn-info">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <a href="{{ route('log-viewer::logs.download', [$date]) }}" class="btn btn-xs btn-success">
+                                <i class="fa fa-download"></i>
+                            </a>
+                            <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-log-date="{{ $date }}">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
                         </td>
+                    </tr>
                     @endforeach
-                    <td class="text-right">
-                        <a href="{{ route('log-viewer::logs.show', [$date]) }}" class="btn btn-xs btn-info">
-                            <i class="fa fa-search"></i>
-                        </a>
-                        <a href="{{ route('log-viewer::logs.download', [$date]) }}" class="btn btn-xs btn-success">
-                            <i class="fa fa-download"></i>
-                        </a>
-                        <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-log-date="{{ $date }}">
-                            <i class="fa fa-trash-o"></i>
-                        </a>
-                    </td>
-                </tr>
-            @endforeach
+                @else
+                    <tr>
+                        <td colspan="11" class="text-center">
+                            <span class="label label-default">{{ trans('log-viewer::general.empty-logs') }}</span>
+                        </td>
+                    </tr>
+                @endif
             </tbody>
-            <tfoot>
-            <tr></tr>
-            </tfoot>
         </table>
     </div>
 
@@ -90,15 +97,15 @@
     <script>
         $(function () {
             var deleteLogModal = $('div#delete-log-modal'),
-                    deleteLogForm  = $('form#delete-log-form'),
-                    submitBtn      = deleteLogForm.find('button[type=submit]');
+                deleteLogForm  = $('form#delete-log-form'),
+                submitBtn      = deleteLogForm.find('button[type=submit]');
 
             $("a[href=#delete-log-modal]").click(function(event) {
                 event.preventDefault();
                 var date = $(this).data('log-date');
                 deleteLogForm.find('input[name=date]').val(date);
                 deleteLogModal.find('.modal-body p').html(
-                        'Are you sure you want to <span class="label label-danger">DELETE</span> this log file <span class="label label-primary">' + date + '</span> ?'
+                    'Are you sure you want to <span class="label label-danger">DELETE</span> this log file <span class="label label-primary">' + date + '</span> ?'
                 );
 
                 deleteLogModal.modal('show');
@@ -113,19 +120,19 @@
                     type:     $(this).attr('method'),
                     dataType: 'json',
                     data:     $(this).serialize(),
-                    success: function(data, textStatus, xhr) {
+                    success: function(data) {
                         submitBtn.button('reset');
                         if (data.result === 'success') {
                             deleteLogModal.modal('hide');
                             location.reload();
                         }
                         else {
-                            alert('AJAX ERROR ! Check the console !')
-                            console.error(errorThrown);
+                            alert('AJAX ERROR ! Check the console !');
+                            console.error(data);
                         }
                     },
                     error: function(xhr, textStatus, errorThrown) {
-                        alert('AJAX ERROR ! Check the console !')
+                        alert('AJAX ERROR ! Check the console !');
                         console.error(errorThrown);
                         submitBtn.button('reset');
                     }

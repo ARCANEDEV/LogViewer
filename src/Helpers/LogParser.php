@@ -1,9 +1,11 @@
-<?php namespace Arcanedev\LogViewer\Utilities;
+<?php namespace Arcanedev\LogViewer\Helpers;
+
+use Arcanedev\LogViewer\Utilities\LogLevels;
 
 /**
  * Class     LogParser
  *
- * @package  Arcanedev\LogViewer\Utilities
+ * @package  Arcanedev\LogViewer\Helpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogParser
@@ -13,7 +15,7 @@ class LogParser
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Parsed data
+     * Parsed data.
      *
      * @var array
      */
@@ -35,11 +37,11 @@ class LogParser
         self::$parsed          = [];
         list($headings, $data) = self::parseRawData($raw);
 
+        // @codeCoverageIgnoreStart
         if ( ! is_array($headings)) {
-            // @codeCoverageIgnoreStart
             return self::$parsed;
-            // @codeCoverageIgnoreEnd
         }
+        // @codeCoverageIgnoreEnd
 
         foreach ($headings as $heading) {
             for ($i = 0, $j = count($heading); $i < $j; $i++) {
@@ -65,7 +67,7 @@ class LogParser
      */
     private static function parseRawData($raw)
     {
-        $pattern = '/\[' . REGEX_DATE_PATTERN . ' '. REGEX_TIME_PATTERN .'\].*/';
+        $pattern = '/\['.REGEX_DATE_PATTERN.' '.REGEX_TIME_PATTERN.'\].*/';
         preg_match_all($pattern, $raw, $headings);
         $data    = preg_split($pattern, $raw);
 

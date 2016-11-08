@@ -31,9 +31,9 @@ class LogCheckerTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->checker);
+
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ class LogCheckerTest extends TestCase
         $this->assertArrayHasKey('handler', $messages);
         $this->assertArrayHasKey('files', $messages);
         $this->assertEmpty($messages['handler']);
-        $this->assertCount(2, $messages['files']);
+        $this->assertCount(3, $messages['files']);
         $this->assertArrayHasKey('laravel.log', $messages['files']);
     }
 

@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Commands;
 
-use Arcanedev\LogViewer\Bases\Command;
 use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
@@ -62,9 +61,9 @@ class StatsCommand extends Command
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Prepare footer
+     * Prepare footer.
      *
-     * @param  StatsTable  $stats
+     * @param  \Arcanedev\LogViewer\Tables\StatsTable  $stats
      *
      * @return array
      */
