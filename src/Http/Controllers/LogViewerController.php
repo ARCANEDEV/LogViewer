@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Http\Controllers;
 
 use Arcanedev\LogViewer\Exceptions\LogNotFoundException;
+use Arcanedev\LogViewer\Tables\StatsTable;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
@@ -48,11 +49,11 @@ class LogViewerController extends Controller
      */
     public function index()
     {
-        $stats    = $this->logViewer->statsTable();
-        $reports  = $stats->totalsJson();
-        $percents = $this->calcPercentages($stats->footer(), $stats->header());
+        $stats     = $this->logViewer->statsTable();
+        $chartData = $this->prepareChartData($stats);
+        $percents  = $this->calcPercentages($stats->footer(), $stats->header());
 
-        return $this->view('dashboard', compact('reports', 'percents'));
+        return $this->view('dashboard', compact('chartData', 'percents'));
     }
 
     /**
@@ -184,6 +185,29 @@ class LogViewerController extends Controller
         }
 
         return $log;
+    }
+
+    /**
+     * Prepare chart data.
+     *
+     * @param  \Arcanedev\LogViewer\Tables\StatsTable  $stats
+     *
+     * @return string
+     */
+    protected function prepareChartData(StatsTable $stats)
+    {
+        $totals = $stats->totals()->all();
+
+        return json_encode([
+            'labels'   => Arr::pluck($totals, 'label'),
+            'datasets' => [
+                [
+                    'data'                 => Arr::pluck($totals, 'value'),
+                    'backgroundColor'      => Arr::pluck($totals, 'color'),
+                    'hoverBackgroundColor' => Arr::pluck($totals, 'highlight'),
+                ],
+            ],
+        ]);
     }
 
     /**

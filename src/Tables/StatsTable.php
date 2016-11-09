@@ -1,6 +1,8 @@
 <?php namespace Arcanedev\LogViewer\Tables;
 
 use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 /**
  * Class     StatsTable
@@ -93,28 +95,39 @@ class StatsTable extends AbstractTable
     }
 
     /**
-     * Get json chart data.
+     * Get totals.
      *
      * @param  string|null  $locale
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
-    public function totalsJson($locale = null)
+    public function totals($locale = null)
     {
         $this->setLocale($locale);
 
-        $json   = [];
-        $levels = array_except($this->footer(), 'all');
+        $totals = Collection::make();
 
-        foreach ($levels as $level => $count) {
-            $json[] = [
+        foreach (Arr::except($this->footer(), 'all') as $level => $count) {
+            $totals->put($level, [
                 'label'     => $this->translate("levels.$level"),
                 'value'     => $count,
                 'color'     => $this->color($level),
                 'highlight' => $this->color($level),
-            ];
+            ]);
         }
 
-        return json_encode(array_values($json), JSON_PRETTY_PRINT);
+        return $totals;
+    }
+
+    /**
+     * Get json totals data.
+     *
+     * @param  string|null  $locale
+     *
+     * @return string
+     */
+    public function totalsJson($locale = null)
+    {
+        return $this->totals($locale)->toJson(JSON_PRETTY_PRINT);
     }
 }
