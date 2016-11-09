@@ -25,6 +25,9 @@ abstract class Controller extends IlluminateController
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Controller constructor.
+     */
     public function __construct()
     {
         $this->logViewer = app('arcanedev.log-viewer');

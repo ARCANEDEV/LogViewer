@@ -43,17 +43,14 @@ class FilesystemTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\LogViewer\\Utilities\\Filesystem',
-            $this->filesystem
-        );
+        $this->assertInstanceOf(Filesystem::class, $this->filesystem);
     }
 
     /** @test */
     public function it_can_get_filesystem_instance()
     {
         $this->assertInstanceOf(
-            'Illuminate\\Filesystem\\Filesystem',
+            \Illuminate\Filesystem\Filesystem::class,
             $this->filesystem->getInstance()
         );
     }

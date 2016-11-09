@@ -43,10 +43,7 @@ class LogLevelsTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\LogViewer\\Utilities\\LogLevels',
-            $this->levels
-        );
+        $this->assertInstanceOf(LogLevels::class, $this->levels);
     }
 
     /** @test */

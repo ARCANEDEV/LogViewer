@@ -1,11 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Contracts;
 
-use Arcanedev\LogViewer\Entities\LogEntryCollection;
-use Arcanedev\LogViewer\Entities\Log;
-use Arcanedev\LogViewer\Entities\LogCollection;
-use Arcanedev\LogViewer\Exceptions\FilesystemException;
-use Arcanedev\LogViewer\Tables\StatsTable;
-
 /**
  * Interface  LogViewer
  *
@@ -52,7 +46,7 @@ interface LogViewer extends Patternable
     /**
      * Get all logs.
      *
-     * @return LogCollection
+     * @return \Arcanedev\LogViewer\Entities\LogCollection
      */
     public function all();
 
@@ -70,7 +64,7 @@ interface LogViewer extends Patternable
      *
      * @param  string  $date
      *
-     * @return Log
+     * @return \Arcanedev\LogViewer\Entities\Log
      */
     public function get($date);
 
@@ -80,7 +74,7 @@ interface LogViewer extends Patternable
      * @param  string  $date
      * @param  string  $level
      *
-     * @return LogEntryCollection
+     * @return \Arcanedev\LogViewer\Entities\LogEntryCollection
      */
     public function entries($date, $level = 'all');
 
@@ -107,7 +101,7 @@ interface LogViewer extends Patternable
      *
      * @param  string|null  $locale
      *
-     * @return StatsTable
+     * @return \Arcanedev\LogViewer\Tables\StatsTable
      */
     public function statsTable($locale = null);
 
@@ -118,7 +112,7 @@ interface LogViewer extends Patternable
      *
      * @return bool
      *
-     * @throws FilesystemException
+     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function delete($date);
 

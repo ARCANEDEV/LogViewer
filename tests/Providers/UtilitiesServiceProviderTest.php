@@ -27,9 +27,7 @@ class UtilitiesServiceProviderTest extends TestCase
     {
         parent::setUp();
 
-        $this->provider = $this->app->getProvider(
-            \Arcanedev\LogViewer\Providers\UtilitiesServiceProvider::class
-        );
+        $this->provider = $this->app->getProvider(UtilitiesServiceProvider::class);
     }
 
     public function tearDown()
@@ -50,7 +48,7 @@ class UtilitiesServiceProviderTest extends TestCase
         $expectations = [
             \Illuminate\Support\ServiceProvider::class,
             \Arcanedev\Support\ServiceProvider::class,
-            \Arcanedev\LogViewer\Providers\UtilitiesServiceProvider::class,
+            UtilitiesServiceProvider::class,
         ];
 
         foreach ($expectations as $expected) {
