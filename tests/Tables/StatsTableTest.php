@@ -50,10 +50,7 @@ class StatsTableTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\LogViewer\\Tables\\StatsTable',
-            $this->table
-        );
+        $this->assertInstanceOf(StatsTable::class, $this->table);
     }
 
     /** @test */
@@ -92,6 +89,14 @@ class StatsTableTest extends TestCase
             $this->rawData,
             $this->table->data()
         );
+    }
+
+    /** @test */
+    public function it_can_get_totals()
+    {
+        $totals = $this->table->totals();
+
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $totals);
     }
 
     /** @test */

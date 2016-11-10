@@ -43,7 +43,7 @@ class LogCollectionTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf('Arcanedev\\LogViewer\\Entities\\LogCollection', $this->logs);
+        $this->assertInstanceOf(LogCollection::class, $this->logs);
     }
 
     /** @test */

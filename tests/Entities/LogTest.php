@@ -45,7 +45,7 @@ class LogTest extends TestCase
     {
         $entries = $this->log->entries();
 
-        $this->assertInstanceOf('Arcanedev\\LogViewer\\Entities\\Log', $this->log);
+        $this->assertInstanceOf(Log::class, $this->log);
         $this->assertDate($this->log->date);
         $this->assertCount(8, $entries);
         $this->assertLogEntries($this->log->date, $entries);

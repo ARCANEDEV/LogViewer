@@ -43,10 +43,7 @@ class LogMenuTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\LogViewer\\Utilities\\LogMenu',
-            $this->menu
-        );
+        $this->assertInstanceOf(LogMenu::class, $this->menu);
     }
 
     /** @test */

@@ -43,10 +43,7 @@ class LogEntryTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\LogViewer\\Entities\\LogEntry',
-            $this->entry
-        );
+        $this->assertInstanceOf(LogEntry::class, $this->entry);
         $this->assertLogEntry('2015-01-01', $this->entry);
     }
 

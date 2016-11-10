@@ -43,10 +43,7 @@ class LogCheckerTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
-            'Arcanedev\\LogViewer\\Utilities\\LogChecker',
-            $this->checker
-        );
+        $this->assertInstanceOf(LogChecker::class, $this->checker);
     }
 
     /** @test */
