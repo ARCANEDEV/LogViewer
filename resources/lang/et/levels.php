@@ -3,7 +3,7 @@
 return [
     'all'       => 'Kõik',
     'emergency' => 'Erakorraline',
-    'alert'     => 'Hoiatus',
+    'alert'     => 'Häire',
     'critical'  => 'Kriitiline',
     'error'     => 'Viga',
     'warning'   => 'Hoiatus',
