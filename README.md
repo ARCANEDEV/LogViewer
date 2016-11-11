@@ -54,6 +54,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 | `de`    | German                |
 | `en`    | English               |
 | `es`    | Spanish               |
+| `et`    | Estonian              |
 | `fa`    | Farsi                 |
 | `fr`    | French                |
 | `hu`    | Hungarian             |
