@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'all'       => 'Toplam',
+    'all'       => 'Tümü',
     'emergency' => 'Acil',
     'alert'     => 'Alarm',
     'critical'  => 'Kritik',
@@ -9,5 +9,5 @@ return [
     'warning'   => 'Uyarı',
     'notice'    => 'Bildirim',
     'info'      => 'Bilgi',
-    'debug'     => 'Debug',
+    'debug'     => 'Hata ayıklama',
 ];

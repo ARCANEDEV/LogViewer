@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'all'        => 'Toplam',
+    'all'        => 'Tümü',
     'date'       => 'Tarih',
-    'empty-logs' => 'The list of logs is empty!',
+    'empty-logs' => 'Günlük listesi boş!',
 ];
