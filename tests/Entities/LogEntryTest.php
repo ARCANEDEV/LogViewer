@@ -60,4 +60,10 @@ class LogEntryTest extends TestCase
 
         $this->assertTrue($this->entry->isSameLevel($level));
     }
+
+    /** @test */
+    public function it_can_get_stack()
+    {
+        $this->assertNotSame($this->entry->stack, $this->entry->stack());
+    }
 }

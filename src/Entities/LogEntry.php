@@ -163,6 +163,16 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
         return log_styler()->icon($this->level);
     }
 
+    /**
+     * Get the entry stack.
+     *
+     * @return string
+     */
+    public function stack()
+    {
+        return nl2br(htmlentities($this->stack), false);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Check Functions
      | ------------------------------------------------------------------------------------------------
