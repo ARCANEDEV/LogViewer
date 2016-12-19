@@ -46,13 +46,10 @@ class LogViewerServiceProvider extends PackageServiceProvider
     {
         $this->registerConfig();
 
-        $this->app->register(Providers\UtilitiesServiceProvider::class);
+        $this->registerProvider(Providers\UtilitiesServiceProvider::class);
         $this->registerLogViewer();
         $this->registerAliases();
-
-        if ($this->app->runningInConsole()) {
-            $this->app->register(Providers\CommandsServiceProvider::class);
-        }
+        $this->registerConsoleServiceProvider(Providers\CommandsServiceProvider::class);
     }
 
     /**
@@ -63,7 +60,7 @@ class LogViewerServiceProvider extends PackageServiceProvider
         $this->publishConfig();
         $this->publishViews();
         $this->publishTranslations();
-        $this->app->register(Providers\RouteServiceProvider::class);
+        $this->registerProvider(Providers\RouteServiceProvider::class);
     }
 
     /**
@@ -88,9 +85,8 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     private function registerLogViewer()
     {
-        $this->singleton('arcanedev.log-viewer', LogViewer::class);
-
-        $this->bind(Contracts\LogViewer::class, 'arcanedev.log-viewer');
+        $this->singleton(Contracts\LogViewer::class, LogViewer::class);
+        $this->singleton('arcanedev.log-viewer', Contracts\LogViewer::class);
 
         // Registering the Facade
         $this->alias(

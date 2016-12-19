@@ -47,7 +47,7 @@ class PublishCommand extends Command
     public function handle()
     {
         $args = [
-            '--provider' => 'Arcanedev\\LogViewer\\LogViewerServiceProvider'
+            '--provider' => \Arcanedev\LogViewer\LogViewerServiceProvider::class
         ];
 
         if ((bool) $this->option('force')) {
