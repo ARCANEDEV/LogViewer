@@ -61,7 +61,7 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function registerLogLevels()
     {
-        $this->singleton('arcanedev.log-viewer.levels', function ($app) {
+        $this->singleton(Contracts\Utilities\LogLevels::class, function ($app) {
             /**
              * @var  \Illuminate\Config\Repository       $config
              * @var  \Illuminate\Translation\Translator  $translator
@@ -72,7 +72,7 @@ class UtilitiesServiceProvider extends ServiceProvider
             return new Utilities\LogLevels($translator, $config->get('log-viewer.locale'));
         });
 
-        $this->bind(Contracts\Utilities\LogLevels::class, 'arcanedev.log-viewer.levels');
+        $this->singleton('arcanedev.log-viewer.levels', Contracts\Utilities\LogLevels::class);
     }
 
     /**
@@ -80,9 +80,8 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function registerStyler()
     {
-        $this->singleton('arcanedev.log-viewer.styler', Utilities\LogStyler::class);
-
-        $this->bind(Contracts\Utilities\LogStyler::class, 'arcanedev.log-viewer.styler');
+        $this->singleton(Contracts\Utilities\LogStyler::class, Utilities\LogStyler::class);
+        $this->singleton('arcanedev.log-viewer.styler', Contracts\Utilities\LogStyler::class);
     }
 
     /**
@@ -90,8 +89,8 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function registerLogMenu()
     {
-        $this->singleton('arcanedev.log-viewer.menu', Utilities\LogMenu::class);
-        $this->bind(Contracts\Utilities\LogMenu::class, 'arcanedev.log-viewer.menu');
+        $this->singleton(Contracts\Utilities\LogMenu::class, Utilities\LogMenu::class);
+        $this->singleton('arcanedev.log-viewer.menu', Contracts\Utilities\LogMenu::class);
     }
 
     /**
@@ -99,7 +98,7 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function registerFilesystem()
     {
-        $this->singleton('arcanedev.log-viewer.filesystem', function ($app) {
+        $this->singleton(Contracts\Utilities\Filesystem::class, function ($app) {
             /**
              * @var  \Illuminate\Config\Repository      $config
              * @var  \Illuminate\Filesystem\Filesystem  $files
@@ -117,7 +116,7 @@ class UtilitiesServiceProvider extends ServiceProvider
             return $filesystem;
         });
 
-        $this->bind(Contracts\Utilities\Filesystem::class, 'arcanedev.log-viewer.filesystem');
+        $this->singleton('arcanedev.log-viewer.filesystem', Contracts\Utilities\Filesystem::class);
     }
 
     /**
@@ -125,9 +124,8 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function registerFactory()
     {
-        $this->singleton('arcanedev.log-viewer.factory', Utilities\Factory::class);
-
-        $this->bind(Contracts\Utilities\Factory::class, 'arcanedev.log-viewer.factory');
+        $this->singleton(Contracts\Utilities\Factory::class, Utilities\Factory::class);
+        $this->singleton('arcanedev.log-viewer.factory', Contracts\Utilities\Factory::class);
     }
 
     /**
@@ -135,8 +133,7 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     private function registerChecker()
     {
-        $this->singleton('arcanedev.log-viewer.checker', Utilities\LogChecker::class);
-
-        $this->bind(Contracts\Utilities\LogChecker::class, 'arcanedev.log-viewer.checker');
+        $this->singleton(Contracts\Utilities\LogChecker::class, Utilities\LogChecker::class);
+        $this->singleton('arcanedev.log-viewer.checker', Contracts\Utilities\LogChecker::class);
     }
 }
