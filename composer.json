@@ -34,11 +34,13 @@
         }
     },
     "scripts": {
-        "testbench": "composer require --dev \"orchestra/testbench=~3.0\""
+        "testbench": "composer require --dev \"orchestra/testbench-browser-kit=~3.4\""
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.0.x-dev"
+            "dev-master": "4.3.x-dev"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable" : true
 }

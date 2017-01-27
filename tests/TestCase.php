@@ -7,7 +7,7 @@ use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Foundation\Application;
-use Orchestra\Testbench\TestCase as BaseTestCase;
+use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
 use Psr\Log\LogLevel;
 use ReflectionClass;
 
@@ -428,7 +428,8 @@ abstract class TestCase extends BaseTestCase
     {
         return $this->getLog($date)
             ->entries()
-            ->random(1);
+            ->random(1)
+            ->first();
     }
 
     /**
