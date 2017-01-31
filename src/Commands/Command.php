@@ -53,7 +53,7 @@ abstract class Command extends BaseCommand
         $this->line('');
 
         // Copyright
-        $this->comment('Version ' . $this->logViewer->version() . ' - Created by ARCANEDEV' . chr(169));
+        $this->comment('Version '.$this->logViewer->version().' - Created by ARCANEDEV'.chr(169));
         $this->line('');
     }
 }

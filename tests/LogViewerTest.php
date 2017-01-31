@@ -26,7 +26,7 @@ class LogViewerTest extends TestCase
     {
         parent::setUp();
 
-        $this->logViewer = $this->app['arcanedev.log-viewer'];
+        $this->logViewer = $this->app->make(\Arcanedev\LogViewer\Contracts\LogViewer::class);
     }
 
     public function tearDown()

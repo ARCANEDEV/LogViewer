@@ -71,7 +71,6 @@ class LogViewerServiceProvider extends PackageServiceProvider
     public function provides()
     {
         return [
-            'arcanedev.log-viewer',
             Contracts\LogViewer::class,
         ];
     }
@@ -86,7 +85,6 @@ class LogViewerServiceProvider extends PackageServiceProvider
     private function registerLogViewer()
     {
         $this->singleton(Contracts\LogViewer::class, LogViewer::class);
-        $this->singleton('arcanedev.log-viewer', Contracts\LogViewer::class);
 
         // Registering the Facade
         $this->alias(

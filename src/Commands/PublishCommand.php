@@ -51,14 +51,10 @@ class PublishCommand extends Command
         ];
 
         if ((bool) $this->option('force')) {
-            $args['--force']    = true;
+            $args['--force'] = true;
         }
 
-        $tag = $this->option('tag');
-
-        if ( ! is_null($tag)) {
-            $args['--tag'] = version_compare(laravel_version(), '5.1.0', '>=') ? [$tag] : $tag;
-        }
+        $args['--tag'] = [$this->option('tag')];
 
         $this->displayLogViewer();
         $this->call('vendor:publish', $args);

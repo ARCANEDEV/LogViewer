@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Facades;
 
+use Arcanedev\LogViewer\Contracts\Utilities\LogStyler as LogStylerContract;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -15,5 +16,5 @@ class LogStyler extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'arcanedev.log-viewer.styler'; }
+    protected static function getFacadeAccessor() { return LogStylerContract::class; }
 }

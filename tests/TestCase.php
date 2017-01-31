@@ -5,8 +5,7 @@ use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Carbon\Carbon;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Foundation\Application;
+use Illuminate\Support\Arr;
 use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
 use Psr\Log\LogLevel;
 use ReflectionClass;
@@ -57,7 +56,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get package providers.
      *
-     * @param  Application  $app
+     * @param  \Illuminate\Foundation\Application  $app
      *
      * @return array
      */
@@ -71,7 +70,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Define environment setup.
      *
-     * @param  Application  $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
@@ -90,8 +89,8 @@ abstract class TestCase extends BaseTestCase
     /**
      * Asserts that a string is a valid JSON string.
      *
-     * @param  Jsonable|mixed  $object
-     * @param  string          $message
+     * @param  \Illuminate\Contracts\Support\Jsonable|mixed  $object
+     * @param  string                                        $message
      */
     public static function assertJsonObject($object, $message = '')
     {
@@ -138,7 +137,7 @@ abstract class TestCase extends BaseTestCase
         $dt = Carbon::createFromFormat('Y-m-d', $date);
 
         $this->assertInLogLevels($entry->level);
-        $this->assertInstanceOf(\Carbon\Carbon::class, $entry->datetime);
+        $this->assertInstanceOf(Carbon::class, $entry->datetime);
         $this->assertTrue($entry->datetime->isSameDay($dt));
         $this->assertNotEmpty($entry->header);
         $this->assertNotEmpty($entry->stack);
@@ -335,7 +334,7 @@ abstract class TestCase extends BaseTestCase
      */
     public function illuminateFile()
     {
-        return app('files');
+        return $this->app->make('files');
     }
 
     /**
@@ -345,7 +344,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function filesystem()
     {
-        return app('arcanedev.log-viewer.filesystem');
+        return $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\Filesystem::class);
     }
 
     /**
@@ -355,7 +354,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function trans()
     {
-        return $this->app['translator'];
+        return $this->app->make('translator');
     }
 
     /**
@@ -365,7 +364,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function config()
     {
-        return $this->app['config'];
+        return $this->app->make('config');
     }
 
     /**
@@ -468,7 +467,7 @@ abstract class TestCase extends BaseTestCase
      */
     private function getTranslatedLevel($locale, $key)
     {
-        return array_get($this->getTranslatedLevels(), "$locale.$key");
+        return Arr::get($this->getTranslatedLevels(), "$locale.$key");
     }
 
     /**
@@ -478,10 +477,8 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getTranslatedLevels()
     {
-        $translator = $this->app['translator'];
-
-        return array_map(function ($locale) use ($translator) {
-            return $translator->get('log-viewer::levels', [], $locale);
+        return array_map(function ($locale) {
+            return $this->trans()->get('log-viewer::levels', [], $locale);
         }, array_combine(self::$locales, self::$locales));
     }
 

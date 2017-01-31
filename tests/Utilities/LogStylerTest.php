@@ -25,7 +25,7 @@ class LogStylerTest extends TestCase
     {
         parent::setUp();
 
-        $this->styler = $this->app['arcanedev.log-viewer.styler'];
+        $this->styler = $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\LogStyler::class);
     }
 
     public function tearDown()
