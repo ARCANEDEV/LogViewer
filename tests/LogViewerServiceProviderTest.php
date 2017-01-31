@@ -58,7 +58,6 @@ class LogViewerServiceProviderTest extends TestCase
     public function it_can_provides()
     {
         $expected = [
-            'arcanedev.log-viewer',
             \Arcanedev\LogViewer\Contracts\LogViewer::class,
         ];
 

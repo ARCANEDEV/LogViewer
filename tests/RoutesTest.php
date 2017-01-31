@@ -19,7 +19,8 @@ class RoutesTest extends TestCase
     {
         $response = $this->route('GET', 'log-viewer::dashboard');
 
-        $this->assertResponseOk();
+        $response->isOk();
+
         $this->assertContains(
             '<h1 class="page-header">Dashboard</h1>',
             $response->getContent()

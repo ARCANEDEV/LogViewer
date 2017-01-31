@@ -1,5 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Commands;
 
+use Arcanedev\LogViewer\Contracts\Utilities\LogChecker as LogCheckerContract;
+
 /**
  * Class     PublishCommand
  *
@@ -33,8 +35,19 @@ class CheckCommand extends Command
      */
     protected $signature = 'log-viewer:check';
 
-    /** @var \Arcanedev\LogViewer\Contracts\Utilities\LogChecker */
-    private $checker;
+    /* ------------------------------------------------------------------------------------------------
+     |  Getter & Setters
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get the Log Checker instance.
+     *
+     * @return \Arcanedev\LogViewer\Contracts\Utilities\LogChecker
+     */
+    protected function getChecker()
+    {
+        return $this->laravel[LogCheckerContract::class];
+    }
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -46,19 +59,20 @@ class CheckCommand extends Command
     public function handle()
     {
         $this->displayLogViewer();
-
-        $this->checker = $this->laravel['arcanedev.log-viewer.checker'];
-
         $this->displayRequirements();
         $this->displayMessages();
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Display LogViewer requirements.
      */
     private function displayRequirements()
     {
-        $requirements = $this->checker->requirements();
+        $requirements = $this->getChecker()->requirements();
 
         $this->frame('Application requirements');
 
@@ -74,7 +88,7 @@ class CheckCommand extends Command
      */
     private function displayMessages()
     {
-        $messages = $this->checker->messages();
+        $messages = $this->getChecker()->messages();
 
         $rows = [];
         foreach ($messages['files'] as $file => $message) {

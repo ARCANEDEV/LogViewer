@@ -29,10 +29,9 @@ class StatsTableTest extends TestCase
     {
         parent::setUp();
 
-        $this->rawData = $this->app['arcanedev.log-viewer']->stats();
         $this->table   = new StatsTable(
-            $this->rawData,
-            $this->app['arcanedev.log-viewer.levels']
+            $this->rawData = $this->getLogViewerInstance()->stats(),
+            $this->getLogLevelsInstance()
         );
     }
 
@@ -57,8 +56,8 @@ class StatsTableTest extends TestCase
     public function it_can_make_instance()
     {
         $this->table = StatsTable::make(
-            $this->app['arcanedev.log-viewer']->stats(),
-            $this->app['arcanedev.log-viewer.levels']
+            $this->getLogViewerInstance()->stats(),
+            $this->getLogLevelsInstance()
         );
 
         $this->assertTable($this->table);
@@ -105,5 +104,29 @@ class StatsTableTest extends TestCase
         $json = $this->table->totalsJson();
 
         $this->assertJson($json);
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get the LogViewer instance.
+     *
+     * @return \Arcanedev\LogViewer\Contracts\LogViewer
+     */
+    protected function getLogViewerInstance()
+    {
+        return $this->app->make(\Arcanedev\LogViewer\Contracts\LogViewer::class);
+    }
+
+    /**
+     * Get the LogLevels instance.
+     *
+     * @return \Arcanedev\LogViewer\Contracts\Utilities\LogLevels
+     */
+    protected function getLogLevelsInstance()
+    {
+        return $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\LogLevels::class);
     }
 }

@@ -26,7 +26,7 @@ class LogCheckerTest extends TestCase
     {
         parent::setUp();
 
-        $this->checker = app('arcanedev.log-viewer.checker');
+        $this->checker = $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\LogChecker::class);
     }
 
     public function tearDown()

@@ -1,7 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Http\Routes;
 
-use Arcanedev\Support\Bases\RouteRegister;
-use Illuminate\Contracts\Routing\Registrar as Router;
+use Arcanedev\Support\Routing\RouteRegistrar;
 
 /**
  * Class     LogViewerRoute
@@ -11,7 +10,7 @@ use Illuminate\Contracts\Routing\Registrar as Router;
  *
  * @codeCoverageIgnore
  */
-class LogViewerRoute extends RouteRegister
+class LogViewerRoute extends RouteRegistrar
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -19,10 +18,8 @@ class LogViewerRoute extends RouteRegister
      */
     /**
      * Map all routes.
-     *
-     * @param  \Illuminate\Contracts\Routing\Registrar  $router
      */
-    public function map(Router $router)
+    public function map()
     {
         $this->get('/', [
             'as'    => 'log-viewer::dashboard',
@@ -41,9 +38,7 @@ class LogViewerRoute extends RouteRegister
      */
     private function registerLogsRoutes()
     {
-        $this->group([
-            'prefix' => 'logs',
-        ], function() {
+        $this->prefix('logs')->group(function() {
             $this->get('/', [
                 'as'    => 'log-viewer::logs.list',
                 'uses'  => 'LogViewerController@listLogs',
@@ -63,9 +58,7 @@ class LogViewerRoute extends RouteRegister
      */
     private function registerSingleLogRoutes()
     {
-        $this->group([
-            'prefix'    => '{date}',
-        ], function() {
+        $this->prefix('{date}')->group(function() {
             $this->get('/', [
                 'as'    => 'log-viewer::logs.show',
                 'uses'  => 'LogViewerController@show',

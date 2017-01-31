@@ -60,17 +60,11 @@ class UtilitiesServiceProviderTest extends TestCase
     public function it_can_provides()
     {
         $expected = [
-            'arcanedev.log-viewer.levels',
             Contracts\Utilities\LogLevels::class,
-            'arcanedev.log-viewer.styler',
             Contracts\Utilities\LogStyler::class,
-            'arcanedev.log-viewer.menu',
             Contracts\Utilities\LogMenu::class,
-            'arcanedev.log-viewer.filesystem',
             Contracts\Utilities\Filesystem::class,
-            'arcanedev.log-viewer.factory',
             Contracts\Utilities\Factory::class,
-            'arcanedev.log-viewer.checker',
             Contracts\Utilities\LogChecker::class,
         ];
 
