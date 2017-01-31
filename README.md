@@ -37,12 +37,10 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 
 ## Table of contents
 
-1. [Requirements](_docs/1.Requirements.md)
-2. [Installation and Setup](_docs/2.Installation-and-Setup.md)
-3. [Configuration](_docs/3.Configuration.md)
-4. [Usage](_docs/4.Usage.md)
-5. [Extras](_docs/5.Extras.md)
-6. [FAQ](_docs/6.FAQ.md)
+  1. [Installation and Setup](_docs/1.Installation-and-Setup.md)
+  2. [Configuration](_docs/2.Configuration.md)
+  3. [Usage](_docs/3.Usage.md)
+  4. [FAQ](_docs/4.FAQ.md)
 
 ### Supported localizations
 
