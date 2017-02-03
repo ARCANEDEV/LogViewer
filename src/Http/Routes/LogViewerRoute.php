@@ -21,58 +21,28 @@ class LogViewerRoute extends RouteRegistrar
      */
     public function map()
     {
-        $this->get('/', [
-            'as'    => 'log-viewer::dashboard',
-            'uses'  => 'LogViewerController@index',
-        ]);
+        $this->name('log-viewer::')->group(function () {
+            // log-viewer::dashboard
+            $this->get('/', 'LogViewerController@index')->name('dashboard');
 
-        $this->registerLogsRoutes();
-    }
+            $this->prefix('logs')->name('logs.')->group(function() {
+                // log-viewer::logs.list
+                $this->get('/', 'LogViewerController@listLogs')->name('list');
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Route Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Register logs routes.
-     */
-    private function registerLogsRoutes()
-    {
-        $this->prefix('logs')->group(function() {
-            $this->get('/', [
-                'as'    => 'log-viewer::logs.list',
-                'uses'  => 'LogViewerController@listLogs',
-            ]);
+                // log-viewer::logs.delete
+                $this->delete('delete', 'LogViewerController@delete')->name('delete');
 
-            $this->delete('delete', [
-                'as'    => 'log-viewer::logs.delete',
-                'uses'  => 'LogViewerController@delete',
-            ]);
+                $this->prefix('{date}')->group(function() {
+                    // log-viewer::logs.show
+                    $this->get('/', 'LogViewerController@show')->name('show');
 
-            $this->registerSingleLogRoutes();
-        });
-    }
+                    // log-viewer::logs.download
+                    $this->get('download', 'LogViewerController@download')->name('download');
 
-    /**
-     * Register single log routes.
-     */
-    private function registerSingleLogRoutes()
-    {
-        $this->prefix('{date}')->group(function() {
-            $this->get('/', [
-                'as'    => 'log-viewer::logs.show',
-                'uses'  => 'LogViewerController@show',
-            ]);
-
-            $this->get('download', [
-                'as'    => 'log-viewer::logs.download',
-                'uses'  => 'LogViewerController@download',
-            ]);
-
-            $this->get('{level}', [
-                'as'    => 'log-viewer::logs.filter',
-                'uses'  => 'LogViewerController@showByLevel',
-            ]);
+                    // log-viewer::logs.filter
+                    $this->get('{level}', 'LogViewerController@showByLevel')->name('filter');
+                });
+            });
         });
     }
 }
