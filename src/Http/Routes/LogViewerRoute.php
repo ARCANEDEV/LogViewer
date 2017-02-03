@@ -25,23 +25,31 @@ class LogViewerRoute extends RouteRegistrar
             // log-viewer::dashboard
             $this->get('/', 'LogViewerController@index')->name('dashboard');
 
-            $this->prefix('logs')->name('logs.')->group(function() {
-                // log-viewer::logs.list
-                $this->get('/', 'LogViewerController@listLogs')->name('list');
+            $this->mapLogsRoutes();
+        });
+    }
 
-                // log-viewer::logs.delete
-                $this->delete('delete', 'LogViewerController@delete')->name('delete');
+    /**
+     * Map the logs routes.
+     */
+    private function mapLogsRoutes()
+    {
+        $this->prefix('logs')->name('logs.')->group(function() {
+            // log-viewer::logs.list
+            $this->get('/', 'LogViewerController@listLogs')->name('list');
 
-                $this->prefix('{date}')->group(function() {
-                    // log-viewer::logs.show
-                    $this->get('/', 'LogViewerController@show')->name('show');
+            // log-viewer::logs.delete
+            $this->delete('delete', 'LogViewerController@delete')->name('delete');
 
-                    // log-viewer::logs.download
-                    $this->get('download', 'LogViewerController@download')->name('download');
+            $this->prefix('{date}')->group(function() {
+                // log-viewer::logs.show
+                $this->get('/', 'LogViewerController@show')->name('show');
 
-                    // log-viewer::logs.filter
-                    $this->get('{level}', 'LogViewerController@showByLevel')->name('filter');
-                });
+                // log-viewer::logs.download
+                $this->get('download', 'LogViewerController@download')->name('download');
+
+                // log-viewer::logs.filter
+                $this->get('{level}', 'LogViewerController@showByLevel')->name('filter');
             });
         });
     }

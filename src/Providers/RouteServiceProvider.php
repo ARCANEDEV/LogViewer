@@ -51,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider
         /** @var \Illuminate\Config\Repository $config */
         $config = $this->app['config'];
 
-        return $config->get('log-viewer.route.' . $key, $default);
+        return $config->get("log-viewer.route.$key", $default);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -66,8 +66,8 @@ class RouteServiceProvider extends ServiceProvider
     public function map(Router $router)
     {
         if ($this->isEnabled()) {
-            $router->group($this->routeAttributes(), function(Router $router) {
-                LogViewerRoute::register($router);
+            $router->group($this->routeAttributes(), function() {
+                LogViewerRoute::register();
             });
         }
     }
