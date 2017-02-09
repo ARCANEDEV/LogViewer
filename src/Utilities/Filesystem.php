@@ -103,7 +103,7 @@ class Filesystem implements FilesystemContract
      */
     public function getPattern()
     {
-        return $this->prefixPattern . $this->datePattern . $this->extension;
+        return $this->prefixPattern.$this->datePattern.$this->extension;
     }
 
     /**
@@ -180,7 +180,7 @@ class Filesystem implements FilesystemContract
      */
     public function all()
     {
-        return $this->getFiles('*' . $this->extension);
+        return $this->getFiles('*'.$this->extension);
     }
 
     /**
@@ -224,13 +224,15 @@ class Filesystem implements FilesystemContract
     public function read($date)
     {
         try {
-            $path = $this->getLogPath($date);
-
-            return $this->filesystem->get($path);
+            $log = $this->filesystem->get(
+                $this->getLogPath($date)
+            );
         }
         catch (\Exception $e) {
             throw new FilesystemException($e->getMessage());
         }
+
+        return $log;
     }
 
     /**
@@ -298,7 +300,7 @@ class Filesystem implements FilesystemContract
      */
     private function getLogPath($date)
     {
-        $path = $this->storagePath . DS . $this->prefixPattern . $date . $this->extension;
+        $path = $this->storagePath.DS.$this->prefixPattern.$date.$this->extension;
 
         if ( ! $this->filesystem->exists($path)) {
             throw new FilesystemException("The log(s) could not be located at : $path");

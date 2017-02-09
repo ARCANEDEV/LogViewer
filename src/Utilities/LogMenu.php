@@ -38,7 +38,7 @@ class LogMenu implements LogMenuContract
     /**
      * LogMenu constructor.
      *
-     * @param  \Illuminate\Contracts\Config\Repository   $config
+     * @param  \Illuminate\Contracts\Config\Repository             $config
      * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogStyler  $styler
      */
     public function __construct(ConfigContract $config, LogStylerContract $styler)

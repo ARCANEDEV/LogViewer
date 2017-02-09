@@ -43,16 +43,16 @@ class LogEntryCollection extends Collection
      */
     public function paginate($perPage = 20)
     {
-        $request   = request();
-        $page      = $request->input('page', 1);
-        $paginator = new LengthAwarePaginator(
-            $this->slice(($page * $perPage) - $perPage, $perPage),
+        $page = request()->get('page', 1);
+        $path = request()->url();
+
+        return new LengthAwarePaginator(
+            $this->forPage($page, $perPage),
             $this->count(),
             $perPage,
-            $page
+            $page,
+            compact('path')
         );
-
-        return $paginator->setPath($request->url());
     }
 
     /**

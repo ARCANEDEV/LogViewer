@@ -190,7 +190,7 @@ abstract class AbstractTable implements TableContract
     /**
      * Translate.
      *
-     * @param  string $key
+     * @param  string  $key
      *
      * @return string
      */
@@ -199,7 +199,7 @@ abstract class AbstractTable implements TableContract
         /** @var \Illuminate\Translation\Translator $translator */
         $translator = trans();
 
-        return $translator->get('log-viewer::' . $key,  [], $this->locale);
+        return $translator->get('log-viewer::'.$key,  [], $this->locale);
     }
 
     /**

@@ -35,8 +35,7 @@ class LogCollection extends Collection
 
         parent::__construct($items);
 
-        if (empty($items))
-            $this->load();
+        if (empty($items)) $this->load();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -69,9 +68,7 @@ class LogCollection extends Collection
     private function load()
     {
         foreach($this->filesystem->dates(true) as $date => $path) {
-            $log = Log::make($date, $path, $this->filesystem->read($date));
-
-            $this->put($date, $log);
+            $this->put($date, Log::make($date, $path, $this->filesystem->read($date)));
         }
 
         return $this;
@@ -104,16 +101,16 @@ class LogCollection extends Collection
      */
     public function paginate($perPage = 30)
     {
-        $request     = request();
-        $currentPage = $request->input('page', 1);
-        $paginator   = new LengthAwarePaginator(
-            $this->slice(($currentPage * $perPage) - $perPage, $perPage),
+        $page = request()->get('page', 1);
+        $path = request()->url();
+
+        return new LengthAwarePaginator(
+            $this->forPage($page, $perPage),
             $this->count(),
             $perPage,
-            $currentPage
+            $page,
+            compact('path')
         );
-
-        return $paginator->setPath($request->url());
     }
 
     /**

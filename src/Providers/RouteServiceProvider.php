@@ -2,7 +2,6 @@
 
 use Arcanedev\LogViewer\Http\Routes\LogViewerRoute;
 use Arcanedev\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Contracts\Routing\Registrar as Router;
 
 /**
  * Class     RouteServiceProvider
@@ -38,6 +37,26 @@ class RouteServiceProvider extends ServiceProvider
         return $this->config('enabled', false);
     }
 
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Define the routes for the application.
+     */
+    public function map()
+    {
+        if ($this->isEnabled()) {
+            $this->group($this->routeAttributes(), function() {
+                LogViewerRoute::register();
+            });
+        }
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
     /**
      * Get config value by key
      *
@@ -48,27 +67,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     private function config($key, $default = null)
     {
-        /** @var \Illuminate\Config\Repository $config */
-        $config = $this->app['config'];
+        /** @var  \Illuminate\Config\Repository  $config */
+        $config = $this->app->make('config');
 
         return $config->get("log-viewer.route.$key", $default);
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Define the routes for the application.
-     *
-     * @param  \Illuminate\Contracts\Routing\Registrar  $router
-     */
-    public function map(Router $router)
-    {
-        if ($this->isEnabled()) {
-            $router->group($this->routeAttributes(), function() {
-                LogViewerRoute::register();
-            });
-        }
     }
 }

@@ -37,14 +37,14 @@ class LogChecker implements LogCheckerContract
      *
      * @var string
      */
-    protected $handler  = '';
+    protected $handler = '';
 
     /**
      * The check status.
      *
      * @var bool
      */
-    private $status     = true;
+    private $status = true;
 
     /**
      * The check messages.
@@ -58,7 +58,7 @@ class LogChecker implements LogCheckerContract
      *
      * @var array
      */
-    private $files;
+    private $files = [];
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
@@ -67,12 +67,11 @@ class LogChecker implements LogCheckerContract
     /**
      * LogChecker constructor.
      *
-     * @param  \Illuminate\Contracts\Config\Repository    $config
+     * @param  \Illuminate\Contracts\Config\Repository              $config
      * @param  \Arcanedev\LogViewer\Contracts\Utilities\Filesystem  $filesystem
      */
     public function __construct(ConfigContract $config, FilesystemContract $filesystem)
     {
-        $this->files = [];
         $this->setConfig($config);
         $this->setFilesystem($filesystem);
         $this->refresh();
@@ -301,8 +300,6 @@ class LogChecker implements LogCheckerContract
     {
         $pattern = '/laravel-(\d){4}-(\d){2}-(\d){2}.log/';
 
-        if ((bool) preg_match($pattern, $file, $matches) === false) return true;
-
-        return false;
+        return ((bool) preg_match($pattern, $file, $matches)) === false;
     }
 }
