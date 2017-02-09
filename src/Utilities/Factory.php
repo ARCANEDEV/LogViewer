@@ -26,6 +26,8 @@ class Factory implements FactoryContract
     protected $filesystem;
 
     /**
+     * The log levels instance.
+     *
      * @var \Arcanedev\LogViewer\Contracts\Utilities\LogLevels
      */
     private $levels;
@@ -40,10 +42,7 @@ class Factory implements FactoryContract
      * @param  \Arcanedev\LogViewer\Contracts\Utilities\Filesystem  $filesystem
      * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels   $levels
      */
-    public function __construct(
-        FilesystemContract $filesystem,
-        LogLevelsContract $levels
-    ) {
+    public function __construct(FilesystemContract $filesystem, LogLevelsContract $levels) {
         $this->setFilesystem($filesystem);
         $this->setLevels($levels);
     }

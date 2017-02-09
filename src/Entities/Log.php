@@ -29,7 +29,7 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     /** @var \Arcanedev\LogViewer\Entities\LogEntryCollection */
     private $entries;
 
-    /** @var SplFileInfo */
+    /** @var \SplFileInfo */
     private $file;
 
     /* ------------------------------------------------------------------------------------------------
@@ -243,6 +243,6 @@ class Log implements Arrayable, Jsonable, JsonSerializable
         $pow   = floor(($bytes ? log($bytes) : 0) / log(1024));
         $pow   = min($pow, count($units) - 1);
 
-        return round($bytes / pow(1024, $pow), $precision) . ' ' . $units[$pow];
+        return round($bytes / pow(1024, $pow), $precision).' '.$units[$pow];
     }
 }

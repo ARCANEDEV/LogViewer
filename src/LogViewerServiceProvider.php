@@ -44,8 +44,9 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     public function register()
     {
-        $this->registerConfig();
+        parent::register();
 
+        $this->registerConfig();
         $this->registerProvider(Providers\UtilitiesServiceProvider::class);
         $this->registerLogViewer();
         $this->registerAliases();
@@ -57,6 +58,8 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     public function boot()
     {
+        parent::boot();
+
         $this->publishConfig();
         $this->publishViews();
         $this->publishTranslations();

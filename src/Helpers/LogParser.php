@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Helpers;
 
 use Arcanedev\LogViewer\Utilities\LogLevels;
+use Illuminate\Support\Str;
 
 /**
  * Class     LogParser
@@ -109,6 +110,6 @@ class LogParser
      */
     private static function hasLogLevel($heading, $level)
     {
-        return str_contains(strtolower($heading), strtolower('.' . $level));
+        return Str::contains(strtolower($heading), strtolower('.' . $level));
     }
 }
