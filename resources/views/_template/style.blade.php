@@ -83,15 +83,23 @@
     .table-condensed > thead > tr > td.stack {
         padding: 0;
         border-top: none;
+        background-color: #F6F6F6;
+        border-top: 1px solid #D1D1D1;
+        max-width: 0;
+        overflow-x: auto;
+    }
+
+    .table-condensed > tbody > tr > td > p {
+      margin: 0;
     }
 
     .stack-content {
         padding: 8px;
-        background-color: #F6F6F6;
-        border-top: 1px solid #D1D1D1;
         color: #AE0E0E;
-        font-family: consolas,sans-serif;
+        font-family: consolas, Menlo, Courier, monospace;
         font-size: 12px;
+        font-weight: 400;
+        white-space: pre-line;
     }
 
     .info-box.level {

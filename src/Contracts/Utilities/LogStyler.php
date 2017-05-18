@@ -31,4 +31,13 @@ interface LogStyler
      * @return string
      */
     public function color($level, $default = null);
+
+    /**
+     * Get strings to highlight.
+     *
+     * @param  array  $default
+     *
+     * @return string
+     */
+    public function toHighlight(array $default = []);
 }

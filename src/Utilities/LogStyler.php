@@ -82,4 +82,16 @@ class LogStyler implements LogStylerContract
     {
         return $this->get("colors.levels.$level", $default);
     }
+
+    /**
+     * Get strings to highlight.
+     *
+     * @param  array  $default
+     *
+     * @return string
+     */
+    public function toHighlight(array $default = [])
+    {
+        return $this->get("highlight", $default);
+    }
 }
