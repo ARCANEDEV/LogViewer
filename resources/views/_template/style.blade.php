@@ -86,7 +86,7 @@
         background-color: #F6F6F6;
         border-top: 1px solid #D1D1D1;
         max-width: 0;
-        overflow-x: scroll;
+        overflow-x: auto;
     }
 
     .table-condensed > tbody > tr > td > p {
