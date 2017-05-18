@@ -101,4 +101,10 @@ class LogStylerTest extends TestCase
             $this->assertHexColor(log_styler()->color($level));
         }
     }
+
+    /** @test */
+    public function it_can_get_string_to_highlight()
+    {
+        $this->assertCount(2, $this->styler->toHighlight());
+    }
 }

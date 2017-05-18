@@ -170,7 +170,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     public function stack()
     {
-        return nl2br(htmlentities($this->stack), false);
+        return trim(htmlentities($this->stack));
     }
 
     /* ------------------------------------------------------------------------------------------------
