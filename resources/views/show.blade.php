@@ -194,7 +194,7 @@
                 return false;
             });
 
-            @if (!empty(log_styler()->toHighlight()))
+            @unless (empty(log_styler()->toHighlight()))
             $('.stack-content').each(function() {
                 var $this = $(this);
                 var html = $this.html().trim()
@@ -202,7 +202,7 @@
 
                 $this.html(html);
             });
-            @endif
+            @endunless
         });
     </script>
 @endsection

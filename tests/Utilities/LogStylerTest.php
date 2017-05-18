@@ -105,6 +105,11 @@ class LogStylerTest extends TestCase
     /** @test */
     public function it_can_get_string_to_highlight()
     {
-        $this->assertCount(2, $this->styler->toHighlight());
+        $expected = [
+            '^#\d+',
+            '^Stack trace:',
+        ];
+
+        $this->assertSame($expected, $this->styler->toHighlight());
     }
 }

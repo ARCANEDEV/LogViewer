@@ -39,5 +39,5 @@ interface LogStyler
      *
      * @return string
      */
-    public function toHighlight($default = []);
+    public function toHighlight(array $default = []);
 }
