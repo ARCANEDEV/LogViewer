@@ -58,6 +58,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 | `fr`    | French                |
 | `hu`    | Hungarian             |
 | `hy`    | Armenian              |
+| `id`    | Indonesian            |
 | `it`    | Italian               |
 | `ko`    | Korean                |
 | `nl`    | Dutch                 |
@@ -90,7 +91,7 @@ If you discover any security related issues, please email arcanedev.maroc@gmail.
 ![Logs list](https://raw.githubusercontent.com/ARCANEDEV/LogViewer/master/_screenshots/2-logs-list.jpg)
 ![Single log](https://raw.githubusercontent.com/ARCANEDEV/LogViewer/master/_screenshots/3-single-log.jpg)
 
-[badge_laravel]:      https://img.shields.io/badge/For-Laravel%205.x-orange.svg?style=flat-square
+[badge_laravel]:      https://img.shields.io/badge/Laravel-5.x-orange.svg?style=flat-square
 [badge_license]:      https://img.shields.io/packagist/l/arcanedev/log-viewer.svg?style=flat-square
 [badge_build]:        https://img.shields.io/travis/ARCANEDEV/LogViewer.svg?style=flat-square
 [badge_coverage]:     https://img.shields.io/scrutinizer/coverage/g/ARCANEDEV/LogViewer.svg?style=flat-square

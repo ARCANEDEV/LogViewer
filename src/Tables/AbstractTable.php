@@ -11,10 +11,11 @@ use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
  */
 abstract class AbstractTable implements TableContract
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @var array  */
     private $header  = [];
 
@@ -33,10 +34,11 @@ abstract class AbstractTable implements TableContract
     /** @var array */
     private $data = [];
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Create a table instance.
      *
@@ -52,16 +54,17 @@ abstract class AbstractTable implements TableContract
         $this->init();
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Set LogLevels instance.
      *
      * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels  $levels
      *
-     * @return \Arcanedev\LogViewer\Tables\AbstractTable
+     * @return self
      */
     protected function setLevels(LogLevelsContract $levels)
     {
@@ -75,7 +78,7 @@ abstract class AbstractTable implements TableContract
      *
      * @param  string|null  $locale
      *
-     * @return \Arcanedev\LogViewer\Tables\AbstractTable
+     * @return self
      */
     protected function setLocale($locale)
     {
@@ -142,10 +145,11 @@ abstract class AbstractTable implements TableContract
         return $this;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Prepare the table.
      */
@@ -183,10 +187,11 @@ abstract class AbstractTable implements TableContract
      */
     abstract protected function prepareFooter(array $data);
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Translate.
      *

@@ -13,10 +13,11 @@ use ReflectionClass;
  */
 class LogLevels implements LogLevelsContract
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * The log levels.
      *
@@ -38,10 +39,11 @@ class LogLevels implements LogLevelsContract
      */
     private $locale;
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * LogLevels constructor.
      *
@@ -54,16 +56,17 @@ class LogLevels implements LogLevelsContract
         $this->setLocale($locale);
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Set the Translator instance.
      *
      * @param  \Illuminate\Translation\Translator  $translator
      *
-     * @return \Arcanedev\LogViewer\Utilities\LogLevels
+     * @return self
      */
     public function setTranslator(Translator $translator)
     {
@@ -89,7 +92,7 @@ class LogLevels implements LogLevelsContract
      *
      * @param  string  $locale
      *
-     * @return \Arcanedev\LogViewer\Utilities\LogLevels
+     * @return self
      */
     public function setLocale($locale)
     {
@@ -98,10 +101,11 @@ class LogLevels implements LogLevelsContract
         return $this;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get the log levels.
      *
@@ -142,8 +146,7 @@ class LogLevels implements LogLevelsContract
     public static function all($flip = false)
     {
         if (empty(self::$levels)) {
-            self::$levels = (new ReflectionClass(LogLevel::class))
-                ->getConstants();
+            self::$levels = (new ReflectionClass(LogLevel::class))->getConstants();
         }
 
         return $flip ? array_flip(self::$levels) : self::$levels;

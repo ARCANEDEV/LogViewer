@@ -10,10 +10,11 @@ use Arcanedev\Support\PackageServiceProvider;
  */
 class LogViewerServiceProvider extends PackageServiceProvider
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Package name.
      *
@@ -21,24 +22,11 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     protected $package = 'log-viewer';
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    /**
-     * Get the base path.
-     *
-     * @return string
-     */
-    public function getBasePath()
-    {
-        return dirname(__DIR__);
-    }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
     /**
      * Register the service provider.
      */
@@ -47,9 +35,14 @@ class LogViewerServiceProvider extends PackageServiceProvider
         parent::register();
 
         $this->registerConfig();
-        $this->registerProvider(Providers\UtilitiesServiceProvider::class);
+
         $this->registerLogViewer();
         $this->registerAliases();
+
+        $this->registerProviders([
+            Providers\UtilitiesServiceProvider::class,
+            Providers\RouteServiceProvider::class,
+        ]);
         $this->registerConsoleServiceProvider(Providers\CommandsServiceProvider::class);
     }
 
@@ -63,7 +56,6 @@ class LogViewerServiceProvider extends PackageServiceProvider
         $this->publishConfig();
         $this->publishViews();
         $this->publishTranslations();
-        $this->registerProvider(Providers\RouteServiceProvider::class);
     }
 
     /**
@@ -78,10 +70,11 @@ class LogViewerServiceProvider extends PackageServiceProvider
         ];
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Services Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Register the log data class.
      */

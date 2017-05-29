@@ -14,10 +14,11 @@ use Illuminate\Contracts\Config\Repository as ConfigContract;
  */
 class LogChecker implements LogCheckerContract
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * The config repository instance.
      *
@@ -60,10 +61,11 @@ class LogChecker implements LogCheckerContract
      */
     private $files = [];
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * LogChecker constructor.
      *
@@ -77,16 +79,17 @@ class LogChecker implements LogCheckerContract
         $this->refresh();
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Set the config instance.
      *
      * @param  \Illuminate\Contracts\Config\Repository  $config
      *
-     * @return \Arcanedev\LogViewer\Utilities\LogChecker
+     * @return self
      */
     public function setConfig(ConfigContract $config)
     {
@@ -100,7 +103,7 @@ class LogChecker implements LogCheckerContract
      *
      * @param  \Arcanedev\LogViewer\Contracts\Utilities\Filesystem  $filesystem
      *
-     * @return \Arcanedev\LogViewer\Utilities\LogChecker
+     * @return self
      */
     public function setFilesystem(FilesystemContract $filesystem)
     {
@@ -114,7 +117,7 @@ class LogChecker implements LogCheckerContract
      *
      * @param  string  $handler
      *
-     * @return \Arcanedev\LogViewer\Utilities\LogChecker
+     * @return self
      */
     protected function setHandler($handler)
     {
@@ -123,10 +126,11 @@ class LogChecker implements LogCheckerContract
         return $this;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get messages.
      *
@@ -171,20 +175,21 @@ class LogChecker implements LogCheckerContract
         $this->refresh();
 
         return $this->isDaily() ? [
-            'status' => 'success',
-            'header' => 'Application requirements fulfilled.',
+            'status'  => 'success',
+            'header'  => 'Application requirements fulfilled.',
             'message' => 'Are you ready to rock ?',
         ] : [
-            'status' => 'failed',
-            'header' => 'Application requirements failed.',
+            'status'  => 'failed',
+            'header'  => 'Application requirements failed.',
             'message' => $this->messages['handler']
         ];
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Check Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Check Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Is a daily handler mode ?
      *
@@ -207,10 +212,11 @@ class LogChecker implements LogCheckerContract
         return $this->handler === $handler;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Refresh the checks.
      *

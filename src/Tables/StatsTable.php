@@ -12,10 +12,11 @@ use Illuminate\Support\Collection;
  */
 class StatsTable extends AbstractTable
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Make a stats table instance.
      *
@@ -23,17 +24,18 @@ class StatsTable extends AbstractTable
      * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels  $levels
      * @param  string|null                                         $locale
      *
-     * @return \Arcanedev\LogViewer\Tables\StatsTable
+     * @return self
      */
     public static function make(array $data, LogLevelsContract $levels, $locale = null)
     {
         return new self($data, $levels, $locale);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Prepare table header.
      *
