@@ -12,10 +12,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
  */
 class LogEntryCollection extends Collection
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Load raw log entries.
      *
@@ -60,7 +61,7 @@ class LogEntryCollection extends Collection
      *
      * @param  string  $level
      *
-     * @return \Arcanedev\LogViewer\Entities\LogEntryCollection
+     * @return self
      */
     public function filterByLevel($level)
     {
@@ -107,10 +108,11 @@ class LogEntryCollection extends Collection
         return $tree;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Init stats counters.
      *

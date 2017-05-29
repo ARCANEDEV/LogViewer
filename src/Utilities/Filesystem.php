@@ -12,10 +12,11 @@ use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
  */
 class Filesystem implements FilesystemContract
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * The filesystem instance.
      *
@@ -51,10 +52,11 @@ class Filesystem implements FilesystemContract
      */
     protected $extension;
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Filesystem constructor.
      *
@@ -68,10 +70,11 @@ class Filesystem implements FilesystemContract
         $this->setPattern();
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get the files instance.
      *
@@ -87,7 +90,7 @@ class Filesystem implements FilesystemContract
      *
      * @param  string  $storagePath
      *
-     * @return \Arcanedev\LogViewer\Utilities\Filesystem
+     * @return self
      */
     public function setPath($storagePath)
     {
@@ -113,7 +116,7 @@ class Filesystem implements FilesystemContract
      * @param  string  $prefix
      * @param  string  $extension
      *
-     * @return \Arcanedev\LogViewer\Utilities\Filesystem
+     * @return self
      */
     public function setPattern(
         $prefix    = self::PATTERN_PREFIX,
@@ -132,7 +135,7 @@ class Filesystem implements FilesystemContract
      *
      * @param  string  $datePattern
      *
-     * @return \Arcanedev\LogViewer\Utilities\Filesystem
+     * @return self
      */
     public function setDatePattern($datePattern)
     {
@@ -146,7 +149,7 @@ class Filesystem implements FilesystemContract
      *
      * @param  string  $prefixPattern
      *
-     * @return \Arcanedev\LogViewer\Utilities\Filesystem
+     * @return self
      */
     public function setPrefixPattern($prefixPattern)
     {
@@ -160,7 +163,7 @@ class Filesystem implements FilesystemContract
      *
      * @param  string  $extension
      *
-     * @return \Arcanedev\LogViewer\Utilities\Filesystem
+     * @return self
      */
     public function setExtension($extension)
     {
@@ -169,10 +172,11 @@ class Filesystem implements FilesystemContract
         return $this;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get all log files.
      *
@@ -269,10 +273,11 @@ class Filesystem implements FilesystemContract
         return $this->getLogPath($date);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get all files.
      *

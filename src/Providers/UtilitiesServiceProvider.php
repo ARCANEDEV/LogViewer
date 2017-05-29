@@ -13,15 +13,18 @@ use Illuminate\Support\Arr;
  */
 class UtilitiesServiceProvider extends ServiceProvider
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Register the service provider.
      */
     public function register()
     {
+        parent::register();
+
         $this->registerLogLevels();
         $this->registerStyler();
         $this->registerLogMenu();
@@ -47,10 +50,11 @@ class UtilitiesServiceProvider extends ServiceProvider
         ];
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  The LogViewer Utilities
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  LogViewer Utilities
+     | -----------------------------------------------------------------
      */
+
     /**
      * Register the log levels.
      */

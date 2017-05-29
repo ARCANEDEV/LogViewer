@@ -12,10 +12,11 @@ use Arcanedev\Support\Routing\RouteRegistrar;
  */
 class LogViewerRoute extends RouteRegistrar
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Map all routes.
      */
@@ -35,21 +36,21 @@ class LogViewerRoute extends RouteRegistrar
     private function mapLogsRoutes()
     {
         $this->prefix('logs')->name('logs.')->group(function() {
-            // log-viewer::logs.list
-            $this->get('/', 'LogViewerController@listLogs')->name('list');
+            $this->get('/', 'LogViewerController@listLogs')
+                 ->name('list'); // log-viewer::logs.list
 
-            // log-viewer::logs.delete
-            $this->delete('delete', 'LogViewerController@delete')->name('delete');
+            $this->delete('delete', 'LogViewerController@delete')
+                 ->name('delete'); // log-viewer::logs.delete
 
             $this->prefix('{date}')->group(function() {
-                // log-viewer::logs.show
-                $this->get('/', 'LogViewerController@show')->name('show');
+                $this->get('/', 'LogViewerController@show')
+                     ->name('show'); // log-viewer::logs.show
 
-                // log-viewer::logs.download
-                $this->get('download', 'LogViewerController@download')->name('download');
+                $this->get('download', 'LogViewerController@download')
+                     ->name('download'); // log-viewer::logs.download
 
-                // log-viewer::logs.filter
-                $this->get('{level}', 'LogViewerController@showByLevel')->name('filter');
+                $this->get('{level}', 'LogViewerController@showByLevel')
+                     ->name('filter'); // log-viewer::logs.filter
             });
         });
     }

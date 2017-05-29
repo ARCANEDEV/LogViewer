@@ -14,10 +14,11 @@ use Arcanedev\LogViewer\Tables\StatsTable;
  */
 class Factory implements FactoryContract
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * The filesystem instance.
      *
@@ -32,10 +33,11 @@ class Factory implements FactoryContract
      */
     private $levels;
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Create a new instance.
      *
@@ -47,10 +49,11 @@ class Factory implements FactoryContract
         $this->setLevels($levels);
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Getter & Setters
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get the filesystem instance.
      *
@@ -66,7 +69,7 @@ class Factory implements FactoryContract
      *
      * @param  \Arcanedev\LogViewer\Contracts\Utilities\Filesystem  $filesystem
      *
-     * @return \Arcanedev\LogViewer\Utilities\Factory
+     * @return self
      */
     public function setFilesystem(FilesystemContract $filesystem)
     {
@@ -90,7 +93,7 @@ class Factory implements FactoryContract
      *
      * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels  $levels
      *
-     * @return \Arcanedev\LogViewer\Utilities\Factory
+     * @return self
      */
     public function setLevels(LogLevelsContract $levels)
     {
@@ -104,7 +107,7 @@ class Factory implements FactoryContract
      *
      * @param  string  $storagePath
      *
-     * @return \Arcanedev\LogViewer\Utilities\Factory
+     * @return self
      */
     public function setPath($storagePath)
     {
@@ -130,7 +133,7 @@ class Factory implements FactoryContract
      * @param  string  $prefix
      * @param  string  $extension
      *
-     * @return \Arcanedev\LogViewer\Utilities\Factory
+     * @return self
      */
     public function setPattern(
         $prefix    = FilesystemContract::PATTERN_PREFIX,
@@ -152,12 +155,15 @@ class Factory implements FactoryContract
         return LogCollection::make()->setFilesystem($this->filesystem);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get all logs (alias).
+     *
+     * @see logs
      *
      * @return \Arcanedev\LogViewer\Entities\LogCollection
      */
@@ -293,10 +299,11 @@ class Factory implements FactoryContract
         return $this->logs()->menu($trans);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Check Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Check Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Determine if the log folder is empty or not.
      *

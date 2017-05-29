@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Commands;
 
+use Arcanedev\LogViewer\LogViewerServiceProvider;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -10,10 +11,11 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class PublishCommand extends Command
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * The console command name.
      *
@@ -37,17 +39,18 @@ class PublishCommand extends Command
             {--tag= : One or many tags that have assets you want to publish.}
             {--force : Overwrite any existing files.}';
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Execute the console command.
      */
     public function handle()
     {
         $args = [
-            '--provider' => \Arcanedev\LogViewer\LogViewerServiceProvider::class
+            '--provider' => LogViewerServiceProvider::class,
         ];
 
         if ((bool) $this->option('force')) {
