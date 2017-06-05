@@ -15,7 +15,7 @@ if ( ! defined('REGEX_DATETIME_PATTERN')) {
     );
 }
 
-// Fix undefined constant GLOB_BRACE exception on Alpine Linux
+// Fix undefined constant GLOB_BRACE exception on Alpine Linux (https://bugs.php.net/bug.php?id=72095)
 if ( ! defined('GLOB_BRACE')) {
     define('GLOB_BRACE', 0);
 }
