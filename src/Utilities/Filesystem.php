@@ -288,7 +288,7 @@ class Filesystem implements FilesystemContract
     private function getFiles($pattern)
     {
         $files = $this->filesystem->glob(
-            $this->storagePath.DS.$pattern, defined('GLOB_BRACE') ? GLOB_BRACE : 0
+            $this->storagePath.DS.$pattern, GLOB_BRACE
         );
 
         return array_filter(array_map('realpath', $files));
