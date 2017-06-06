@@ -85,7 +85,11 @@ class LogViewer implements LogViewerContract
      */
     public function levels($flip = false)
     {
-        return $this->levels->lists($flip);
+        // "lists" was removed in Laravel 5.3, at which point
+        // "pluck" should provide the same functionality.
+        $method = !method_exists($this->levels, 'lists') ? 'pluck' : 'lists';
+
+        return $this->levels->$method($flip);
     }
 
     /**
