@@ -39,10 +39,10 @@
     "extra": {
         "branch-alias": {
             "dev-master": "4.3.x-dev"
-            },
+        },
         "laravel": {
             "providers": [
-               "Arcanedev\\LogViewer\\LogViewerServiceProvider"
+                "Arcanedev\\LogViewer\\LogViewerServiceProvider"
             ]
         }
     },
