@@ -82,7 +82,9 @@ abstract class AbstractTable implements TableContract
      */
     protected function setLocale($locale)
     {
-        if (is_null($locale) || $locale === 'auto') {
+        if (!empty(getenv('ARCANEDEV_LOGVIEWER_LOCALE'))) {
+            $locale = getenv('ARCANEDEV_LOGVIEWER_LOCALE');
+        } elseif (is_null($locale) || $locale === 'auto') {
             $locale = app()->getLocale();
         }
 
