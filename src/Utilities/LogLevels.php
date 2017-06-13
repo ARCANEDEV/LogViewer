@@ -96,8 +96,11 @@ class LogLevels implements LogLevelsContract
      */
     public function setLocale($locale)
     {
-        $this->locale = is_null($locale) ? 'auto' : $locale;
-
+        if (!empty(getenv('ARCANEDEV_LOGVIEWER_LOCALE'))) {
+            $this->locale = getenv('ARCANEDEV_LOGVIEWER_LOCALE');
+        } else {
+            $this->locale = is_null($locale) ? 'auto' : $locale;
+        }
         return $this;
     }
 
