@@ -89,16 +89,25 @@ class LogViewerController extends Controller
      * Show the log.
      *
      * @param  string  $date
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\View\View
      */
-    public function show($date)
+    public function show($date, Request $request)
     {
         $log     = $this->getLogOrFail($date);
         $levels  = $this->logViewer->levelsNames();
-        $entries = $log->entries()->paginate($this->perPage);
 
-        return $this->view('show', compact('log', 'levels', 'entries'));
+        $search = $request->input('search', '');
+        if ($search !== '') {
+            $entries = $log->entries()->filter(function ($value, $Key) use ($search) {
+                return str_contains($value->header, $search);
+            })->paginate($this->perPage);
+        } else {
+            $entries = $log->entries()->paginate($this->perPage);
+        }
+
+        return $this->view('show', compact('log', 'levels', 'search', 'entries'));
     }
 
     /**
@@ -106,10 +115,11 @@ class LogViewerController extends Controller
      *
      * @param  string  $date
      * @param  string  $level
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function showByLevel($date, $level)
+    public function showByLevel($date, $level, Request $request)
     {
         $log = $this->getLogOrFail($date);
 
@@ -117,11 +127,20 @@ class LogViewerController extends Controller
             return redirect()->route($this->showRoute, [$date]);
 
         $levels  = $this->logViewer->levelsNames();
-        $entries = $this->logViewer
-            ->entries($date, $level)
-            ->paginate($this->perPage);
 
-        return $this->view('show', compact('log', 'levels', 'entries'));
+        $search = $request->input('search', '');
+        if ($search !== '') {
+            $entries = $this->logViewer
+                ->entries($date, $level)->filter(function ($value, $Key) use ($search) {
+                    return str_contains($value->header, $search);
+                })->paginate($this->perPage);
+        } else {
+            $entries = $this->logViewer
+                ->entries($date, $level)
+                ->paginate($this->perPage);
+        }
+
+        return $this->view('show', compact('log', 'levels', 'search', 'entries'));
     }
 
     /**
