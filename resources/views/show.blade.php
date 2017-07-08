@@ -53,10 +53,19 @@
                 </div>
             </div>
 
+            <div class="row form-group">
+                <div class="col-xs-10">
+                    <input id="search-input" class="form-control" style="width:100%" value="{!! $search !!}" placeholder="typing something to search">
+                </div>
+                <div class="col-xs-2">
+                    <button id="search-btn" class="btn btn-primary pull-right" style="width:100%" >Search</button>
+                </div>
+            </div>
+
             <div class="panel panel-default">
                 @if ($entries->hasPages())
                     <div class="panel-heading">
-                        {!! $entries->render() !!}
+                        {!! $entries->appends(['search'=>$search])->render() !!}
 
                         <span class="label label-info pull-right">
                             Page {!! $entries->currentPage() !!} of {!! $entries->lastPage() !!}
@@ -118,7 +127,7 @@
 
                 @if ($entries->hasPages())
                     <div class="panel-footer">
-                        {!! $entries->render() !!}
+                        {!! $entries->appends(['search'=>$search])->render() !!}
 
                         <span class="label label-info pull-right">
                             Page {!! $entries->currentPage() !!} of {!! $entries->lastPage() !!}
@@ -192,6 +201,14 @@
                 });
 
                 return false;
+            });
+
+            var searchBtn = $('#search-btn'),
+                searchInput = $('#search-input'),
+                url = location.href.split('?')[0];
+
+            searchBtn.click(function () {
+                location.replace(url + '?search=' + searchInput.val());
             });
 
             @unless (empty(log_styler()->toHighlight()))
