@@ -51,6 +51,9 @@ class LogViewerRoute extends RouteRegistrar
 
                 $this->get('{level}', 'LogViewerController@showByLevel')
                      ->name('filter'); // log-viewer::logs.filter
+
+                $this->get('{level}/search', 'LogViewerController@search')
+                     ->name('search'); // log-viewer::logs.search
             });
         });
     }
