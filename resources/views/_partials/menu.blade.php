@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-    <div class="panel-heading"><i class="fa fa-fw fa-flag"></i> Levels</div>
+    <div class="panel-heading"><i class="fa fa-fw fa-flag"></i> {{ trans('log-viewer::general.levels') }}</div>
     <ul class="list-group">
         @foreach($log->menu() as $level => $item)
             @if ($item['count'] === 0)

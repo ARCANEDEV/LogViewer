@@ -1,7 +1,7 @@
 @extends('log-viewer::_template.master')
 
 @section('content')
-    <h1 class="page-header">Log [{{ $log->date }}]</h1>
+    <h1 class="page-header">{{ trans('log-viewer::general.log') }} [{{ $log->date }}]</h1>
 
     <div class="row">
         <div class="col-md-2">
@@ -10,14 +10,14 @@
         <div class="col-md-10">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Log info :
+                    {{ trans('log-viewer::general.log_info') }}
 
                     <div class="group-btns pull-right">
                         <a href="{{ route('log-viewer::logs.download', [$log->date]) }}" class="btn btn-xs btn-success">
-                            <i class="fa fa-download"></i> DOWNLOAD
+                            <i class="fa fa-download"></i> {{ trans('log-viewer::general.download') }}
                         </a>
                         <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-toggle="modal">
-                            <i class="fa fa-trash-o"></i> DELETE
+                            <i class="fa fa-trash-o"></i> {{ trans('log-viewer::general.delete') }}
                         </a>
                     </div>
                 </div>
@@ -25,25 +25,25 @@
                     <table class="table table-condensed">
                         <thead>
                             <tr>
-                                <td>File path :</td>
+                                <td>{{ trans('log-viewer::general.file_path') }}</td>
                                 <td colspan="5">{{ $log->getPath() }}</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Log entries : </td>
+                                <td>{{ trans('log-viewer::general.log_entries') }}</td>
                                 <td>
                                     <span class="label label-primary">{{ $entries->total() }}</span>
                                 </td>
-                                <td>Size :</td>
+                                <td>{{ trans('log-viewer::general.size') }}</td>
                                 <td>
                                     <span class="label label-primary">{{ $log->size() }}</span>
                                 </td>
-                                <td>Created at :</td>
+                                <td>{{ trans('log-viewer::general.created_at') }}</td>
                                 <td>
                                     <span class="label label-primary">{{ $log->createdAt() }}</span>
                                 </td>
-                                <td>Updated at :</td>
+                                <td>{{ trans('log-viewer::general.updated_at') }}</td>
                                 <td>
                                     <span class="label label-primary">{{ $log->updatedAt() }}</span>
                                 </td>
@@ -59,7 +59,10 @@
                         {!! $entries->render() !!}
 
                         <span class="label label-info pull-right">
-                            Page {!! $entries->currentPage() !!} of {!! $entries->lastPage() !!}
+                            {!! trans('log-viewer::general.pagination',
+                              ['current' => $entries->currentPage(),
+                              'last' => $entries->lastPage(), ])
+                            !!}
                         </span>
                     </div>
                 @endif
@@ -68,11 +71,11 @@
                     <table id="entries" class="table table-condensed">
                         <thead>
                             <tr>
-                                <th>ENV</th>
-                                <th style="width: 120px;">Level</th>
-                                <th style="width: 65px;">Time</th>
-                                <th>Header</th>
-                                <th class="text-right">Actions</th>
+                                <th>{{ trans('log-viewer::general.env') }}</th>
+                                <th style="width: 120px;">{{ trans('log-viewer::general.level') }}</th>
+                                <th style="width: 65px;">{{ trans('log-viewer::general.time') }}</th>
+                                <th>{{ trans('log-viewer::general.header') }}</th>
+                                <th class="text-right">{{ trans('log-viewer::general.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,7 +124,10 @@
                         {!! $entries->render() !!}
 
                         <span class="label label-info pull-right">
-                            Page {!! $entries->currentPage() !!} of {!! $entries->lastPage() !!}
+                            {!! trans('log-viewer::general.pagination',
+                              ['current' => $entries->currentPage(),
+                              'last' => $entries->lastPage(), ])
+                            !!}
                         </span>
                     </div>
                 @endif
@@ -140,17 +146,21 @@
                 <input type="hidden" name="date" value="{{ $log->date }}">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ trans('log-viewer::general.close') }}">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">DELETE LOG FILE</h4>
+                        <h4 class="modal-title">{{ trans('log-viewer::general.delete_log_file') }}</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to <span class="label label-danger">DELETE</span> this log file <span class="label label-primary">{{ $log->date }}</span> ?</p>
+                        <p>{!! trans('log-viewer::general.sure_delete',
+                              ['delete_button' => '<span class="label label-danger">'.trans('log-viewer::general.delete').'</span>',
+                              'log_file' => '<span class="label label-primary">'.$log->date.'</span>', ])
+                            !!}
+                        </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">DELETE FILE</button>
+                        <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">{{ trans('log-viewer::general.cancel') }}</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">{{ trans('log-viewer::general.delete_file') }}</button>
                     </div>
                 </div>
             </form>

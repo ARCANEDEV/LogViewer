@@ -15,12 +15,12 @@
             <ul class="nav navbar-nav">
                 <li class="{{ Route::is('log-viewer::dashboard') ? 'active' : '' }}">
                     <a href="{{ route('log-viewer::dashboard') }}">
-                        <i class="fa fa-dashboard"></i> Dashboard
+                        <i class="fa fa-dashboard"></i> {{ trans('log-viewer::general.dashboard') }}
                     </a>
                 </li>
                 <li class="{{ Route::is('log-viewer::logs.list') ? 'active' : '' }}">
                     <a href="{{ route('log-viewer::logs.list') }}">
-                        <i class="fa fa-archive"></i> Logs
+                        <i class="fa fa-archive"></i> {{ trans('log-viewer::general.logs') }}
                     </a>
                 </li>
             </ul>

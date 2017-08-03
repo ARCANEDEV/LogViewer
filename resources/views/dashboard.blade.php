@@ -1,7 +1,7 @@
 @extends('log-viewer::_template.master')
 
 @section('content')
-    <h1 class="page-header">Dashboard</h1>
+    <h1 class="page-header">{{ trans('log-viewer::general.dashboard') }}</h1>
 
     <div class="row">
         <div class="col-md-3">
@@ -20,7 +20,7 @@
                                 <div class="info-box-content">
                                     <span class="info-box-text">{{ $item['name'] }}</span>
                                     <span class="info-box-number">
-                                        {{ $item['count'] }} entries - {!! $item['percent'] !!} %
+                                        {{ $item['count'] }} {{ trans_choice('log-viewer::general.entries', $item['count']) }} - {!! $item['percent'] !!} %
                                     </span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width: {{ $item['percent'] }}%"></div>
