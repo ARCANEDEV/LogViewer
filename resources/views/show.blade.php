@@ -97,7 +97,7 @@
                                     <td class="text-right">
                                         @if ($entry->hasStack())
                                             <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#log-stack-{{ $key }}" aria-expanded="false" aria-controls="log-stack-{{ $key }}">
-                                                <i class="fa fa-toggle-on"></i> Stack
+                                                <i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i> {{ trans('log-viewer::general.stack') }}
                                             </a>
                                         @endif
                                     </td>
