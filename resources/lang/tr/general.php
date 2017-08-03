@@ -15,7 +15,7 @@ return [
     'log_entries'     => 'Log Entries :',
     'size'            => 'Size :',
     'created_at'      => 'Created At :',
-    'updated_at'      => 'Updated At :',,
+    'updated_at'      => 'Updated At :',
     'pagination'      => 'Page :current of :last',
     'env'             => 'Environement',
     'levels'          => 'Levels',
