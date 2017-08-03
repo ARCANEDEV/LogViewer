@@ -107,8 +107,12 @@
                 var date = $(this).data('log-date');
                 deleteLogForm.find('input[name=date]').val(date);
                 deleteLogModal.find('.modal-body p').html(
-                    'Are you sure you want to <span class="label label-danger">DELETE</span> this log file <span class="label label-primary">' + date + '</span> ?'
+                    '{!! trans('log-viewer::general.sure_delete',
+                              ['delete_button' => '<span class="label label-danger">'.trans('log-viewer::general.delete').'</span>',
+                              'log_file' => '<span id="log-file" class="label label-primary"></span>', ])
+                    !!}'
                 );
+                deleteLogModal.find('#log-file').html(date);
 
                 deleteLogModal.modal('show');
             });
