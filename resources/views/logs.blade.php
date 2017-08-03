@@ -44,10 +44,10 @@
                             <a href="{{ route('log-viewer::logs.show', [$date]) }}" class="btn btn-xs btn-info">
                                 <i class="fa fa-search"></i>
                             </a>
-                            <a href="{{ route('log-viewer::logs.download', [$date]) }}" class="btn btn-xs btn-success">
+                            <a href="{{ route('log-viewer::logs.download', [$date]) }}" class="btn btn-xs btn-success" title="{{ trans('log-viewer::general.download') }}">
                                 <i class="fa fa-download"></i>
                             </a>
-                            <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-log-date="{{ $date }}">
+                            <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-log-date="{{ $date }}" title="{{ trans('log-viewer::general.delete') }}">
                                 <i class="fa fa-trash-o"></i>
                             </a>
                         </td>
