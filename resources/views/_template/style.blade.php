@@ -260,11 +260,4 @@
     .badge.label-env, .label.label-env {
         background-color: #6A1B9A;
     }
-
-    a[aria-expanded=true] .fa-chevron-down {
-       display: none;
-    }
-    a[aria-expanded=false] .fa-chevron-up {
-       display: none;
-    }
 </style>
