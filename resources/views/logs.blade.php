@@ -1,7 +1,7 @@
 @extends('log-viewer::_template.master')
 
 @section('content')
-    <h1 class="page-header">Logs</h1>
+    <h1 class="page-header">{{ trans('log-viewer::general.logs') }}</h1>
 
     {!! $rows->render() !!}
 
@@ -20,7 +20,7 @@
                         @endif
                     </th>
                     @endforeach
-                    <th class="text-right">Actions</th>
+                    <th class="text-right">{{ trans('log-viewer::general.actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -77,17 +77,17 @@
                 <input type="hidden" name="date" value="">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ trans('log-viewer::general.close') }}">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">DELETE LOG FILE</h4>
+                        <h4 class="modal-title">{{ trans('log-viewer::general.delete_log_file') }}</h4>
                     </div>
                     <div class="modal-body">
                         <p></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">DELETE FILE</button>
+                        <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">{{ trans('log-viewer::general.cancel') }}</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">{{ trans('log-viewer::general.delete_file') }}</button>
                     </div>
                 </div>
             </form>
