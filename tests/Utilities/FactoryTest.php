@@ -163,7 +163,34 @@ class FactoryTest extends TestCase
     /** @test */
     public function it_can_get_translated_tree()
     {
-        // TODO: Complete the test
+        $this->app->setLocale('fr');
+
+        $expected = [
+            '2015-01-02' => [
+                'all'       => ['name' => 'Tous', 'count' => 8],
+                'emergency' => ['name' => 'Urgence', 'count' => 1],
+                'alert'     => ['name' => 'Alerte', 'count' => 1],
+                'critical'  => ['name' => 'Critique', 'count' => 1],
+                'error'     => ['name' => 'Erreur', 'count' => 1],
+                'warning'   => ['name' => 'Avertissement', 'count' => 1],
+                'notice'    => ['name' => 'Notice', 'count' => 1],
+                'info'      => ['name' => 'Info', 'count' => 1],
+                'debug'     => ['name' => 'Debug', 'count' => 1],
+            ],
+            '2015-01-01' => [
+                'all'       => ['name' => 'Tous', 'count' => 8],
+                'emergency' => ['name' => 'Urgence', 'count' => 1],
+                'alert'     => ['name' => 'Alerte', 'count' => 1],
+                'critical'  => ['name' => 'Critique', 'count' => 1],
+                'error'     => ['name' => 'Erreur', 'count' => 1],
+                'warning'   => ['name' => 'Avertissement', 'count' => 1],
+                'notice'    => ['name' => 'Notice', 'count' => 1],
+                'info'      => ['name' => 'Info', 'count' => 1],
+                'debug'     => ['name' => 'Debug', 'count' => 1],
+            ]
+        ];
+
+        $this->assertSame($expected, $tree = $this->logFactory->tree(true));
     }
 
     /** @test */
