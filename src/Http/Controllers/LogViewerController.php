@@ -1,12 +1,14 @@
 <?php namespace Arcanedev\LogViewer\Http\Controllers;
 
 use Arcanedev\LogViewer\Contracts\LogViewer as LogViewerContract;
+use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Exceptions\LogNotFoundException;
 use Arcanedev\LogViewer\Tables\StatsTable;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * Class     LogViewerController
@@ -96,9 +98,9 @@ class LogViewerController extends Controller
     {
         $log     = $this->getLogOrFail($date);
         $levels  = $this->logViewer->levelsNames();
-        $entries = $log->entries()->paginate($this->perPage);
+        $entries = $log->entries($level = 'all')->paginate($this->perPage);
 
-        return $this->view('show', compact('log', 'levels', 'entries'));
+        return $this->view('show', compact('log', 'levels', 'level', 'search', 'entries'));
     }
 
     /**
@@ -117,11 +119,32 @@ class LogViewerController extends Controller
             return redirect()->route($this->showRoute, [$date]);
 
         $levels  = $this->logViewer->levelsNames();
-        $entries = $this->logViewer
-            ->entries($date, $level)
-            ->paginate($this->perPage);
+        $entries = $this->logViewer->entries($date, $level)->paginate($this->perPage);
 
-        return $this->view('show', compact('log', 'levels', 'entries'));
+        return $this->view('show', compact('log', 'levels', 'level', 'search', 'entries'));
+    }
+
+    /**
+     * Show the log with the search query.
+     *
+     * @param  string                    $date
+     * @param  string                    $level
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\View\View
+     */
+    public function search($date, $level = 'all', Request $request) {
+        $log   = $this->getLogOrFail($date);
+
+        if (is_null($query = $request->get('query')))
+            return redirect()->route('log-viewer::logs.show', [$date]);
+
+        $levels  = $this->logViewer->levelsNames();
+        $entries = $log->entries($level)->filter(function (LogEntry $value) use ($query) {
+            return Str::contains($value->header, $query);
+        })->paginate($this->perPage);
+
+        return $this->view('show', compact('log', 'levels', 'level', 'query', 'entries'));
     }
 
     /**
