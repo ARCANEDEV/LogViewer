@@ -3,7 +3,6 @@ language: php
 sudo: false
 
 php:
-  - 5.6
   - 7.0
   - 7.1
   - nightly
@@ -13,7 +12,7 @@ matrix:
     - php: nightly
 
 env:
-  - TESTBENCH_VERSION=3.4.*
+  - TESTBENCH_VERSION=3.5.*
 
 before_script:
   - travis_retry composer self-update
