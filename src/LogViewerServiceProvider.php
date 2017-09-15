@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\LogViewer;
 
 use Arcanedev\Support\PackageServiceProvider;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class     LogViewerServiceProvider
@@ -55,19 +56,15 @@ class LogViewerServiceProvider extends PackageServiceProvider
 
         $this->publishConfig();
 
-        // Publish either Bootstrap 3 or 4 views based on publish tag
         $this->publishViews();
 
-        /*
-        $this->publishes([
-            __DIR__.'/../resources/views/bootstrap-3' => resource_path('views/vendor/log-viewer')
-        ], 'bootstrap-3');
-
-        $this->publishes([
-            __DIR__.'/../resources/views/bootstrap-4' => resource_path('views/vendor/log-viewer')
-        ], 'bootstrap-4');
-        */
         $this->publishTranslations();
+
+        // Switch loading of views based on theme set in config.
+        // Default to bootstrap-3
+        $theme = $this->config()->get('log-viewer.theme', 'bootstrap-3');
+        $views = __DIR__.'/../resources/views/'.$theme;
+        $this->loadViewsFrom($views, 'log-viewer');
     }
 
     /**
