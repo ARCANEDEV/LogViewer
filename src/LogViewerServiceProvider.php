@@ -56,7 +56,9 @@ class LogViewerServiceProvider extends PackageServiceProvider
         $this->publishConfig();
 
         // Publish either Bootstrap 3 or 4 views based on publish tag
-        //$this->publishViews();
+        $this->publishViews();
+
+        /*
         $this->publishes([
             __DIR__.'/../resources/views/bootstrap-3' => resource_path('views/vendor/log-viewer')
         ], 'bootstrap-3');
@@ -64,7 +66,7 @@ class LogViewerServiceProvider extends PackageServiceProvider
         $this->publishes([
             __DIR__.'/../resources/views/bootstrap-4' => resource_path('views/vendor/log-viewer')
         ], 'bootstrap-4');
-
+        */
         $this->publishTranslations();
     }
 
