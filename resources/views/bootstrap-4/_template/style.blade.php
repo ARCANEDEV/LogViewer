@@ -19,6 +19,12 @@
         background-color: #f5f5f5;
     }
 
+    .stack {
+        background-color: #F6F6F6;
+        max-width: 0;
+        overflow-x: auto;
+    }
+
     .level-card {
         color: #FFF;
     }

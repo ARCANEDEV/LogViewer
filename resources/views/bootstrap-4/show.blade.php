@@ -122,7 +122,7 @@
                             @if ($entry->hasStack())
                                 <tr class="stack-content collapse" id="log-stack-{{ $key }}">
                                     <td colspan="5" class="stack">
-                                        {!! nl2br($entry->stack()) !!}
+                                        <pre>{!! trim($entry->stack()) !!}</pre>
                                     </td>
                                 </tr>
                             @endif
