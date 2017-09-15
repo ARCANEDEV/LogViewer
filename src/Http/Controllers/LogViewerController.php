@@ -216,7 +216,7 @@ class LogViewerController extends Controller
             $data->count(),
             $this->perPage,
             $page,
-            compact('url')
+            ['path'=>$url]
         );
     }
 
