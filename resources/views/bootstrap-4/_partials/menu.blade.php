@@ -5,7 +5,7 @@
     <ul class="list-group list-group-flush">
         @foreach($log->menu() as $level => $item)
             @if ($item['count'] === 0)
-                <a href="#" class="list-group-item disabled">
+                <a class="list-group-item disabled">
                     <span class="badge level level-none">
                         {!! $item['icon'] !!} {{ $item['name'] }}
                     </span>
