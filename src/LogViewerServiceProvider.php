@@ -1,7 +1,6 @@
 <?php namespace Arcanedev\LogViewer;
 
 use Arcanedev\Support\PackageServiceProvider;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class     LogViewerServiceProvider
