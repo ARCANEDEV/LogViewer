@@ -19,10 +19,16 @@
         background-color: #f5f5f5;
     }
 
-    .stack {
+    .stack-content {
         background-color: #F6F6F6;
+        color: #AE0E0E;
+        font-family: consolas, Menlo, Courier, monospace;
+        font-size: 12px;
+        font-weight: 400;
+        white-space: pre-line;
         max-width: 0;
         overflow-x: auto;
+
     }
 
     .level-card {
@@ -59,7 +65,7 @@
 
     .level-none {
         background-color: none;
-        color: #000;
+        color: #AAA;
     }
 
     .level-all,
