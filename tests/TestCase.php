@@ -6,7 +6,7 @@ use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
-use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 use Psr\Log\LogLevel;
 use ReflectionClass;
 
