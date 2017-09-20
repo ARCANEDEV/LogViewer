@@ -19,8 +19,9 @@
         "arcanedev/support": "~4.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "~6.0",
-        "phpunit/phpcov":  "~4.0"
+        "orchestra/testbench": "~3.5.0",
+        "phpunit/phpunit":     "~6.0",
+        "phpunit/phpcov":      "~4.0"
     },
     "autoload": {
         "psr-4": {
@@ -32,9 +33,6 @@
         "psr-4": {
             "Arcanedev\\LogViewer\\Tests\\": "tests/"
         }
-    },
-    "scripts": {
-        "testbench": "composer require --dev \"orchestra/testbench-browser-kit=~3.0\""
     },
     "extra": {
         "laravel": {
