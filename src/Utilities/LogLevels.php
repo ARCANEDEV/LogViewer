@@ -147,7 +147,7 @@ class LogLevels implements LogLevelsContract
     {
         if (empty(self::$levels)) {
             $levels = (new ReflectionClass(LogLevel::class))->getConstants();
-            $except = array_map('strtoupper', (new self)::getExcept());
+            $except = array_map('strtoupper', config('log-viewer.except'));
 
             self::$levels = array_except($levels, $except);
         }
