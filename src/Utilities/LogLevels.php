@@ -146,7 +146,10 @@ class LogLevels implements LogLevelsContract
     public static function all($flip = false)
     {
         if (empty(self::$levels)) {
-            self::$levels = (new ReflectionClass(LogLevel::class))->getConstants();
+            $levels = (new ReflectionClass(LogLevel::class))->getConstants();
+            $except = array_map('strtoupper', config('log-viewer.except'));
+
+            self::$levels = array_except($levels, $except);
         }
 
         return $flip ? array_flip(self::$levels) : self::$levels;
