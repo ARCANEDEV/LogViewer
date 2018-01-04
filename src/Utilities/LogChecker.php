@@ -245,7 +245,7 @@ class LogChecker implements LogCheckerContract
     {
         if ($this->isDaily()) return;
 
-        $this->messages['handler'] = 'You should set the log handler to `daily` mode. Please check the LogViwer wiki page (Requirements) for more details.';
+        $this->messages['handler'] = 'You should set the log handler to `daily` mode. Please check the LogViewer wiki page (Requirements) for more details.';
     }
 
     /**
