@@ -22,7 +22,7 @@ class RoutesTest extends TestCase
         $response->assertSuccessful();
 
         static::assertContains(
-            '<h1 class="page-header">Dashboard</h1>',
+            '<h1>Dashboard</h1>',
             $response->getContent()
         );
     }
@@ -34,7 +34,7 @@ class RoutesTest extends TestCase
         $response->assertSuccessful();
 
         static::assertContains(
-            '<h1 class="page-header">Logs</h1>',
+            '<h1>Logs</h1>',
             $response->getContent()
         );
         // TODO: Add more assertion => list all logs
@@ -43,13 +43,13 @@ class RoutesTest extends TestCase
     /** @test */
     public function it_can_show_a_log_page()
     {
-        $date     = '2015-01-01';
+        $date = '2015-01-01';
 
         $response = $this->get(route('log-viewer::logs.show', [$date]));
         $response->assertSuccessful();
 
         static::assertContains(
-            '<h1 class="page-header">Log ['.$date.']</h1>',
+            "<h1>Log [{$date}]</h1>",
             $response->getContent()
         );
         // TODO: Add more assertion => list all log entries
@@ -65,7 +65,7 @@ class RoutesTest extends TestCase
         $response->assertSuccessful();
 
         static::assertContains(
-            '<h1 class="page-header">Log ['.$date.']</h1>',
+            "<h1>Log [{$date}]</h1>",
             $response->getContent()
         );
         // TODO: Add more assertion => log entries is filtered by a level
