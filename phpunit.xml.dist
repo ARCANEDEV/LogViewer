@@ -21,6 +21,9 @@
             <directory suffix=".php">./src/</directory>
         </whitelist>
     </filter>
+    <php>
+        <env name="LOG_CHANNEL" value="daily"/>
+    </php>
     <logging>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
         <log type="coverage-text" target="build/logs/coverage.txt"/>

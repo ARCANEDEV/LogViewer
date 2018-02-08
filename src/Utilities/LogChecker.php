@@ -224,7 +224,7 @@ class LogChecker implements LogCheckerContract
      */
     private function refresh()
     {
-        $this->setHandler($this->config->get('app.log', 'single'));
+        $this->setHandler($this->config->get('logging.default', 'stack'));
 
         $this->messages = [
             'handler' => '',
