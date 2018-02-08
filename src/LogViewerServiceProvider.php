@@ -54,16 +54,8 @@ class LogViewerServiceProvider extends PackageServiceProvider
         parent::boot();
 
         $this->publishConfig();
-
         $this->publishViews();
-
         $this->publishTranslations();
-
-        // Switch loading of views based on theme set in config.
-        // Default to bootstrap-3
-        $theme = $this->config()->get('log-viewer.theme', 'bootstrap-3');
-        $views = __DIR__.'/../resources/views/'.$theme;
-        $this->loadViewsFrom($views, 'log-viewer');
     }
 
     /**

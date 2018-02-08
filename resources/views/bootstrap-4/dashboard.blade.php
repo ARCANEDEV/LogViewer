@@ -1,24 +1,30 @@
-@extends('log-viewer::_template.master')
+@extends('log-viewer::bootstrap-4._master')
 
 @section('content')
-    <h1 class="mb-4">Dashboard</h1>
+    <div class="page-header mb-4">
+        <h1>Dashboard</h1>
+    </div>
 
     <div class="row">
-        <div class="col-md-3">
-            <canvas id="stats-doughnut-chart" height="300"></canvas>
+        <div class="col-md-6 col-lg-3">
+            <canvas id="stats-doughnut-chart" height="300" class="mb-3"></canvas>
         </div>
 
-        <div class="col-md-9">
+        <div class="col-md-6 col-lg-9">
             <div class="row">
                 @foreach($percents as $level => $item)
-                    <div class="col-md-4 col-sm-6 mb-3">
-                        <div class="card level-card level-{{ $level }} {{ $item['count'] === 0 ? 'level-empty' : '' }}">
-                            <div class="card-header">
-                                <span class="level-icon">{!! log_styler()->icon($level) !!}</span> {{ $item['name'] }}
+                    <div class="col-sm-6 col-md-12 col-lg-4 mb-3">
+                        <div class="box level-{{ $level }} {{ $item['count'] === 0 ? 'empty' : '' }}">
+                            <div class="box-icon">
+                                {!! log_styler()->icon($level) !!}
                             </div>
-                            <div class="card-body">
-                                {{ $item['count'] }} entries - {!! $item['percent'] !!}%
-                                <div class="progress">
+
+                            <div class="box-content">
+                                <span class="box-text">{{ $item['name'] }}</span>
+                                <span class="box-number">
+                                    {{ $item['count'] }} entries - {!! $item['percent'] !!} %
+                                </span>
+                                <div class="progress" style="height: 3px;">
                                     <div class="progress-bar" style="width: {{ $item['percent'] }}%"></div>
                                 </div>
                             </div>
@@ -33,7 +39,7 @@
 @section('scripts')
     <script>
         $(function() {
-            new Chart($('canvas#stats-doughnut-chart'), {
+            new Chart(document.getElementById("stats-doughnut-chart"), {
                 type: 'doughnut',
                 data: {!! $chartData !!},
                 options: {

@@ -1,18 +1,38 @@
-@extends('log-viewer::_template.master')
+@extends('log-viewer::bootstrap-4._master')
 
 @section('content')
-    <h2 class="mb-4">Log [{{ $log->date }}]</h2>
+    <div class="page-header mb-4">
+        <h1>Log [{{ $log->date }}]</h1>
+    </div>
 
     <div class="row">
-        <div class="col-md-2">
-            @include('log-viewer::_partials.menu')
+        <div class="col-lg-2">
+            {{-- Log Menu --}}
+            <div class="card mb-4">
+                <div class="card-header"><i class="fa fa-fw fa-flag"></i> Levels</div>
+                <div class="list-group list-group-flush log-menu">
+                    @foreach($log->menu() as $levelKey => $item)
+                        @if ($item['count'] === 0)
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center disabled">
+                                <span class="level-name">{!! $item['icon'] !!} {{ $item['name'] }}</span>
+                                <span class="badge empty">{{ $item['count'] }}</span>
+                            </a>
+                        @else
+                            <a href="{{ $item['url'] }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center level-{{ $levelKey }}{{ $level === $levelKey ? ' active' : ''}}">
+                                <span class="level-name">{!! $item['icon'] !!} {{ $item['name'] }}</span>
+                                <span class="badge badge-level-{{ $levelKey }}">{{ $item['count'] }}</span>
+                            </a>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
         </div>
-        <div class="col-md-10">
+        <div class="col-lg-10">
             {{-- Log Details --}}
-            <div class="card">
+            <div class="card mb-4">
                 <div class="card-header">
                     Log info :
-                    <div class="float-right">
+                    <div class="group-btns pull-right">
                         <a href="{{ route('log-viewer::logs.download', [$log->date]) }}" class="btn btn-sm btn-success">
                             <i class="fa fa-download"></i> DOWNLOAD
                         </a>
@@ -21,151 +41,141 @@
                         </a>
                     </div>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                File path:
-                            </div>
-                            <div class="col-sm-10">
-                                {{ $log->getPath() }}
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm-auto">
-                                Log entries: <span class="badge badge-primary">{{ $entries->total() }}</span>
-                            </div>
-                            <div class="col-sm-auto">
-                                Size: <span class="badge badge-primary">{{ $log->size() }}</span>
-                            </div>
-                            <div class="col-sm-auto">
-                                Created at: <span class="badge badge-primary">{{ $log->createdAt() }}</span>
-                            </div>
-                            <div class="col-sm-auto">
-                                Updated at: <span class="badge badge-primary">{{ $log->updatedAt() }}</span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                <div class="table-responsive">
+                    <table class="table table-condensed mb-0">
+                        <tbody>
+                            <tr>
+                                <td>File path :</td>
+                                <td colspan="7">{{ $log->getPath() }}</td>
+                            </tr>
+                            <tr>
+                                <td>Log entries : </td>
+                                <td>
+                                    <span class="badge badge-primary">{{ $entries->total() }}</span>
+                                </td>
+                                <td>Size :</td>
+                                <td>
+                                    <span class="badge badge-primary">{{ $log->size() }}</span>
+                                </td>
+                                <td>Created at :</td>
+                                <td>
+                                    <span class="badge badge-primary">{{ $log->createdAt() }}</span>
+                                </td>
+                                <td>Updated at :</td>
+                                <td>
+                                    <span class="badge badge-primary">{{ $log->updatedAt() }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="card-footer">
                     {{-- Search --}}
                     <form action="{{ route('log-viewer::logs.search', [$log->date, $level]) }}" method="GET">
-                        <div class="input-group">
-                            <input id="query" name="query" class="form-control" value="{!! request('query') !!}" placeholder="Type search term">
-                            <span class="input-group-btn">
-                                @if (request()->has('query'))
-                                    <a href="{{ route('log-viewer::logs.show', [$log->date]) }}" class="btn btn-default" type="button"><i class="fa fa-fw fa-remove"></i></a>
-                                @endif
-                                <button id="search-btn" class="btn btn-primary" type="submit"><i class="fa fa-fw fa-search"></i></button>
-                            </span>
+                        <div class=form-group">
+                            <div class="input-group">
+                                <input id="query" name="query" class="form-control"  value="{!! request('query') !!}" placeholder="Type here to search">
+                                <div class="input-group-append">
+                                    @if (request()->has('query'))
+                                        <a href="{{ route('log-viewer::logs.show', [$log->date]) }}" class="btn btn-secondary">
+                                            <i class="fa fa-fw fa-times"></i>
+                                        </a>
+                                    @endif
+                                    <button id="search-btn" class="btn btn-primary">
+                                        <span class="fa fa-fw fa-search"></span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
 
             {{-- Log Entries --}}
-            <div class="card mt-4">
+            <div class="card mb-4">
                 @if ($entries->hasPages())
                     <div class="card-header">
-                        <div class="row">
-                            <div class="col">
-                                {!! $entries->appends(compact('query'))->render('log-viewer::_pagination.bootstrap-4') !!}
-                            </div>
-                            <div class="col text-right">
-                                <span class="badge badge-info">
-                                    Page {!! $entries->currentPage() !!} of {!! $entries->lastPage() !!}
-                                </span>
-                            </div>
-                        </div>
+                        <span class="badge badge-info float-right">
+                            Page {!! $entries->currentPage() !!} of {!! $entries->lastPage() !!}
+                        </span>
                     </div>
                 @endif
 
-                <table id="entries" class="table table-responsive table-sm" style="word-break: break-word;">
-                    <thead>
-                        <tr>
-                            <th>ENV</th>
-                            <th>Level</th>
-                            <th>Time</th>
-                            <th>Header</th>
-                            <th class="text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($entries as $key => $entry)
+                <div class="table-responsive">
+                    <table id="entries" class="table mb-0">
+                        <thead>
                             <tr>
-                                <td>
-                                    <span class="badge badge-env">{{ $entry->env }}</span>
-                                </td>
-                                <td>
-                                    <span class="badge level level-{{ $entry->level }}">
-                                        {!! $entry->level() !!}
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="badge badge-default">
-                                        {{ $entry->datetime->format('H:i:s') }}
-                                    </span>
-                                </td>
-                                <td>
-                                    {{ $entry->header }}
-                                </td>
-                                <td class="text-right">
-                                    @if ($entry->hasStack())
-                                        <a class="btn btn-sm btn-outline-info" role="button" data-toggle="collapse" href="#log-stack-{{ $key }}" aria-expanded="false" aria-controls="log-stack-{{ $key }}">
-                                            <i class="fa fa-toggle-on"></i> Stack
-                                        </a>
-                                    @endif
-                                </td>
+                                <th>ENV</th>
+                                <th style="width: 120px;">Level</th>
+                                <th style="width: 65px;">Time</th>
+                                <th>Header</th>
+                                <th class="text-right">Actions</th>
                             </tr>
-                            @if ($entry->hasStack())
-                                <tr class="stack-content collapse" id="log-stack-{{ $key }}">
-                                    <td colspan="5" class="stack">
-                                        {!! trim($entry->stack()) !!}
+                        </thead>
+                        <tbody>
+                            @forelse($entries as $key => $entry)
+                                <tr>
+                                    <td>
+                                        <span class="badge badge-env">{{ $entry->env }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-level-{{ $entry->level }}">
+                                            {!! $entry->level() !!}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-secondary">
+                                            {{ $entry->datetime->format('H:i:s') }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{ $entry->header }}
+                                    </td>
+                                    <td class="text-right">
+                                        @if ($entry->hasStack())
+                                            <a class="btn btn-sm btn-light" role="button" data-toggle="collapse" href="#log-stack-{{ $key }}" aria-expanded="false" aria-controls="log-stack-{{ $key }}">
+                                                <i class="fa fa-toggle-on"></i> Stack
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
-                            @endif
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center">
-                                    <span class="badge badge-default">{{ trans('log-viewer::general.empty-logs') }}</span>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-
-                @if ($entries->hasPages())
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col">
-                                {!! $entries->appends(compact('query'))->render('log-viewer::_pagination.bootstrap-4') !!}
-                            </div>
-                            <div class="col text-right">
-                            <span class="badge badge-info">
-                                Page {!! $entries->currentPage() !!} of {!! $entries->lastPage() !!}
-                            </span>
-                            </div>
-                        </div>
-                    </div>
-                @endif
+                                @if ($entry->hasStack())
+                                    <tr>
+                                        <td colspan="5" class="stack py-0">
+                                            <div class="stack-content collapse" id="log-stack-{{ $key }}">
+                                                {!! $entry->stack() !!}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <span class="badge badge-secondary">{{ trans('log-viewer::general.empty-logs') }}</span>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
+            {!! $entries->appends(compact('query'))->render() !!}
         </div>
     </div>
 @endsection
 
 @section('modals')
     {{-- DELETE MODAL --}}
-    <div id="delete-log-modal" class="modal fade">
-        <div class="modal-dialog">
+    <div id="delete-log-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
             <form id="delete-log-form" action="{{ route('log-viewer::logs.delete') }}" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="date" value="{{ $log->date }}">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Delete Log File</h4>
+                        <h5 class="modal-title">DELETE LOG FILE</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -174,8 +184,8 @@
                         <p>Are you sure you want to <span class="badge badge-danger">DELETE</span> this log file <span class="badge badge-primary">{{ $log->date }}</span> ?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;"><i class="fa fa-trash-o"></i> DELETE FILE</button>
-                        <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                        <button type="button" class="btn btn-sm btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">DELETE FILE</button>
                     </div>
                 </div>
             </form>
@@ -186,8 +196,8 @@
 @section('scripts')
     <script>
         $(function () {
-            var deleteLogModal = $('#delete-log-modal'),
-                deleteLogForm  = $('#delete-log-form'),
+            var deleteLogModal = $('div#delete-log-modal'),
+                deleteLogForm  = $('form#delete-log-form'),
                 submitBtn      = deleteLogForm.find('button[type=submit]');
 
             deleteLogForm.on('submit', function(event) {
@@ -230,5 +240,4 @@
             @endunless
         });
     </script>
-
 @endsection
