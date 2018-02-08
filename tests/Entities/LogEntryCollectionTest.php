@@ -11,40 +11,44 @@ use Arcanedev\LogViewer\Tests\TestCase;
  */
 class LogEntryCollectionTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var LogEntryCollection */
+
+    /** @var  \Arcanedev\LogViewer\Entities\LogEntryCollection */
     private $entries;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
 
         $this->entries = new LogEntryCollection;
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->entries);
 
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(LogEntryCollection::class, $this->entries);
-        $this->assertCount(0, $this->entries);
+        static::assertInstanceOf(LogEntryCollection::class, $this->entries);
+        static::assertCount(0, $this->entries);
+        static::assertSame(0, $this->entries->count());
     }
 
     /** @test */
@@ -53,8 +57,9 @@ class LogEntryCollectionTest extends TestCase
         foreach ($this->getDates() as $date) {
             $entries = $this->getEntries($date);
 
-            $this->assertLogEntries($date, $entries);
-            $this->assertCount(8, $entries);
+            static::assertLogEntries($date, $entries);
+            static::assertCount(8, $entries);
+            static::assertSame(8, $entries->count());
         }
     }
 
@@ -67,7 +72,7 @@ class LogEntryCollectionTest extends TestCase
             foreach (self::$logLevels as $level) {
                 $entry = $this->entries->filterByLevel($level);
 
-                $this->assertLogEntries($date, $entry);
+                static::assertLogEntries($date, $entry);
             }
         }
     }
@@ -81,7 +86,7 @@ class LogEntryCollectionTest extends TestCase
             $stats = $this->entries->stats();
 
             foreach ($stats as $level => $count) {
-                $this->assertEquals(($level === 'all') ? 8 : 1, $count);
+                static::assertSame(($level === 'all') ? 8 : 1, $count);
             }
         }
     }
@@ -94,22 +99,23 @@ class LogEntryCollectionTest extends TestCase
 
             $tree = $this->entries->tree();
 
-            $this->assertCount(9, $tree);
+            static::assertCount(9, $tree);
 
             foreach ($tree as $level => $item) {
-                $this->assertArrayHasKey('name', $item);
-                $this->assertArrayHasKey('count', $item);
+                static::assertArrayHasKey('name', $item);
+                static::assertArrayHasKey('count', $item);
 
-                $this->assertEquals($level, $item['name']);
-                $this->assertEquals(($level === 'all') ? 8 : 1, $item['count']);
+                static::assertEquals($level, $item['name']);
+                static::assertSame(($level === 'all') ? 8 : 1, $item['count']);
             }
         }
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Private functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get log entries
      *
@@ -119,8 +125,8 @@ class LogEntryCollectionTest extends TestCase
      */
     private function getEntries($date)
     {
-        $raw     = $this->getLogContent($date);
-
-        return (new LogEntryCollection)->load($raw);
+        return (new LogEntryCollection)->load(
+            $this->getLogContent($date)
+        );
     }
 }

@@ -11,102 +11,103 @@ use Arcanedev\LogViewer\Tests\TestCase;
  */
 class LogCollectionTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var LogCollection */
+
+    /** @var  \Arcanedev\LogViewer\Entities\LogCollection */
     private $logs;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
 
         $this->logs = LogCollection::make();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->logs);
 
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(LogCollection::class, $this->logs);
+        static::assertInstanceOf(LogCollection::class, $this->logs);
     }
 
     /** @test */
     public function it_can_get_all_logs()
     {
-        $this->assertCount(2,   $this->logs);
-        $this->assertEquals(2,  $this->logs->count());
-        $this->assertEquals(16, $this->logs->total());
+        static::assertCount(2,   $this->logs);
+        static::assertSame(2,  $this->logs->count());
+        static::assertSame(16, $this->logs->total());
 
         foreach ($this->logs as $date => $log) {
-            $this->assertLog($log, $date);
-            $this->assertCount(8,  $log->entries());
-            $this->assertEquals(8, $log->entries()->count());
+            static::assertLog($log, $date);
+            static::assertCount(8,  $log->entries());
+            static::assertSame(8, $log->entries()->count());
         }
     }
 
     /** @test */
     public function it_can_get_a_log_by_date()
     {
-        $date = '2015-01-01';
-        $log  = $this->logs->get($date);
+        $log = $this->logs->get($date = '2015-01-01');
 
-        $this->assertLog($log, $date);
-        $this->assertCount(8, $log->entries());
-        $this->assertEquals(8, $log->entries()->count());
+        static::assertLog($log, $date);
+        static::assertCount(8, $log->entries());
+        static::assertSame(8, $log->entries()->count());
     }
 
     /** @test */
     public function it_can_get_the_log_entries_by_date()
     {
-        $date    = '2015-01-01';
-        $entries = $this->logs->entries($date);
+        $entries = $this->logs->entries($date = '2015-01-01');
 
-        $this->assertLogEntries($date, $entries);
-        $this->assertCount(8, $entries);
-        $this->assertEquals(8, $entries->count());
+        static::assertLogEntries($date, $entries);
+        static::assertCount(8, $entries);
+        static::assertSame(8, $entries->count());
     }
 
     /** @test */
     public function it_can_get_the_log_entries_by_date_and_level()
     {
-        $date    = '2015-01-01';
+        $date = '2015-01-01';
 
         foreach (self::$logLevels as $level) {
             $entries = $this->logs->entries($date, $level);
 
-            $this->assertLogEntries($date, $entries);
-            $this->assertCount(1, $entries);
-            $this->assertEquals(1, $entries->count());
+            static::assertLogEntries($date, $entries);
+            static::assertCount(1, $entries);
+            static::assertSame(1, $entries->count());
         }
 
         $entries = $this->logs->entries($date, 'all');
 
-        $this->assertLogEntries($date, $entries);
-        $this->assertCount(8, $entries);
-        $this->assertEquals(8, $entries->count());
+        static::assertLogEntries($date, $entries);
+        static::assertCount(8, $entries);
+        static::assertSame(8, $entries->count());
     }
 
     /** @test */
     public function it_can_get_logs_dates()
     {
         foreach ($this->getDates() as $date) {
-            $this->assertContains($date, $this->logs->dates());
+            static::assertContains($date, $this->logs->dates());
         }
     }
 
@@ -116,16 +117,15 @@ class LogCollectionTest extends TestCase
         $stats = $this->logs->stats();
 
         foreach ($stats as $date => $counters) {
-            $this->assertDate($date);
+            static::assertDate($date);
 
             foreach ($counters as $level => $counter) {
                 if ($level === 'all') {
-                    $this->assertEquals(8, $counter);
-
-                    continue;
+                    static::assertSame(8, $counter);
                 }
-
-                $this->assertEquals(1, $counter);
+                else {
+                    static::assertEquals(1, $counter);
+                }
             }
         }
     }
@@ -135,14 +135,14 @@ class LogCollectionTest extends TestCase
     {
         $tree = $this->logs->tree();
 
-        $this->assertCount(2, $tree);
+        static::assertCount(2, $tree);
 
         foreach ($tree as $date => $levels) {
-            $this->assertDate($date);
+            static::assertDate($date);
 
             foreach ($levels as $level => $item) {
-                $this->assertEquals($level, $item['name']);
-                $this->assertEquals($level === 'all' ? 8 : 1, $item['count']);
+                static::assertEquals($level, $item['name']);
+                static::assertSame($level === 'all' ? 8 : 1, $item['count']);
             }
         }
     }
@@ -155,12 +155,12 @@ class LogCollectionTest extends TestCase
             $menu = $this->logs->menu();
 
             foreach ($menu as $date => $levels) {
-                $this->assertDate($date);
+                static::assertDate($date);
 
                 foreach ($levels as $level => $item) {
-                    $this->assertNotEquals($level, $item['name']);
-                    $this->assertTranslatedLevel($locale, $level, $item['name']);
-                    $this->assertEquals($level == 'all' ? 8 : 1, $item['count']);
+                    static::assertNotEquals($level, $item['name']);
+                    static::assertTranslatedLevel($locale, $level, $item['name']);
+                    static::assertSame($level == 'all' ? 8 : 1, $item['count']);
                 }
             }
         }

@@ -10,15 +10,16 @@ use Arcanedev\LogViewer\Tests\TestCase;
  */
 class CheckCommandTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_check()
     {
         $code = $this->artisan('log-viewer:check');
 
-        $this->assertEquals(0, $code);
+        static::assertSame(0, $code);
     }
 }

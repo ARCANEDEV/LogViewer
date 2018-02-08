@@ -10,18 +10,18 @@
  */
 class RoutesTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_see_dashboard_page()
     {
         $response = $this->get(route('log-viewer::dashboard'));
-
         $response->assertSuccessful();
 
-        $this->assertContains(
+        static::assertContains(
             '<h1 class="page-header">Dashboard</h1>',
             $response->getContent()
         );
@@ -31,9 +31,9 @@ class RoutesTest extends TestCase
     public function it_can_see_logs_page()
     {
         $response = $this->get(route('log-viewer::logs.list'));
-
         $response->assertSuccessful();
-        $this->assertContains(
+
+        static::assertContains(
             '<h1 class="page-header">Logs</h1>',
             $response->getContent()
         );
@@ -44,11 +44,12 @@ class RoutesTest extends TestCase
     public function it_can_show_a_log_page()
     {
         $date     = '2015-01-01';
-        $response = $this->get(route('log-viewer::logs.show', [$date]));
 
+        $response = $this->get(route('log-viewer::logs.show', [$date]));
         $response->assertSuccessful();
-        $this->assertContains(
-            '<h1 class="page-header">Log [' . $date . ']</h1>',
+
+        static::assertContains(
+            '<h1 class="page-header">Log ['.$date.']</h1>',
             $response->getContent()
         );
         // TODO: Add more assertion => list all log entries
@@ -59,10 +60,11 @@ class RoutesTest extends TestCase
     {
         $date     = '2015-01-01';
         $level    = 'error';
-        $response = $this->get(route('log-viewer::logs.filter', [$date, $level]));
 
+        $response = $this->get(route('log-viewer::logs.filter', [$date, $level]));
         $response->assertSuccessful();
-        $this->assertContains(
+
+        static::assertContains(
             '<h1 class="page-header">Log ['.$date.']</h1>',
             $response->getContent()
         );
@@ -75,19 +77,19 @@ class RoutesTest extends TestCase
         $date     = '2015-01-01';
         $level    = 'all';
         $query    = 'This is an error log.';
-        $response = $this->get(route('log-viewer::logs.search', compact('date', 'level', 'query')));
 
+        $response = $this->get(route('log-viewer::logs.search', compact('date', 'level', 'query')));
         $response->assertSuccessful();
 
         /** @var \Illuminate\View\View $view */
         $view = $response->getOriginalContent();
 
-        $this->assertArrayHasKey('entries', $view->getData());
+        static::assertArrayHasKey('entries', $view->getData());
 
         /** @var  \Illuminate\Pagination\LengthAwarePaginator  $entries */
         $entries = $view->getData()['entries'];
 
-        $this->assertCount(1, $entries);
+        static::assertCount(1, $entries);
     }
 
     /** @test */
@@ -95,31 +97,29 @@ class RoutesTest extends TestCase
     {
         $date     = '2015-01-01';
         $level    = 'all';
+
         $response = $this->get(route('log-viewer::logs.filter', [$date, $level]));
 
-        $this->assertTrue($response->isRedirection());
-        $this->assertEquals(302, $response->getStatusCode());
+        static::assertTrue($response->isRedirection());
+        static::assertEquals(302, $response->getStatusCode());
         // TODO: Add more assertion to check the redirect url
     }
 
     /** @test */
     public function it_can_download_a_log_page()
     {
-        $date     = '2015-01-01';
-        $response = $this->get(route('log-viewer::logs.download', [$date]));
+        $date = '2015-01-01';
 
+        $response = $this->get(route('log-viewer::logs.download', [$date]));
         $response->assertSuccessful();
 
         /** @var  \Symfony\Component\HttpFoundation\BinaryFileResponse  $base */
         $base = $response->baseResponse;
 
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             \Symfony\Component\HttpFoundation\BinaryFileResponse::class, $base
         );
-        $this->assertEquals(
-            "laravel-$date.log",
-            $base->getFile()->getFilename()
-        );
+        static::assertEquals("laravel-$date.log", $base->getFile()->getFilename());
     }
 
     /** @test */
@@ -129,9 +129,7 @@ class RoutesTest extends TestCase
 
         $this->createDummyLog($date);
 
-        $server   = ['HTTP_X-Requested-With' => 'XMLHttpRequest'];
-
-        $response = $this->call('DELETE', route('log-viewer::logs.delete', compact('date')), [], [], [], $server);
+        $response = $this->call('DELETE', route('log-viewer::logs.delete', compact('date')), [], [], [], ['HTTP_X-Requested-With' => 'XMLHttpRequest']);
         $response->assertExactJson(['result' => 'success']);
     }
 
@@ -140,16 +138,13 @@ class RoutesTest extends TestCase
     {
         $response = $this->get(route('log-viewer::logs.show', ['0000-00-00']));
 
-        $code    = $response->getStatusCode();
-        $message = $response->exception->getMessage();
-
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             \Symfony\Component\HttpKernel\Exception\HttpException::class,
             $response->exception
         );
 
-        $this->assertSame(404, $code);
-        $this->assertSame('Log not found in this date [0000-00-00]', $message);
+        static::assertSame(404, $response->getStatusCode());
+        static::assertSame('Log not found in this date [0000-00-00]', $response->exception->getMessage());
     }
 
     /** @test */
@@ -160,8 +155,8 @@ class RoutesTest extends TestCase
             $response->assertExactJson(['message' => 'Server Error']);
         }
         catch(\Exception $exception) {
-            $this->assertInstanceOf(\Arcanedev\LogViewer\Exceptions\FilesystemException::class, $exception);
-            $this->assertStringStartsWith('The log(s) could not be located at : ', $exception->getMessage());
+            static::assertInstanceOf(\Arcanedev\LogViewer\Exceptions\FilesystemException::class, $exception);
+            static::assertStringStartsWith('The log(s) could not be located at : ', $exception->getMessage());
         }
     }
 
@@ -169,13 +164,12 @@ class RoutesTest extends TestCase
     public function it_must_throw_method_not_allowed_on_delete()
     {
         $response = $this->delete(route('log-viewer::logs.delete'));
-
         $response->assertStatus(405);
-        $this->assertInstanceOf(
+
+        static::assertInstanceOf(
             \Symfony\Component\HttpKernel\Exception\HttpException::class,
             $response->exception
         );
-
-        $this->assertSame('Method Not Allowed', $response->exception->getMessage());
+        static::assertSame('Method Not Allowed', $response->exception->getMessage());
     }
 }

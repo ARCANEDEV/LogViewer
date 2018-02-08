@@ -11,181 +11,168 @@ use Arcanedev\LogViewer\Tests\TestCase;
  */
 class LogTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var Log */
+
+    /** @var  \Arcanedev\LogViewer\Entities\Log */
     private $log;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
 
         $this->log = $this->getLog('2015-01-01');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->log);
 
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
         $entries = $this->log->entries();
 
-        $this->assertInstanceOf(Log::class, $this->log);
-        $this->assertDate($this->log->date);
-        $this->assertCount(8, $entries);
-        $this->assertLogEntries($this->log->date, $entries);
+        static::assertInstanceOf(Log::class, $this->log);
+        static::assertDate($this->log->date);
+        static::assertCount(8, $entries);
+        static::assertSame(8, $entries->count());
+        static::assertLogEntries($this->log->date, $entries);
     }
 
-    /** @test */
-    public function it_can_get_date()
+    /**
+     * @test
+     *
+     * @dataProvider provideDates
+     *
+     * @param  string  $date
+     */
+    public function it_can_get_date($date)
     {
-        $dates = [
-            '2015-01-01',
-            '2015-01-02',
-        ];
+        $log = $this->getLog($date);
 
-        foreach ($dates as $date) {
-            $log = $this->getLog($date);
-
-            $this->assertDate($log->date);
-            $this->assertEquals($date, $log->date);
-        }
+        static::assertDate($log->date);
+        static::assertSame($date, $log->date);
     }
 
-    /** @test */
-    public function it_can_get_path()
+    /**
+     * @test
+     *
+     * @dataProvider provideDates
+     *
+     * @param  string  $date
+     */
+    public function it_can_get_path($date)
     {
-        $dates = [
-            '2015-01-01',
-            '2015-01-02',
-        ];
-
-        foreach ($dates as $date) {
-            $log = $this->getLog($date);
-
-            $this->assertFileExists($log->getPath());
-        }
+        static::assertFileExists($this->getLog($date)->getPath());
     }
 
-    /** @test */
-    public function it_can_get_all_entries()
+    /**
+     * @test
+     *
+     * @dataProvider provideDates
+     *
+     * @param  string  $date
+     */
+    public function it_can_get_all_entries($date)
     {
-        $dates = [
-            '2015-01-01',
-            '2015-01-02',
-        ];
+        $entries = $this->getLog($date)->entries();
 
-        foreach ($dates as $date) {
-            $entries = $this->getLog($date)->entries();
-
-            $this->assertCount(8, $entries);
-            $this->assertLogEntries($date, $entries);
-        }
+        static::assertCount(8, $entries);
+        static::assertSame(8, $entries->count());
+        static::assertLogEntries($date, $entries);
     }
 
-    /** @test */
-    public function it_can_get_all_entries_by_level()
+    /**
+     * @test
+     *
+     * @dataProvider provideDates
+     *
+     * @param  string  $date
+     */
+    public function it_can_get_all_entries_by_level($date)
     {
-        $dates = [
-            '2015-01-01',
-            '2015-01-02',
-        ];
+        $log = $this->getLog($date);
 
-        foreach ($dates as $date) {
-            $log = $this->getLog($date);
-
-            foreach ($this->getLogLevels() as $level) {
-                $this->assertCount(1, $log->entries($level));
-                $this->assertLogEntries($date, $log->entries());
-            }
+        foreach ($this->getLogLevels() as $level) {
+            static::assertCount(1, $log->entries($level));
+            static::assertLogEntries($date, $log->entries());
         }
     }
 
     /** @test */
     public function it_can_get_log_stats()
     {
-        $stats = $this->log->stats();
+        foreach ($this->log->stats() as $level => $counter) {
+            static::assertSame($level === 'all' ? 8 : 1, $counter);
+        }
+    }
 
-        foreach ($stats as $level => $counter) {
+    /**
+     * @test
+     *
+     * @dataProvider provideDates
+     *
+     * @param  string  $date
+     */
+    public function it_can_get_tree($date)
+    {
+        $menu = $this->getLog($date)->tree();
+
+        static::assertCount(9, $menu);
+
+        foreach ($menu as $level => $menuItem) {
             if ($level === 'all') {
-                $this->assertEquals(8, $counter);
-
-                continue;
+                static::assertEquals(8, $menuItem['count']);
             }
-
-            $this->assertEquals(1, $counter);
-        }
-    }
-
-    /** @test */
-    public function it_can_get_tree()
-    {
-        $dates   = [
-            '2015-01-01',
-            '2015-01-02',
-        ];
-
-        foreach ($dates as $date) {
-            $menu = $this->getLog($date)->tree();
-
-            $this->assertCount(9, $menu);
-
-            foreach ($menu as $level => $menuItem) {
-                if ($level === 'all') {
-                    $this->assertEquals(8, $menuItem['count']);
-
-                    continue;
-                }
-
-                $this->assertInLogLevels($level);
-                $this->assertInLogLevels($menuItem['name']);
-                $this->assertEquals(1, $menuItem['count']);
+            else {
+                static::assertInLogLevels($level);
+                static::assertInLogLevels($menuItem['name']);
+                static::assertEquals(1, $menuItem['count']);
             }
         }
     }
 
-    /** @test */
-    public function it_can_get_translated_menu()
+    /**
+     * @test
+     *
+     * @dataProvider provideDates
+     *
+     * @param  string  $date
+     */
+    public function it_can_get_translated_menu($date)
     {
-        $dates   = [
-            '2015-01-01',
-            '2015-01-02',
-        ];
-
         foreach (self::$locales as $locale) {
             $this->app->setLocale($locale);
 
-            foreach ($dates as $date) {
-                $menu = $this->getLog($date)->menu();
+            $menu = $this->getLog($date)->menu();
 
-                $this->assertCount(9, $menu);
+            static::assertCount(9, $menu);
 
-                foreach ($menu as $level => $menuItem) {
-                    if ($level === 'all') {
-                        $this->assertEquals(8, $menuItem['count']);
-                        $this->assertTranslatedLevel($locale, $level, $menuItem['name']);
-
-                        continue;
-                    }
-
-                    $this->assertInLogLevels($level);
-                    $this->assertTranslatedLevel($locale, $level, $menuItem['name']);
-                    $this->assertEquals(1, $menuItem['count']);
+            foreach ($menu as $level => $menuItem) {
+                if ($level === 'all') {
+                    static::assertSame(8, $menuItem['count']);
+                    static::assertTranslatedLevel($locale, $level, $menuItem['name']);
+                }
+                else {
+                    static::assertInLogLevels($level);
+                    static::assertTranslatedLevel($locale, $level, $menuItem['name']);
+                    static::assertSame(1, $menuItem['count']);
                 }
             }
         }
@@ -194,6 +181,24 @@ class LogTest extends TestCase
     /** @test */
     public function it_can_convert_to_json()
     {
-        $this->assertJsonObject($this->log);
+        static::assertJsonObject($this->log);
+    }
+
+    /* -----------------------------------------------------------------
+     |  Data providers
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Provide valid dates.
+     *
+     * @return array
+     */
+    public function provideDates()
+    {
+        return [
+            ['2015-01-01'],
+            ['2015-01-02']
+        ];
     }
 }

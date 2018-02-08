@@ -11,17 +11,19 @@ use Arcanedev\LogViewer\Tests\TestCase;
  */
 class LogLevelsTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var \Arcanedev\LogViewer\Utilities\LogLevels  */
+
+    /** @var  \Arcanedev\LogViewer\Utilities\LogLevels  */
     private $levels;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function setUp()
     {
         parent::setUp();
@@ -36,10 +38,11 @@ class LogLevelsTest extends TestCase
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -74,11 +77,11 @@ class LogLevelsTest extends TestCase
     public function it_must_choose_the_log_viewer_locale_instead_of_app_locale()
     {
         $this->assertNotEquals('auto', $this->levels->getLocale());
-        $this->assertEquals($this->app->getLocale(), $this->levels->getLocale());
+        $this->assertSame($this->app->getLocale(), $this->levels->getLocale());
 
         $this->levels->setLocale('fr');
 
-        $this->assertEquals('fr', $this->levels->getLocale());
+        $this->assertSame('fr', $this->levels->getLocale());
         $this->assertNotEquals($this->app->getLocale(), $this->levels->getLocale());
     }
 

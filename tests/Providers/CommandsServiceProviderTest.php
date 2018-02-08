@@ -11,35 +11,38 @@ use Arcanedev\LogViewer\Tests\TestCase;
  */
 class CommandsServiceProviderTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var CommandsServiceProvider */
+
+    /** @var  \Arcanedev\LogViewer\Providers\CommandsServiceProvider */
     private $provider;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
 
         $this->provider = $this->app->getProvider(CommandsServiceProvider::class);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->provider);
 
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -50,7 +53,7 @@ class CommandsServiceProviderTest extends TestCase
         ];
 
         foreach ($expectations as $expected) {
-            $this->assertInstanceOf($expected, $this->provider);
+            static::assertInstanceOf($expected, $this->provider);
         }
     }
 
@@ -63,6 +66,6 @@ class CommandsServiceProviderTest extends TestCase
             \Arcanedev\LogViewer\Commands\CheckCommand::class,
         ];
 
-        $this->assertEquals($expected, $this->provider->provides());
+        static::assertSame($expected, $this->provider->provides());
     }
 }

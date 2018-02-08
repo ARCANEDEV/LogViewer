@@ -11,64 +11,67 @@ use Arcanedev\LogViewer\LogViewer;
  */
 class LogViewerTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var \Arcanedev\LogViewer\LogViewer */
+
+    /** @var  \Arcanedev\LogViewer\LogViewer */
     private $logViewer;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
 
         $this->logViewer = $this->app->make(\Arcanedev\LogViewer\Contracts\LogViewer::class);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->logViewer);
 
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(LogViewer::class,  $this->logViewer);
+        static::assertInstanceOf(LogViewer::class,  $this->logViewer);
     }
 
     /** @test */
     public function it_can_be_instantiated_with_helper()
     {
-        $this->assertInstanceOf(LogViewer::class, log_viewer());
+        static::assertInstanceOf(LogViewer::class, log_viewer());
     }
 
     /** @test */
     public function it_can_get_logs_count()
     {
-        $this->assertEquals(2, $this->logViewer->count());
+        static::assertSame(2, $this->logViewer->count());
     }
 
     /** @test */
     public function it_can_get_entries_total()
     {
-        $this->assertEquals(16, $this->logViewer->total());
+        static::assertSame(16, $this->logViewer->total());
     }
 
     /** @test */
     public function it_can_get_entries_total_by_level()
     {
         foreach (self::$logLevels as $level) {
-            $this->assertEquals(2, $this->logViewer->total($level));
+            static::assertSame(2, $this->logViewer->total($level));
         }
     }
 
@@ -77,15 +80,17 @@ class LogViewerTest extends TestCase
     {
         $logs = $this->logViewer->all();
 
-        $this->assertCount(2, $logs);
+        static::assertCount(2, $logs);
+        static::assertSame(2, $logs->count());
 
         foreach ($logs as $log) {
             /** @var Log $log */
             $entries = $log->entries();
 
-            $this->assertDate($log->date);
-            $this->assertCount(8, $entries);
-            $this->assertLogEntries($log->date, $entries);
+            static::assertDate($log->date);
+            static::assertCount(8, $entries);
+            static::assertSame(8, $entries->count());
+            static::assertLogEntries($log->date, $entries);
         }
     }
 
@@ -94,46 +99,46 @@ class LogViewerTest extends TestCase
     {
         $logs = $this->logViewer->paginate();
 
-        $this->assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $logs);
-        $this->assertEquals(30, $logs->perPage());
-        $this->assertEquals(2, $logs->total());
-        $this->assertEquals(1, $logs->lastPage());
-        $this->assertEquals(1, $logs->currentPage());
+        static::assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $logs);
+        static::assertSame(30, $logs->perPage());
+        static::assertSame(2, $logs->total());
+        static::assertSame(1, $logs->lastPage());
+        static::assertSame(1, $logs->currentPage());
     }
 
     /** @test */
     public function it_can_get_log_entries()
     {
-        $date       = '2015-01-01';
-        $logEntries = $this->logViewer->entries($date);
+        $entries = $this->logViewer->entries($date = '2015-01-01');
 
-        $this->assertCount(8, $logEntries);
-        $this->assertLogEntries($date, $logEntries);
+        static::assertCount(8, $entries);
+        static::assertSame(8, $entries->count());
+        static::assertLogEntries($date, $entries);
     }
 
     /** @test */
     public function it_can_get_log_entries_by_level()
     {
-        $date       = '2015-01-01';
-        foreach (self::$logLevels as $level) {
-            $logEntries = $this->logViewer->entries($date, $level);
+        $date = '2015-01-01';
 
-            $this->assertCount(1, $logEntries);
-            $this->assertLogEntries($date, $logEntries);
+        foreach (self::$logLevels as $level) {
+            $entries = $this->logViewer->entries($date, $level);
+
+            static::assertCount(1, $entries);
+            static::assertSame(1, $entries->count());
+            static::assertLogEntries($date, $entries);
         }
     }
 
     /** @test */
     public function it_can_delete_a_log_file()
     {
-        $date = date('Y-m-d');
-
-        $this->createDummyLog($date);
+        $this->createDummyLog($date = date('Y-m-d'));
 
         // Assert log exists
-        $logEntries = $this->logViewer->get($date);
+        $entries = $this->logViewer->get($date);
 
-        $this->assertNotEmpty($logEntries);
+        static::assertNotEmpty($entries);
 
         // Assert log deletion
         try {
@@ -145,7 +150,7 @@ class LogViewerTest extends TestCase
             $message = $e->getMessage();
         }
 
-        $this->assertTrue($deleted, $message);
+        static::assertTrue($deleted, $message);
     }
 
     /** @test */
@@ -153,8 +158,8 @@ class LogViewerTest extends TestCase
     {
         $dates = $this->logViewer->dates();
 
-        $this->assertCount(2, $dates);
-        $this->assertDates($dates);
+        static::assertCount(2, $dates);
+        static::assertDates($dates);
     }
 
     /** @test */
@@ -162,9 +167,9 @@ class LogViewerTest extends TestCase
     {
         $files = $this->logViewer->files();
 
-        $this->assertCount(2, $files);
+        static::assertCount(2, $files);
         foreach ($files as $file) {
-            $this->assertFileExists($file);
+            static::assertFileExists($file);
         }
     }
 
@@ -173,19 +178,19 @@ class LogViewerTest extends TestCase
     {
         $levels = $this->logViewer->levels();
 
-        $this->assertCount(8, $levels);
-        $this->assertEquals(self::$logLevels, $levels);
+        static::assertCount(8, $levels);
+        static::assertEquals(self::$logLevels, $levels);
     }
 
     /** @test */
     public function it_can_get_all_translated_levels()
     {
-        $this->assertTranslatedLevels(
+        static::assertTranslatedLevels(
             $this->app->getLocale(),
             $this->logViewer->levelsNames()
         );
 
-        $this->assertTranslatedLevels(
+        static::assertTranslatedLevels(
             $this->app->getLocale(),
             $this->logViewer->levelsNames('auto')
         );
@@ -193,7 +198,7 @@ class LogViewerTest extends TestCase
         foreach (self::$locales as $locale) {
             $this->app->setLocale($locale);
 
-            $this->assertTranslatedLevels(
+            static::assertTranslatedLevels(
                 $locale,
                 $this->logViewer->levelsNames($locale)
             );
@@ -203,29 +208,19 @@ class LogViewerTest extends TestCase
     /** @test */
     public function it_can_get_stats()
     {
-        $stats = $this->logViewer->stats();
-
-        foreach ($stats as $date => $levels) {
-            $this->assertDate($date);
+        foreach ($this->logViewer->stats() as $date => $levels) {
+            static::assertDate($date);
 
             foreach ($levels as $level => $count) {
                 if ($level == 'all') {
-                    $this->assertEquals(8, $count);
-                    continue;
+                    static::assertEquals(8, $count);
                 }
-
-                $this->assertEquals(1, $count);
-                $this->assertInLogLevels($level);
+                else {
+                    static::assertEquals(1, $count);
+                    static::assertInLogLevels($level);
+                }
             }
         }
-    }
-
-    /** @test */
-    public function it_can_get_stats_table()
-    {
-        $table = $this->logViewer->statsTable();
-
-        $this->assertTable($table);
     }
 
     /** @test */
@@ -233,21 +228,21 @@ class LogViewerTest extends TestCase
     {
         $tree = $this->logViewer->tree();
 
-        $this->assertCount(2, $tree);
+        static::assertCount(2, $tree);
+
         foreach ($tree as $date => $counters) {
-            $this->assertDate($date);
+            static::assertDate($date);
 
             foreach ($counters as $level => $entry) {
                 if ($level === 'all') {
-                    $this->assertEquals($level, $entry['name']);
-                    $this->assertEquals(8, $entry['count']);
-
-                    continue;
+                    static::assertEquals($level, $entry['name']);
+                    static::assertEquals(8, $entry['count']);
                 }
-
-                $this->assertInLogLevels($level);
-                $this->assertEquals($level, $entry['name']);
-                $this->assertEquals(1, $entry['count']);
+                else {
+                    static::assertInLogLevels($level);
+                    static::assertEquals($level, $entry['name']);
+                    static::assertEquals(1, $entry['count']);
+                }
             }
         }
     }
@@ -257,23 +252,23 @@ class LogViewerTest extends TestCase
     {
         foreach (self::$locales as $locale) {
             $this->app->setLocale($locale);
-            $menu   = $this->logViewer->menu();
+            $menu = $this->logViewer->menu();
 
-            $this->assertCount(2, $menu);
+            static::assertCount(2, $menu);
+
             foreach ($menu as $date => $counters) {
-                $this->assertDate($date);
+                static::assertDate($date);
 
                 foreach ($counters as $level => $entry) {
                     if ($level === 'all') {
-                        $this->assertTranslatedLevel($locale, $level, $entry['name']);
-                        $this->assertEquals(8, $entry['count']);
-
-                        continue;
+                        static::assertTranslatedLevel($locale, $level, $entry['name']);
+                        static::assertEquals(8, $entry['count']);
                     }
-
-                    $this->assertInLogLevels($level);
-                    $this->assertTranslatedLevel($locale, $level, $entry['name']);
-                    $this->assertEquals(1, $entry['count']);
+                    else {
+                        static::assertInLogLevels($level);
+                        static::assertTranslatedLevel($locale, $level, $entry['name']);
+                        static::assertEquals(1, $entry['count']);
+                    }
                 }
             }
         }
@@ -282,34 +277,33 @@ class LogViewerTest extends TestCase
     /** @test */
     public function it_can_download_log_file()
     {
-        $date     = '2015-01-01';
+        $download = $this->logViewer->download($date = '2015-01-01');
         $ext      = 'log';
-        $download = $this->logViewer->download($date);
         $file     = $download->getFile();
 
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             \Symfony\Component\HttpFoundation\BinaryFileResponse::class,
             $download
         );
 
-        $this->assertFalse($download->isEmpty());
-        $this->assertFalse($download->isInvalid());
+        static::assertFalse($download->isEmpty());
+        static::assertFalse($download->isInvalid());
 
-        $this->assertEquals($ext, $file->getExtension());
-        $this->assertEquals("laravel-$date.$ext", $file->getBasename());
-        $this->assertGreaterThan(0, $file->getSize());
+        static::assertEquals($ext, $file->getExtension());
+        static::assertEquals("laravel-$date.$ext", $file->getBasename());
+        static::assertGreaterThan(0, $file->getSize());
     }
 
     /** @test */
     public function it_can_check_is_not_empty()
     {
-        $this->assertFalse($this->logViewer->isEmpty());
+        static::assertFalse($this->logViewer->isEmpty());
     }
 
     /** @test */
     public function it_can_get_version()
     {
-        $this->assertEquals(LogViewer::VERSION, $this->logViewer->version());
+        static::assertEquals(LogViewer::VERSION, $this->logViewer->version());
     }
 
     /** @test */
@@ -319,10 +313,10 @@ class LogViewerTest extends TestCase
 
         $dates = $this->logViewer->dates();
 
-        $this->assertCount(1, $dates);
-        $this->assertDates($dates);
+        static::assertCount(1, $dates);
+        static::assertDates($dates);
 
-        $this->assertEquals('2015-01-03', head($dates));
+        static::assertEquals('2015-01-03', head($dates));
     }
 
     /** @test */
@@ -332,35 +326,35 @@ class LogViewerTest extends TestCase
         $date      = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';
         $extension = '.log';
 
-        $this->assertEquals(
-            $prefix . $date . $extension,
+        static::assertSame(
+            $prefix.$date.$extension,
             $this->logViewer->getPattern()
         );
 
         $this->logViewer->setPattern($prefix, $date, $extension = '');
 
-        $this->assertEquals(
-            $prefix . $date . $extension,
+        static::assertSame(
+            $prefix.$date.$extension,
             $this->logViewer->getPattern()
         );
 
         $this->logViewer->setPattern($prefix = 'laravel-cli-', $date, $extension);
 
-        $this->assertEquals(
-            $prefix . $date . $extension,
+        static::assertSame(
+            $prefix.$date.$extension,
             $this->logViewer->getPattern()
         );
 
         $this->logViewer->setPattern($prefix, $date = '[0-9][0-9][0-9][0-9]', $extension);
 
-        $this->assertEquals(
-            $prefix . $date . $extension,
+        static::assertSame(
+            $prefix.$date.$extension,
             $this->logViewer->getPattern()
         );
 
         $this->logViewer->setPattern();
 
-        $this->assertEquals(
+        static::assertSame(
             'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
             $this->logViewer->getPattern()
         );
@@ -369,7 +363,7 @@ class LogViewerTest extends TestCase
             'laravel-', '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]', '.log'
         );
 
-        $this->assertEquals(
+        static::assertSame(
             'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
             $this->logViewer->getPattern()
         );
