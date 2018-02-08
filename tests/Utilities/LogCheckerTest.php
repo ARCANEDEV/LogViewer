@@ -82,7 +82,7 @@ class LogCheckerTest extends TestCase
     /** @test */
     public function it_must_fail_the_requirements_on_handler()
     {
-        config()->set('app.log', 'single');
+        config()->set('logging.default', 'stack');
 
         $requirements = $this->checker->requirements();
 
