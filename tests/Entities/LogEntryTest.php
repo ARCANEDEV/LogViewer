@@ -11,46 +11,49 @@ use Arcanedev\LogViewer\Tests\TestCase;
  */
 class LogEntryTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var LogEntry */
+
+    /** @var  \Arcanedev\LogViewer\Entities\LogEntry */
     private $entry;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
 
         $this->entry = $this->getRandomLogEntry('2015-01-01');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->entry);
 
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(LogEntry::class, $this->entry);
-        $this->assertLogEntry('2015-01-01', $this->entry);
+        static::assertInstanceOf(LogEntry::class, $this->entry);
+        static::assertLogEntry('2015-01-01', $this->entry);
     }
 
     /** @test */
     public function it_can_convert_to_json()
     {
-        $this->assertJsonObject($this->entry);
+        static::assertJsonObject($this->entry);
     }
 
     /** @test */
@@ -58,12 +61,12 @@ class LogEntryTest extends TestCase
     {
         $level = $this->entry->level;
 
-        $this->assertTrue($this->entry->isSameLevel($level));
+        static::assertTrue($this->entry->isSameLevel($level));
     }
 
     /** @test */
     public function it_can_get_stack()
     {
-        $this->assertNotSame($this->entry->stack, $this->entry->stack());
+        static::assertNotSame($this->entry->stack, $this->entry->stack());
     }
 }

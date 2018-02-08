@@ -11,45 +11,48 @@ use Arcanedev\LogViewer\Utilities\Filesystem;
  */
 class FilesystemTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var Filesystem */
+
+    /** @var  \Arcanedev\LogViewer\Utilities\Filesystem */
     private $filesystem;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
 
         $this->filesystem = $this->filesystem();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->filesystem);
 
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(Filesystem::class, $this->filesystem);
+        static::assertInstanceOf(Filesystem::class, $this->filesystem);
     }
 
     /** @test */
     public function it_can_get_filesystem_instance()
     {
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             \Illuminate\Filesystem\Filesystem::class,
             $this->filesystem->getInstance()
         );
@@ -58,9 +61,7 @@ class FilesystemTest extends TestCase
     /** @test */
     public function it_can_get_all_valid_log_files()
     {
-        $files = $this->filesystem->logs();
-
-        $this->assertCount(2, $files);
+        static::assertCount(2, $this->filesystem->logs());
     }
 
     /** @test */
@@ -70,42 +71,39 @@ class FilesystemTest extends TestCase
             ->setPrefixPattern('laravel-cli-')
             ->logs();
 
-        $this->assertCount(1, $files);
+        static::assertCount(1, $files);
     }
 
     /** @test */
     public function it_can_get_all_log_files()
     {
         $files = $this->filesystem->all();
-        $this->assertCount(5, $files);
+
+        static::assertCount(5, $files);
 
         foreach ($files as $file) {
-            $this->assertStringEndsWith('.log', $file);
+            static::assertStringEndsWith('.log', $file);
         }
     }
 
     /** @test */
     public function it_can_read_file()
     {
-        $date = '2015-01-01';
+        $file = $this->filesystem->read($date = '2015-01-01');
 
-        $file = $this->filesystem->read($date);
-
-        $this->assertNotEmpty($file);
-        $this->assertStringStartsWith('[' . $date, $file);
+        static::assertNotEmpty($file);
+        static::assertStringStartsWith('['.$date, $file);
     }
 
     /** @test */
     public function it_can_delete_file()
     {
-        $date = date('Y-m-d');
-
-        $this->createDummyLog($date);
+        $this->createDummyLog($date = date('Y-m-d'));
 
         // Assert log exists
         $file = $this->filesystem->read($date);
 
-        $this->assertNotEmpty($file);
+        static::assertNotEmpty($file);
 
         // Assert log deletion
         try {
@@ -117,7 +115,7 @@ class FilesystemTest extends TestCase
             $message = $e->getMessage();
         }
 
-        $this->assertTrue($deleted, $message);
+        static::assertTrue($deleted, $message);
     }
 
     /** @test */
@@ -125,9 +123,10 @@ class FilesystemTest extends TestCase
     {
         $files = $this->filesystem->logs();
 
-        $this->assertCount(2, $files);
+        static::assertCount(2, $files);
+
         foreach ($files as $file) {
-            $this->assertFileExists($file);
+            static::assertFileExists($file);
         }
     }
 
@@ -138,9 +137,10 @@ class FilesystemTest extends TestCase
 
         $files = $this->filesystem->logs();
 
-        $this->assertCount(1, $files);
+        static::assertCount(1, $files);
+
         foreach ($files as $file) {
-            $this->assertFileExists($file);
+            static::assertFileExists($file);
         }
     }
 
@@ -148,7 +148,7 @@ class FilesystemTest extends TestCase
     /** @test */
     public function it_can_get_file_path_by_date()
     {
-        $this->assertFileExists(
+        static::assertFileExists(
             $this->filesystem->path('2015-01-01')
         );
     }
@@ -156,19 +156,17 @@ class FilesystemTest extends TestCase
     /** @test */
     public function it_can_get_dates_from_log_files()
     {
-        $dates = $this->filesystem->dates();
-
-        $this->assertDates($dates);
+        static::assertDates(
+            $this->filesystem->dates()
+        );
     }
 
     /** @test */
     public function it_can_get_dates_with_paths_from_log_files()
     {
-        $dates = $this->filesystem->dates(true);
-
-        foreach ($dates as $date => $path) {
-            $this->assertDate($date);
-            $this->assertFileExists($path);
+        foreach ($this->filesystem->dates(true) as $date => $path) {
+            static::assertDate($date);
+            static::assertFileExists($path);
         }
     }
 
@@ -195,35 +193,35 @@ class FilesystemTest extends TestCase
     /** @test */
     public function it_can_set_and_get_pattern()
     {
-        $this->assertEquals(
+        static::assertSame(
             'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
             $this->filesystem->getPattern()
         );
 
         $this->filesystem->setExtension('');
 
-        $this->assertEquals(
+        static::assertSame(
             'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]',
             $this->filesystem->getPattern()
         );
 
         $this->filesystem->setPrefixPattern('laravel-cli-');
 
-        $this->assertEquals(
+        static::assertSame(
             'laravel-cli-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]',
             $this->filesystem->getPattern()
         );
 
         $this->filesystem->setDatePattern('[0-9][0-9][0-9][0-9]');
 
-        $this->assertEquals(
+        static::assertSame(
             'laravel-cli-[0-9][0-9][0-9][0-9]',
             $this->filesystem->getPattern()
         );
 
         $this->filesystem->setPattern();
 
-        $this->assertEquals(
+        static::assertSame(
             'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
             $this->filesystem->getPattern()
         );
@@ -232,7 +230,7 @@ class FilesystemTest extends TestCase
             'laravel-', '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]', '.log'
         );
 
-        $this->assertEquals(
+        static::assertSame(
             'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
             $this->filesystem->getPattern()
         );

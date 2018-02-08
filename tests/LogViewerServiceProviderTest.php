@@ -10,22 +10,24 @@ use Arcanedev\LogViewer\LogViewerServiceProvider;
  */
 class LogViewerServiceProviderTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var LogViewerServiceProvider */
+
+    /** @var  LogViewerServiceProvider */
     private $provider;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->provider = $this->app->getProvider(\Arcanedev\LogViewer\LogViewerServiceProvider::class);
+        $this->provider = $this->app->getProvider(LogViewerServiceProvider::class);
     }
 
     public function tearDown()
@@ -35,10 +37,11 @@ class LogViewerServiceProviderTest extends TestCase
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -46,7 +49,7 @@ class LogViewerServiceProviderTest extends TestCase
             \Illuminate\Support\ServiceProvider::class,
             \Arcanedev\Support\ServiceProvider::class,
             \Arcanedev\Support\PackageServiceProvider::class,
-            \Arcanedev\LogViewer\LogViewerServiceProvider::class,
+            LogViewerServiceProvider::class,
         ];
 
         foreach ($expectations as $expected) {
@@ -61,6 +64,6 @@ class LogViewerServiceProviderTest extends TestCase
             \Arcanedev\LogViewer\Contracts\LogViewer::class,
         ];
 
-        $this->assertEquals($expected, $this->provider->provides());
+        $this->assertSame($expected, $this->provider->provides());
     }
 }

@@ -10,15 +10,16 @@ use Arcanedev\LogViewer\Tests\TestCase;
  */
 class StatsCommandTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_display_stats()
     {
         $code = $this->artisan('log-viewer:stats');
 
-        $this->assertEquals(0, $code);
+        static::assertSame(0, $code);
     }
 }

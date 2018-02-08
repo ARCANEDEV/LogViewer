@@ -1,4 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Tests\Utilities;
+
 use Arcanedev\LogViewer\Tests\TestCase;
 use Arcanedev\LogViewer\Utilities\LogStyler;
 
@@ -10,35 +11,38 @@ use Arcanedev\LogViewer\Utilities\LogStyler;
  */
 class LogStylerTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var LogStyler */
+
+    /** @var  \Arcanedev\LogViewer\Utilities\LogStyler */
     private $styler;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
 
         $this->styler = $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\LogStyler::class);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->styler);
 
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_ben_instantiated()
     {
@@ -59,11 +63,9 @@ class LogStylerTest extends TestCase
     /** @test */
     public function it_can_get_default_when_icon_not_found()
     {
-        $default = 'fa fa-fw fa-danger';
-        $icon    = $this->styler->icon('danger', $default);
+        $icon = $this->styler->icon('danger', $default = 'fa fa-fw fa-danger');
 
-        $this->assertRegExp('/^<i class="fa fa-fw fa-(.*)"><\/i>$/', $icon);
-        $this->assertEquals('<i class="' . $default . '"></i>', $icon);
+        $this->assertSame('<i class="'.$default.'"></i>', $icon);
     }
 
     /** @test */
@@ -77,10 +79,10 @@ class LogStylerTest extends TestCase
     /** @test */
     public function it_can_get_default_when_color_not_found()
     {
-        $default = '#BADA55'; // Bad ass color
-        $color   = $this->styler->color('danger', $default);
+        $color = $this->styler->color('danger', $default = '#BADA55');
+
         $this->assertHexColor($color);
-        $this->assertEquals($default, $color);
+        $this->assertSame($default, $color);
     }
 
     /** @test */

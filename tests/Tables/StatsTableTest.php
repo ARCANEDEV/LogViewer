@@ -1,7 +1,8 @@
 <?php namespace Arcanedev\LogViewer\Tests\Tables;
 
-use Arcanedev\LogViewer\Tests\TestCase;
+use Arcanedev\LogViewer\Contracts\Table as TableContract;
 use Arcanedev\LogViewer\Tables\StatsTable;
+use Arcanedev\LogViewer\Tests\TestCase;
 
 /**
  * Class     StatsTableTest
@@ -11,41 +12,44 @@ use Arcanedev\LogViewer\Tables\StatsTable;
  */
 class StatsTableTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var StatsTable */
+
+    /** @var  \Arcanedev\LogViewer\Tables\StatsTable */
     private $table;
 
     /** @var array */
     private $rawData;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
 
-        $this->table   = new StatsTable(
+        $this->table = new StatsTable(
             $this->rawData = $this->getLogViewerInstance()->stats(),
             $this->getLogLevelsInstance()
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->table);
 
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -106,10 +110,100 @@ class StatsTableTest extends TestCase
         $this->assertJson($json);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /** @test */
+    public function it_can_get_stats_table_via_log_viewer()
+    {
+        /** @var  \Arcanedev\LogViewer\Contracts\LogViewer  $logViewer */
+        $logViewer = $this->app->make(\Arcanedev\LogViewer\Contracts\LogViewer::class);
+
+        static::assertTable($logViewer->statsTable());
+    }
+
+    /** @test */
+    public function it_can_get_stats_table_via_log_factory()
+    {
+        /** @var  \Arcanedev\LogViewer\Contracts\Utilities\Factory  $logFactory */
+        $logFactory = $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\Factory::class);
+
+        $this->assertTable($logFactory->statsTable());
+    }
+
+    /* -----------------------------------------------------------------
+     |  Custom Assertions
+     | -----------------------------------------------------------------
      */
+
+    /**
+     * Assert table instance.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\Table  $table
+     */
+    protected static function assertTable(TableContract $table)
+    {
+        self::assertTableHeader($table);
+        self::assertTableRows($table);
+        self::assertTableFooter($table);
+    }
+
+    /**
+     * Assert table header.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\Table  $table
+     */
+    protected static function assertTableHeader(TableContract $table)
+    {
+        $header = $table->header();
+
+        self::assertCount(10, $header);
+        // TODO: Add more assertions to check the content
+    }
+
+    /**
+     * Assert table rows.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\Table  $table
+     */
+    protected static function assertTableRows(TableContract $table)
+    {
+        foreach ($table->rows() as $date => $row) {
+            self::assertDate($date);
+            self::assertCount(10, $row);
+
+            foreach ($row as $key => $value) {
+                switch ($key) {
+                    case 'date':
+                        self::assertDate($value);
+                        break;
+
+                    case 'all':
+                        self::assertEquals(8, $value);
+                        break;
+
+                    default:
+                        self::assertEquals(1, $value);
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Assert table footer.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\Table  $table
+     */
+    protected static function assertTableFooter(TableContract $table)
+    {
+        foreach ($table->footer() as $key => $value) {
+            self::assertEquals($key === 'all' ? 16 : 2, $value);
+        }
+    }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
     /**
      * Get the LogViewer instance.
      *

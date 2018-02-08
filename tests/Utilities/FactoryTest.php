@@ -11,39 +11,42 @@ use Arcanedev\LogViewer\Utilities\Factory;
  */
 class FactoryTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var Factory */
+
+    /** @var  \Arcanedev\LogViewer\Contracts\Utilities\Factory */
     private $logFactory;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
 
         $this->logFactory = $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\Factory::class);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->logFactory);
 
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(Factory::class, $this->logFactory);
+        static::assertInstanceOf(Factory::class, $this->logFactory);
     }
 
     /** @test */
@@ -55,7 +58,7 @@ class FactoryTest extends TestCase
         ];
 
         foreach ($expectations as $expected) {
-            $this->assertInstanceOf($expected, $this->logFactory->getFilesystem());
+            static::assertInstanceOf($expected, $this->logFactory->getFilesystem());
         }
     }
 
@@ -68,18 +71,17 @@ class FactoryTest extends TestCase
         ];
 
         foreach ($expectations as $expected) {
-            $this->assertInstanceOf($expected, $this->logFactory->getLevels());
+            static::assertInstanceOf($expected, $this->logFactory->getLevels());
         }
     }
 
     /** @test */
     public function it_can_get_log_entries()
     {
-        $date       = '2015-01-01';
-        $logEntries = $this->logFactory->entries($date);
+        $logEntries = $this->logFactory->entries($date = '2015-01-01');
 
         foreach ($logEntries as $logEntry) {
-            $this->assertLogEntry($date, $logEntry);
+            static::assertLogEntry($date, $logEntry);
         }
     }
 
@@ -88,8 +90,8 @@ class FactoryTest extends TestCase
     {
         $dates = $this->logFactory->dates();
 
-        $this->assertCount(2, $dates);
-        $this->assertDates($dates);
+        static::assertCount(2, $dates);
+        static::assertDates($dates);
     }
 
     /** @test */
@@ -97,8 +99,9 @@ class FactoryTest extends TestCase
     {
         $logs = $this->logFactory->all();
 
-        $this->assertInstanceOf(\Arcanedev\LogViewer\Entities\LogCollection::class, $logs);
-        $this->assertCount(2, $logs);
+        static::assertInstanceOf(\Arcanedev\LogViewer\Entities\LogCollection::class, $logs);
+        static::assertCount(2, $logs);
+        static::assertSame(2, $logs->count());
     }
 
     /** @test */
@@ -106,17 +109,17 @@ class FactoryTest extends TestCase
     {
         $logs = $this->logFactory->paginate();
 
-        $this->assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $logs);
-        $this->assertEquals(30, $logs->perPage());
-        $this->assertEquals(2,  $logs->total());
-        $this->assertEquals(1,  $logs->lastPage());
-        $this->assertEquals(1,  $logs->currentPage());
+        static::assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $logs);
+        static::assertSame(30, $logs->perPage());
+        static::assertSame(2,  $logs->total());
+        static::assertSame(1,  $logs->lastPage());
+        static::assertSame(1,  $logs->currentPage());
     }
 
     /** @test */
     public function it_can_get_count()
     {
-        $this->assertEquals(2, $this->logFactory->count());
+        static::assertSame(2, $this->logFactory->count());
     }
 
     /** @test */
@@ -124,27 +127,26 @@ class FactoryTest extends TestCase
     {
         $this->logFactory->setPath(storage_path('custom-path-logs'));
 
-        $this->assertEquals(1, $this->logFactory->count());
+        static::assertSame(1, $this->logFactory->count());
 
-        $date       = '2015-01-03';
-        $logEntries = $this->logFactory->entries($date);
+        $logEntries = $this->logFactory->entries($date = '2015-01-03');
 
         foreach ($logEntries as $logEntry) {
-            $this->assertLogEntry($date, $logEntry);
+            static::assertLogEntry($date, $logEntry);
         }
     }
 
     /** @test */
     public function it_can_get_total()
     {
-        $this->assertEquals(16, $this->logFactory->total());
+        static::assertSame(16, $this->logFactory->total());
     }
 
     /** @test */
     public function it_can_get_total_by_level()
     {
         foreach (self::$logLevels as $level) {
-            $this->assertEquals(2, $this->logFactory->total($level));
+            static::assertSame(2, $this->logFactory->total($level));
         }
     }
 
@@ -154,7 +156,7 @@ class FactoryTest extends TestCase
         $tree = $this->logFactory->tree();
 
         foreach ($tree as $date => $levels) {
-            $this->assertDate($date);
+            static::assertDate($date);
 
             // TODO: Complete the assertions
         }
@@ -190,7 +192,7 @@ class FactoryTest extends TestCase
             ]
         ];
 
-        $this->assertSame($expected, $tree = $this->logFactory->tree(true));
+        static::assertSame($expected, $tree = $this->logFactory->tree(true));
     }
 
     /** @test */
@@ -199,7 +201,7 @@ class FactoryTest extends TestCase
         $menu = $this->logFactory->menu();
 
         foreach ($menu as $date => $item) {
-            $this->assertDate($date);
+            static::assertDate($date);
 
             // TODO: Complete the assertions
         }
@@ -211,22 +213,16 @@ class FactoryTest extends TestCase
         $menu = $this->logFactory->menu(false);
 
         foreach ($menu as $date => $item) {
-            $this->assertDate($date);
+            static::assertDate($date);
 
             // TODO: Complete the assertions
         }
     }
 
     /** @test */
-    public function it_can_get_stats_table()
-    {
-        $this->assertTable($this->logFactory->statsTable());
-    }
-
-    /** @test */
     public function it_can_check_is_not_empty()
     {
-        $this->assertFalse($this->logFactory->isEmpty());
+        static::assertFalse($this->logFactory->isEmpty());
     }
 
     /**
@@ -246,35 +242,35 @@ class FactoryTest extends TestCase
         $date      = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';
         $extension = '.log';
 
-        $this->assertEquals(
-            $prefix . $date . $extension,
+        static::assertSame(
+            $prefix.$date.$extension,
             $this->logFactory->getPattern()
         );
 
         $this->logFactory->setPattern($prefix, $date, $extension = '');
 
-        $this->assertEquals(
-            $prefix . $date . $extension,
+        static::assertSame(
+            $prefix.$date.$extension,
             $this->logFactory->getPattern()
         );
 
         $this->logFactory->setPattern($prefix = 'laravel-cli-', $date, $extension);
 
-        $this->assertEquals(
-            $prefix . $date . $extension,
+        static::assertSame(
+            $prefix.$date.$extension,
             $this->logFactory->getPattern()
         );
 
         $this->logFactory->setPattern($prefix, $date = '[0-9][0-9][0-9][0-9]', $extension);
 
-        $this->assertEquals(
-            $prefix . $date . $extension,
+        static::assertSame(
+            $prefix.$date.$extension,
             $this->logFactory->getPattern()
         );
 
         $this->logFactory->setPattern();
 
-        $this->assertEquals(
+        static::assertSame(
             'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
             $this->logFactory->getPattern()
         );
@@ -283,7 +279,7 @@ class FactoryTest extends TestCase
             'laravel-', '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]', '.log'
         );
 
-        $this->assertEquals(
+        static::assertSame(
             'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',
             $this->logFactory->getPattern()
         );
