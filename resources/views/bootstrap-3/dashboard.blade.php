@@ -1,4 +1,4 @@
-@extends('log-viewer::_template.master')
+@extends('log-viewer::bootstrap-3._master')
 
 @section('content')
     <h1 class="page-header">Dashboard</h1>
