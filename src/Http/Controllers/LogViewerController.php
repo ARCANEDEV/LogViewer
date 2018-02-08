@@ -132,7 +132,7 @@ class LogViewerController extends Controller
      * @param  string                    $level
      * @param  \Illuminate\Http\Request  $request
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function search($date, $level = 'all', Request $request) {
         $log = $this->getLogOrFail($date);
@@ -197,7 +197,7 @@ class LogViewerController extends Controller
     {
         $theme = config('log-viewer.theme');
 
-        return view("log-viewer::{$theme}.{$view}", $data, $mergeData);
+        return view()->make("log-viewer::{$theme}.{$view}", $data, $mergeData);
     }
 
     /**
