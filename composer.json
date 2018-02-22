@@ -2,6 +2,7 @@
     "name":        "arcanedev/log-viewer",
     "description": "Provides a Log Viewer for Laravel 5",
     "keywords":    ["arcanedev", "arcanesoft", "laravel", "log", "log viewer", "log-viewer", "logviewer"],
+    "type":        "laravel-package",
     "homepage":    "https://github.com/ARCANEDEV/LogViewer",
     "authors": [
         {
