@@ -209,14 +209,14 @@ class LogViewerController extends Controller
     {
         $data = collect($data);
         $page = $request->get('page', 1);
-        $url  = $request->url();
+        $path = $request->url();
 
         return new LengthAwarePaginator(
             $data->forPage($page, $this->perPage),
             $data->count(),
             $this->perPage,
             $page,
-            compact('url')
+            compact('path')
         );
     }
 
