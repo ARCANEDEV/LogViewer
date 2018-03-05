@@ -6,18 +6,17 @@ php:
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
   - nightly
 
 matrix:
   allow_failures:
+    - php: 7.2
     - php: nightly
-
-env:
-  - TESTBENCH_VERSION=3.4.*
 
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer require --prefer-source --no-interaction --dev "orchestra/testbench-browser-kit:${TESTBENCH_VERSION}"
+  - travis_retry composer install --prefer-source --no-interaction
 
 script:
   - composer validate
@@ -25,5 +24,5 @@ script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
-  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "7.2" ] && [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "7.2" ] && [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
