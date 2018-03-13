@@ -1,7 +1,7 @@
 /build/
 /vendor/
-composer.phar
-composer.lock
-phpunit.xml
+/composer.phar
+/composer.lock
+/phpunit.xml
 .DS_Store
 Thumbs.db
