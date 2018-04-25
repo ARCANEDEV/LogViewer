@@ -379,14 +379,15 @@ abstract class TestCase extends BaseTestCase
      * Create dummy log.
      *
      * @param  string  $date
+     * @param  string  $path
      *
      * @return bool
      */
-    protected function createDummyLog($date)
+    protected function createDummyLog($date, $path = 'logs')
     {
         return copy(
             storage_path('dummy.log'),                // Source
-            storage_path("/logs/laravel-{$date}.log") // Destination
+            storage_path("{$path}/laravel-{$date}.log") // Destination
         );
     }
 

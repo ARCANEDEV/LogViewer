@@ -115,7 +115,7 @@ class Factory implements FactoryContract
 
         return $this;
     }
-
+    
     /**
      * Get the log pattern.
      *
