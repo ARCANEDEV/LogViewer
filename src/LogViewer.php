@@ -113,7 +113,7 @@ class LogViewer implements LogViewerContract
 
         return $this;
     }
-
+    
     /**
      * Get the log pattern.
      *

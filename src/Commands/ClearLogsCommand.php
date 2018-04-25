@@ -1,7 +1,8 @@
 <?php namespace Arcanedev\LogViewer\Commands;
 
+use File;
 use Arcanedev\LogViewer\Contracts\LogViewer;
-use Illuminate\FileSystem;
+
 /**
  * Class     ClearLogsCommand
  *
@@ -36,13 +37,6 @@ class ClearLogsCommand extends Command
      */
     protected $signature = 'log-viewer:clear';
 
-    protected $logviewer;
-
-    public function __construct(Logviewer $logviewer)
-    {
-        $this->logviewer = $logviewer;
-        parent::__construct($logviewer);
-    }
 
     /* -----------------------------------------------------------------
      |  Main Methods
@@ -54,8 +48,8 @@ class ClearLogsCommand extends Command
      */
     public function handle()
     {
-        
-        dd(config('log-viewer.storage-path'));
+        File::cleanDirectory(config('log-viewer.storage-path'));
+        $this->info('Successfully Cleared');
     }
 
 }
