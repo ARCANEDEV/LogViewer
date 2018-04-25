@@ -37,7 +37,6 @@ class ClearLogsCommand extends Command
      */
     protected $signature = 'log-viewer:clear';
 
-
     /* -----------------------------------------------------------------
      |  Main Methods
      | -----------------------------------------------------------------
@@ -48,8 +47,15 @@ class ClearLogsCommand extends Command
      */
     public function handle()
     {
-        File::cleanDirectory(config('log-viewer.storage-path'));
-        $this->info('Successfully Cleared');
+        if ($this->confirm('This will delete all the log files, Do you wish to continue? [yes|no]'))
+        {
+            File::cleanDirectory(config('log-viewer.storage-path'));
+            $this->info('Successfully Cleared The Logs');
+        }
+        else
+        {
+            $this->info('Operation Cancelled');
+        }
     }
 
 }

@@ -1,7 +1,9 @@
 <?php namespace Arcanedev\LogViewer\Tests\Commands;
 
+use Mockery;
 use Arcanedev\LogViewer\Tests\TestCase;
 use Arcanedev\LogViewer\Contracts\LogViewer;
+use Arcanedev\LogViewer\Commands\ClearLogsCommand;
 
 /**
  * Class     ClearLogsCommandTest
@@ -35,6 +37,8 @@ class ClearLogsCommandTest extends TestCase
         config(['log-viewer.storage-path' => storage_path('logs')]);
 
         parent::tearDown();
+
+        Mockery::close();
     }
     
     /* -----------------------------------------------------------------
@@ -51,7 +55,15 @@ class ClearLogsCommandTest extends TestCase
         $this->createDummyLog(date('Y-m-d'), 'custom-logs');
 
         static::assertEquals(1, $this->logViewer->count());
+
+        $command = Mockery::mock('Arcanedev\LogViewer\Commands\ClearLogsCommand[confirm]', [$this->logViewer]);
+        $command->shouldReceive('confirm')
+              ->once()
+              ->with('This will delete all the log files, Do you wish to continue? [yes|no]')
+              ->andReturn('yes');
         
+        app('Illuminate\Contracts\Console\Kernel')->registerCommand($command);
+
         static::assertSame(0, $this->artisan('log-viewer:clear'));
 
         static::assertEquals(0, $this->logViewer->count());
