@@ -272,7 +272,7 @@ class LogChecker implements LogCheckerContract
         if ($this->isSingleLogFile($file)) {
             $this->status                   = $status  = false;
             $this->messages['files'][$file] = $message =
-                "You have a single log file in your application, you should split the [$file] into seperate log files.";
+                "You have a single log file in your application, you should split the [$file] into separate log files.";
         }
         elseif ($this->isInvalidLogDate($file)) {
             $this->status                   = $status  = false;
