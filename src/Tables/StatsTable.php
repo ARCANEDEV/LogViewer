@@ -103,10 +103,8 @@ class StatsTable extends AbstractTable
      *
      * @return \Illuminate\Support\Collection
      */
-    public function totals($locale = null)
+    public function totals()
     {
-        $this->setLocale($locale);
-
         $totals = Collection::make();
 
         foreach (Arr::except($this->footer(), 'all') as $level => $count) {

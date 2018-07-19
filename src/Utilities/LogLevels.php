@@ -162,8 +162,6 @@ class LogLevels implements LogLevelsContract
      */
     public function get($key, $locale = null)
     {
-        $this->setLocale($locale);
-
-        return $this->translator->get("log-viewer::levels.$key", [], $this->getLocale());
+        return $this->translator->get("log-viewer::levels.$key", [], $locale ?: $this->getLocale());
     }
 }
