@@ -94,12 +94,8 @@ class LogLevelsTest extends TestCase
             );
 
             $this->assertTranslatedLevels(
-                $this->app->getLocale(),
-                $this->levels->names('auto')
-            );
-
-            $this->assertTranslatedLevels(
-                $locale, $this->levels->names($locale)
+                $locale,
+                $this->levels->names($locale)
             );
         }
     }
