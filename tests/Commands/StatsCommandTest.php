@@ -18,8 +18,7 @@ class StatsCommandTest extends TestCase
     /** @test */
     public function it_can_display_stats()
     {
-        $code = $this->artisan('log-viewer:stats');
-
-        static::assertSame(0, $code);
+        $this->artisan('log-viewer:stats')
+             ->assertExitCode(0);
     }
 }

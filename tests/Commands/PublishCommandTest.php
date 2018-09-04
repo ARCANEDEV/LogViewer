@@ -38,9 +38,9 @@ class PublishCommandTest extends TestCase
     /** @test */
     public function it_can_publish_all()
     {
-        $code = $this->artisan('log-viewer:publish');
+        $this->artisan('log-viewer:publish')
+             ->assertExitCode(0);
 
-        static::assertSame(0, $code);
         static::assertHasConfigFile();
         static::assertHasLocalizationFiles();
         // TODO: Add views assertions
@@ -49,11 +49,9 @@ class PublishCommandTest extends TestCase
     /** @test */
     public function it_can_publish_all_with_force()
     {
-        $code = $this->artisan('log-viewer:publish', [
-            '--force'   => true
-        ]);
+        $this->artisan('log-viewer:publish', ['--force'   => true])
+             ->assertExitCode(0);
 
-        static::assertEquals(0, $code);
         static::assertHasConfigFile();
         static::assertHasLocalizationFiles();
         // TODO: Add views assertions
@@ -62,11 +60,9 @@ class PublishCommandTest extends TestCase
     /** @test */
     public function it_can_publish_only_config()
     {
-        $code = $this->artisan('log-viewer:publish', [
-            '--tag' => 'config'
-        ]);
+        $this->artisan('log-viewer:publish', ['--tag' => 'config'])
+             ->assertExitCode(0);
 
-        static::assertSame(0, $code);
         static::assertHasConfigFile();
         static::assertHasNotLocalizationFiles();
         // TODO: Add views assertions
@@ -75,11 +71,9 @@ class PublishCommandTest extends TestCase
     /** @test */
     public function it_can_publish_only_translations()
     {
-        $code = $this->artisan('log-viewer:publish', [
-            '--tag' => 'lang'
-        ]);
+        $this->artisan('log-viewer:publish', ['--tag' => 'lang'])
+             ->assertExitCode(0);
 
-        static::assertSame(0, $code);
         static::assertHasNotConfigFile();
         static::assertHasLocalizationFiles();
         // TODO: Add views assertions

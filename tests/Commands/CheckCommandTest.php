@@ -18,8 +18,7 @@ class CheckCommandTest extends TestCase
     /** @test */
     public function it_can_check()
     {
-        $code = $this->artisan('log-viewer:check');
-
-        static::assertSame(0, $code);
+        $this->artisan('log-viewer:check')
+             ->assertExitCode(0);
     }
 }
