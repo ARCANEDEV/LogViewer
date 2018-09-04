@@ -9,7 +9,6 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="true"
          verbose="true">
     <testsuites>
         <testsuite name="Package Test Suite">
@@ -27,6 +26,6 @@
     <logging>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
         <log type="coverage-text" target="build/logs/coverage.txt"/>
-        <log type="coverage-html" target="build/logs/coverage" charset="UTF-8" yui="true" highlight="true"/>
+        <log type="coverage-html" target="build/logs/coverage"/>
     </logging>
 </phpunit>
