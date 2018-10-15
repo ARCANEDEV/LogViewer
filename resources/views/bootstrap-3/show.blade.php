@@ -97,7 +97,7 @@
             <div class="panel panel-default">
                 @if ($entries->hasPages())
                     <div class="panel-heading">
-                        {!! $entries->appends(compact('query'))->render() !!}
+                        {!! $entries->appends(compact(request('query')))->render() !!}
 
                         <span class="label label-info pull-right">
                             Page {!! $entries->currentPage() !!} of {!! $entries->lastPage() !!}
