@@ -85,7 +85,7 @@ class LogViewerController extends Controller
         $headers = $stats->header();
         $rows    = $this->paginate($stats->rows(), $request);
 
-        return $this->view('logs', compact('headers', 'rows', 'footer'));
+        return $this->view('logs', compact('headers', 'rows'));
     }
 
     /**
@@ -101,7 +101,7 @@ class LogViewerController extends Controller
         $levels  = $this->logViewer->levelsNames();
         $entries = $log->entries($level = 'all')->paginate($this->perPage);
 
-        return $this->view('show', compact('log', 'levels', 'level', 'search', 'entries'));
+        return $this->view('show', compact('log', 'levels', 'level', 'entries'));
     }
 
     /**
@@ -122,7 +122,7 @@ class LogViewerController extends Controller
         $levels  = $this->logViewer->levelsNames();
         $entries = $this->logViewer->entries($date, $level)->paginate($this->perPage);
 
-        return $this->view('show', compact('log', 'levels', 'level', 'search', 'entries'));
+        return $this->view('show', compact('log', 'levels', 'level', 'entries'));
     }
 
     /**
