@@ -10,16 +10,19 @@ use Arcanedev\LogViewer\Tests\TestCase;
  */
 class PublishCommandTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
+
+        //
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->deleteConfig();
         $this->deleteLocalizations();
@@ -27,62 +30,67 @@ class PublishCommandTest extends TestCase
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_publish_all()
     {
-        $this->artisan('log-viewer:publish');
-        $this->assertHasConfigFile();
-        $this->assertHasLocalizationFiles();
+        $this->artisan('log-viewer:publish')
+             ->assertExitCode(0);
+
+        static::assertHasConfigFile();
+        static::assertHasLocalizationFiles();
+        // TODO: Add views assertions
     }
 
     /** @test */
     public function it_can_publish_all_with_force()
     {
-        $this->artisan('log-viewer:publish', [
-            '--force'   => true
-        ]);
+        $this->artisan('log-viewer:publish', ['--force'   => true])
+             ->assertExitCode(0);
 
-        $this->assertHasConfigFile();
-        $this->assertHasLocalizationFiles();
+        static::assertHasConfigFile();
+        static::assertHasLocalizationFiles();
+        // TODO: Add views assertions
     }
 
     /** @test */
     public function it_can_publish_only_config()
     {
-        $this->artisan('log-viewer:publish', [
-            '--tag' => 'config'
-        ]);
+        $this->artisan('log-viewer:publish', ['--tag' => 'config'])
+             ->assertExitCode(0);
 
-        $this->assertHasConfigFile();
-        $this->assertHasNotLocalizationFiles();
+        static::assertHasConfigFile();
+        static::assertHasNotLocalizationFiles();
+        // TODO: Add views assertions
     }
 
     /** @test */
     public function it_can_publish_only_translations()
     {
-        $this->artisan('log-viewer:publish', [
-            '--tag' => 'translations'
-        ]);
+        $this->artisan('log-viewer:publish', ['--tag' => 'lang'])
+             ->assertExitCode(0);
 
-        $this->assertHasNotConfigFile();
-        $this->assertHasLocalizationFiles();
+        static::assertHasNotConfigFile();
+        static::assertHasLocalizationFiles();
+        // TODO: Add views assertions
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Assertion Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Custom Assertions
+     | -----------------------------------------------------------------
      */
+
     /**
      * Assert config file publishes
      */
     protected function assertHasConfigFile()
     {
-        $this->assertFileExists($this->getConfigFilePath());
-        $this->assertTrue($this->isConfigExists());
+        static::assertFileExists($this->getConfigFilePath());
+        static::assertTrue($this->isConfigExists());
     }
 
     /**
@@ -90,8 +98,8 @@ class PublishCommandTest extends TestCase
      */
     protected function assertHasNotConfigFile()
     {
-        $this->assertFileNotExists($this->getConfigFilePath());
-        $this->assertFalse($this->isConfigExists());
+        static::assertFileNotExists($this->getConfigFilePath());
+        static::assertFalse($this->isConfigExists());
     }
 
     /**
@@ -103,9 +111,13 @@ class PublishCommandTest extends TestCase
         $directories = $this->illuminateFile()->directories($path);
         $locales     = array_map('basename', $directories);
 
-        $this->assertEquals(self::$locales, $locales);
+        static::assertEmpty(
+            $missing = array_diff($locales, self::$locales),
+            'The locales ['.implode(', ', $missing).'] are missing in the Arcanedev\\LogViewer\\Tests\\TestCase::$locales (line 29) for tests purposes.'
+        );
+
         foreach ($directories as $directory) {
-            $this->assertFileExists($directory . '/levels.php');
+            static::assertFileExists($directory . '/levels.php');
         }
     }
 
@@ -114,13 +126,14 @@ class PublishCommandTest extends TestCase
      */
     protected function assertHasNotLocalizationFiles()
     {
-        $this->assertFalse($this->getLocalizationFolder());
+        static::assertFalse($this->getLocalizationFolder());
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     private function deleteConfig()
     {
         $config = $this->getConfigFilePath();
@@ -149,7 +162,7 @@ class PublishCommandTest extends TestCase
      */
     private function getConfigFilePath()
     {
-        return $this->getConfigPath() . '/log-viewer.php';
+        return $this->getConfigPath().'/log-viewer.php';
     }
 
     /**
@@ -159,7 +172,7 @@ class PublishCommandTest extends TestCase
      */
     private function getLocalizationFolder()
     {
-        return realpath(base_path() . '/resources/lang/arcanedev/log-viewer');
+        return realpath(base_path().'/resources/lang/vendor/log-viewer');
     }
 
     /**

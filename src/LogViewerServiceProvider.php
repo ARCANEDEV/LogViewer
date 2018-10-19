@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\LogViewer;
 
-use Arcanedev\Support\Laravel\PackageServiceProvider;
+use Arcanedev\Support\PackageServiceProvider;
 
 /**
  * Class     LogViewerServiceProvider
@@ -10,10 +10,11 @@ use Arcanedev\Support\Laravel\PackageServiceProvider;
  */
 class LogViewerServiceProvider extends PackageServiceProvider
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Package name.
      *
@@ -21,34 +22,28 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     protected $package = 'log-viewer';
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    /**
-     * Get the base path.
-     *
-     * @return string
-     */
-    public function getBasePath()
-    {
-        return __DIR__ . '/..';
-    }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
     /**
      * Register the service provider.
      */
     public function register()
     {
+        parent::register();
+
         $this->registerConfig();
 
-        $this->app->register(Providers\UtilitiesServiceProvider::class);
         $this->registerLogViewer();
-        $this->app->register(Providers\CommandsServiceProvider::class);
+        $this->registerAliases();
+
+        $this->registerProviders([
+            Providers\UtilitiesServiceProvider::class,
+            Providers\RouteServiceProvider::class,
+        ]);
+        $this->registerConsoleServiceProvider(Providers\CommandsServiceProvider::class);
     }
 
     /**
@@ -56,10 +51,11 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     public function boot()
     {
+        parent::boot();
+
         $this->publishConfig();
-        $this->registerViews();
-        $this->registerTranslations();
-        $this->app->register(Providers\RouteServiceProvider::class);
+        $this->publishViews();
+        $this->publishTranslations();
     }
 
     /**
@@ -70,91 +66,25 @@ class LogViewerServiceProvider extends PackageServiceProvider
     public function provides()
     {
         return [
-            'arcanedev.log-viewer'
+            Contracts\LogViewer::class,
         ];
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Resources
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
-    /**
-     * Get config file path.
-     *
-     * @return string
-     */
-    protected function getConfigFile()
-    {
-        return realpath($this->getBasePath() . "/config/{$this->package}.php");
-    }
 
-    /**
-     * Register configs.
-     */
-    protected function registerConfig()
-    {
-        $this->mergeConfigFrom($this->getConfigFile(), $this->package);
-    }
-
-    /**
-     * Publishes configs.
-     */
-    private function publishConfig()
-    {
-        $this->publishes([
-            $this->getConfigFile() => config_path("{$this->package}.php")
-        ], 'config');
-    }
-
-    /**
-     * Register and publishes Translations.
-     */
-    private function registerTranslations()
-    {
-        $langPath = $this->getBasePath() . '/resources/lang';
-
-        $this->loadTranslationsFrom($langPath, $this->package);
-        $this->publishes([
-            $langPath => base_path("resources/lang/arcanedev/{$this->package}"),
-        ], 'translations');
-    }
-
-    /**
-     * Register and published Views.
-     */
-    private function registerViews()
-    {
-        $viewsPath = $this->getBasePath() . '/resources/views';
-
-        $this->loadViewsFrom($viewsPath, $this->package);
-        $this->publishes([
-            $viewsPath => base_path("resources/views/arcanedev/{$this->package}"),
-        ], 'views');
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Services
-     | ------------------------------------------------------------------------------------------------
-     */
     /**
      * Register the log data class.
      */
     private function registerLogViewer()
     {
-        $this->app->singleton('arcanedev.log-viewer', function ($app) {
-            /**
-             * @var  Contracts\FactoryInterface     $factory
-             * @var  Contracts\FilesystemInterface  $filesystem
-             * @var  Contracts\LogLevelsInterface   $levels
-             */
-            $factory    = $app['arcanedev.log-viewer.factory'];
-            $filesystem = $app['arcanedev.log-viewer.filesystem'];
-            $levels     = $app['arcanedev.log-viewer.levels'];
-
-            return new LogViewer($factory, $filesystem, $levels);
-        });
+        $this->singleton(Contracts\LogViewer::class, LogViewer::class);
 
         // Registering the Facade
-        $this->addFacade('LogViewer', Facades\LogViewer::class);
+        if ($facade = $this->config()->get('log-viewer.facade')) {
+            $this->alias($facade, Facades\LogViewer::class);
+        }
     }
 }

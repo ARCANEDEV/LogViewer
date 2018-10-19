@@ -1,9 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Providers;
 
-use Arcanedev\LogViewer\Commands\PublishCommand;
-use Arcanedev\LogViewer\Commands\StatsCommand;
-use Arcanedev\Support\Laravel\ServiceProvider;
-use Closure;
+use Arcanedev\LogViewer\Commands;
+use Arcanedev\Support\Providers\CommandServiceProvider as ServiceProvider;
 
 /**
  * Class     CommandsServiceProvider
@@ -13,90 +11,19 @@ use Closure;
  */
 class CommandsServiceProvider extends ServiceProvider
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var array */
-    private $commands = [];
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Boot the service provider.
-     */
-    public function boot()
-    {
-        $this->commands($this->commands);
-    }
 
     /**
-     * Register the service provider.
+     * The commands to be registered.
      *
-     * @return void
+     * @var array
      */
-    public function register()
-    {
-        $this->registerPublishCommand();
-        $this->registerStatsCommand();
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return $this->commands;
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Command registrations
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Register the publish command.
-     */
-    private function registerPublishCommand()
-    {
-        $this->registerCommand('publish', function ($app) {
-            $logViewer = $app['arcanedev.log-viewer'];
-
-            return new PublishCommand($logViewer);
-        });
-    }
-
-    /**
-     * Register the stats command.
-     */
-    public function registerStatsCommand()
-    {
-        $this->registerCommand('stats', function ($app) {
-            $logViewer = $app['arcanedev.log-viewer'];
-
-            return new StatsCommand($logViewer);
-        });
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Register a command.
-     *
-     * @param  string   $name
-     * @param  Closure  $callback
-     */
-    private function registerCommand($name, Closure $callback)
-    {
-        $command = "arcanedev.log-viewer.commands.$name";
-
-        $this->app->singleton($command, $callback);
-
-        $this->commands[] = $command;
-    }
+    protected $commands = [
+        Commands\PublishCommand::class,
+        Commands\StatsCommand::class,
+        Commands\CheckCommand::class,
+    ];
 }

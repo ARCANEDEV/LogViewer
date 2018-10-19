@@ -1,0 +1,41 @@
+[2015-01-03 00:00:00] test.EMERGENCY: This is an emergency log.
+Stack trace:
+#0 Trace 1
+#1 Trace 2
+#2 Trace 3
+#3 Trace 4
+#4 Trace 5
+[2015-01-03 00:00:01] test.ALERT: This is an alert log.
+Stack trace:
+#0 Trace 1
+#1 Trace 2
+#2 Trace 3
+#3 Trace 4
+#4 Trace 5
+[2015-01-03 00:00:02] test.CRITICAL: This is an critical log.
+Stack trace:
+#0 Trace 1
+#1 Trace 2
+#2 Trace 3
+#3 Trace 4
+#4 Trace 5
+[2015-01-03 00:00:03] test.ERROR: This is an error log.
+Stack trace:
+#0 Trace 1
+#1 Trace 2
+#2 Trace 3
+#3 Trace 4
+#4 Trace 5
+[2015-01-03 00:00:04] test.WARNING: This is an warning log.
+Stack trace:
+#0 Trace 1
+#1 Trace 2
+#2 Trace 3
+#3 Trace 4
+#4 Trace 5
+[2015-01-03 00:00:05] test.NOTICE: This is an notice log.
+Only a notice log
+[2015-01-03 00:00:06] test.INFO: This is an info log.
+Only a info log
+[2015-01-03 00:00:07] test.DEBUG: This is an debug log.
+Only a debug log

@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Facades;
 
+use Arcanedev\LogViewer\Contracts\Utilities\LogMenu as LogMenuContract;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -15,5 +16,5 @@ class LogMenu extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'arcanedev.log-viewer.menu'; }
+    protected static function getFacadeAccessor() { return LogMenuContract::class; }
 }

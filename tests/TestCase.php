@@ -1,15 +1,10 @@
 <?php namespace Arcanedev\LogViewer\Tests;
 
-use Arcanedev\LogViewer\Contracts\TableInterface;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
-use Arcanedev\LogViewer\LogViewerServiceProvider;
 use Carbon\Carbon;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Foundation\Application;
-use Illuminate\Routing\Router;
-use JsonSerializable;
+use Illuminate\Support\Arr;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Psr\Log\LogLevel;
 use ReflectionClass;
@@ -22,19 +17,25 @@ use ReflectionClass;
  */
 abstract class TestCase extends BaseTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @var array */
-    protected static $logLevels;
+    protected static $logLevels = [];
 
-    protected static $locales = ['ar', 'de', 'en', 'fr', 'nl'];
+    /** @var array */
+    protected static $locales   = [
+        'ar', 'bg', 'de', 'en', 'es', 'et', 'fa', 'fr', 'hu', 'hy', 'id', 'it', 'ja', 'ko', 'nl', 'pl',
+        'pt-BR', 'ro', 'ru', 'sv', 'th', 'tr', 'zh-TW', 'zh'
+    ];
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
@@ -49,139 +50,125 @@ abstract class TestCase extends BaseTestCase
         static::$logLevels = [];
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Bench Functions
-     | ------------------------------------------------------------------------------------------------
-     */
     /**
      * Get package providers.
      *
-     * @param  Application  $app
+     * @param  \Illuminate\Foundation\Application  $app
      *
      * @return array
      */
     protected function getPackageProviders($app)
     {
         return [
-            LogViewerServiceProvider::class
-        ];
-    }
-
-    /**
-     * Get package aliases.
-     *
-     * @param  Application  $app
-     *
-     * @return array
-     */
-    protected function getPackageAliases($app)
-    {
-        return [
-            // 'LogViewer' => \Arcanedev\LogViewer\Facades\LogViewer::class
+            \Arcanedev\LogViewer\LogViewerServiceProvider::class,
         ];
     }
 
     /**
      * Define environment setup.
      *
-     * @param  Application  $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['path.storage'] = __DIR__ . '/fixtures';
+        $app['path.storage'] = realpath(__DIR__.'/fixtures');
 
-        $this->registerRoutes($app['router']);
+        /** @var \Illuminate\Config\Repository $config */
+        $config = $app['config'];
+
+        $config->set('log-viewer.storage-path', $app['path.storage'].DS.'logs');
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Custom assertions
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Asserts that a string is a valid JSON string.
      *
-     * @param  Jsonable|mixed  $object
-     * @param  string          $message
+     * @param  \Illuminate\Contracts\Support\Jsonable|mixed  $object
+     * @param  string                                        $message
      */
     public static function assertJsonObject($object, $message = '')
     {
-        self::assertInstanceOf(Jsonable::class, $object);
+        self::assertInstanceOf(\Illuminate\Contracts\Support\Jsonable::class, $object);
         self::assertJson($object->toJson(JSON_PRETTY_PRINT), $message);
 
-        self::assertInstanceOf(JsonSerializable::class, $object);
+        self::assertInstanceOf('JsonSerializable', $object);
         self::assertJson(json_encode($object, JSON_PRETTY_PRINT), $message);
     }
 
     /**
-     * Assert Log object
+     * Assert Log object.
      *
-     * @param  Log     $log
-     * @param  string  $date
+     * @param  \Arcanedev\LogViewer\Entities\Log  $log
+     * @param  string                             $date
      */
-    protected function assertLog(Log $log, $date)
+    protected static function assertLog(Log $log, $date)
     {
-        $this->assertEquals($date, $log->date);
-        $this->assertLogEntries($log->date, $log->entries());
+        self::assertEquals($date, $log->date);
+        self::assertLogEntries($log->date, $log->entries());
     }
 
     /**
-     * Assert Log entries object
+     * Assert Log entries object.
      *
-     * @param  string              $date
-     * @param  LogEntryCollection  $entries
+     * @param  string                                            $date
+     * @param  \Arcanedev\LogViewer\Entities\LogEntryCollection  $entries
      */
-    protected function assertLogEntries($date, LogEntryCollection $entries)
+    protected static function assertLogEntries($date, LogEntryCollection $entries)
     {
         foreach ($entries as $entry) {
-            $this->assertLogEntry($date, $entry);
+            self::assertLogEntry($date, $entry);
         }
     }
 
     /**
-     * Assert log entry object
+     * Assert log entry object.
      *
-     * @param  string    $date
-     * @param  LogEntry  $entry
+     * @param  string                                  $date
+     * @param  \Arcanedev\LogViewer\Entities\LogEntry  $entry
      */
-    protected function assertLogEntry($date, LogEntry $entry)
+    protected static function assertLogEntry($date, LogEntry $entry)
     {
         $dt = Carbon::createFromFormat('Y-m-d', $date);
 
-        $this->assertInLogLevels($entry->level);
-        $this->assertInstanceOf(Carbon::class, $entry->datetime);
-        $this->assertTrue($entry->datetime->isSameDay($dt));
-        $this->assertNotEmpty($entry->header);
-        $this->assertNotEmpty($entry->stack);
+        self::assertInLogLevels($entry->level);
+        self::assertInstanceOf(Carbon::class, $entry->datetime);
+        self::assertTrue($entry->datetime->isSameDay($dt));
+        self::assertNotEmpty($entry->header);
+        self::assertNotEmpty($entry->stack);
     }
 
     /**
-     * Assert in log levels
+     * Assert in log levels.
      *
      * @param  string  $level
      * @param  string  $message
      */
-    protected function assertInLogLevels($level, $message = '')
+    protected static function assertInLogLevels($level, $message = '')
     {
-        $this->assertContains($level, self::$logLevels, $message);
+        self::assertContains($level, self::$logLevels, $message);
     }
 
     /**
-     * Assert levels
+     * Assert levels.
      *
      * @param  array  $levels
      */
-    protected function assertLevels(array $levels)
+    protected static function assertLevels(array $levels)
     {
-        $this->assertCount(8, $levels);
+        self::assertCount(8, $levels);
 
-        foreach ($this->getLogLevels() as $key => $value) {
-            $this->assertArrayHasKey($key, $levels);
-            $this->assertEquals($value, $levels[$key]);
+        foreach (static::getLogLevels() as $key => $value) {
+            self::assertArrayHasKey($key, $levels);
+            self::assertEquals($value, $levels[$key]);
         }
     }
 
     /**
-     * Assert translated level
+     * Assert translated level.
      *
      * @param  string  $locale
      * @param  array   $levels
@@ -189,199 +176,134 @@ abstract class TestCase extends BaseTestCase
     protected function assertTranslatedLevels($locale, $levels)
     {
         foreach ($levels as $level => $translatedLevel) {
-            $this->assertTranslatedLevel($locale, $level, $translatedLevel);
+            self::assertTranslatedLevel($locale, $level, $translatedLevel);
         }
     }
 
     /**
-     * Assert translated level
+     * Assert translated level.
      *
      * @param  string  $locale
      * @param  string  $level
      * @param  string  $actualTrans
      */
-    protected function assertTranslatedLevel($locale, $level, $actualTrans)
+    protected static function assertTranslatedLevel($locale, $level, $actualTrans)
     {
-        $expected = $this->getTranslatedLevel($locale, $level);
+        $expected = static::getTranslatedLevel($locale, $level);
 
-        $this->assertEquals($expected, $actualTrans);
+        self::assertEquals($expected, $actualTrans);
     }
 
     /**
-     * Assert dates
+     * Assert dates.
      *
      * @param  array   $dates
      * @param  string  $message
      */
-    public function assertDates(array $dates, $message = '')
+    public static function assertDates(array $dates, $message = '')
     {
         foreach ($dates as $date) {
-            $this->assertDate($date, $message);
+            self::assertDate($date, $message);
         }
     }
 
     /**
-     * Assert date [YYYY-MM-DD]
+     * Assert date [YYYY-MM-DD].
      *
      * @param  string  $date
      * @param  string  $message
      */
-    public function assertDate($date, $message = '')
+    public static function assertDate($date, $message = '')
     {
-        $this->assertRegExp('/' . REGEX_DATE_PATTERN . '/', $date, $message);
+        self::assertRegExp('/'.REGEX_DATE_PATTERN.'/', $date, $message);
     }
 
     /**
      * Assert Menu item.
      *
-     * @param  array      $item
-     * @param  string     $name
-     * @param  int        $count
-     * @param  bool|true  $withIcons
+     * @param  array   $item
+     * @param  string  $name
+     * @param  int     $count
+     * @param  bool    $withIcons
      */
-    protected function assertMenuItem($item, $name, $count, $withIcons = true)
+    protected static function assertMenuItem($item, $name, $count, $withIcons = true)
     {
-        $this->assertArrayHasKey('name', $item);
-        $this->assertEquals($name, $item['name']);
-        $this->assertArrayHasKey('count', $item);
-        $this->assertEquals($count, $item['count']);
+        self::assertArrayHasKey('name', $item);
+        self::assertEquals($name, $item['name']);
+        self::assertArrayHasKey('count', $item);
+        self::assertEquals($count, $item['count']);
 
         if ($withIcons) {
-            $this->assertArrayHasKey('icon', $item);
-            $this->assertStringStartsWith('fa fa-fw fa-', $item['icon']);
+            self::assertArrayHasKey('icon', $item);
+            self::assertStringStartsWith('fa fa-fw fa-', $item['icon']);
         }
         else {
-            $this->assertArrayNotHasKey('icon', $item);
+            self::assertArrayNotHasKey('icon', $item);
         }
     }
 
     /**
-     * Assert table instance.
-     *
-     * @param  TableInterface  $table
-     */
-    protected function assertTable(TableInterface $table)
-    {
-        $this->assertTableHeader($table);
-        $this->assertTableRows($table);
-        $this->assertTableFooter($table);
-    }
-
-    /**
-     * Assert table header.
-     *
-     * @param  TableInterface  $table
-     */
-    protected function assertTableHeader(TableInterface $table)
-    {
-        $header = $table->header();
-
-        $this->assertCount(10, $header);
-        // TODO: Add more assertions to check the content
-    }
-
-    /**
-     * Assert table rows.
-     *
-     * @param  TableInterface  $table
-     */
-    protected function assertTableRows(TableInterface $table)
-    {
-        foreach ($table->rows() as $date => $row) {
-            $this->assertDate($date);
-            $this->assertCount(10, $row);
-
-            foreach ($row as $key => $value) {
-                switch ($key) {
-                    case 'date':
-                        $this->assertDate($value);
-                        break;
-
-                    case 'all':
-                        $this->assertEquals(8, $value);
-                        break;
-
-                    default:
-                        $this->assertEquals(1, $value);
-                        break;
-                }
-            }
-        }
-    }
-
-    /**
-     * Assert table footer.
-     *
-     * @param  TableInterface  $table
-     */
-    protected function assertTableFooter(TableInterface $table)
-    {
-        foreach ($table->footer() as $key => $value) {
-            $this->assertEquals($key === 'all' ? 16 : 2, $value);
-        }
-    }
-
-    /**
-     * Assert HEX Color
+     * Assert HEX Color.
      *
      * @param  string  $color
      * @param  string  $message
      */
-    protected function assertHexColor($color, $message = '')
+    protected static function assertHexColor($color, $message = '')
     {
         $pattern = '/^#?([a-f0-9]{3}|[a-f0-9]{6})$/i';
 
-        $this->assertRegExp($pattern, $color, $message);
+        self::assertRegExp($pattern, $color, $message);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
-     * Get Illuminate Filesystem
+     * Get Illuminate Filesystem instance.
      *
      * @return \Illuminate\Filesystem\Filesystem
      */
     public function illuminateFile()
     {
-        return $this->app['files'];
+        return $this->app->make('files');
     }
 
     /**
-     * Get Filesystem utility
+     * Get Filesystem Utility instance.
      *
      * @return \Arcanedev\LogViewer\Utilities\Filesystem
      */
     protected function filesystem()
     {
-        return $this->app['arcanedev.log-viewer.filesystem'];
+        return $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\Filesystem::class);
     }
 
     /**
-     * Get translator repository
+     * Get Translator Repository.
      *
      * @return \Illuminate\Translation\Translator
      */
-    protected function trans()
+    protected static function trans()
     {
-        return $this->app['translator'];
+        return app('translator');
     }
 
     /**
-     * Get config repository
+     * Get Config Repository.
      *
      * @return \Illuminate\Config\Repository
      */
     protected function config()
     {
-        return $this->app['config'];
+        return $this->app->make('config');
     }
 
     /**
-     * Get log path
+     * Get log path.
      *
-     * @param  string $date
+     * @param  string  $date
      *
      * @return string
      */
@@ -391,13 +313,11 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get log content
+     * Get log content.
      *
      * @param  string  $date
      *
      * @return string
-     *
-     * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
     public function getLogContent($date)
     {
@@ -405,7 +325,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get logs dates
+     * Get logs dates.
      *
      * @return array
      */
@@ -415,11 +335,11 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get log object from fixture
+     * Get log object from fixture.
      *
      * @param  string  $date
      *
-     * @return Log
+     * @return \Arcanedev\LogViewer\Entities\Log
      */
     protected function getLog($date)
     {
@@ -440,7 +360,8 @@ abstract class TestCase extends BaseTestCase
     {
         return $this->getLog($date)
             ->entries()
-            ->random(1);
+            ->random(1)
+            ->first();
     }
 
     /**
@@ -450,9 +371,8 @@ abstract class TestCase extends BaseTestCase
      */
     protected static function getLogLevels()
     {
-        $class = new ReflectionClass(new LogLevel);
-
-        return self::$logLevels = $class->getConstants();
+        return self::$logLevels = (new ReflectionClass(LogLevel::class))
+            ->getConstants();
     }
 
     /**
@@ -478,12 +398,9 @@ abstract class TestCase extends BaseTestCase
      *
      * @return mixed
      */
-    private function getTranslatedLevel($locale, $key)
+    private static function getTranslatedLevel($locale, $key)
     {
-        return array_get(
-            $this->getTranslatedLevels(),
-            "$locale.$key"
-        );
+        return Arr::get(static::getTranslatedLevels(), "$locale.$key");
     }
 
     /**
@@ -491,12 +408,10 @@ abstract class TestCase extends BaseTestCase
      *
      * @return array
      */
-    protected function getTranslatedLevels()
+    protected static function getTranslatedLevels()
     {
-        $translator = $this->app['translator'];
-
-        return array_map(function ($locale) use ($translator) {
-            return $translator->get('log-viewer::levels', [], $locale);
+        return array_map(function ($locale) {
+            return static::trans()->get('log-viewer::levels', [], $locale);
         }, array_combine(self::$locales, self::$locales));
     }
 
@@ -508,57 +423,5 @@ abstract class TestCase extends BaseTestCase
     protected function getConfigPath()
     {
         return realpath(config_path());
-    }
-
-    /**
-     * Register all routes
-     *
-     * @param  Router  $router
-     */
-    private function registerRoutes(Router $router)
-    {
-        $router->group([
-            'as'        => 'log-viewer::',
-            'namespace' => 'Arcanedev\\LogViewer\\Http\\Controllers'
-        ], function(Router $router) {
-            $router->get('/', [
-                'as'    => 'dashboard',
-                'uses'  => 'LogViewerController@index',
-            ]);
-
-            $router->group([
-                'as'     => 'logs.',
-                'prefix' => 'logs',
-            ], function(Router $router) {
-                $router->get('/', [
-                    'as'    => 'list',
-                    'uses'  => 'LogViewerController@listLogs',
-                ]);
-
-                $router->delete('delete', [
-                    'as'    => 'delete',
-                    'uses'  => 'LogViewerController@delete',
-                ]);
-
-                $router->group([
-                    'prefix'    => '{date}',
-                ], function(Router $router) {
-                    $router->get('/', [
-                        'as'    => 'show',
-                        'uses'  => 'LogViewerController@show',
-                    ]);
-
-                    $router->get('download', [
-                        'as'    => 'download',
-                        'uses'  => 'LogViewerController@download',
-                    ]);
-
-                    $router->get('{level}', [
-                        'as'    => 'filter',
-                        'uses'  => 'LogViewerController@showByLevel',
-                    ]);
-                });
-            });
-        });
     }
 }

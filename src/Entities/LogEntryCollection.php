@@ -1,8 +1,8 @@
 <?php namespace Arcanedev\LogViewer\Entities;
 
-use Arcanedev\LogViewer\Utilities\LogParser;
-use Arcanedev\Support\Collection;
+use Arcanedev\LogViewer\Helpers\LogParser;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 /**
  * Class     LogEntryCollection
@@ -12,12 +12,13 @@ use Illuminate\Pagination\LengthAwarePaginator;
  */
 class LogEntryCollection extends Collection
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
-     * Load raw log entries
+     * Load raw log entries.
      *
      * @param  string  $raw
      *
@@ -39,25 +40,28 @@ class LogEntryCollection extends Collection
      *
      * @param  int  $perPage
      *
-     * @return LengthAwarePaginator
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function paginate($perPage = 20)
     {
-        $page      = request()->input('page', 1);
-        $items     = $this->slice(($page * $perPage) - $perPage, $perPage, true);
-        $paginator = new LengthAwarePaginator($items, $this->count(), $perPage, $page);
+        $page = request()->get('page', 1);
+        $path = request()->url();
 
-        $paginator->setPath(request()->url());
-
-        return $paginator;
+        return new LengthAwarePaginator(
+            $this->forPage($page, $perPage),
+            $this->count(),
+            $perPage,
+            $page,
+            compact('path')
+        );
     }
 
     /**
-     * Get filtered log entries by level
+     * Get filtered log entries by level.
      *
      * @param  string  $level
      *
-     * @return LogEntryCollection
+     * @return self
      */
     public function filterByLevel($level)
     {
@@ -75,11 +79,10 @@ class LogEntryCollection extends Collection
     {
         $counters = $this->initStats();
 
-        $this->groupBy('level')
-            ->each(function (LogEntryCollection $entries, $level) use (&$counters) {
-                $counters[$level] = $count = $entries->count();
-                $counters['all'] += $count;
-            });
+        foreach ($this->groupBy('level') as $level => $entries) {
+            $counters[$level] = $count = count($entries);
+            $counters['all'] += $count;
+        }
 
         return $counters;
     }
@@ -97,7 +100,7 @@ class LogEntryCollection extends Collection
 
         array_walk($tree, function(&$count, $level) use ($trans) {
             $count = [
-                'name'  => $trans ? trans("log-viewer::levels.$level") : $level,
+                'name'  => $trans ? log_levels()->get($level) : $level,
                 'count' => $count,
             ];
         });
@@ -105,10 +108,11 @@ class LogEntryCollection extends Collection
         return $tree;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Init stats counters.
      *

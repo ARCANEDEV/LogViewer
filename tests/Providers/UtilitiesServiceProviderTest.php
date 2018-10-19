@@ -2,6 +2,7 @@
 
 use Arcanedev\LogViewer\Providers\UtilitiesServiceProvider;
 use Arcanedev\LogViewer\Tests\TestCase;
+use Arcanedev\LogViewer\Contracts;
 
 /**
  * Class     UtilitiesServiceProviderTest
@@ -11,50 +12,65 @@ use Arcanedev\LogViewer\Tests\TestCase;
  */
 class UtilitiesServiceProviderTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var UtilitiesServiceProvider */
+
+    /** @var  \Arcanedev\LogViewer\Providers\UtilitiesServiceProvider */
     private $provider;
 
-    /** @var array */
-    private $utilities = [
-        'arcanedev.log-viewer.levels',
-        'arcanedev.log-viewer.styler',
-        'arcanedev.log-viewer.menu',
-        'arcanedev.log-viewer.filesystem',
-        'arcanedev.log-viewer.factory',
-    ];
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
 
         $this->provider = $this->app->getProvider(UtilitiesServiceProvider::class);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
-        parent::tearDown();
-
         unset($this->provider);
+
+        parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
-    /** @test */
-    public function it_can_get_provides_list()
-    {
-        $provided = $this->provider->provides();
 
-        $this->assertCount(count($this->utilities), $provided);
-        $this->assertEquals($this->utilities, $provided);
+    /** @test */
+
+    public function it_can_be_instantiated()
+    {
+        $expectations = [
+            \Illuminate\Support\ServiceProvider::class,
+            \Arcanedev\Support\ServiceProvider::class,
+            UtilitiesServiceProvider::class,
+        ];
+
+        foreach ($expectations as $expected) {
+            $this->assertInstanceOf($expected, $this->provider);
+        }
+    }
+
+    /** @test */
+    public function it_can_provides()
+    {
+        $expected = [
+            Contracts\Utilities\LogLevels::class,
+            Contracts\Utilities\LogStyler::class,
+            Contracts\Utilities\LogMenu::class,
+            Contracts\Utilities\Filesystem::class,
+            Contracts\Utilities\Factory::class,
+            Contracts\Utilities\LogChecker::class,
+        ];
+
+        $this->assertSame($expected, $this->provider->provides());
     }
 }

@@ -1,6 +1,7 @@
-/.idea/
-/_arcanedev/
 /build/
 /vendor/
-composer.phar
-composer.lock
+/composer.phar
+/composer.lock
+/phpunit.xml
+.DS_Store
+Thumbs.db

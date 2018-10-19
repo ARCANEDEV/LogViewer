@@ -1,7 +1,8 @@
 <?php namespace Arcanedev\LogViewer\Tables;
 
-use Arcanedev\LogViewer\Bases\Table;
-use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
+use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 /**
  * Class     StatsTable
@@ -9,30 +10,32 @@ use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
  * @package  Arcanedev\LogViewer\Tables
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class StatsTable extends Table
+class StatsTable extends AbstractTable
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Make a stats table instance.
      *
-     * @param  array               $data
-     * @param  LogLevelsInterface  $levels
-     * @param  string|null         $locale
+     * @param  array                                               $data
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels  $levels
+     * @param  string|null                                         $locale
      *
      * @return self
      */
-    public static function make(array $data, LogLevelsInterface $levels, $locale = null)
+    public static function make(array $data, LogLevelsContract $levels, $locale = null)
     {
         return new self($data, $levels, $locale);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Prepare table header.
      *
@@ -94,28 +97,37 @@ class StatsTable extends Table
     }
 
     /**
-     * Get json chart data.
+     * Get totals.
      *
-     * @param  string|null $locale
+     * @param  string|null  $locale
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
-    public function totalsJson($locale = null)
+    public function totals()
     {
-        $this->setLocale($locale);
+        $totals = Collection::make();
 
-        $json   = [];
-        $levels = array_except($this->footer(), 'all');
-
-        foreach ($levels as $level => $count) {
-            $json[] = [
+        foreach (Arr::except($this->footer(), 'all') as $level => $count) {
+            $totals->put($level, [
                 'label'     => $this->translate("levels.$level"),
                 'value'     => $count,
                 'color'     => $this->color($level),
                 'highlight' => $this->color($level),
-            ];
+            ]);
         }
 
-        return json_encode(array_values($json), JSON_PRETTY_PRINT);
+        return $totals;
+    }
+
+    /**
+     * Get json totals data.
+     *
+     * @param  string|null  $locale
+     *
+     * @return string
+     */
+    public function totalsJson($locale = null)
+    {
+        return $this->totals($locale)->toJson(JSON_PRETTY_PRINT);
     }
 }

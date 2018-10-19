@@ -16,31 +16,30 @@ use SplFileInfo;
  */
 class Log implements Arrayable, Jsonable, JsonSerializable
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @var string */
     public $date;
 
     /** @var string */
     private $path;
 
-    /** @var LogEntryCollection */
+    /** @var \Arcanedev\LogViewer\Entities\LogEntryCollection */
     private $entries;
 
-    /** @var SplFileInfo */
+    /** @var \SplFileInfo */
     private $file;
 
-    /** @var string */
-    private $raw;
-
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
-     * Constructor
+     * Log constructor.
      *
      * @param  string  $date
      * @param  string  $path
@@ -48,21 +47,19 @@ class Log implements Arrayable, Jsonable, JsonSerializable
      */
     public function __construct($date, $path, $raw)
     {
-        $this->entries = new LogEntryCollection;
         $this->date    = $date;
         $this->path    = $path;
         $this->file    = new SplFileInfo($path);
-        $this->raw     = $raw;
-
-        $this->entries->load($raw);
+        $this->entries = (new LogEntryCollection)->load($raw);
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
-     * Get log path
+     * Get log path.
      *
      * @return string
      */
@@ -72,19 +69,9 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Get raw log content
+     * Get file info.
      *
-     * @return string
-     */
-    public function getRaw()
-    {
-        return $this->raw;
-    }
-
-    /**
-     * Get file info
-     *
-     * @return SplFileInfo
+     * @return \SplFileInfo
      */
     public function file()
     {
@@ -92,7 +79,7 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Get file size
+     * Get file size.
      *
      * @return string
      */
@@ -102,7 +89,7 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Get file creation date
+     * Get file creation date.
      *
      * @return \Carbon\Carbon
      */
@@ -112,7 +99,7 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Get file modification date
+     * Get file modification date.
      *
      * @return \Carbon\Carbon
      */
@@ -121,12 +108,13 @@ class Log implements Arrayable, Jsonable, JsonSerializable
         return Carbon::createFromTimestamp($this->file()->getMTime());
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
-     * Make a log object
+     * Make a log object.
      *
      * @param  string  $date
      * @param  string  $path
@@ -140,27 +128,25 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Get log entries
+     * Get log entries.
      *
      * @param  string  $level
      *
-     * @return LogEntryCollection
+     * @return \Arcanedev\LogViewer\Entities\LogEntryCollection
      */
     public function entries($level = 'all')
     {
-        if ($level === 'all') {
-            return $this->entries;
-        }
-
-        return $this->getByLevel($level);
+        return $level === 'all'
+            ? $this->entries
+            : $this->getByLevel($level);
     }
 
     /**
-     * Get filtered log entries by level
+     * Get filtered log entries by level.
      *
      * @param  string  $level
      *
-     * @return LogEntryCollection
+     * @return \Arcanedev\LogViewer\Entities\LogEntryCollection
      */
     public function getByLevel($level)
     {
@@ -180,7 +166,7 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     /**
      * Get the log navigation tree.
      *
-     * @param  bool|false  $trans
+     * @param  bool  $trans
      *
      * @return array
      */
@@ -192,7 +178,7 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     /**
      * Get log entries menu.
      *
-     * @param  bool|true  $trans
+     * @param  bool  $trans
      *
      * @return array
      */
@@ -201,10 +187,11 @@ class Log implements Arrayable, Jsonable, JsonSerializable
         return log_menu()->make($this, $trans);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Convert Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Convert Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get the log as a plain array.
      *
@@ -232,7 +219,7 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Serialize the log object to json data
+     * Serialize the log object to json data.
      *
      * @return array
      */
@@ -241,12 +228,13 @@ class Log implements Arrayable, Jsonable, JsonSerializable
         return $this->toArray();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
-     * Format the file size
+     * Format the file size.
      *
      * @param  int  $bytes
      * @param  int  $precision
@@ -261,6 +249,6 @@ class Log implements Arrayable, Jsonable, JsonSerializable
         $pow   = floor(($bytes ? log($bytes) : 0) / log(1024));
         $pow   = min($pow, count($units) - 1);
 
-        return round($bytes / pow(1024, $pow), $precision) . ' ' . $units[$pow];
+        return round($bytes / pow(1024, $pow), $precision).' '.$units[$pow];
     }
 }

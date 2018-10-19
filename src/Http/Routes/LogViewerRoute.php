@@ -1,7 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Http\Routes;
 
-use Arcanedev\Support\Laravel\RouteRegister;
-use Illuminate\Contracts\Routing\Registrar;
+use Arcanedev\Support\Routing\RouteRegistrar;
 
 /**
  * Class     LogViewerRoute
@@ -11,78 +10,51 @@ use Illuminate\Contracts\Routing\Registrar;
  *
  * @codeCoverageIgnore
  */
-class LogViewerRoute extends RouteRegister
+class LogViewerRoute extends RouteRegistrar
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Map all routes.
-     *
-     * @param  Registrar  $router
      */
-    public function map(Registrar $router)
+    public function map()
     {
-        parent::map($router);
+        $this->name('log-viewer::')->group(function () {
+            // log-viewer::dashboard
+            $this->get('/', 'LogViewerController@index')->name('dashboard');
 
-        $this->get('/', [
-            'as'    => 'dashboard',
-            'uses'  => 'LogViewerController@index',
-        ]);
-
-        $this->registerLogsRoutes();
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Route Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Register logs routes.
-     */
-    private function registerLogsRoutes()
-    {
-        $this->group([
-            'as'     => 'logs.',
-            'prefix' => 'logs',
-        ], function() {
-            $this->get('/', [
-                'as'    => 'list',
-                'uses'  => 'LogViewerController@listLogs',
-            ]);
-
-            $this->delete('delete', [
-                'as'    => 'delete',
-                'uses'  => 'LogViewerController@delete',
-            ]);
-
-            $this->registerSingleLogRoutes();
+            $this->mapLogsRoutes();
         });
     }
 
     /**
-     * Register single log routes.
+     * Map the logs routes.
      */
-    private function registerSingleLogRoutes()
+    private function mapLogsRoutes()
     {
-        $this->group([
-            'prefix'    => '{date}',
-        ], function() {
-            $this->get('/', [
-                'as'    => 'show',
-                'uses'  => 'LogViewerController@show',
-            ]);
+        $this->prefix('logs')->name('logs.')->group(function() {
+            $this->get('/', 'LogViewerController@listLogs')
+                 ->name('list'); // log-viewer::logs.list
 
-            $this->get('download', [
-                'as'    => 'download',
-                'uses'  => 'LogViewerController@download',
-            ]);
+            $this->delete('delete', 'LogViewerController@delete')
+                 ->name('delete'); // log-viewer::logs.delete
 
-            $this->get('{level}', [
-                'as'    => 'filter',
-                'uses'  => 'LogViewerController@showByLevel',
-            ]);
+            $this->prefix('{date}')->group(function() {
+                $this->get('/', 'LogViewerController@show')
+                     ->name('show'); // log-viewer::logs.show
+
+                $this->get('download', 'LogViewerController@download')
+                     ->name('download'); // log-viewer::logs.download
+
+                $this->get('{level}', 'LogViewerController@showByLevel')
+                     ->name('filter'); // log-viewer::logs.filter
+
+                $this->get('{level}/search', 'LogViewerController@search')
+                     ->name('search'); // log-viewer::logs.search
+            });
         });
     }
 }

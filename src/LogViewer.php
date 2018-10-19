@@ -1,9 +1,9 @@
 <?php namespace Arcanedev\LogViewer;
 
-use Arcanedev\LogViewer\Contracts\FactoryInterface;
-use Arcanedev\LogViewer\Contracts\FilesystemInterface;
-use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
-use Arcanedev\LogViewer\Contracts\LogViewerInterface;
+use Arcanedev\LogViewer\Contracts\Utilities\Filesystem as FilesystemContract;
+use Arcanedev\LogViewer\Contracts\Utilities\Factory as FactoryContract;
+use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
+use Arcanedev\LogViewer\Contracts\LogViewer as LogViewerContract;
 
 /**
  * Class     LogViewer
@@ -11,71 +11,75 @@ use Arcanedev\LogViewer\Contracts\LogViewerInterface;
  * @package  Arcanedev\LogViewer
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogViewer implements LogViewerInterface
+class LogViewer implements LogViewerContract
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constants
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * LogViewer Version
      */
-    const VERSION = '2.12.2';
+    const VERSION = '4.6.1';
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * The factory instance.
      *
-     * @var FactoryInterface
+     * @var \Arcanedev\LogViewer\Contracts\Utilities\Factory
      */
     protected $factory;
 
     /**
      * The filesystem instance.
      *
-     * @var FilesystemInterface
+     * @var \Arcanedev\LogViewer\Contracts\Utilities\Filesystem
      */
     protected $filesystem;
 
     /**
      * The log levels instance.
      *
-     * @var LogLevelsInterface
+     * @var \Arcanedev\LogViewer\Contracts\Utilities\LogLevels
      */
     protected $levels;
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Create a new instance.
      *
-     * @param  FactoryInterface     $factory
-     * @param  FilesystemInterface  $filesystem
-     * @param  LogLevelsInterface   $levels
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\Factory     $factory
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\Filesystem  $filesystem
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels   $levels
      */
     public function __construct(
-        FactoryInterface    $factory,
-        FilesystemInterface $filesystem,
-        LogLevelsInterface  $levels
+        FactoryContract    $factory,
+        FilesystemContract $filesystem,
+        LogLevelsContract  $levels
     ) {
         $this->factory    = $factory;
         $this->filesystem = $filesystem;
         $this->levels     = $levels;
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get the log levels.
      *
-     * @param  bool|false  $flip
+     * @param  bool  $flip
      *
      * @return array
      */
@@ -96,14 +100,58 @@ class LogViewer implements LogViewerInterface
         return $this->levels->names($locale);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /**
+     * Set the log storage path.
+     *
+     * @param  string  $path
+     *
+     * @return self
      */
+    public function setPath($path)
+    {
+        $this->factory->setPath($path);
+
+        return $this;
+    }
+
+    /**
+     * Get the log pattern.
+     *
+     * @return string
+     */
+    public function getPattern()
+    {
+        return $this->factory->getPattern();
+    }
+
+    /**
+     * Set the log pattern.
+     *
+     * @param  string  $date
+     * @param  string  $prefix
+     * @param  string  $extension
+     *
+     * @return self
+     */
+    public function setPattern(
+        $prefix    = FilesystemContract::PATTERN_PREFIX,
+        $date      = FilesystemContract::PATTERN_DATE,
+        $extension = FilesystemContract::PATTERN_EXTENSION
+    ) {
+        $this->factory->setPattern($prefix, $date, $extension);
+
+        return $this;
+    }
+
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
+     */
+
     /**
      * Get all logs.
      *
-     * @return Entities\LogCollection
+     * @return \Arcanedev\LogViewer\Entities\LogCollection
      */
     public function all()
     {
@@ -127,7 +175,7 @@ class LogViewer implements LogViewerInterface
      *
      * @param  string  $date
      *
-     * @return Entities\Log
+     * @return \Arcanedev\LogViewer\Entities\Log
      */
     public function get($date)
     {
@@ -140,7 +188,7 @@ class LogViewer implements LogViewerInterface
      * @param  string  $date
      * @param  string  $level
      *
-     * @return Entities\LogEntryCollection
+     * @return \Arcanedev\LogViewer\Entities\LogEntryCollection
      */
     public function entries($date, $level = 'all')
     {
@@ -182,7 +230,7 @@ class LogViewer implements LogViewerInterface
      *
      * @param  string|null  $locale
      *
-     * @return Tables\StatsTable
+     * @return \Arcanedev\LogViewer\Tables\StatsTable
      */
     public function statsTable($locale = null)
     {
@@ -195,8 +243,6 @@ class LogViewer implements LogViewerInterface
      * @param  string  $date
      *
      * @return bool
-     *
-     * @throws Exceptions\FilesystemException
      */
     public function delete($date)
     {
@@ -204,13 +250,13 @@ class LogViewer implements LogViewerInterface
     }
 
     /**
-     * List the log files.
+     * Get all valid log files.
      *
      * @return array
      */
     public function files()
     {
-        return $this->filesystem->files();
+        return $this->filesystem->logs();
     }
 
     /**
@@ -248,7 +294,7 @@ class LogViewer implements LogViewerInterface
     /**
      * Get logs tree.
      *
-     * @param  bool|false  $trans
+     * @param  bool  $trans
      *
      * @return array
      */
@@ -260,12 +306,42 @@ class LogViewer implements LogViewerInterface
     /**
      * Get logs menu.
      *
-     * @param  bool|true  $trans
+     * @param  bool  $trans
      *
      * @return array
      */
     public function menu($trans = true)
     {
         return $this->factory->menu($trans);
+    }
+
+    /* -----------------------------------------------------------------
+     |  Check Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Determine if the log folder is empty or not.
+     *
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return $this->factory->isEmpty();
+    }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Get the LogViewer version.
+     *
+     * @return string
+     */
+    public function version()
+    {
+        return self::VERSION;
     }
 }

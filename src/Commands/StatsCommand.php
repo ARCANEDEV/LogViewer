@@ -1,6 +1,5 @@
 <?php namespace Arcanedev\LogViewer\Commands;
 
-use Arcanedev\LogViewer\Bases\Command;
 use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
@@ -11,16 +10,17 @@ use Arcanedev\LogViewer\Tables\StatsTable;
  */
 class StatsCommand extends Command
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
-     * The name and signature of the console command.
+     * The console command name.
      *
      * @var string
      */
-    protected $signature   = 'log-viewer:stats';
+    protected $name        = 'log-viewer:stats';
 
     /**
      * The console command description.
@@ -29,10 +29,18 @@ class StatsCommand extends Command
      */
     protected $description = 'Display stats of all logs.';
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
      */
+    protected $signature   = 'log-viewer:stats';
+
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
+     */
+
     /**
      * Execute the console command.
      */
@@ -42,7 +50,7 @@ class StatsCommand extends Command
         $stats   = $this->logViewer->statsTable('en');
 
         $rows    = $stats->rows();
-        $rows[]  = $this->getTableSeparator();
+        $rows[]  = $this->tableSeparator();
         $rows[]  = $this->prepareFooter($stats);
 
         // Display Data
@@ -50,21 +58,22 @@ class StatsCommand extends Command
         $this->table($stats->header(), $rows);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
-     * Prepare footer
+     * Prepare footer.
      *
-     * @param  StatsTable  $stats
+     * @param  \Arcanedev\LogViewer\Tables\StatsTable  $stats
      *
      * @return array
      */
     private function prepareFooter(StatsTable $stats)
     {
         $files = [
-            'count' => count($stats->rows()) . ' log file(s)'
+            'count' => count($stats->rows()).' log file(s)'
         ];
 
         return $files + $stats->footer();

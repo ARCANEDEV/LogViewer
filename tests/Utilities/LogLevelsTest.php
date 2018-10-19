@@ -11,35 +11,38 @@ use Arcanedev\LogViewer\Tests\TestCase;
  */
 class LogLevelsTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var LogLevels */
+
+    /** @var  \Arcanedev\LogViewer\Utilities\LogLevels  */
     private $levels;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->levels = $this->app['arcanedev.log-viewer.levels'];
+        $this->levels = $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\LogLevels::class);
     }
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->levels);
+
+        parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
@@ -71,6 +74,18 @@ class LogLevelsTest extends TestCase
     }
 
     /** @test */
+    public function it_must_choose_the_log_viewer_locale_instead_of_app_locale()
+    {
+        $this->assertNotEquals('auto', $this->levels->getLocale());
+        $this->assertSame($this->app->getLocale(), $this->levels->getLocale());
+
+        $this->levels->setLocale('fr');
+
+        $this->assertSame('fr', $this->levels->getLocale());
+        $this->assertNotEquals($this->app->getLocale(), $this->levels->getLocale());
+    }
+
+    /** @test */
     public function it_can_translate_levels_automatically()
     {
         foreach (self::$locales as $locale) {
@@ -82,8 +97,8 @@ class LogLevelsTest extends TestCase
             );
 
             $this->assertTranslatedLevels(
-                $this->app->getLocale(),
-                $this->levels->names('auto')
+                $locale,
+                $this->levels->names($locale)
             );
         }
     }

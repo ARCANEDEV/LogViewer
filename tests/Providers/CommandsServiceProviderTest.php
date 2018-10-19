@@ -11,47 +11,61 @@ use Arcanedev\LogViewer\Tests\TestCase;
  */
 class CommandsServiceProviderTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var CommandsServiceProvider */
+
+    /** @var  \Arcanedev\LogViewer\Providers\CommandsServiceProvider */
     private $provider;
 
-    /** @var array */
-    private $commands = [
-        'arcanedev.log-viewer.commands.publish',
-        'arcanedev.log-viewer.commands.stats',
-    ];
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    public function setUp()
+
+    protected function setUp()
     {
         parent::setUp();
 
         $this->provider = $this->app->getProvider(CommandsServiceProvider::class);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
-        parent::tearDown();
-
         unset($this->provider);
+
+        parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
-    /** @test */
-    public function it_can_get_provides_list()
-    {
-        $provided = $this->provider->provides();
 
-        $this->assertCount(count($this->commands), $provided);
-        $this->assertEquals($this->commands, $provided);
+    /** @test */
+    public function it_can_be_instantiated()
+    {
+        $expectations = [
+            \Illuminate\Support\ServiceProvider::class,
+            \Arcanedev\Support\ServiceProvider::class,
+            CommandsServiceProvider::class
+        ];
+
+        foreach ($expectations as $expected) {
+            static::assertInstanceOf($expected, $this->provider);
+        }
+    }
+
+    /** @test */
+    public function it_can_provides()
+    {
+        $expected = [
+            \Arcanedev\LogViewer\Commands\PublishCommand::class,
+            \Arcanedev\LogViewer\Commands\StatsCommand::class,
+            \Arcanedev\LogViewer\Commands\CheckCommand::class,
+        ];
+
+        static::assertSame($expected, $this->provider->provides());
     }
 }

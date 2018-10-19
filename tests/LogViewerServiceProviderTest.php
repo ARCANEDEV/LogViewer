@@ -10,17 +10,19 @@ use Arcanedev\LogViewer\LogViewerServiceProvider;
  */
 class LogViewerServiceProviderTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
-    /** @var LogViewerServiceProvider */
+
+    /** @var  LogViewerServiceProvider */
     private $provider;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function setUp()
     {
         parent::setUp();
@@ -30,22 +32,38 @@ class LogViewerServiceProviderTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         unset($this->provider);
+
+        parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
-    /** @test */
-    public function it_can_get_provides_list()
-    {
-        $provided = $this->provider->provides();
-        $defaults = ['arcanedev.log-viewer'];
 
-        $this->assertCount(count($defaults), $provided);
-        $this->assertEquals($defaults, $provided);
+    /** @test */
+    public function it_can_be_instantiated()
+    {
+        $expectations = [
+            \Illuminate\Support\ServiceProvider::class,
+            \Arcanedev\Support\ServiceProvider::class,
+            \Arcanedev\Support\PackageServiceProvider::class,
+            LogViewerServiceProvider::class,
+        ];
+
+        foreach ($expectations as $expected) {
+            $this->assertInstanceOf($expected, $this->provider);
+        }
+    }
+
+    /** @test */
+    public function it_can_provides()
+    {
+        $expected = [
+            \Arcanedev\LogViewer\Contracts\LogViewer::class,
+        ];
+
+        $this->assertSame($expected, $this->provider->provides());
     }
 }

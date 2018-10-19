@@ -1,8 +1,8 @@
 <?php namespace Arcanedev\LogViewer\Utilities;
 
-use Arcanedev\LogViewer\Contracts\FactoryInterface;
-use Arcanedev\LogViewer\Contracts\FilesystemInterface;
-use Arcanedev\LogViewer\Contracts\LogLevelsInterface;
+use Arcanedev\LogViewer\Contracts\Utilities\Factory as FactoryContract;
+use Arcanedev\LogViewer\Contracts\Utilities\Filesystem as FilesystemContract;
+use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
 use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Tables\StatsTable;
 
@@ -12,50 +12,52 @@ use Arcanedev\LogViewer\Tables\StatsTable;
  * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class Factory implements FactoryInterface
+class Factory implements FactoryContract
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * The filesystem instance.
      *
-     * @var FilesystemInterface
+     * @var \Arcanedev\LogViewer\Contracts\Utilities\Filesystem
      */
     protected $filesystem;
 
     /**
-     * @var LogLevelsInterface
+     * The log levels instance.
+     *
+     * @var \Arcanedev\LogViewer\Contracts\Utilities\LogLevels
      */
     private $levels;
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Create a new instance.
      *
-     * @param  FilesystemInterface  $filesystem
-     * @param  LogLevelsInterface   $levels
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\Filesystem  $filesystem
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels   $levels
      */
-    public function __construct(
-        FilesystemInterface $filesystem,
-        LogLevelsInterface $levels
-    ) {
+    public function __construct(FilesystemContract $filesystem, LogLevelsContract $levels) {
         $this->setFilesystem($filesystem);
-        $this->levels = $levels;
+        $this->setLevels($levels);
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Getter & Setters
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get the filesystem instance.
      *
-     * @return FilesystemInterface
+     * @return \Arcanedev\LogViewer\Contracts\Utilities\Filesystem
      */
     public function getFilesystem()
     {
@@ -65,13 +67,80 @@ class Factory implements FactoryInterface
     /**
      * Set the filesystem instance.
      *
-     * @param  FilesystemInterface  $filesystem
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\Filesystem  $filesystem
      *
      * @return self
      */
-    private function setFilesystem(FilesystemInterface $filesystem)
+    public function setFilesystem(FilesystemContract $filesystem)
     {
         $this->filesystem = $filesystem;
+
+        return $this;
+    }
+
+    /**
+     * Get the log levels instance.
+     *
+     * @return \Arcanedev\LogViewer\Contracts\Utilities\LogLevels
+     */
+    public function getLevels()
+    {
+        return $this->levels;
+    }
+
+    /**
+     * Set the log levels instance.
+     *
+     * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels  $levels
+     *
+     * @return self
+     */
+    public function setLevels(LogLevelsContract $levels)
+    {
+        $this->levels = $levels;
+
+        return $this;
+    }
+
+    /**
+     * Set the log storage path.
+     *
+     * @param  string  $storagePath
+     *
+     * @return self
+     */
+    public function setPath($storagePath)
+    {
+        $this->filesystem->setPath($storagePath);
+
+        return $this;
+    }
+
+    /**
+     * Get the log pattern.
+     *
+     * @return string
+     */
+    public function getPattern()
+    {
+        return $this->filesystem->getPattern();
+    }
+
+    /**
+     * Set the log pattern.
+     *
+     * @param  string  $date
+     * @param  string  $prefix
+     * @param  string  $extension
+     *
+     * @return self
+     */
+    public function setPattern(
+        $prefix    = FilesystemContract::PATTERN_PREFIX,
+        $date      = FilesystemContract::PATTERN_DATE,
+        $extension = FilesystemContract::PATTERN_EXTENSION
+    ) {
+        $this->filesystem->setPattern($prefix, $date, $extension);
 
         return $this;
     }
@@ -83,15 +152,18 @@ class Factory implements FactoryInterface
      */
     public function logs()
     {
-        return new LogCollection;
+        return LogCollection::make()->setFilesystem($this->filesystem);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
-     * Get all logs. (alias)
+     * Get all logs (alias).
+     *
+     * @see logs
      *
      * @return \Arcanedev\LogViewer\Entities\LogCollection
      */
@@ -206,7 +278,7 @@ class Factory implements FactoryInterface
     /**
      * Get tree menu.
      *
-     * @param  bool|false  $trans
+     * @param  bool  $trans
      *
      * @return array
      */
@@ -218,12 +290,27 @@ class Factory implements FactoryInterface
     /**
      * Get tree menu.
      *
-     * @param  bool|true  $trans
+     * @param  bool  $trans
      *
      * @return array
      */
     public function menu($trans = true)
     {
         return $this->logs()->menu($trans);
+    }
+
+    /* -----------------------------------------------------------------
+     |  Check Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Determine if the log folder is empty or not.
+     *
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return $this->logs()->isEmpty();
     }
 }
