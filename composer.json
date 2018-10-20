@@ -1,5 +1,5 @@
 {
-    "name":        "arcanedev/log-viewer",
+    "name":        "schnoop/log-viewer",
     "description": "Provides a Log Viewer for Laravel 5",
     "keywords":    ["arcanedev", "arcanesoft", "laravel", "log", "log viewer", "log-viewer", "logviewer"],
     "homepage":    "https://github.com/ARCANEDEV/LogViewer",
