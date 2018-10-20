@@ -1,15 +1,15 @@
 @extends('log-viewer::bootstrap-3._master')
 
 @section('content')
-    <h1 class="page-header">Logs</h1>
+    <h1 class="page-header">{{ trans('log-viewer::general.logs') }}</h1>
 
     {!! $rows->render() !!}
 
     <div class="table-responsive">
         <table class="table table-condensed table-hover table-stats">
             <thead>
-                <tr>
-                    @foreach($headers as $key => $header)
+            <tr>
+                @foreach($headers as $key => $header)
                     <th class="{{ $key == 'date' ? 'text-left' : 'text-center' }}">
                         @if ($key == 'date')
                             <span class="label label-info">{{ $header }}</span>
@@ -19,13 +19,13 @@
                             </span>
                         @endif
                     </th>
-                    @endforeach
-                    <th class="text-right">Actions</th>
-                </tr>
+                @endforeach
+                <th class="text-right">{{ trans('log-viewer::logs.actions') }}</th>
+            </tr>
             </thead>
             <tbody>
-                @if ($rows->count() > 0)
-                    @foreach($rows as $date => $row)
+            @if ($rows->count() > 0)
+                @foreach($rows as $date => $row)
                     <tr>
                         @foreach($row as $key => $value)
                             <td class="{{ $key == 'date' ? 'text-left' : 'text-center' }}">
@@ -52,14 +52,14 @@
                             </a>
                         </td>
                     </tr>
-                    @endforeach
-                @else
-                    <tr>
-                        <td colspan="11" class="text-center">
-                            <span class="label label-default">{{ trans('log-viewer::general.empty-logs') }}</span>
-                        </td>
-                    </tr>
-                @endif
+                @endforeach
+            @else
+                <tr>
+                    <td colspan="11" class="text-center">
+                        <span class="label label-default">{{ trans('log-viewer::general.empty-logs') }}</span>
+                    </td>
+                </tr>
+            @endif
             </tbody>
         </table>
     </div>
@@ -77,17 +77,19 @@
                 <input type="hidden" name="date" value="">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ trans('log-viewer::logs.modals.delete.close') }}">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">DELETE LOG FILE</h4>
+                        <h4 class="modal-title">{{ trans('log-viewer::logs.modals.delete.header') }}</h4>
                     </div>
                     <div class="modal-body">
                         <p></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">DELETE FILE</button>
+                        <button type="button" class="btn btn-sm btn-default pull-left"
+                                data-dismiss="modal">{{ trans('log-viewer::logs.modals.delete.cancel') }}</button>
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                data-loading-text="Loading&hellip;">{{ trans('log-viewer::logs.modals.delete.submit') }}</button>
                     </div>
                 </div>
             </form>
@@ -99,42 +101,43 @@
     <script>
         $(function () {
             var deleteLogModal = $('div#delete-log-modal'),
-                deleteLogForm  = $('form#delete-log-form'),
-                submitBtn      = deleteLogForm.find('button[type=submit]');
+                deleteLogForm = $('form#delete-log-form'),
+                submitBtn = deleteLogForm.find('button[type=submit]');
 
-            $("a[href=#delete-log-modal]").on('click', function(event) {
+            $("a[href=#delete-log-modal]").on('click', function (event) {
                 event.preventDefault();
                 var date = $(this).data('log-date');
                 deleteLogForm.find('input[name=date]').val(date);
                 deleteLogModal.find('.modal-body p').html(
-                    'Are you sure you want to <span class="label label-danger">DELETE</span> this log file <span class="label label-primary">' + date + '</span> ?'
+                    '{!! trans('log-viewer::logs.modals.delete.confirm') !!}'
+
                 );
 
                 deleteLogModal.modal('show');
             });
 
-            deleteLogForm.on('submit', function(event) {
+            deleteLogForm.on('submit', function (event) {
                 event.preventDefault();
                 submitBtn.button('loading');
 
                 $.ajax({
-                    url:      $(this).attr('action'),
-                    type:     $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
                     dataType: 'json',
-                    data:     $(this).serialize(),
-                    success: function(data) {
+                    data: $(this).serialize(),
+                    success: function (data) {
                         submitBtn.button('reset');
                         if (data.result === 'success') {
                             deleteLogModal.modal('hide');
                             location.reload();
                         }
                         else {
-                            alert('AJAX ERROR ! Check the console !');
+                            alert('{!! trans('log-viewer::logs.modals.delete.error') !!}');
                             console.error(data);
                         }
                     },
-                    error: function(xhr, textStatus, errorThrown) {
-                        alert('AJAX ERROR ! Check the console !');
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert('{!! trans('log-viewer::logs.modals.delete.error') !!}');
                         console.error(errorThrown);
                         submitBtn.button('reset');
                     }
@@ -143,7 +146,7 @@
                 return false;
             });
 
-            deleteLogModal.on('hidden.bs.modal', function() {
+            deleteLogModal.on('hidden.bs.modal', function () {
                 deleteLogForm.find('input[name=date]').val('');
                 deleteLogModal.find('.modal-body p').html('');
             });

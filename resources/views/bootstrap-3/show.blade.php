@@ -9,12 +9,12 @@
 @extends('log-viewer::bootstrap-3._master')
 
 @section('content')
-    <h1 class="page-header">Log [{{ $log->date }}]</h1>
+    <h1 class="page-header">{{ trans('log-viewer::show.log.header') }} [{{ $log->date }}]</h1>
 
     <div class="row">
         <div class="col-md-2">
             <div class="panel panel-default">
-                <div class="panel-heading"><i class="fa fa-fw fa-flag"></i> Levels</div>
+                <div class="panel-heading"><i class="fa fa-fw fa-flag"></i> {{ trans('log-viewer::show.levels') }}</div>
                 <ul class="list-group">
                     @foreach($log->menu() as $levelKey => $item)
                         @if ($item['count'] === 0)
@@ -41,15 +41,14 @@
         <div class="col-md-10">
             {{-- Log Details --}}
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    Log info :
+                <div class="panel-heading">{{ trans('log-viewer::show.log.info') }} :
 
                     <div class="group-btns pull-right">
                         <a href="{{ route('log-viewer::logs.download', [$log->date]) }}" class="btn btn-xs btn-success">
-                            <i class="fa fa-download"></i> DOWNLOAD
+                            <i class="fa fa-download"></i> {{ trans('log-viewer::show.log.download') }}
                         </a>
                         <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-toggle="modal">
-                            <i class="fa fa-trash-o"></i> DELETE
+                            <i class="fa fa-trash-o"></i> {{ trans('log-viewer::show.log.delete') }}
                         </a>
                     </div>
                 </div>
@@ -57,25 +56,25 @@
                     <table class="table table-condensed">
                         <thead>
                             <tr>
-                                <td>File path :</td>
+                                <td>{{ trans('log-viewer::show.log.path') }} :</td>
                                 <td colspan="5">{{ $log->getPath() }}</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Log entries : </td>
+                                <td>{{ trans('log-viewer::show.log.entries') }} : </td>
                                 <td>
                                     <span class="label label-primary">{{ $entries->total() }}</span>
                                 </td>
-                                <td>Size :</td>
+                                <td>{{ trans('log-viewer::show.log.size') }} :</td>
                                 <td>
                                     <span class="label label-primary">{{ $log->size() }}</span>
                                 </td>
-                                <td>Created at :</td>
+                                <td>{{ trans('log-viewer::show.log.created_at') }} :</td>
                                 <td>
                                     <span class="label label-primary">{{ $log->createdAt() }}</span>
                                 </td>
-                                <td>Updated at :</td>
+                                <td>{{ trans('log-viewer::show.log.updated_at') }} :</td>
                                 <td>
                                     <span class="label label-primary">{{ $log->updatedAt() }}</span>
                                 </td>
@@ -88,7 +87,7 @@
                     <form action="{{ route('log-viewer::logs.search', [$log->date, $level]) }}" method="GET">
                         <div class=form-group">
                             <div class="input-group">
-                                <input id="query" name="query" class="form-control"  value="{!! $query !!}" placeholder="Type here to search">
+                                <input id="query" name="query" class="form-control"  value="{!! $query !!}" placeholder="{{ trans('log-viewer::show.log.search.placeholder') }}">
                                 <span class="input-group-btn">
                                     @unless (is_null($query))
                                         <a href="{{ route('log-viewer::logs.show', [$log->date]) }}" class="btn btn-default">
@@ -112,7 +111,7 @@
                         {{ $entries->appends(compact('query'))->render() }}
 
                         <span class="label label-info pull-right">
-                            Page {{ $entries->currentPage() }} of {{ $entries->lastPage() }}
+                            {{ trans('log-viewer::show.page.page') }} {{ $entries->currentPage() }} {{ trans('log-viewer::show.page.of') }} {{ $entries->lastPage() }}
                         </span>
                     </div>
                 @endif
@@ -121,11 +120,11 @@
                     <table id="entries" class="table table-condensed">
                         <thead>
                             <tr>
-                                <th>ENV</th>
-                                <th style="width: 120px;">Level</th>
-                                <th style="width: 65px;">Time</th>
-                                <th>Header</th>
-                                <th class="text-right">Actions</th>
+                                <th>{{ trans('log-viewer::show.log.env') }}</th>
+                                <th style="width: 120px;">{{ trans('log-viewer::show.log.level') }}</th>
+                                <th style="width: 65px;">{{ trans('log-viewer::show.log.time') }}</th>
+                                <th>{{ trans('log-viewer::show.log.table_header') }}</th>
+                                <th class="text-right">{{ trans('log-viewer::show.log.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -149,7 +148,7 @@
                                     <td class="text-right">
                                         @if ($entry->hasStack())
                                             <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#log-stack-{{ $key }}" aria-expanded="false" aria-controls="log-stack-{{ $key }}">
-                                                <i class="fa fa-toggle-on"></i> Stack
+                                                <i class="fa fa-toggle-on"></i> {{ trans('log-viewer::show.log.stack') }}
                                             </a>
                                         @endif
                                     </td>
@@ -179,7 +178,7 @@
                         {!! $entries->appends(compact('query'))->render() !!}
 
                         <span class="label label-info pull-right">
-                            Page {{ $entries->currentPage() }} of {{ $entries->lastPage() }}
+                            {{ trans('log-viewer::show.page.page') }} {{ $entries->currentPage() }} {{ trans('log-viewer::show.page.of') }} {{ $entries->lastPage() }}
                         </span>
                     </div>
                 @endif
@@ -198,17 +197,17 @@
                 <input type="hidden" name="date" value="{{ $log->date }}">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ trans('log-viewer::show.modals.delete.close') }}">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">DELETE LOG FILE</h4>
+                        <h4 class="modal-title">{{ trans('log-viewer::show.modals.delete.header') }}</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to <span class="label label-danger">DELETE</span> this log file <span class="label label-primary">{{ $log->date }}</span> ?</p>
+                        {!! trans('log-viewer::show.modals.delete.confirm', ['file' => $log->date]) !!}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">DELETE FILE</button>
+                        <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">{{ trans('log-viewer::show.modals.delete.cancel') }}</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">{{ trans('log-viewer::show.modals.delete.submit') }}</button>
                     </div>
                 </div>
             </form>
@@ -239,11 +238,11 @@
                             location.replace("{{ route('log-viewer::logs.list') }}");
                         }
                         else {
-                            alert('OOPS ! This is a lack of coffee exception !')
+                            alert('{!! trans('log-viewer::show.modals.delete.error') !!}');
                         }
                     },
                     error: function(xhr, textStatus, errorThrown) {
-                        alert('AJAX ERROR ! Check the console !');
+                        alert('{!! trans('log-viewer::show.modals.delete.error') !!}');
                         console.error(errorThrown);
                         submitBtn.button('reset');
                     }

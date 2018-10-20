@@ -297,12 +297,12 @@
                 <ul class="nav navbar-nav">
                     <li class="{{ Route::is('log-viewer::dashboard') ? 'active' : '' }}">
                         <a href="{{ route('log-viewer::dashboard') }}">
-                            <i class="fa fa-dashboard"></i> Dashboard
+                            <i class="fa fa-dashboard"></i> {{ trans('log-viewer::general.dashboard') }}
                         </a>
                     </li>
                     <li class="{{ Route::is('log-viewer::logs.list') ? 'active' : '' }}">
                         <a href="{{ route('log-viewer::logs.list') }}">
-                            <i class="fa fa-archive"></i> Logs
+                            <i class="fa fa-archive"></i> {{ trans('log-viewer::general.logs') }}
                         </a>
                     </li>
                 </ul>
@@ -322,7 +322,7 @@
                 LogViewer - <span class="label label-info">version {{ log_viewer()->version() }}</span>
             </p>
             <p class="text-muted pull-right">
-                Created with <i class="fa fa-heart"></i> by ARCANEDEV <sup>&copy;</sup>
+                {{ trans('log-viewer::general.credits') }} <i class="fa fa-heart"></i> {{ trans('log-viewer::general.by') }} ARCANEDEV <sup>&copy;</sup>
             </p>
         </div>
     </footer>
