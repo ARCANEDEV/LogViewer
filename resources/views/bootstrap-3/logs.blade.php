@@ -1,7 +1,7 @@
 @extends('log-viewer::bootstrap-3._master')
 
 @section('content')
-    <h1 class="page-header">Logs</h1>
+    <h1 class="page-header">{{ trans('log-viewer::general.logs') }}</h1>
 
     {!! $rows->render() !!}
 
@@ -20,7 +20,7 @@
                         @endif
                     </th>
                     @endforeach
-                    <th class="text-right">Actions</th>
+                    <th class="text-right">{{ trans('log-viewer::general.actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,10 +44,10 @@
                             <a href="{{ route('log-viewer::logs.show', [$date]) }}" class="btn btn-xs btn-info">
                                 <i class="fa fa-search"></i>
                             </a>
-                            <a href="{{ route('log-viewer::logs.download', [$date]) }}" class="btn btn-xs btn-success">
+                            <a href="{{ route('log-viewer::logs.download', [$date]) }}" class="btn btn-xs btn-success" title="{{ trans('log-viewer::general.download') }}">
                                 <i class="fa fa-download"></i>
                             </a>
-                            <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-log-date="{{ $date }}">
+                            <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-log-date="{{ $date }}" title="{{ trans('log-viewer::general.delete') }}">
                                 <i class="fa fa-trash-o"></i>
                             </a>
                         </td>
@@ -77,17 +77,17 @@
                 <input type="hidden" name="date" value="">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ trans('log-viewer::general.close') }}">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">DELETE LOG FILE</h4>
+                        <h4 class="modal-title">{{ trans('log-viewer::general.delete_log_file') }}</h4>
                     </div>
                     <div class="modal-body">
                         <p></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">DELETE FILE</button>
+                        <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">{{ trans('log-viewer::general.cancel') }}</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">{{ trans('log-viewer::general.delete_file') }}</button>
                     </div>
                 </div>
             </form>
@@ -107,8 +107,12 @@
                 var date = $(this).data('log-date');
                 deleteLogForm.find('input[name=date]').val(date);
                 deleteLogModal.find('.modal-body p').html(
-                    'Are you sure you want to <span class="label label-danger">DELETE</span> this log file <span class="label label-primary">' + date + '</span> ?'
+                    '{!! trans('log-viewer::general.sure_delete',
+                              ['delete_button' => '<span class="label label-danger">'.trans('log-viewer::general.delete').'</span>',
+                              'log_file' => '<span id="log-file" class="label label-primary"></span>', ])
+                    !!}'
                 );
+                deleteLogModal.find('#log-file').html(date);
 
                 deleteLogModal.modal('show');
             });
