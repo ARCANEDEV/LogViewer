@@ -86,7 +86,7 @@
                                 <div class="input-group-append">
                                     @unless (is_null($query))
                                         <a href="{{ route('log-viewer::logs.show', [$log->date]) }}" class="btn btn-secondary">
-                                            <i class="fa fa-fw fa-times"></i>
+                                            ({{ $entries->count() }} results) <i class="fa fa-fw fa-times"></i>
                                         </a>
                                     @endunless
                                     <button id="search-btn" class="btn btn-primary">
