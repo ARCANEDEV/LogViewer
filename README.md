@@ -12,7 +12,7 @@
 
 *By [ARCANEDEV&copy;](http://www.arcanedev.net/)*
 
-This package allows you to manage and keep track of each one of your logs files.
+This package allows you to manage and keep track of each one of your log files.
 
  > **NOTE: You can also use LogViewer as an API.**
 
