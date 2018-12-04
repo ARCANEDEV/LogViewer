@@ -25,6 +25,6 @@ class CommandsServiceProvider extends ServiceProvider
         Commands\PublishCommand::class,
         Commands\StatsCommand::class,
         Commands\CheckCommand::class,
-        Commands\ClearLogsCommand::class,
+        Commands\ClearCommand::class,
     ];
 }

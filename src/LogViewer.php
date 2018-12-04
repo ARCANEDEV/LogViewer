@@ -113,7 +113,7 @@ class LogViewer implements LogViewerContract
 
         return $this;
     }
-    
+
     /**
      * Get the log pattern.
      *
@@ -247,6 +247,16 @@ class LogViewer implements LogViewerContract
     public function delete($date)
     {
         return $this->filesystem->delete($date);
+    }
+
+    /**
+     * Clear the log files.
+     *
+     * @return bool
+     */
+    public function clear()
+    {
+        return $this->filesystem->clear();
     }
 
     /**

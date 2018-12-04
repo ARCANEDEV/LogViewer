@@ -98,7 +98,7 @@ class FilesystemTest extends TestCase
     /** @test */
     public function it_can_delete_file()
     {
-        $this->createDummyLog($date = date('Y-m-d'));
+        static::createDummyLog($date = date('Y-m-d'));
 
         // Assert log exists
         $file = $this->filesystem->read($date);

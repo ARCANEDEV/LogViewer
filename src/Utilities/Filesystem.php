@@ -262,6 +262,18 @@ class Filesystem implements FilesystemContract
     }
 
     /**
+     * Clear the log files.
+     *
+     * @return bool
+     */
+    public function clear()
+    {
+        return $this->filesystem->delete(
+            $this->logs()
+        );
+    }
+
+    /**
      * Get the log file path.
      *
      * @param  string  $date

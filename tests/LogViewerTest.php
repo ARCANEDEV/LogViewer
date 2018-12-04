@@ -133,7 +133,7 @@ class LogViewerTest extends TestCase
     /** @test */
     public function it_can_delete_a_log_file()
     {
-        $this->createDummyLog($date = date('Y-m-d'));
+        static::createDummyLog($date = date('Y-m-d'));
 
         // Assert log exists
         $entries = $this->logViewer->get($date);

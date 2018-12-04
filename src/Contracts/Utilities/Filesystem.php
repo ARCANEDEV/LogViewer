@@ -118,6 +118,13 @@ interface Filesystem extends Patternable
     public function delete($date);
 
     /**
+     * Clear the log files.
+     *
+     * @return bool
+     */
+    public function clear();
+
+    /**
      * Get the log file path.
      *
      * @param  string  $date

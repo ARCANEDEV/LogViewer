@@ -383,7 +383,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return bool
      */
-    protected function createDummyLog($date, $path = 'logs')
+    protected static function createDummyLog($date, $path = 'logs')
     {
         return copy(
             storage_path('dummy.log'),                // Source
