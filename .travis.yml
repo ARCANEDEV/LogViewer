@@ -6,6 +6,7 @@ php:
   - 7.1.3
   - 7.1
   - 7.2
+  - 7.3
   - nightly
 
 matrix:
@@ -22,5 +23,5 @@ script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
-  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "7.3" ] && [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "7.3" ] && [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
