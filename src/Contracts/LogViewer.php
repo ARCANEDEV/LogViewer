@@ -119,6 +119,13 @@ interface LogViewer extends Patternable
     public function delete($date);
 
     /**
+     * Clear the log files.
+     *
+     * @return bool
+     */
+    public function clear();
+
+    /**
      * List the log files.
      *
      * @return array

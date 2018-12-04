@@ -125,9 +125,9 @@ class RoutesTest extends TestCase
     /** @test */
     public function it_can_delete_a_log()
     {
-        $date = date('Y-m-d');
-
-        $this->createDummyLog($date);
+        static::createDummyLog(
+            $date = date('Y-m-d')
+        );
 
         $response = $this->call('DELETE', route('log-viewer::logs.delete', compact('date')), [], [], [], ['HTTP_X-Requested-With' => 'XMLHttpRequest']);
         $response->assertExactJson(['result' => 'success']);

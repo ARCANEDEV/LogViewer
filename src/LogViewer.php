@@ -250,6 +250,16 @@ class LogViewer implements LogViewerContract
     }
 
     /**
+     * Clear the log files.
+     *
+     * @return bool
+     */
+    public function clear()
+    {
+        return $this->filesystem->clear();
+    }
+
+    /**
      * Get all valid log files.
      *
      * @return array
