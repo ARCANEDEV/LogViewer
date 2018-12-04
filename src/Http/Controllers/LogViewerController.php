@@ -175,8 +175,7 @@ class LogViewerController extends Controller
      */
     public function delete(Request $request)
     {
-        if ( ! $request->ajax())
-            abort(405, 'Method Not Allowed');
+        abort_unless($request->ajax(), 405, 'Method Not Allowed');
 
         $date = $request->get('date');
 

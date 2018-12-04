@@ -150,14 +150,10 @@ class RoutesTest extends TestCase
     /** @test */
     public function it_must_throw_log_not_found_exception_on_delete()
     {
-        try {
-            $response = $this->call('DELETE', route('log-viewer::logs.delete', ['0000-00-00']), [], [], [], ['HTTP_X-Requested-With' => 'XMLHttpRequest']);
-            $response->assertExactJson(['message' => 'Server Error']);
-        }
-        catch(\Exception $exception) {
-            static::assertInstanceOf(\Arcanedev\LogViewer\Exceptions\FilesystemException::class, $exception);
-            static::assertStringStartsWith('The log(s) could not be located at : ', $exception->getMessage());
-        }
+        $response = $this->call('DELETE', route('log-viewer::logs.delete', ['0000-00-00']), [], [], [], ['HTTP_X-Requested-With' => 'XMLHttpRequest']);
+
+        static::assertInstanceOf(\Arcanedev\LogViewer\Exceptions\FilesystemException::class, $response->exception);
+        static::assertStringStartsWith('The log(s) could not be located at : ', $response->exception->getMessage());
     }
 
     /** @test */
