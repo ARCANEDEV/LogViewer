@@ -24,14 +24,14 @@ class FilesystemTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->filesystem = $this->filesystem();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->filesystem);
 
@@ -170,23 +170,19 @@ class FilesystemTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     *
-     * @expectedException \Arcanedev\LogViewer\Exceptions\FilesystemException
-     */
+    /** @test */
     public function it_must_throw_a_filesystem_exception_on_read()
     {
+        $this->expectException(\Arcanedev\LogViewer\Exceptions\FilesystemException::class);
+
         $this->filesystem->read('2222-11-11'); // Future FTW
     }
 
-    /**
-     * @test
-     *
-     * @expectedException \Arcanedev\LogViewer\Exceptions\FilesystemException
-     */
+    /** @test */
     public function it_must_throw_a_filesystem_exception_on_delete()
     {
+        $this->expectException(\Arcanedev\LogViewer\Exceptions\FilesystemException::class);
+
         $this->filesystem->delete('2222-11-11'); // Future FTW
     }
 

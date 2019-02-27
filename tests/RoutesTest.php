@@ -21,7 +21,7 @@ class RoutesTest extends TestCase
         $response = $this->get(route('log-viewer::dashboard'));
         $response->assertSuccessful();
 
-        static::assertContains(
+        static::assertStringContainsString(
             '<h1>Dashboard</h1>',
             $response->getContent()
         );
@@ -33,7 +33,7 @@ class RoutesTest extends TestCase
         $response = $this->get(route('log-viewer::logs.list'));
         $response->assertSuccessful();
 
-        static::assertContains(
+        static::assertStringContainsString(
             '<h1>Logs</h1>',
             $response->getContent()
         );
@@ -48,7 +48,7 @@ class RoutesTest extends TestCase
         $response = $this->get(route('log-viewer::logs.show', [$date]));
         $response->assertSuccessful();
 
-        static::assertContains(
+        static::assertStringContainsString(
             "<h1>Log [{$date}]</h1>",
             $response->getContent()
         );
@@ -64,7 +64,7 @@ class RoutesTest extends TestCase
         $response = $this->get(route('log-viewer::logs.filter', [$date, $level]));
         $response->assertSuccessful();
 
-        static::assertContains(
+        static::assertStringContainsString(
             "<h1>Log [{$date}]</h1>",
             $response->getContent()
         );

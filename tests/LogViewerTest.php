@@ -24,14 +24,14 @@ class LogViewerTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->logViewer = $this->app->make(\Arcanedev\LogViewer\Contracts\LogViewer::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->logViewer);
 

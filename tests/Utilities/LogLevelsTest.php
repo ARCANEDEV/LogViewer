@@ -24,14 +24,14 @@ class LogLevelsTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->levels = $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\LogLevels::class);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->levels);
 

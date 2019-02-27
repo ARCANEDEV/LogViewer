@@ -24,14 +24,14 @@ class LogTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->log = $this->getLog('2015-01-01');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->log);
 

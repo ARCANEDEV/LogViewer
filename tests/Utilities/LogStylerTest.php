@@ -24,14 +24,14 @@ class LogStylerTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->styler = $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\LogStyler::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->styler);
 

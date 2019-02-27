@@ -24,14 +24,14 @@ class LogEntryTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->entry = $this->getRandomLogEntry('2015-01-01');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->entry);
 
