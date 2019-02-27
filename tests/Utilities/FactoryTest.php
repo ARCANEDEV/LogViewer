@@ -24,14 +24,14 @@ class FactoryTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->logFactory = $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\Factory::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->logFactory);
 
@@ -225,13 +225,11 @@ class FactoryTest extends TestCase
         static::assertFalse($this->logFactory->isEmpty());
     }
 
-    /**
-     * @test
-     *
-     * @expectedException \Arcanedev\LogViewer\Exceptions\LogNotFoundException
-     */
+    /** @test */
     public function it_must_throw_a_filesystem_exception()
     {
+        $this->expectException(\Arcanedev\LogViewer\Exceptions\LogNotFoundException::class);
+
         $this->logFactory->get('2222-11-11'); // Future FTW
     }
 

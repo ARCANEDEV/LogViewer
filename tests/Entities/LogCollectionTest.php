@@ -24,14 +24,14 @@ class LogCollectionTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->logs = LogCollection::make();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->logs);
 
@@ -166,25 +166,21 @@ class LogCollectionTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     *
-     * @expectedException        \Arcanedev\LogViewer\Exceptions\LogNotFoundException
-     * @expectedExceptionMessage Log not found in this date [2222-01-01]
-     */
+    /** @test */
     public function it_must_throw_a_log_not_found_on_get_method()
     {
+        $this->expectException(\Arcanedev\LogViewer\Exceptions\LogNotFoundException::class);
+        $this->expectExceptionMessage('Log not found in this date [2222-01-01]');
+
         $this->logs->get('2222-01-01');
     }
 
-    /**
-     * @test
-     *
-     * @expectedException        \Arcanedev\LogViewer\Exceptions\LogNotFoundException
-     * @expectedExceptionMessage Log not found in this date [2222-01-01]
-     */
+    /** @test */
     public function it_must_throw_a_log_not_found_on_log_method()
     {
+        $this->expectException(\Arcanedev\LogViewer\Exceptions\LogNotFoundException::class);
+        $this->expectExceptionMessage('Log not found in this date [2222-01-01]');
+
         $this->logs->log('2222-01-01');
     }
 }

@@ -1,9 +1,6 @@
 <?php namespace Arcanedev\LogViewer\Tests\Commands;
 
-use Mockery;
 use Arcanedev\LogViewer\Tests\TestCase;
-use Arcanedev\LogViewer\Contracts\LogViewer;
-use Arcanedev\LogViewer\Commands\ClearCommand;
 
 /**
  * Class     ClearCommandTest
@@ -29,7 +26,7 @@ class ClearCommandTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -39,7 +36,7 @@ class ClearCommandTest extends TestCase
         $this->setupForTests();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         rmdir($this->path);
         unset($this->path);

@@ -15,14 +15,7 @@ class PublishCommandTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    protected function setUp()
-    {
-        parent::setUp();
-
-        //
-    }
-
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->deleteConfig();
         $this->deleteLocalizations();

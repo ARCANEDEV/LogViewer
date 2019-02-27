@@ -25,14 +25,14 @@ class UtilitiesServiceProviderTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->provider = $this->app->getProvider(UtilitiesServiceProvider::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->provider);
 
