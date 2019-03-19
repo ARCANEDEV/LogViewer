@@ -21,7 +21,7 @@ class LogViewer implements LogViewerContract
     /**
      * LogViewer Version
      */
-    const VERSION = '4.6.3';
+    const VERSION = '4.7.1';
 
     /* -----------------------------------------------------------------
      |  Properties
