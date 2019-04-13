@@ -163,7 +163,8 @@ class LogViewerController extends Controller
      */
     public function download($date)
     {
-        return $this->logViewer->download($date);
+        $path = config('log-viewer.storage-path') . DIRECTORY_SEPARATOR;
+        return $this->logViewer->download($path.$date);
     }
 
     /**
@@ -179,8 +180,9 @@ class LogViewerController extends Controller
 
         $date = $request->get('date');
 
+        $path = config('log-viewer.storage-path') . DIRECTORY_SEPARATOR;
         return response()->json([
-            'result' => $this->logViewer->delete($date) ? 'success' : 'error'
+            'result' => $this->logViewer->delete($path. $date) ? 'success' : 'error'
         ]);
     }
 

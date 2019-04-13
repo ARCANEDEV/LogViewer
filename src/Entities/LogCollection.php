@@ -72,7 +72,7 @@ class LogCollection extends Collection
     private function load()
     {
         foreach($this->filesystem->dates(true) as $date => $path) {
-            $this->put($date, Log::make($date, $path, $this->filesystem->read($date)));
+            $this->put(basename($path), Log::make($date, $path, $this->filesystem->read($path)));
         }
 
         return $this;

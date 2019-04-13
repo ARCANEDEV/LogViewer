@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="page-header mb-4">
-        <h1>Log [{{ $log->date }}]</h1>
+        <h1>Log [{{ basename($log->date) }}]</h1>
     </div>
 
     <div class="row">
@@ -26,7 +26,7 @@
                                 <span class="badge empty">{{ $item['count'] }}</span>
                             </a>
                         @else
-                            <a href="{{ $item['url'] }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center level-{{ $levelKey }}{{ $level === $levelKey ? ' active' : ''}}">
+                            a<a href="{{ $item['url'] }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center level-{{ $levelKey }}{{ $level === $levelKey ? ' active' : ''}}">
                                 <span class="level-name">{!! $item['icon'] !!} {{ $item['name'] }}</span>
                                 <span class="badge badge-level-{{ $levelKey }}">{{ $item['count'] }}</span>
                             </a>
@@ -41,7 +41,7 @@
                 <div class="card-header">
                     Log info :
                     <div class="group-btns pull-right">
-                        <a href="{{ route('log-viewer::logs.download', [$log->date]) }}" class="btn btn-sm btn-success">
+                        <a href="{{ route('log-viewer::logs.download', [basename($log->date)]) }}" class="btn btn-sm btn-success">
                             <i class="fa fa-download"></i> DOWNLOAD
                         </a>
                         <a href="#delete-log-modal" class="btn btn-sm btn-danger" data-toggle="modal">
@@ -79,13 +79,13 @@
                 </div>
                 <div class="card-footer">
                     {{-- Search --}}
-                    <form action="{{ route('log-viewer::logs.search', [$log->date, $level]) }}" method="GET">
+                    <form action="{{ route('log-viewer::logs.search', [basename($log->date), $level]) }}" method="GET">
                         <div class=form-group">
                             <div class="input-group">
                                 <input id="query" name="query" class="form-control"  value="{!! $query !!}" placeholder="Type here to search">
                                 <div class="input-group-append">
                                     @unless (is_null($query))
-                                        <a href="{{ route('log-viewer::logs.show', [$log->date]) }}" class="btn btn-secondary">
+                                        <a href="{{ route('log-viewer::logs.show', [basename($log->date)]) }}" class="btn btn-secondary">
                                             ({{ $entries->count() }} results) <i class="fa fa-fw fa-times"></i>
                                         </a>
                                     @endunless
@@ -181,7 +181,7 @@
             <form id="delete-log-form" action="{{ route('log-viewer::logs.delete') }}" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="date" value="{{ $log->date }}">
+                <input type="hidden" name="date" value="{{ basename($log->date) }}">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">DELETE LOG FILE</h5>
@@ -190,7 +190,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to <span class="badge badge-danger">DELETE</span> this log file <span class="badge badge-primary">{{ $log->date }}</span> ?</p>
+                        <p>Are you sure you want to <span class="badge badge-danger">DELETE</span> this log file <span class="badge badge-primary">{{ basename($log->date) }}</span> ?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
