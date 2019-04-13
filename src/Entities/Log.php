@@ -125,7 +125,7 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     public static function make($date, $path, $raw)
     {
 
-        return new self($path, $path, $raw);
+        return new self($date, $path, $raw);
     }
 
     /**
