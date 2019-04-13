@@ -304,8 +304,8 @@ class LogChecker implements LogCheckerContract
      */
     private function isInvalidLogDate($file)
     {
-        $pattern = '/laravel-(\d){4}-(\d){2}-(\d){2}.log/';
+        $pattern = $this->filesystem->getPattern();
 
-        return ((bool) preg_match($pattern, $file, $matches)) === false;
+        return ((bool) preg_match("/{$pattern}/", $file, $matches)) === false;
     }
 }
