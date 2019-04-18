@@ -27,7 +27,6 @@ class LogCollectionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->app['config']->set('log-viewer.parse-all-files-in-log-path', false);
 
         $this->logs = LogCollection::make();
     }
