@@ -27,6 +27,7 @@ class LogViewerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->app['config']->set('log-viewer.parse-all-files-in-log-path', false);
 
         $this->logViewer = $this->app->make(\Arcanedev\LogViewer\Contracts\LogViewer::class);
     }

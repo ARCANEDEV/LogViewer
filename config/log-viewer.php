@@ -23,7 +23,7 @@ return [
     ],
 
     // parse all the files in the log path, regardless of their naming
-    'parse_all_files_in_log_path' => false,
+    'parse-all-files-in-log-path' => false,
 
     /* -----------------------------------------------------------------
      |  Locale

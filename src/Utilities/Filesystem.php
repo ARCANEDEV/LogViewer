@@ -106,7 +106,7 @@ class Filesystem implements FilesystemContract
      */
     public function getPattern()
     {
-        if (config('log-viewer.parse_all_files_in_log_path')) {
+        if (config('log-viewer.parse-all-files-in-log-path')) {
             return "*".$this->extension;
         }
         return $this->prefixPattern.$this->datePattern.$this->extension;
@@ -261,7 +261,7 @@ class Filesystem implements FilesystemContract
     public function delete($date)
     {
         $path = $this->getLogPath($date);
-        if (config('log-viewer.parse_all_files_in_log_path')) {
+        if (config('log-viewer.parse-all-files-in-log-path')) {
             $path = $date;
         }
 
@@ -332,7 +332,7 @@ class Filesystem implements FilesystemContract
     {
         $path = $this->storagePath.DS.$this->prefixPattern.$date.$this->extension;
 
-        if (config('log-viewer.parse_all_files_in_log_path')) {
+        if (config('log-viewer.parse-all-files-in-log-path')) {
             $path = $date;
         }
 

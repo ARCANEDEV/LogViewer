@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\LogViewer\Tests\Entities;
+<?php namespace Arcanedev\LogViewer\Tests\Entities\AllFiles;
 
 use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Tests\TestCase;
@@ -9,7 +9,7 @@ use Arcanedev\LogViewer\Tests\TestCase;
  * @package  Arcanedev\LogViewer\Tests\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogEntryTest extends TestCase
+class LogEntryAllTest extends TestCase
 {
     /* -----------------------------------------------------------------
      |  Properties
@@ -27,9 +27,10 @@ class LogEntryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->app['config']->set('log-viewer.parse-all-files-in-log-path', false);
+        $this->app['config']->set('log-viewer.parse-all-files-in-log-path', true);
 
-        $this->entry = $this->getRandomLogEntry('2015-01-01');
+        $filename ='laravel-2015-01.log';
+        $this->entry = $this->getRandomLogEntry(config('log-viewer.storage-path'). DS. $filename );
     }
 
     protected function tearDown(): void
@@ -48,7 +49,9 @@ class LogEntryTest extends TestCase
     public function it_can_be_instantiated()
     {
         static::assertInstanceOf(LogEntry::class, $this->entry);
-        static::assertLogEntry('2015-01-01', $this->entry);
+
+        $filename ='laravel-2015-01.log';
+        static::assertLogEntry($filename , $this->entry);
     }
 
     /** @test */

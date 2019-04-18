@@ -270,6 +270,16 @@ class LogViewer implements LogViewerContract
     }
 
     /**
+     * Get all log files.
+     *
+     * @return array
+     */
+    public function allFiles()
+    {
+        return $this->filesystem->all();
+    }
+
+    /**
      * List the log files (only dates).
      *
      * @return array

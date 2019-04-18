@@ -132,11 +132,14 @@ abstract class TestCase extends BaseTestCase
      */
     protected static function assertLogEntry($date, LogEntry $entry)
     {
-        $dt = Carbon::createFromFormat('Y-m-d', $date);
-
         self::assertInLogLevels($entry->level);
         self::assertInstanceOf(Carbon::class, $entry->datetime);
-        self::assertTrue($entry->datetime->isSameDay($dt));
+
+        if (!config('log-viewer.parse-all-files-in-log-path')) {
+            $dt = Carbon::createFromFormat('Y-m-d', $date);
+            self::assertTrue($entry->datetime->isSameDay($dt));
+        }
+
         self::assertNotEmpty($entry->header);
         self::assertNotEmpty($entry->stack);
     }
@@ -332,6 +335,16 @@ abstract class TestCase extends BaseTestCase
     public function getDates()
     {
         return $this->filesystem()->dates();
+    }
+
+    /**
+     * Get logs filenames.
+     *
+     * @return array
+     */
+    public function getFilenames()
+    {
+        return $this->filesystem()->filenames();
     }
 
     /**

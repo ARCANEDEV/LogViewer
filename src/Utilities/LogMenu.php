@@ -102,7 +102,7 @@ class LogMenu implements LogMenuContract
 
         foreach($log->tree($trans) as $level => $item) {
 
-            if (config('log-viewer.parse_all_files_in_log_path')) {
+            if (config('log-viewer.parse-all-files-in-log-path')) {
                 $filename = basename($log->date);
             } else {
                 $filename = $log->date;

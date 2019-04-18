@@ -104,7 +104,7 @@ class LogViewerController extends Controller
         $levels  = $this->logViewer->levelsNames();
         $entries = $log->entries($level)->paginate($this->perPage);
 
-        if (config('log-viewer.parse_all_files_in_log_path')) {
+        if (config('log-viewer.parse-all-files-in-log-path')) {
             $log->date = basename($log->date);
         }
 
@@ -167,7 +167,7 @@ class LogViewerController extends Controller
      */
     public function download($date)
     {
-        if (config('log-viewer.parse_all_files_in_log_path')) {
+        if (config('log-viewer.parse-all-files-in-log-path')) {
             $path = config('log-viewer.storage-path') . DIRECTORY_SEPARATOR;
             return $this->logViewer->download($path.$date, $date );
         }
@@ -186,7 +186,7 @@ class LogViewerController extends Controller
         abort_unless($request->ajax(), 405, 'Method Not Allowed');
 
         $date = $request->get('date');
-        if (config('log-viewer.parse_all_files_in_log_path')) {
+        if (config('log-viewer.parse-all-files-in-log-path')) {
             $path = config('log-viewer.storage-path') . DIRECTORY_SEPARATOR;
             return response()->json([
                 'result' => $this->logViewer->delete($path. $date) ? 'success' : 'error'
