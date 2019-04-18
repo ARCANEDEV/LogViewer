@@ -101,8 +101,15 @@ class LogMenu implements LogMenuContract
         $route = $this->config('menu.filter-route');
 
         foreach($log->tree($trans) as $level => $item) {
+
+            if (config('log-viewer.parse-all-files-in-log-path')) {
+                $filename = basename($log->date);
+            } else {
+                $filename = $log->date;
+            }
+
             $items[$level] = array_merge($item, [
-                'url'  => route($route, [$log->date, $level]),
+                'url'  => route($route, [$filename, $level]),
                 'icon' => $this->isIconsEnabled() ? $this->styler->icon($level) : '',
             ]);
         }

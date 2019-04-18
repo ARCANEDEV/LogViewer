@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\LogViewer\Tests\Entities;
+<?php namespace Arcanedev\LogViewer\Tests\Entities\AllFiles;
 
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Tests\TestCase;
@@ -9,7 +9,7 @@ use Arcanedev\LogViewer\Tests\TestCase;
  * @package  Arcanedev\LogViewer\Tests\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogEntryCollectionTest extends TestCase
+class LogEntryAllCollectionTest extends TestCase
 {
     /* -----------------------------------------------------------------
      |  Properties
@@ -27,7 +27,7 @@ class LogEntryCollectionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->app['config']->set('log-viewer.parse-all-files-in-log-path', false);
+        $this->app['config']->set('log-viewer.parse-all-files-in-log-path', true);
 
         $this->entries = new LogEntryCollection;
     }
@@ -55,10 +55,10 @@ class LogEntryCollectionTest extends TestCase
     /** @test */
     public function it_can_load_raw_entries()
     {
-        foreach ($this->getDates() as $date) {
-            $entries = $this->getEntries($date);
+        foreach ($this->getFilenames() as $path) {
+            $entries = $this->getEntries($path);
 
-            static::assertLogEntries($date, $entries);
+            static::assertLogEntries($path, $entries);
             static::assertCount(8, $entries);
             static::assertSame(8, $entries->count());
         }
@@ -67,13 +67,13 @@ class LogEntryCollectionTest extends TestCase
     /** @test */
     public function it_can_get_entries_by_level()
     {
-        foreach ($this->getDates() as $date) {
-            $this->entries = $this->getEntries($date);
+        foreach ($this->getFilenames() as $path) {
+            $this->entries = $this->getEntries($path);
 
             foreach (self::$logLevels as $level) {
                 $entry = $this->entries->filterByLevel($level);
 
-                static::assertLogEntries($date, $entry);
+                static::assertLogEntries($path, $entry);
             }
         }
     }
@@ -81,8 +81,8 @@ class LogEntryCollectionTest extends TestCase
     /** @test */
     public function it_can_get_stats()
     {
-        foreach ($this->getDates() as $date) {
-            $this->entries = $this->getEntries($date);
+        foreach ($this->getFilenames() as $path) {
+            $this->entries = $this->getEntries($path);
 
             $stats = $this->entries->stats();
 
@@ -95,8 +95,8 @@ class LogEntryCollectionTest extends TestCase
     /** @test */
     public function it_can_get_tree()
     {
-        foreach ($this->getDates() as $date) {
-            $this->entries = $this->getEntries($date);
+        foreach ($this->getFilenames() as $path) {
+            $this->entries = $this->getEntries($path);
 
             $tree = $this->entries->tree();
 

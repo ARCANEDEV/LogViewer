@@ -106,6 +106,9 @@ class Filesystem implements FilesystemContract
      */
     public function getPattern()
     {
+        if (config('log-viewer.parse-all-files-in-log-path')) {
+            return "*".$this->extension;
+        }
         return $this->prefixPattern.$this->datePattern.$this->extension;
     }
 
@@ -216,6 +219,13 @@ class Filesystem implements FilesystemContract
         return $dates;
     }
 
+
+    public function filenames()
+    {
+        $files = array_reverse($this->logs());
+        return $files;
+    }
+
     /**
      * Read the log.
      *
@@ -251,6 +261,9 @@ class Filesystem implements FilesystemContract
     public function delete($date)
     {
         $path = $this->getLogPath($date);
+        if (config('log-viewer.parse-all-files-in-log-path')) {
+            $path = $date;
+        }
 
         // @codeCoverageIgnoreStart
         if ( ! $this->filesystem->delete($path)) {
@@ -318,6 +331,10 @@ class Filesystem implements FilesystemContract
     private function getLogPath($date)
     {
         $path = $this->storagePath.DS.$this->prefixPattern.$date.$this->extension;
+
+        if (config('log-viewer.parse-all-files-in-log-path')) {
+            $path = $date;
+        }
 
         if ( ! $this->filesystem->exists($path)) {
             throw new FilesystemException("The log(s) could not be located at : $path");

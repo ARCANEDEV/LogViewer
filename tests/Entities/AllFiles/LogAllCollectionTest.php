@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\LogViewer\Tests\Entities;
+<?php namespace Arcanedev\LogViewer\Tests\Entities\AllFiles;
 
 use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Tests\TestCase;
@@ -9,7 +9,7 @@ use Arcanedev\LogViewer\Tests\TestCase;
  * @package  Arcanedev\LogViewer\Tests\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogCollectionTest extends TestCase
+class LogAllCollectionTest extends TestCase
 {
     /* -----------------------------------------------------------------
      |  Properties
@@ -27,7 +27,8 @@ class LogCollectionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->app['config']->set('log-viewer.parse-all-files-in-log-path', false);
+
+        $this->app['config']->set('log-viewer.parse-all-files-in-log-path', true);
 
         $this->logs = LogCollection::make();
     }
@@ -53,72 +54,67 @@ class LogCollectionTest extends TestCase
     /** @test */
     public function it_can_get_all_logs()
     {
-        static::assertCount(2,   $this->logs);
-        static::assertSame(2,  $this->logs->count());
-        static::assertSame(16, $this->logs->total());
+        static::assertCount(5,   $this->logs);
+        static::assertSame(5,  $this->logs->count());
+        static::assertSame(40, $this->logs->total());
 
-        foreach ($this->logs as $date => $log) {
-            static::assertLog($log, $date);
+        foreach ($this->logs as $filename => $log) {
+            static::assertLog($log, config('log-viewer.storage-path'). DS. $filename);
             static::assertCount(8,  $log->entries());
             static::assertSame(8, $log->entries()->count());
         }
     }
 
     /** @test */
-    public function it_can_get_a_log_by_date()
+    public function it_can_get_a_log_by_filename()
     {
-        $log = $this->logs->get($date = '2015-01-01');
+        $filename ='laravel-2015-01.log';
+        $log = $this->logs->get($filename);
 
-        static::assertLog($log, $date);
+        static::assertLog($log, config('log-viewer.storage-path'). DS. $filename);
         static::assertCount(8, $log->entries());
         static::assertSame(8, $log->entries()->count());
     }
 
     /** @test */
-    public function it_can_get_the_log_entries_by_date()
+    public function it_can_get_the_log_entries_by_filename()
     {
-        $entries = $this->logs->entries($date = '2015-01-01');
+        $filename ='laravel-2015-01.log';
+        $entries = $this->logs->entries($filename );
 
-        static::assertLogEntries($date, $entries);
+        static::assertLogEntries(config('log-viewer.storage-path'). DS. $filename, $entries);
         static::assertCount(8, $entries);
         static::assertSame(8, $entries->count());
     }
 
     /** @test */
-    public function it_can_get_the_log_entries_by_date_and_level()
+    public function it_can_get_the_log_entries_by_filename_and_level()
     {
-        $date = '2015-01-01';
+        $filename ='laravel-2015-01.log';
+        $path = config('log-viewer.storage-path'). DS. $filename;
 
         foreach (self::$logLevels as $level) {
-            $entries = $this->logs->entries($date, $level);
+            $entries = $this->logs->entries($filename , $level);
 
-            static::assertLogEntries($date, $entries);
+            static::assertLogEntries($path , $entries);
             static::assertCount(1, $entries);
             static::assertSame(1, $entries->count());
         }
 
-        $entries = $this->logs->entries($date, 'all');
+        $entries = $this->logs->entries($filename, 'all');
 
-        static::assertLogEntries($date, $entries);
+        static::assertLogEntries($path, $entries);
         static::assertCount(8, $entries);
         static::assertSame(8, $entries->count());
     }
 
-    /** @test */
-    public function it_can_get_logs_dates()
-    {
-        foreach ($this->getDates() as $date) {
-            static::assertContains($date, $this->logs->dates());
-        }
-    }
 
     /** @test */
     public function it_can_get_logs_stats()
     {
         $stats = $this->logs->stats();
 
-        foreach ($stats as $date => $counters) {
-            static::assertDate($date);
+        foreach ($stats as $path => $counters) {
 
             foreach ($counters as $level => $counter) {
                 if ($level === 'all') {
@@ -136,10 +132,9 @@ class LogCollectionTest extends TestCase
     {
         $tree = $this->logs->tree();
 
-        static::assertCount(2, $tree);
+        static::assertCount(5, $tree);
 
-        foreach ($tree as $date => $levels) {
-            static::assertDate($date);
+        foreach ($tree as $path => $levels) {
 
             foreach ($levels as $level => $item) {
                 static::assertEquals($level, $item['name']);
@@ -155,8 +150,7 @@ class LogCollectionTest extends TestCase
             $this->app->setLocale($locale);
             $menu = $this->logs->menu();
 
-            foreach ($menu as $date => $levels) {
-                static::assertDate($date);
+            foreach ($menu as $path => $levels) {
 
                 foreach ($levels as $level => $item) {
                     static::assertNotEquals($level, $item['name']);

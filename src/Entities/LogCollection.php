@@ -71,8 +71,14 @@ class LogCollection extends Collection
      */
     private function load()
     {
-        foreach($this->filesystem->dates(true) as $date => $path) {
-            $this->put($date, Log::make($date, $path, $this->filesystem->read($date)));
+        if (config('log-viewer.parse-all-files-in-log-path')) {
+            foreach($this->filesystem->filenames(true) as $date => $path) {
+                $this->put(basename($path), Log::make($path, $path, $this->filesystem->read($path)));
+            }
+        } else {
+            foreach($this->filesystem->dates(true) as $date => $path) {
+                $this->put($date, Log::make($date, $path, $this->filesystem->read($date)));
+            }
         }
 
         return $this;

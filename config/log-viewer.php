@@ -22,6 +22,9 @@ return [
         'extension' => Filesystem::PATTERN_EXTENSION, // '.log'
     ],
 
+    // parse all the files in the log path, regardless of their naming
+    'parse-all-files-in-log-path' => false,
+
     /* -----------------------------------------------------------------
      |  Locale
      | -----------------------------------------------------------------
