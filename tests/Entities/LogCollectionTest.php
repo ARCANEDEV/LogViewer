@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Tests\Entities;
 
 use Arcanedev\LogViewer\Entities\LogCollection;
+use Arcanedev\LogViewer\Exceptions\LogNotFoundException;
 use Arcanedev\LogViewer\Tests\TestCase;
 
 /**
@@ -28,7 +29,7 @@ class LogCollectionTest extends TestCase
     {
         parent::setUp();
 
-        $this->logs = LogCollection::make();
+        $this->logs = new LogCollection;
     }
 
     protected function tearDown(): void
@@ -57,6 +58,7 @@ class LogCollectionTest extends TestCase
         static::assertSame(16, $this->logs->total());
 
         foreach ($this->logs as $date => $log) {
+            /** @var  \Arcanedev\LogViewer\Entities\Log  $log */
             static::assertLog($log, $date);
             static::assertCount(8,  $log->entries());
             static::assertSame(8, $log->entries()->count());
@@ -169,7 +171,7 @@ class LogCollectionTest extends TestCase
     /** @test */
     public function it_must_throw_a_log_not_found_on_get_method()
     {
-        $this->expectException(\Arcanedev\LogViewer\Exceptions\LogNotFoundException::class);
+        $this->expectException(LogNotFoundException::class);
         $this->expectExceptionMessage('Log not found in this date [2222-01-01]');
 
         $this->logs->get('2222-01-01');
@@ -178,7 +180,7 @@ class LogCollectionTest extends TestCase
     /** @test */
     public function it_must_throw_a_log_not_found_on_log_method()
     {
-        $this->expectException(\Arcanedev\LogViewer\Exceptions\LogNotFoundException::class);
+        $this->expectException(LogNotFoundException::class);
         $this->expectExceptionMessage('Log not found in this date [2222-01-01]');
 
         $this->logs->log('2222-01-01');

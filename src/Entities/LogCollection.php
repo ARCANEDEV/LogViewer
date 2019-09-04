@@ -3,7 +3,7 @@
 use Arcanedev\LogViewer\Contracts\Utilities\Filesystem as FilesystemContract;
 use Arcanedev\LogViewer\Exceptions\LogNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 
 /**
  * Class     LogCollection
@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
  * @package  Arcanedev\LogViewer\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogCollection extends Collection
+class LogCollection extends LazyCollection
 {
     /* -----------------------------------------------------------------
      |  Properties
@@ -29,15 +29,20 @@ class LogCollection extends Collection
     /**
      * LogCollection constructor.
      *
-     * @param  array  $items
+     * @param  mixed  $source
      */
-    public function __construct($items = [])
+    public function __construct($source = null)
     {
         $this->setFilesystem(app(FilesystemContract::class));
 
-        parent::__construct($items);
+        if (is_null($source))
+            $source = function () {
+                foreach($this->filesystem->dates(true) as $date => $path) {
+                    yield $date => Log::make($date, $path, $this->filesystem->read($date));
+                }
+            };
 
-        if (empty($items)) $this->load();
+        parent::__construct($source);
     }
 
     /* -----------------------------------------------------------------
@@ -63,20 +68,6 @@ class LogCollection extends Collection
      |  Main Methods
      | -----------------------------------------------------------------
      */
-
-    /**
-     * Load all logs.
-     *
-     * @return \Arcanedev\LogViewer\Entities\LogCollection
-     */
-    private function load()
-    {
-        foreach($this->filesystem->dates(true) as $date => $path) {
-            $this->put($date, Log::make($date, $path, $this->filesystem->read($date)));
-        }
-
-        return $this;
-    }
 
     /**
      * Get a log.
@@ -154,7 +145,7 @@ class LogCollection extends Collection
     {
         $stats = [];
 
-        foreach ($this->items as $date => $log) {
+        foreach ($this->all() as $date => $log) {
             /** @var \Arcanedev\LogViewer\Entities\Log $log */
             $stats[$date] = $log->stats();
         }
@@ -197,7 +188,7 @@ class LogCollection extends Collection
     {
         $tree = [];
 
-        foreach ($this->items as $date => $log) {
+        foreach ($this->all() as $date => $log) {
             /** @var \Arcanedev\LogViewer\Entities\Log $log */
             $tree[$date] = $log->tree($trans);
         }
@@ -216,7 +207,7 @@ class LogCollection extends Collection
     {
         $menu = [];
 
-        foreach ($this->items as $date => $log) {
+        foreach ($this->all() as $date => $log) {
             /** @var \Arcanedev\LogViewer\Entities\Log $log */
             $menu[$date] = $log->menu($trans);
         }

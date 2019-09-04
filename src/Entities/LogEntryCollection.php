@@ -2,7 +2,7 @@
 
 use Arcanedev\LogViewer\Helpers\LogParser;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 
 /**
  * Class     LogEntryCollection
@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
  * @package  Arcanedev\LogViewer\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogEntryCollection extends Collection
+class LogEntryCollection extends LazyCollection
 {
     /* -----------------------------------------------------------------
      |  Main Methods
@@ -24,15 +24,15 @@ class LogEntryCollection extends Collection
      *
      * @return self
      */
-    public function load($raw)
+    public static function load($raw)
     {
-        foreach (LogParser::parse($raw) as $entry) {
-            list($level, $header, $stack) = array_values($entry);
+        return new static(function () use ($raw) {
+            foreach (LogParser::parse($raw) as $entry) {
+                list($level, $header, $stack) = array_values($entry);
 
-            $this->push(new LogEntry($level, $header, $stack));
-        }
-
-        return $this;
+                yield new LogEntry($level, $header, $stack);
+            }
+        });
     }
 
     /**

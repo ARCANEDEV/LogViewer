@@ -91,12 +91,12 @@ class LogViewerController extends Controller
     /**
      * Show the log.
      *
-     * @param  string                    $date
      * @param  \Illuminate\Http\Request  $request
+     * @param  string                    $date
      *
      * @return \Illuminate\View\View
      */
-    public function show($date, Request $request)
+    public function show(Request $request, $date)
     {
         $level   = 'all';
         $log     = $this->getLogOrFail($date);
@@ -110,13 +110,13 @@ class LogViewerController extends Controller
     /**
      * Filter the log entries by level.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  string                    $date
      * @param  string                    $level
-     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function showByLevel($date, $level, Request $request)
+    public function showByLevel(Request $request, $date, $level)
     {
         if ($level === 'all')
             return redirect()->route($this->showRoute, [$date]);
@@ -132,13 +132,13 @@ class LogViewerController extends Controller
     /**
      * Show the log with the search query.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  string                    $date
      * @param  string                    $level
-     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function search($date, $level = 'all', Request $request)
+    public function search(Request $request, $date, $level = 'all')
     {
         $query   = $request->get('query');
 
