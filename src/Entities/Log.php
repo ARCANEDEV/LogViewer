@@ -50,7 +50,7 @@ class Log implements Arrayable, Jsonable, JsonSerializable
         $this->date    = $date;
         $this->path    = $path;
         $this->file    = new SplFileInfo($path);
-        $this->entries = (new LogEntryCollection)->load($raw);
+        $this->entries = LogEntryCollection::load($raw);
     }
 
     /* -----------------------------------------------------------------

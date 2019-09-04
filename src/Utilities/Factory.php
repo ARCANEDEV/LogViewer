@@ -152,7 +152,7 @@ class Factory implements FactoryContract
      */
     public function logs()
     {
-        return LogCollection::make()->setFilesystem($this->filesystem);
+        return (new LogCollection)->setFilesystem($this->filesystem);
     }
 
     /* -----------------------------------------------------------------
