@@ -11,4 +11,4 @@
 .scrutinizer.yml  export-ignore
 .travis.yml       export-ignore
 CONTRIBUTING.md   export-ignore
-phpunit.xml       export-ignore
+phpunit.xml.dist  export-ignore
