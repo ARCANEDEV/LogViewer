@@ -15,6 +15,7 @@
     "license": "MIT",
     "require": {
         "php":               ">=5.6",
+        "ext-json":          "*",
         "psr/log":           "~1.0",
         "arcanedev/support": "~4.1.0"
     },
