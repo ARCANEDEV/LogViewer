@@ -99,7 +99,9 @@ class CheckCommand extends Command
             $rows[] = [$file, $message];
         }
 
-        $this->frame('LogViewer messages');
-        $this->table(['File', 'Message'], $rows);
+        if ( ! empty($rows)) {
+            $this->frame('LogViewer messages');
+            $this->table(['File', 'Message'], $rows);
+        }
     }
 }
