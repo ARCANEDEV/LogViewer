@@ -268,16 +268,17 @@ class LogChecker implements LogCheckerContract
         $status   = true;
         $filename = basename($path);
         $message  = "The log file [$filename] is valid.";
+        $pattern  = $this->filesystem->getPattern();
 
         if ($this->isSingleLogFile($filename)) {
-            $this->status = $status  = false;
+            $this->status = $status = false;
             $this->messages['files'][$filename] = $message =
                 "You have a single log file in your application, you should split the [$filename] into separate log files.";
         }
-        elseif ($this->isInvalidLogDate($filename)) {
-            $this->status = $status  = false;
+        elseif ($this->isInvalidLogPattern($filename, $pattern)) {
+            $this->status = $status = false;
             $this->messages['files'][$filename] = $message =
-                "The log file [$filename] has an invalid date, the format must be like laravel-YYYY-MM-DD.log.";
+                "The log file [$filename] has an invalid date, the format must be like {$pattern}.";
         }
 
         $this->files[$filename] = compact('filename', 'status', 'message', 'path');
@@ -299,13 +300,12 @@ class LogChecker implements LogCheckerContract
      * Check the date of the log file.
      *
      * @param  string  $file
+     * @param  string  $pattern
      *
      * @return bool
      */
-    private function isInvalidLogDate($file)
+    private function isInvalidLogPattern($file, $pattern)
     {
-        $pattern = $this->filesystem->getPattern();
-
         return ((bool) preg_match("/{$pattern}/", $file, $matches)) === false;
     }
 }
