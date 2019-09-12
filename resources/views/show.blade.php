@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var  Arcanedev\LogViewer\Entities\Log            $log
+ * @var  Illuminate\Pagination\LengthAwarePaginator  $entries
+ * @var  string|null                                 $query
+ */
+?>
 @extends('log-viewer::_template.master')
 
 @section('content')
@@ -57,12 +64,16 @@
                     <form action="{{ route('log-viewer::logs.search', [$log->date, $level]) }}" method="GET">
                         <div class=form-group">
                             <div class="input-group">
-                                <input id="query" name="query" class="form-control"  value="{!! request('query') !!}" placeholder="typing something to search">
+                                <input id="query" name="query" class="form-control"  value="{!! $query !!}" placeholder="typing something to search">
                                 <span class="input-group-btn">
-                                    @if (request()->has('query'))
-                                        <a href="{{ route('log-viewer::logs.show', [$log->date]) }}" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></a>
-                                    @endif
-                                    <button id="search-btn" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+                                    @unless (is_null($query))
+                                        <a href="{{ route('log-viewer::logs.show', [$log->date]) }}" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </a>
+                                    @endunless
+                                    <button id="search-btn" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
                                 </span>
                             </div>
                         </div>
@@ -74,10 +85,10 @@
             <div class="panel panel-default">
                 @if ($entries->hasPages())
                     <div class="panel-heading">
-                        {!! $entries->appends(compact('query'))->render() !!}
+                        {{ $entries->appends(compact('query'))->render() }}
 
                         <span class="label label-info pull-right">
-                            Page {!! $entries->currentPage() !!} of {!! $entries->lastPage() !!}
+                            Page {{ $entries->currentPage() }} of {{ $entries->lastPage() }}
                         </span>
                     </div>
                 @endif
@@ -95,6 +106,7 @@
                         </thead>
                         <tbody>
                             @forelse($entries as $key => $entry)
+                                <?php /** @var  Arcanedev\LogViewer\Entities\LogEntry  $entry */ ?>
                                 <tr>
                                     <td>
                                         <span class="label label-env">{{ $entry->env }}</span>
@@ -142,10 +154,10 @@
 
                 @if ($entries->hasPages())
                     <div class="panel-footer">
-                        {!! $entries->appends(compact('query'))->render() !!}
+                        {{ $entries->appends(compact('query'))->render() }}
 
                         <span class="label label-info pull-right">
-                            Page {!! $entries->currentPage() !!} of {!! $entries->lastPage() !!}
+                            Page {{ $entries->currentPage() }} of {{ $entries->lastPage() }}
                         </span>
                     </div>
                 @endif
