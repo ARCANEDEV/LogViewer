@@ -141,14 +141,24 @@ class LogViewerController extends Controller
     public function search(Request $request, $date, $level = 'all')
     {
         $query   = $request->get('query');
-
+        
         if (is_null($query))
             return redirect()->route($this->showRoute, [$date]);
 
+        $needles = explode(' ', $query);
+
         $log     = $this->getLogOrFail($date);
         $levels  = $this->logViewer->levelsNames();
-        $entries = $log->entries($level)->filter(function (LogEntry $value) use ($query) {
-            return Str::contains($value->header, $query);
+        $entries = $log->entries($level)->filter(function ( LogEntry $value) use ($needles) {
+
+            foreach($needles as $needle){
+                if(!Str::contains($value->header, $needle)){
+                    return false;
+                }
+            }
+
+            return true;
+            
         })->paginate($this->perPage);
 
         return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries'));
