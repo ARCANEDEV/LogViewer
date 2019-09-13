@@ -141,7 +141,7 @@ class LogViewerController extends Controller
     public function search(Request $request, $date, $level = 'all')
     {
         $query   = $request->get('query');
-        
+
         if (is_null($query))
             return redirect()->route($this->showRoute, [$date]);
 
