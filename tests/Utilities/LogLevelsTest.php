@@ -46,19 +46,19 @@ class LogLevelsTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(LogLevels::class, $this->levels);
+        static::assertInstanceOf(LogLevels::class, $this->levels);
     }
 
     /** @test */
     public function it_can_get_all_levels()
     {
-        $this->assertLevels($this->levels->lists());
+        static::assertLevels($this->levels->lists());
     }
 
     /** @test */
     public function it_can_get_all_levels_by_static_method()
     {
-        $this->assertLevels(LogLevels::all());
+        static::assertLevels(LogLevels::all());
     }
 
     /** @test */
@@ -69,20 +69,20 @@ class LogLevelsTest extends TestCase
 
             $levels = $this->levels->names($locale);
 
-            $this->assertTranslatedLevels($locale, $levels);
+            static::assertTranslatedLevels($locale, $levels);
         }
     }
 
     /** @test */
     public function it_must_choose_the_log_viewer_locale_instead_of_app_locale()
     {
-        $this->assertNotEquals('auto', $this->levels->getLocale());
-        $this->assertSame($this->app->getLocale(), $this->levels->getLocale());
+        static::assertNotEquals('auto', $this->levels->getLocale());
+        static::assertSame($this->app->getLocale(), $this->levels->getLocale());
 
         $this->levels->setLocale('fr');
 
-        $this->assertSame('fr', $this->levels->getLocale());
-        $this->assertNotEquals($this->app->getLocale(), $this->levels->getLocale());
+        static::assertSame('fr', $this->levels->getLocale());
+        static::assertNotEquals($this->app->getLocale(), $this->levels->getLocale());
     }
 
     /** @test */
@@ -91,12 +91,12 @@ class LogLevelsTest extends TestCase
         foreach (self::$locales as $locale) {
             $this->app->setLocale($locale);
 
-            $this->assertTranslatedLevels(
+            static::assertTranslatedLevels(
                 $this->app->getLocale(),
                 $this->levels->names()
             );
 
-            $this->assertTranslatedLevels(
+            static::assertTranslatedLevels(
                 $locale,
                 $this->levels->names($locale)
             );

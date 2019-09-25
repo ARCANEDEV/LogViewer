@@ -46,7 +46,7 @@ class LogMenuTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(LogMenu::class, $this->menu);
+        static::assertInstanceOf(LogMenu::class, $this->menu);
     }
 
     /** @test */
@@ -111,6 +111,6 @@ class LogMenuTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $menu = log_menu()->make($log));
+        static::assertSame($expected, $menu = log_menu()->make($log));
     }
 }

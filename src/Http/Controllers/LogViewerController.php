@@ -2,6 +2,7 @@
 
 use Arcanedev\LogViewer\Contracts\LogViewer as LogViewerContract;
 use Arcanedev\LogViewer\Entities\LogEntry;
+use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Exceptions\LogNotFoundException;
 use Arcanedev\LogViewer\Tables\StatsTable;
 use Illuminate\Http\Request;
@@ -147,10 +148,14 @@ class LogViewerController extends Controller
 
         $log     = $this->getLogOrFail($date);
         $levels  = $this->logViewer->levelsNames();
-        $needles = explode(' ', $query);
-        $entries = $log->entries($level)->filter(function (LogEntry $entry) use ($needles) {
-            return Str::containsAll($entry->header, $needles);
-        })->paginate($this->perPage);
+        $needles = array_filter(explode(' ', $query));
+        $entries = $log->entries($level)
+            ->unless(empty($needles), function (LogEntryCollection $entries) use ($needles) {
+                return $entries->filter(function (LogEntry $entry) use ($needles) {
+                    return Str::containsAll($entry->header, $needles);
+                });
+            })
+            ->paginate($this->perPage);
 
         return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries'));
     }

@@ -103,7 +103,7 @@ class LogMenu implements LogMenuContract
         foreach($log->tree($trans) as $level => $item) {
             $items[$level] = array_merge($item, [
                 'url'  => route($route, [$log->date, $level]),
-                'icon' => $this->isIconsEnabled() ? $this->styler->icon($level) : '',
+                'icon' => $this->isIconsEnabled() ? $this->styler->icon($level)->toHtml() : '',
             ]);
         }
 
