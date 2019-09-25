@@ -19,7 +19,7 @@ interface LogStyler
      * @param  string       $level
      * @param  string|null  $default
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function icon($level, $default = null);
 

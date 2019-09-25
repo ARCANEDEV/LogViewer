@@ -57,7 +57,7 @@
                                 <td colspan="7">{{ $log->getPath() }}</td>
                             </tr>
                             <tr>
-                                <td>Log entries : </td>
+                                <td>Log entries :</td>
                                 <td>
                                     <span class="badge badge-primary">{{ $entries->total() }}</span>
                                 </td>
@@ -82,7 +82,7 @@
                     <form action="{{ route('log-viewer::logs.search', [$log->date, $level]) }}" method="GET">
                         <div class=form-group">
                             <div class="input-group">
-                                <input id="query" name="query" class="form-control"  value="{!! $query !!}" placeholder="Type here to search">
+                                <input id="query" name="query" class="form-control" value="{{ $query }}" placeholder="Type here to search">
                                 <div class="input-group-append">
                                     @unless (is_null($query))
                                         <a href="{{ route('log-viewer::logs.show', [$log->date]) }}" class="btn btn-secondary">

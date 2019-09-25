@@ -2,6 +2,7 @@
 
 use Arcanedev\LogViewer\Tests\TestCase;
 use Arcanedev\LogViewer\Utilities\LogStyler;
+use Illuminate\Support\HtmlString;
 
 /**
  * Class     LogStylerTest
@@ -46,14 +47,14 @@ class LogStylerTest extends TestCase
     /** @test */
     public function it_can_ben_instantiated()
     {
-        $this->assertInstanceOf(LogStyler::class, $this->styler);
+        static::assertInstanceOf(LogStyler::class, $this->styler);
     }
 
     /** @test */
     public function it_can_get_icon()
     {
         foreach (self::$logLevels as $level) {
-            $this->assertRegExp(
+            static::assertRegExp(
                 '/^<i class="fa fa-fw fa-(.*)"><\/i>$/',
                 $this->styler->icon($level)
             );
@@ -65,14 +66,15 @@ class LogStylerTest extends TestCase
     {
         $icon = $this->styler->icon('danger', $default = 'fa fa-fw fa-danger');
 
-        $this->assertSame('<i class="'.$default.'"></i>', $icon);
+        static::assertInstanceOf(HtmlString::class, $icon);
+        static::assertSame('<i class="'.$default.'"></i>', $icon->toHtml());
     }
 
     /** @test */
     public function it_can_get_color()
     {
         foreach (self::$logLevels as $level) {
-            $this->assertHexColor($this->styler->color($level));
+            static::assertHexColor($this->styler->color($level));
         }
     }
 
@@ -81,15 +83,15 @@ class LogStylerTest extends TestCase
     {
         $color = $this->styler->color('danger', $default = '#BADA55');
 
-        $this->assertHexColor($color);
-        $this->assertSame($default, $color);
+        static::assertHexColor($color);
+        static::assertSame($default, $color);
     }
 
     /** @test */
     public function it_can_use_helper_to_get_icon()
     {
         foreach (self::$logLevels as $level) {
-            $this->assertRegExp(
+            static::assertRegExp(
                 '/^<i class="fa fa-fw fa-(.*)"><\/i>$/',
                 log_styler()->icon($level)
             );
@@ -100,7 +102,7 @@ class LogStylerTest extends TestCase
     public function it_can_use_helper_get_color()
     {
         foreach (self::$logLevels as $level) {
-            $this->assertHexColor(log_styler()->color($level));
+            static::assertHexColor(log_styler()->color($level));
         }
     }
 
@@ -112,6 +114,6 @@ class LogStylerTest extends TestCase
             '^Stack trace:',
         ];
 
-        $this->assertSame($expected, $this->styler->toHighlight());
+        static::assertSame($expected, $this->styler->toHighlight());
     }
 }

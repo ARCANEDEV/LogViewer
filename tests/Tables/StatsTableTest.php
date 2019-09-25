@@ -53,7 +53,7 @@ class StatsTableTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(StatsTable::class, $this->table);
+        static::assertInstanceOf(StatsTable::class, $this->table);
     }
 
     /** @test */
@@ -64,31 +64,31 @@ class StatsTableTest extends TestCase
             $this->getLogLevelsInstance()
         );
 
-        $this->assertTable($this->table);
+        static::assertTable($this->table);
     }
 
     /** @test */
     public function it_can_get_header()
     {
-        $this->assertTableHeader($this->table);
+        static::assertTableHeader($this->table);
     }
 
     /** @test */
     public function it_can_get_rows()
     {
-        $this->assertTableRows($this->table);
+        static::assertTableRows($this->table);
     }
 
     /** @test */
     public function it_can_get_footer()
     {
-        $this->assertTableFooter($this->table);
+        static::assertTableFooter($this->table);
     }
 
     /** @test */
     public function it_can_get_raw_data()
     {
-        $this->assertEquals(
+        static::assertEquals(
             $this->rawData,
             $this->table->data()
         );
@@ -99,7 +99,7 @@ class StatsTableTest extends TestCase
     {
         $totals = $this->table->totals();
 
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $totals);
+        static::assertInstanceOf(\Illuminate\Support\Collection::class, $totals);
     }
 
     /** @test */
@@ -107,7 +107,7 @@ class StatsTableTest extends TestCase
     {
         $json = $this->table->totalsJson();
 
-        $this->assertJson($json);
+        static::assertJson($json);
     }
 
     /** @test */
@@ -125,7 +125,7 @@ class StatsTableTest extends TestCase
         /** @var  \Arcanedev\LogViewer\Contracts\Utilities\Factory  $logFactory */
         $logFactory = $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\Factory::class);
 
-        $this->assertTable($logFactory->statsTable());
+        static::assertTable($logFactory->statsTable());
     }
 
     /* -----------------------------------------------------------------

@@ -55,7 +55,7 @@ class UtilitiesServiceProviderTest extends TestCase
         ];
 
         foreach ($expectations as $expected) {
-            $this->assertInstanceOf($expected, $this->provider);
+            static::assertInstanceOf($expected, $this->provider);
         }
     }
 
@@ -71,6 +71,6 @@ class UtilitiesServiceProviderTest extends TestCase
             Contracts\Utilities\LogChecker::class,
         ];
 
-        $this->assertSame($expected, $this->provider->provides());
+        static::assertSame($expected, $this->provider->provides());
     }
 }
