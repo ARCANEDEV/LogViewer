@@ -57,18 +57,18 @@ class LogViewer implements LogViewerContract
     /**
      * Create a new instance.
      *
-     * @param  \Arcanedev\LogViewer\Contracts\Utilities\Factory     $factory
-     * @param  \Arcanedev\LogViewer\Contracts\Utilities\Filesystem  $filesystem
-     * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels   $levels
+     * @param \Arcanedev\LogViewer\Contracts\Utilities\Factory $factory
+     * @param \Arcanedev\LogViewer\Contracts\Utilities\Filesystem $filesystem
+     * @param \Arcanedev\LogViewer\Contracts\Utilities\LogLevels $levels
      */
     public function __construct(
-        FactoryContract    $factory,
+        FactoryContract $factory,
         FilesystemContract $filesystem,
-        LogLevelsContract  $levels
+        LogLevelsContract $levels
     ) {
-        $this->factory    = $factory;
+        $this->factory = $factory;
         $this->filesystem = $filesystem;
-        $this->levels     = $levels;
+        $this->levels = $levels;
     }
 
     /* -----------------------------------------------------------------
@@ -79,7 +79,7 @@ class LogViewer implements LogViewerContract
     /**
      * Get the log levels.
      *
-     * @param  bool  $flip
+     * @param bool $flip
      *
      * @return array
      */
@@ -91,7 +91,7 @@ class LogViewer implements LogViewerContract
     /**
      * Get the translated log levels.
      *
-     * @param  string|null  $locale
+     * @param string|null $locale
      *
      * @return array
      */
@@ -103,7 +103,7 @@ class LogViewer implements LogViewerContract
     /**
      * Set the log storage path.
      *
-     * @param  string  $path
+     * @param string $path
      *
      * @return self
      */
@@ -127,15 +127,15 @@ class LogViewer implements LogViewerContract
     /**
      * Set the log pattern.
      *
-     * @param  string  $date
-     * @param  string  $prefix
-     * @param  string  $extension
+     * @param string $date
+     * @param string $prefix
+     * @param string $extension
      *
      * @return self
      */
     public function setPattern(
-        $prefix    = FilesystemContract::PATTERN_PREFIX,
-        $date      = FilesystemContract::PATTERN_DATE,
+        $prefix = FilesystemContract::PATTERN_PREFIX,
+        $date = FilesystemContract::PATTERN_DATE,
         $extension = FilesystemContract::PATTERN_EXTENSION
     ) {
         $this->factory->setPattern($prefix, $date, $extension);
@@ -161,7 +161,7 @@ class LogViewer implements LogViewerContract
     /**
      * Paginate all logs.
      *
-     * @param  int  $perPage
+     * @param int $perPage
      *
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
@@ -173,7 +173,7 @@ class LogViewer implements LogViewerContract
     /**
      * Get a log.
      *
-     * @param  string  $date
+     * @param string $date
      *
      * @return \Arcanedev\LogViewer\Entities\Log
      */
@@ -185,8 +185,8 @@ class LogViewer implements LogViewerContract
     /**
      * Get the log entries.
      *
-     * @param  string  $date
-     * @param  string  $level
+     * @param string $date
+     * @param string $level
      *
      * @return \Arcanedev\LogViewer\Entities\LogEntryCollection
      */
@@ -198,9 +198,9 @@ class LogViewer implements LogViewerContract
     /**
      * Download a log file.
      *
-     * @param  string       $date
-     * @param  string|null  $filename
-     * @param  array        $headers
+     * @param string $date
+     * @param string|null $filename
+     * @param array $headers
      *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
@@ -228,7 +228,7 @@ class LogViewer implements LogViewerContract
     /**
      * Get logs statistics table.
      *
-     * @param  string|null  $locale
+     * @param string|null $locale
      *
      * @return \Arcanedev\LogViewer\Tables\StatsTable
      */
@@ -240,7 +240,7 @@ class LogViewer implements LogViewerContract
     /**
      * Delete the log.
      *
-     * @param  string  $date
+     * @param string $date
      *
      * @return bool
      */
@@ -292,7 +292,7 @@ class LogViewer implements LogViewerContract
     /**
      * Get entries total from all logs.
      *
-     * @param  string  $level
+     * @param string $level
      *
      * @return int
      */
@@ -304,7 +304,7 @@ class LogViewer implements LogViewerContract
     /**
      * Get logs tree.
      *
-     * @param  bool  $trans
+     * @param bool $trans
      *
      * @return array
      */
@@ -316,7 +316,7 @@ class LogViewer implements LogViewerContract
     /**
      * Get logs menu.
      *
-     * @param  bool  $trans
+     * @param bool $trans
      *
      * @return array
      */
