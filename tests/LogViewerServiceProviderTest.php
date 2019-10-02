@@ -46,6 +46,7 @@ class LogViewerServiceProviderTest extends TestCase
     public function it_can_be_instantiated()
     {
         $expectations = [
+            \Illuminate\Contracts\Support\DeferrableProvider::class,
             \Illuminate\Support\ServiceProvider::class,
             \Arcanedev\Support\Providers\ServiceProvider::class,
             \Arcanedev\Support\Providers\PackageServiceProvider::class,
