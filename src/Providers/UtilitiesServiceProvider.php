@@ -1,8 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Providers;
 
-use Arcanedev\LogViewer\Contracts;
-use Arcanedev\LogViewer\Utilities;
-use Arcanedev\Support\ServiceProvider;
+use Arcanedev\LogViewer\{Contracts, Utilities};
+use Arcanedev\Support\Providers\ServiceProvider;
 use Illuminate\Support\Arr;
 
 /**

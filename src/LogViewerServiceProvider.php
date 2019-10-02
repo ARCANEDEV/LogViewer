@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\LogViewer;
 
-use Arcanedev\Support\PackageServiceProvider;
+use Arcanedev\Support\Providers\PackageServiceProvider;
 
 /**
  * Class     LogViewerServiceProvider
@@ -36,14 +36,19 @@ class LogViewerServiceProvider extends PackageServiceProvider
 
         $this->registerConfig();
 
-        $this->registerLogViewer();
-        $this->registerAliases();
+        $this->singleton(Contracts\LogViewer::class, LogViewer::class);
 
         $this->registerProviders([
             Providers\UtilitiesServiceProvider::class,
             Providers\RouteServiceProvider::class,
         ]);
-        $this->registerConsoleServiceProvider(Providers\CommandsServiceProvider::class);
+
+        $this->registerCommands([
+            Commands\PublishCommand::class,
+            Commands\StatsCommand::class,
+            Commands\CheckCommand::class,
+            Commands\ClearCommand::class,
+        ]);
     }
 
     /**
@@ -51,8 +56,6 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     public function boot()
     {
-        parent::boot();
-
         $this->publishConfig();
         $this->publishViews();
         $this->publishTranslations();
@@ -68,23 +71,5 @@ class LogViewerServiceProvider extends PackageServiceProvider
         return [
             Contracts\LogViewer::class,
         ];
-    }
-
-    /* -----------------------------------------------------------------
-     |  Other Methods
-     | -----------------------------------------------------------------
-     */
-
-    /**
-     * Register the log data class.
-     */
-    private function registerLogViewer()
-    {
-        $this->singleton(Contracts\LogViewer::class, LogViewer::class);
-
-        // Registering the Facade
-        if ($facade = $this->config()->get('log-viewer.facade')) {
-            $this->alias($facade, Facades\LogViewer::class);
-        }
     }
 }
