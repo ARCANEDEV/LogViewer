@@ -1,7 +1,6 @@
 <?php namespace Arcanedev\LogViewer;
 
 use Arcanedev\Support\Providers\PackageServiceProvider;
-use Illuminate\Contracts\Support\DeferrableProvider;
 
 /**
  * Class     LogViewerServiceProvider
@@ -9,7 +8,7 @@ use Illuminate\Contracts\Support\DeferrableProvider;
  * @package  Arcanedev\LogViewer
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogViewerServiceProvider extends PackageServiceProvider implements DeferrableProvider
+class LogViewerServiceProvider extends PackageServiceProvider
 {
     /* -----------------------------------------------------------------
      |  Properties
@@ -37,10 +36,8 @@ class LogViewerServiceProvider extends PackageServiceProvider implements Deferra
 
         $this->registerConfig();
 
-        $this->singleton(Contracts\LogViewer::class, LogViewer::class);
-
         $this->registerProviders([
-            Providers\UtilitiesServiceProvider::class,
+            Providers\ServicesProvider::class,
             Providers\RouteServiceProvider::class,
         ]);
 
@@ -60,17 +57,5 @@ class LogViewerServiceProvider extends PackageServiceProvider implements Deferra
         $this->publishConfig();
         $this->publishViews();
         $this->publishTranslations();
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides(): array
-    {
-        return [
-            Contracts\LogViewer::class,
-        ];
     }
 }

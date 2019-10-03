@@ -46,7 +46,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Define the routes for the application.
      */
-    public function map()
+    public function map(): void
     {
         if ($this->isEnabled()) {
             $this->group($this->routeAttributes(), function() {
@@ -70,9 +70,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     private function config($key, $default = null)
     {
-        /** @var  \Illuminate\Config\Repository  $config */
-        $config = $this->app->make('config');
-
-        return $config->get("log-viewer.route.$key", $default);
+        return $this->app['config']->get("log-viewer.route.$key", $default);
     }
 }
