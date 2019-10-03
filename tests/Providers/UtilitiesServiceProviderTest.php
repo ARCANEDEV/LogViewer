@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Tests\Providers;
 
 use Arcanedev\LogViewer\Contracts;
-use Arcanedev\LogViewer\Providers\UtilitiesServiceProvider;
+use Arcanedev\LogViewer\Providers\ServicesProvider;
 use Arcanedev\LogViewer\Tests\TestCase;
 
 /**
@@ -17,7 +17,7 @@ class UtilitiesServiceProviderTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    /** @var  \Arcanedev\LogViewer\Providers\UtilitiesServiceProvider */
+    /** @var  \Arcanedev\LogViewer\Providers\ServicesProvider */
     private $provider;
 
     /* -----------------------------------------------------------------
@@ -29,7 +29,7 @@ class UtilitiesServiceProviderTest extends TestCase
     {
         parent::setUp();
 
-        $this->provider = $this->app->getProvider(UtilitiesServiceProvider::class);
+        $this->provider = $this->app->getProvider(ServicesProvider::class);
     }
 
     protected function tearDown(): void
@@ -52,7 +52,7 @@ class UtilitiesServiceProviderTest extends TestCase
             \Illuminate\Support\ServiceProvider::class,
             \Illuminate\Contracts\Support\DeferrableProvider::class,
             \Arcanedev\Support\Providers\ServiceProvider::class,
-            UtilitiesServiceProvider::class,
+            ServicesProvider::class,
         ];
 
         foreach ($expectations as $expected) {

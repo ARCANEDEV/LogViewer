@@ -6,12 +6,12 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\Arr;
 
 /**
- * Class     UtilitiesServiceProvider
+ * Class     ServicesProvider
  *
  * @package  Arcanedev\LogViewer\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class UtilitiesServiceProvider extends ServiceProvider implements DeferrableProvider
+class ServicesProvider extends ServiceProvider implements DeferrableProvider
 {
     /* -----------------------------------------------------------------
      |  Main Methods
@@ -21,12 +21,9 @@ class UtilitiesServiceProvider extends ServiceProvider implements DeferrableProv
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
-        parent::register();
-
-        $this->singleton(Contracts\LogViewer::class, LogViewer::class);
-
+        $this->registerLogViewer();
         $this->registerLogLevels();
         $this->registerStyler();
         $this->registerLogMenu();
@@ -40,7 +37,7 @@ class UtilitiesServiceProvider extends ServiceProvider implements DeferrableProv
      *
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [
             Contracts\LogViewer::class,
@@ -59,9 +56,17 @@ class UtilitiesServiceProvider extends ServiceProvider implements DeferrableProv
      */
 
     /**
+     * Register the log viewer service.
+     */
+    private function registerLogViewer(): void
+    {
+        $this->singleton(Contracts\LogViewer::class, LogViewer::class);
+    }
+
+    /**
      * Register the log levels.
      */
-    private function registerLogLevels()
+    private function registerLogLevels(): void
     {
         $this->singleton(Contracts\Utilities\LogLevels::class, function ($app) {
             /**
@@ -78,7 +83,7 @@ class UtilitiesServiceProvider extends ServiceProvider implements DeferrableProv
     /**
      * Register the log styler.
      */
-    private function registerStyler()
+    private function registerStyler(): void
     {
         $this->singleton(Contracts\Utilities\LogStyler::class, Utilities\LogStyler::class);
     }
@@ -86,7 +91,7 @@ class UtilitiesServiceProvider extends ServiceProvider implements DeferrableProv
     /**
      * Register the log menu builder.
      */
-    private function registerLogMenu()
+    private function registerLogMenu(): void
     {
         $this->singleton(Contracts\Utilities\LogMenu::class, Utilities\LogMenu::class);
     }
@@ -94,33 +99,26 @@ class UtilitiesServiceProvider extends ServiceProvider implements DeferrableProv
     /**
      * Register the log filesystem.
      */
-    private function registerFilesystem()
+    private function registerFilesystem(): void
     {
         $this->singleton(Contracts\Utilities\Filesystem::class, function ($app) {
-            /**
-             * @var  \Illuminate\Config\Repository      $config
-             * @var  \Illuminate\Filesystem\Filesystem  $files
-             */
+            /** @var  \Illuminate\Config\Repository  $config */
             $config     = $app['config'];
-            $files      = $app['files'];
-            $filesystem = new Utilities\Filesystem($files, $config->get('log-viewer.storage-path'));
+            $pattern    = $config->get('log-viewer.pattern', []);
+            $filesystem = new Utilities\Filesystem($app['files'], $config->get('log-viewer.storage-path'));
 
-            $pattern = $config->get('log-viewer.pattern', []);
-
-            $filesystem->setPattern(
+            return $filesystem->setPattern(
                 Arr::get($pattern, 'prefix',    Utilities\Filesystem::PATTERN_PREFIX),
                 Arr::get($pattern, 'date',      Utilities\Filesystem::PATTERN_DATE),
                 Arr::get($pattern, 'extension', Utilities\Filesystem::PATTERN_EXTENSION)
             );
-
-            return $filesystem;
         });
     }
 
     /**
      * Register the log factory class.
      */
-    private function registerFactory()
+    private function registerFactory(): void
     {
         $this->singleton(Contracts\Utilities\Factory::class, Utilities\Factory::class);
     }
@@ -128,7 +126,7 @@ class UtilitiesServiceProvider extends ServiceProvider implements DeferrableProv
     /**
      * Register the log checker service.
      */
-    private function registerChecker()
+    private function registerChecker(): void
     {
         $this->singleton(Contracts\Utilities\LogChecker::class, Utilities\LogChecker::class);
     }
