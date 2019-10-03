@@ -36,10 +36,7 @@ class LogViewerServiceProvider extends PackageServiceProvider
 
         $this->registerConfig();
 
-        $this->registerProviders([
-            Providers\ServicesProvider::class,
-            Providers\RouteServiceProvider::class,
-        ]);
+        $this->registerProvider(Providers\RouteServiceProvider::class);
 
         $this->registerCommands([
             Commands\PublishCommand::class,

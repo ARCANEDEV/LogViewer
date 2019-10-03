@@ -3,15 +3,14 @@
 use Arcanedev\LogViewer\{Contracts, LogViewer, Utilities};
 use Arcanedev\Support\Providers\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Support\Arr;
 
 /**
- * Class     ServicesProvider
+ * Class     DeferredServicesProvider
  *
  * @package  Arcanedev\LogViewer\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class ServicesProvider extends ServiceProvider implements DeferrableProvider
+class DeferredServicesProvider extends ServiceProvider implements DeferrableProvider
 {
     /* -----------------------------------------------------------------
      |  Main Methods
@@ -69,14 +68,10 @@ class ServicesProvider extends ServiceProvider implements DeferrableProvider
     private function registerLogLevels(): void
     {
         $this->singleton(Contracts\Utilities\LogLevels::class, function ($app) {
-            /**
-             * @var  \Illuminate\Config\Repository       $config
-             * @var  \Illuminate\Translation\Translator  $translator
-             */
-            $config     = $app['config'];
-            $translator = $app['translator'];
-
-            return new Utilities\LogLevels($translator, $config->get('log-viewer.locale'));
+            return new Utilities\LogLevels(
+                $app['translator'],
+                $app['config']->get('log-viewer.locale')
+            );
         });
     }
 
@@ -104,13 +99,12 @@ class ServicesProvider extends ServiceProvider implements DeferrableProvider
         $this->singleton(Contracts\Utilities\Filesystem::class, function ($app) {
             /** @var  \Illuminate\Config\Repository  $config */
             $config     = $app['config'];
-            $pattern    = $config->get('log-viewer.pattern', []);
             $filesystem = new Utilities\Filesystem($app['files'], $config->get('log-viewer.storage-path'));
 
             return $filesystem->setPattern(
-                Arr::get($pattern, 'prefix',    Utilities\Filesystem::PATTERN_PREFIX),
-                Arr::get($pattern, 'date',      Utilities\Filesystem::PATTERN_DATE),
-                Arr::get($pattern, 'extension', Utilities\Filesystem::PATTERN_EXTENSION)
+                $config->get('log-viewer.pattern.prefix', Utilities\Filesystem::PATTERN_PREFIX),
+                $config->get('log-viewer.pattern.date', Utilities\Filesystem::PATTERN_DATE),
+                $config->get('log-viewer.pattern.extension', Utilities\Filesystem::PATTERN_EXTENSION)
             );
         });
     }

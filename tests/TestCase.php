@@ -61,6 +61,7 @@ abstract class TestCase extends BaseTestCase
     {
         return [
             \Arcanedev\LogViewer\LogViewerServiceProvider::class,
+            \Arcanedev\LogViewer\Providers\DeferredServicesProvider::class,
         ];
     }
 
