@@ -1,7 +1,8 @@
 <?php namespace Arcanedev\LogViewer\Providers;
 
-use Arcanedev\LogViewer\{Contracts, Utilities};
+use Arcanedev\LogViewer\{Contracts, LogViewer, Utilities};
 use Arcanedev\Support\Providers\ServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\Arr;
 
 /**
@@ -10,7 +11,7 @@ use Illuminate\Support\Arr;
  * @package  Arcanedev\LogViewer\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class UtilitiesServiceProvider extends ServiceProvider
+class UtilitiesServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /* -----------------------------------------------------------------
      |  Main Methods
@@ -23,6 +24,8 @@ class UtilitiesServiceProvider extends ServiceProvider
     public function register()
     {
         parent::register();
+
+        $this->singleton(Contracts\LogViewer::class, LogViewer::class);
 
         $this->registerLogLevels();
         $this->registerStyler();
@@ -40,6 +43,7 @@ class UtilitiesServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
+            Contracts\LogViewer::class,
             Contracts\Utilities\LogLevels::class,
             Contracts\Utilities\LogStyler::class,
             Contracts\Utilities\LogMenu::class,
