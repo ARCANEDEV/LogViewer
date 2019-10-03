@@ -40,7 +40,7 @@
         "laravel": {
             "providers": [
                 "Arcanedev\\LogViewer\\LogViewerServiceProvider",
-                "Arcanedev\\LogViewer\\Providers\\ServicesProvider"
+                "Arcanedev\\LogViewer\\Providers\\DeferredServicesProvider"
             ]
         }
     }
