@@ -39,8 +39,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Arcanedev\\LogViewer\\LogViewerServiceProvider",
-                "Arcanedev\\LogViewer\\Providers\\DeferredServicesProvider"
+                "Arcanedev\\LogViewer\\LogViewerServiceProvider"
             ]
         }
     }
