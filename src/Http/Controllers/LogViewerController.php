@@ -2,6 +2,7 @@
 
 use Arcanedev\LogViewer\Contracts\LogViewer as LogViewerContract;
 use Arcanedev\LogViewer\Entities\LogEntry;
+use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Exceptions\LogNotFoundException;
 use Arcanedev\LogViewer\Tables\StatsTable;
 use Illuminate\Http\Request;

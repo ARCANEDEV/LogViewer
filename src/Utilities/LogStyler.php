@@ -2,6 +2,7 @@
 
 use Arcanedev\LogViewer\Contracts\Utilities\LogStyler as LogStylerContract;
 use Illuminate\Contracts\Config\Repository as ConfigContract;
+use Illuminate\Support\HtmlString;
 
 /**
  * Class     LogStyler
@@ -67,11 +68,13 @@ class LogStyler implements LogStylerContract
      * @param  string       $level
      * @param  string|null  $default
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function icon($level, $default = null)
     {
-        return '<i class="'.$this->get("icons.$level", $default).'"></i>';
+        return new HtmlString(
+            '<i class="'.$this->get("icons.$level", $default).'"></i>'
+        );
     }
 
     /**

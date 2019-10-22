@@ -1,4 +1,4 @@
-# LogViewer [![Packagist License][badge_license]](LICENSE.md) [![For Laravel 5][badge_laravel]][link-github-repo]
+# LogViewer [![Packagist License][badge_license]](LICENSE.md) [![For Laravel][badge_laravel]][link-github-repo]
 
 [![Travis Status][badge_build]][link-travis]
 [![Coverage Status][badge_coverage]][link-scrutinizer]
@@ -23,7 +23,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 ## Features
 
   - A great Log viewer API.
-  - Laravel `5.x` & `6.0` are supported.
+  - Laravel `5.x` & `6.x` are supported.
   - Ready to use (Views, Routes, controllers &hellip; Out of the box) [Note: No need to publish assets]
   - View, paginate, filter, download and delete logs.
   - Load a custom logs storage path.
@@ -93,7 +93,7 @@ If you discover any security related issues, please email arcanedev.maroc@gmail.
 ![Logs list](https://raw.githubusercontent.com/ARCANEDEV/LogViewer/master/_screenshots/2-logs-list.jpg)
 ![Single log](https://raw.githubusercontent.com/ARCANEDEV/LogViewer/master/_screenshots/3-single-log.jpg)
 
-[badge_laravel]:      https://img.shields.io/badge/Laravel-5.x%20to%206.0-orange.svg?style=flat-square
+[badge_laravel]:      https://img.shields.io/badge/Laravel-5.x%20to%206.x-orange.svg?style=flat-square
 [badge_license]:      https://img.shields.io/packagist/l/arcanedev/log-viewer.svg?style=flat-square
 [badge_build]:        https://img.shields.io/travis/ARCANEDEV/LogViewer.svg?style=flat-square
 [badge_coverage]:     https://img.shields.io/scrutinizer/coverage/g/ARCANEDEV/LogViewer.svg?style=flat-square

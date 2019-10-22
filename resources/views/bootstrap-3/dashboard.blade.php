@@ -14,7 +14,7 @@
                         <div class="col-md-4">
                             <div class="info-box level level-{{ $level }} {{ $item['count'] === 0 ? 'level-empty' : '' }}">
                                 <span class="info-box-icon">
-                                    {!! log_styler()->icon($level) !!}
+                                    {{ log_styler()->icon($level) }}
                                 </span>
 
                                 <div class="info-box-content">

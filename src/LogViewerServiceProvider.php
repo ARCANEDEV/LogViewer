@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\LogViewer;
 
-use Arcanedev\Support\PackageServiceProvider;
+use Arcanedev\Support\Providers\PackageServiceProvider;
 
 /**
  * Class     LogViewerServiceProvider
@@ -30,61 +30,29 @@ class LogViewerServiceProvider extends PackageServiceProvider
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
         parent::register();
 
         $this->registerConfig();
 
-        $this->registerLogViewer();
-        $this->registerAliases();
+        $this->registerProvider(Providers\RouteServiceProvider::class);
 
-        $this->registerProviders([
-            Providers\UtilitiesServiceProvider::class,
-            Providers\RouteServiceProvider::class,
+        $this->registerCommands([
+            Commands\PublishCommand::class,
+            Commands\StatsCommand::class,
+            Commands\CheckCommand::class,
+            Commands\ClearCommand::class,
         ]);
-        $this->registerConsoleServiceProvider(Providers\CommandsServiceProvider::class);
     }
 
     /**
      * Boot the service provider.
      */
-    public function boot()
+    public function boot(): void
     {
-        parent::boot();
-
         $this->publishConfig();
         $this->publishViews();
         $this->publishTranslations();
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            Contracts\LogViewer::class,
-        ];
-    }
-
-    /* -----------------------------------------------------------------
-     |  Other Methods
-     | -----------------------------------------------------------------
-     */
-
-    /**
-     * Register the log data class.
-     */
-    private function registerLogViewer()
-    {
-        $this->singleton(Contracts\LogViewer::class, LogViewer::class);
-
-        // Registering the Facade
-        if ($facade = $this->config()->get('log-viewer.facade')) {
-            $this->alias($facade, Facades\LogViewer::class);
-        }
     }
 }

@@ -1,8 +1,8 @@
 <?php namespace Arcanedev\LogViewer\Entities;
 
-use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Carbon;
 use JsonSerializable;
 use SplFileInfo;
 
@@ -11,8 +11,6 @@ use SplFileInfo;
  *
  * @package  Arcanedev\LogViewer\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- *
- * @todo     Add a stats method
  */
 class Log implements Arrayable, Jsonable, JsonSerializable
 {

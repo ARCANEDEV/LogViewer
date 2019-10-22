@@ -9,8 +9,6 @@ use Illuminate\Contracts\Config\Repository as ConfigContract;
  *
  * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- *
- * @todo     Adding the translation or not ??
  */
 class LogChecker implements LogCheckerContract
 {

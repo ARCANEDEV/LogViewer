@@ -143,7 +143,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     public function level()
     {
-        return $this->icon().' '.$this->name();
+        return $this->icon()->toHtml().' '.$this->name();
     }
 
     /**
@@ -159,7 +159,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     /**
      * Get level icon.
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function icon()
     {

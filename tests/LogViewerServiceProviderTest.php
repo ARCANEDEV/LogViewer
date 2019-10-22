@@ -47,23 +47,21 @@ class LogViewerServiceProviderTest extends TestCase
     {
         $expectations = [
             \Illuminate\Support\ServiceProvider::class,
-            \Arcanedev\Support\ServiceProvider::class,
-            \Arcanedev\Support\PackageServiceProvider::class,
+            \Arcanedev\Support\Providers\ServiceProvider::class,
+            \Arcanedev\Support\Providers\PackageServiceProvider::class,
             LogViewerServiceProvider::class,
         ];
 
         foreach ($expectations as $expected) {
-            $this->assertInstanceOf($expected, $this->provider);
+            static::assertInstanceOf($expected, $this->provider);
         }
     }
 
     /** @test */
     public function it_can_provides()
     {
-        $expected = [
-            \Arcanedev\LogViewer\Contracts\LogViewer::class,
-        ];
+        $expected = [];
 
-        $this->assertSame($expected, $this->provider->provides());
+        static::assertSame($expected, $this->provider->provides());
     }
 }
