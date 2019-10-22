@@ -156,7 +156,7 @@ class LogViewerController extends Controller
                 });
             })
             ->paginate($this->perPage);
-        
+
         return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries'));
     }
 
