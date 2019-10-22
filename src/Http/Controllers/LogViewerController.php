@@ -149,10 +149,14 @@ class LogViewerController extends Controller
         $log     = $this->getLogOrFail($date);
         $levels  = $this->logViewer->levelsNames();
         $needles = array_filter(array_map('strtolower', explode(' ', $query)));
-        $entries = $log->entries($level)->filter(function (LogEntry $value) use ($needles) {
-            return Str::containsAll(strtolower($value->header), $needles);
-        })->paginate($this->perPage);
-
+        $entries = $log->entries($level)
+            ->unless(empty($needles), function (LogEntryCollection $entries) use ($needles) {
+                return $entries->filter(function (LogEntry $entry) use ($needles) {
+                    return Str::containsAll(strtolower($entry->header), $needles);
+                });
+            })
+            ->paginate($this->perPage);
+        
         return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries'));
     }
 
