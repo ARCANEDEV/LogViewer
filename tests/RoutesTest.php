@@ -116,6 +116,52 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
+    public function it_can_search_using_case_insensitive_query()
+    {
+        $date     = '2015-01-01';
+        $level    = 'all';
+        $query    = explode(' ', 'ThiS Is A ErROr loG');
+        shuffle($query);
+        $query    = implode(' ', $query);
+
+        $response = $this->get(route('log-viewer::logs.search', compact('date', 'level', 'query')));
+        $response->assertSuccessful();
+
+        /** @var \Illuminate\View\View $view */
+        $view = $response->getOriginalContent();
+
+        static::assertArrayHasKey('entries', $view->getData());
+
+        /** @var  \Illuminate\Pagination\LengthAwarePaginator  $entries */
+        $entries = $view->getData()['entries'];
+
+        static::assertCount(1, $entries);
+    }
+
+    /** @test */
+    public function it_can_still_search_if_extra_spacing_is_in_query()
+    {
+        $date     = '2015-01-01';
+        $level    = 'all';
+        $query    = explode(' ', 'ThiS  Is  A  ErROr  loG');
+        shuffle($query);
+        $query    = implode(' ', $query);
+
+        $response = $this->get(route('log-viewer::logs.search', compact('date', 'level', 'query')));
+        $response->assertSuccessful();
+
+        /** @var \Illuminate\View\View $view */
+        $view = $response->getOriginalContent();
+
+        static::assertArrayHasKey('entries', $view->getData());
+
+        /** @var  \Illuminate\Pagination\LengthAwarePaginator  $entries */
+        $entries = $view->getData()['entries'];
+
+        static::assertCount(1, $entries);
+    }
+
+    /** @test */
     public function it_must_redirect_on_all_level()
     {
         $date     = '2015-01-01';
