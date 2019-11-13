@@ -30,7 +30,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     /** @var string */
     public $header;
 
-    /** @var string */
+    /** @var object */
     public $context;
 
     /** @var string */
