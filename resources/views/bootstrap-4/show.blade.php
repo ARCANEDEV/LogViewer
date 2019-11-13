@@ -146,6 +146,11 @@
                                                 <i class="fa fa-toggle-on"></i> Stack
                                             </a>
                                         @endif
+                                        @if ($entry->hasContext())
+                                            <a class="btn btn-sm btn-light" role="button" data-toggle="collapse" href="#context-{{ $key }}" aria-expanded="false" aria-controls="context-{{ $key }}">
+                                                <i class="fa fa-toggle-on"></i> Context
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @if ($entry->hasStack())
@@ -153,6 +158,17 @@
                                         <td colspan="5" class="stack py-0">
                                             <div class="stack-content collapse" id="log-stack-{{ $key }}">
                                                 {!! $entry->stack() !!}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
+                                @if ($entry->hasContext())
+                                    <tr>
+                                        <td colspan="5" class="stack py-0">
+                                            <div class="stack-content collapse" id="context-{{ $key }}">
+                                                @php
+                                                    dump($entry->context)
+                                                @endphp
                                             </div>
                                         </td>
                                     </tr>

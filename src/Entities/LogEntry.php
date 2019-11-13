@@ -31,6 +31,9 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     public $header;
 
     /** @var string */
+    public $context;
+
+    /** @var string */
     public $stack;
 
     /* -----------------------------------------------------------------
@@ -48,7 +51,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     public function __construct($level, $header, $stack)
     {
         $this->setLevel($level);
-        $this->setHeader($header);
+        $this->setHeaderAndContext($header);
         $this->setStack($stack);
     }
 
@@ -78,7 +81,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      *
      * @return self
      */
-    private function setHeader($header)
+    private function setHeaderAndContext($header)
     {
         $this->setDatetime($this->extractDatetime($header));
 
@@ -90,6 +93,8 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
         }
 
         $this->header = $header;
+
+        $this->context = $this->extractContext($header);
 
         return $this;
     }
@@ -241,6 +246,16 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
 
     /**
+     * Check if the entry has a context.
+     *
+     * @return bool
+     */
+    public function hasContext()
+    {
+        return !is_null($this->context);
+    }
+    
+    /**
      * Check if the entry has a stack.
      *
      * @return bool
@@ -265,6 +280,28 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     private function cleanHeader($header)
     {
         return preg_replace('/\['.REGEX_DATETIME_PATTERN.'\][ ]/', '', $header);
+    }
+
+    /**
+     * Extract context from the header.
+     *
+     * @param  string  $header
+     *
+     * @return object
+     */
+    private function extractContext($header)
+    {
+        // Regex from https://stackoverflow.com/a/21995025
+        $pattern = '/\{(?:[^{}]|(?R))*\}/x';
+        $context = null;
+        preg_match_all($pattern, $header, $matches);
+        if(!empty($matches) && !empty($matches[0])){
+            $context = json_decode($matches[0][0]);
+            if(!is_null($context)){
+                $this->header = str_replace($matches[0][0], '', $this->header);
+            }
+        }
+        return $context;
     }
 
     /**
