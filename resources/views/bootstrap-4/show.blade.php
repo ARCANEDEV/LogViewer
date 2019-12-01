@@ -239,13 +239,19 @@
             });
 
             @unless (empty(log_styler()->toHighlight()))
-            $('.stack-content').each(function() {
-                var $this = $(this);
-                var html = $this.html().trim()
-                    .replace(/({!! join(log_styler()->toHighlight(), '|') !!})/gm, '<strong>$1</strong>');
+                @php
+                    $htmlHighlight = version_compare(PHP_VERSION, '7.4.0') >= 0
+                        ? join('|', log_styler()->toHighlight())
+                        : join(log_styler()->toHighlight(), '|');
+                @endphp
 
-                $this.html(html);
-            });
+                $('.stack-content').each(function() {
+                    var $this = $(this);
+                    var html = $this.html().trim()
+                        .replace(/({!! $htmlHighlight !!})/gm, '<strong>$1</strong>');
+
+                    $this.html(html);
+                });
             @endunless
         });
     </script>
