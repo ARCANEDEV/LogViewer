@@ -99,6 +99,6 @@ class LogStyler implements LogStylerContract
      */
     public function toHighlight(array $default = [])
     {
-        return $this->get("highlight", $default);
+        return $this->get('highlight', $default);
     }
 }
