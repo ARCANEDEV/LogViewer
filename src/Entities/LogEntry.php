@@ -33,6 +33,9 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     /** @var string */
     public $stack;
 
+    /** @var array */
+    public $context = [];
+
     /* -----------------------------------------------------------------
      |  Constructor
      | -----------------------------------------------------------------
@@ -41,11 +44,11 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     /**
      * Construct the log entry instance.
      *
-     * @param  string  $level
-     * @param  string  $header
-     * @param  string  $stack
+     * @param  string       $level
+     * @param  string       $header
+     * @param  string|null  $stack
      */
-    public function __construct($level, $header, $stack)
+    public function __construct($level, $header, $stack = null)
     {
         $this->setLevel($level);
         $this->setHeader($header);
@@ -84,12 +87,21 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
 
         $header = $this->cleanHeader($header);
 
-        if (preg_match('/^[a-z]+.[A-Z]+:/', $header, $out)) {
-            $this->setEnv($out[0]);
-            $header = trim(str_replace($out[0], '', $header));
-        }
+        $this->header = trim($header);
 
-        $this->header = $header;
+        return $this;
+    }
+
+    /**
+     * Set the context.
+     *
+     * @param  array  $context
+     *
+     * @return $this
+     */
+    private function setContext(array $context)
+    {
+        $this->context = $context;
 
         return $this;
     }
@@ -176,6 +188,16 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
         return trim(htmlentities($this->stack));
     }
 
+    /**
+     * Get the entry context as json pretty print.
+     *
+     * @return string
+     */
+    public function context()
+    {
+        return json_encode($this->context, JSON_PRETTY_PRINT);
+    }
+
     /* -----------------------------------------------------------------
      |  Check Methods
      | -----------------------------------------------------------------
@@ -250,6 +272,16 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
         return $this->stack !== "\n";
     }
 
+    /**
+     * Check if the entry has a context.
+     *
+     * @return bool
+     */
+    public function hasContext()
+    {
+        return ! empty($this->context);
+    }
+
     /* -----------------------------------------------------------------
      |  Other Methods
      | -----------------------------------------------------------------
@@ -264,7 +296,23 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     private function cleanHeader($header)
     {
-        return preg_replace('/\['.REGEX_DATETIME_PATTERN.'\][ ]/', '', $header);
+        // REMOVE THE DATE
+        $header = preg_replace('/\['.REGEX_DATETIME_PATTERN.'\][ ]/', '', $header);
+
+        // EXTRACT ENV
+        if (preg_match('/^[a-z]+.[A-Z]+:/', $header, $out)) {
+            $this->setEnv($out[0]);
+            $header = trim(str_replace($out[0], '', $header));
+        }
+
+        // EXTRACT CONTEXT (Regex from https://stackoverflow.com/a/21995025)
+        preg_match_all('/{(?:[^{}]|(?R))*}/x', $header, $out);
+        if (isset($out[0][0]) && ! is_null($context = json_decode($out[0][0], true))) {
+            $header = str_replace($out[0][0], '', $header);
+            $this->setContext($context);
+        }
+
+        return $header;
     }
 
     /**
