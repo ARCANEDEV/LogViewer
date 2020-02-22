@@ -1,0 +1,11 @@
+{
+    "all": "Wszystkie",
+    "emergency": "Awaryjne",
+    "alert": "Alerty",
+    "critical": "Krytyczne",
+    "error": "Błędy",
+    "warning": "Ostrzeżenia",
+    "notice": "Warteuwagi",
+    "info": "Informacje",
+    "debug": "Debug"
+}
