@@ -10,14 +10,14 @@
 
 @section('content')
     <div class="page-header mb-4">
-        <h1>Log [{{ $log->date }}]</h1>
+        <h1>@lang('Log') [{{ $log->date }}]</h1>
     </div>
 
     <div class="row">
         <div class="col-lg-2">
             {{-- Log Menu --}}
             <div class="card mb-4">
-                <div class="card-header"><i class="fa fa-fw fa-flag"></i> Levels</div>
+                <div class="card-header"><i class="fa fa-fw fa-flag"></i> @lang('Levels')</div>
                 <div class="list-group list-group-flush log-menu">
                     @foreach($log->menu() as $levelKey => $item)
                         @if ($item['count'] === 0)
@@ -39,13 +39,13 @@
             {{-- Log Details --}}
             <div class="card mb-4">
                 <div class="card-header">
-                    Log info :
+                    @lang('Log info') :
                     <div class="group-btns pull-right">
                         <a href="{{ route('log-viewer::logs.download', [$log->date]) }}" class="btn btn-sm btn-success">
-                            <i class="fa fa-download"></i> DOWNLOAD
+                            <i class="fa fa-download"></i> @lang('Download')
                         </a>
                         <a href="#delete-log-modal" class="btn btn-sm btn-danger" data-toggle="modal">
-                            <i class="fa fa-trash-o"></i> DELETE
+                            <i class="fa fa-trash-o"></i> @lang('Delete')
                         </a>
                     </div>
                 </div>
@@ -53,23 +53,23 @@
                     <table class="table table-condensed mb-0">
                         <tbody>
                             <tr>
-                                <td>File path :</td>
+                                <td>@lang('File path') :</td>
                                 <td colspan="7">{{ $log->getPath() }}</td>
                             </tr>
                             <tr>
-                                <td>Log entries :</td>
+                                <td>@lang('Log entries') :</td>
                                 <td>
                                     <span class="badge badge-primary">{{ $entries->total() }}</span>
                                 </td>
-                                <td>Size :</td>
+                                <td>@lang('Size') :</td>
                                 <td>
                                     <span class="badge badge-primary">{{ $log->size() }}</span>
                                 </td>
-                                <td>Created at :</td>
+                                <td>@lang('Created at') :</td>
                                 <td>
                                     <span class="badge badge-primary">{{ $log->createdAt() }}</span>
                                 </td>
-                                <td>Updated at :</td>
+                                <td>@lang('Updated at') :</td>
                                 <td>
                                     <span class="badge badge-primary">{{ $log->updatedAt() }}</span>
                                 </td>
@@ -82,11 +82,11 @@
                     <form action="{{ route('log-viewer::logs.search', [$log->date, $level]) }}" method="GET">
                         <div class="form-group">
                             <div class="input-group">
-                                <input id="query" name="query" class="form-control" value="{{ $query }}" placeholder="Type here to search">
+                                <input id="query" name="query" class="form-control" value="{{ $query }}" placeholder="@lang('Type here to search')">
                                 <div class="input-group-append">
                                     @unless (is_null($query))
                                         <a href="{{ route('log-viewer::logs.show', [$log->date]) }}" class="btn btn-secondary">
-                                            ({{ $entries->count() }} results) <i class="fa fa-fw fa-times"></i>
+                                            (@lang(':count results', ['count' => $entries->count()])) <i class="fa fa-fw fa-times"></i>
                                         </a>
                                     @endunless
                                     <button id="search-btn" class="btn btn-primary">
@@ -104,7 +104,7 @@
                 @if ($entries->hasPages())
                     <div class="card-header">
                         <span class="badge badge-info float-right">
-                            Page {{ $entries->currentPage() }} of {{ $entries->lastPage() }}
+                            {{ __('Page :current of :last', ['current' => $entries->currentPage(), 'last' => $entries->lastPage()]) }}
                         </span>
                     </div>
                 @endif
@@ -113,11 +113,11 @@
                     <table id="entries" class="table mb-0">
                         <thead>
                             <tr>
-                                <th>ENV</th>
-                                <th style="width: 120px;">Level</th>
-                                <th style="width: 65px;">Time</th>
-                                <th>Header</th>
-                                <th class="text-right">Actions</th>
+                                <th>@lang('ENV')</th>
+                                <th style="width: 120px;">@lang('Level')</th>
+                                <th style="width: 65px;">@lang('Time')</th>
+                                <th>@lang('Header')</th>
+                                <th class="text-right">@lang('Actions')</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -144,14 +144,14 @@
                                         @if ($entry->hasStack())
                                         <a class="btn btn-sm btn-light" role="button" data-toggle="collapse"
                                            href="#log-stack-{{ $key }}" aria-expanded="false" aria-controls="log-stack-{{ $key }}">
-                                            <i class="fa fa-toggle-on"></i> Stack
+                                            <i class="fa fa-toggle-on"></i> @lang('Stack')
                                         </a>
                                         @endif
 
                                         @if ($entry->hasContext())
                                         <a class="btn btn-sm btn-light" role="button" data-toggle="collapse"
                                            href="#log-context-{{ $key }}" aria-expanded="false" aria-controls="log-context-{{ $key }}">
-                                            <i class="fa fa-toggle-on"></i> Context
+                                            <i class="fa fa-toggle-on"></i> @lang('Context')
                                         </a>
                                         @endif
                                     </td>
@@ -176,7 +176,7 @@
                             @empty
                                 <tr>
                                     <td colspan="5" class="text-center">
-                                        <span class="badge badge-secondary">{{ trans('log-viewer::general.empty-logs') }}</span>
+                                        <span class="badge badge-secondary">@lang('The list of logs is empty!')</span>
                                     </td>
                                 </tr>
                             @endforelse
@@ -200,17 +200,17 @@
                 <input type="hidden" name="date" value="{{ $log->date }}">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">DELETE LOG FILE</h5>
+                        <h5 class="modal-title">@lang('Delete log file')</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to <span class="badge badge-danger">DELETE</span> this log file <span class="badge badge-primary">{{ $log->date }}</span> ?</p>
+                        <p>@lang('Are you sure you want to delete this log file: :date ?', ['date' => $log->date])</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">DELETE FILE</button>
+                        <button type="button" class="btn btn-sm btn-secondary mr-auto" data-dismiss="modal">@lang('Cancel')</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="@lang('Loading')&hellip;">@lang('Delete')</button>
                     </div>
                 </div>
             </form>

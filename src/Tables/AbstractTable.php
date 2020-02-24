@@ -193,21 +193,6 @@ abstract class AbstractTable implements TableContract
      */
 
     /**
-     * Translate.
-     *
-     * @param  string  $key
-     *
-     * @return string
-     */
-    protected function translate($key)
-    {
-        /** @var \Illuminate\Translation\Translator $translator */
-        $translator = trans();
-
-        return $translator->get('log-viewer::'.$key,  [], $this->locale);
-    }
-
-    /**
      * Get log level color.
      *
      * @param  string  $level
