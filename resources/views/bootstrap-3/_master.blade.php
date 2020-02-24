@@ -284,7 +284,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="sr-only">@lang('Toggle navigation')</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -297,12 +297,12 @@
                 <ul class="nav navbar-nav">
                     <li class="{{ Route::is('log-viewer::dashboard') ? 'active' : '' }}">
                         <a href="{{ route('log-viewer::dashboard') }}">
-                            <i class="fa fa-dashboard"></i> Dashboard
+                            <i class="fa fa-dashboard"></i> @lang('Dashboard')
                         </a>
                     </li>
                     <li class="{{ Route::is('log-viewer::logs.list') ? 'active' : '' }}">
                         <a href="{{ route('log-viewer::logs.list') }}">
-                            <i class="fa fa-archive"></i> Logs
+                            <i class="fa fa-archive"></i> @lang('Logs')
                         </a>
                     </li>
                 </ul>

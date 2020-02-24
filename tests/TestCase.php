@@ -412,8 +412,22 @@ abstract class TestCase extends BaseTestCase
      */
     protected static function getTranslatedLevels()
     {
-        return array_map(function ($locale) {
-            return static::trans()->get('log-viewer::levels', [], $locale);
+        $levels = [
+            'all'               => 'All',
+            LogLevel::EMERGENCY => 'Emergency',
+            LogLevel::ALERT     => 'Alert',
+            LogLevel::CRITICAL  => 'Critical',
+            LogLevel::ERROR     => 'Error',
+            LogLevel::WARNING   => 'Warning',
+            LogLevel::NOTICE    => 'Notice',
+            LogLevel::INFO      => 'Info',
+            LogLevel::DEBUG     => 'Debug',
+        ];
+
+        return array_map(function ($locale) use ($levels) {
+            return array_map(function ($level) use ($locale) {
+                return static::trans()->get($level, [], $locale);
+            }, $levels);
         }, array_combine(self::$locales, self::$locales));
     }
 

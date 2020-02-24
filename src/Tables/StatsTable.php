@@ -24,11 +24,11 @@ class StatsTable extends AbstractTable
      * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels  $levels
      * @param  string|null                                         $locale
      *
-     * @return self
+     * @return $this
      */
     public static function make(array $data, LogLevelsContract $levels, $locale = null)
     {
-        return new self($data, $levels, $locale);
+        return new static($data, $levels, $locale);
     }
 
     /* -----------------------------------------------------------------
@@ -47,8 +47,8 @@ class StatsTable extends AbstractTable
     {
         return array_merge_recursive(
             [
-                'date' => $this->translate('general.date'),
-                'all'  => $this->translate('general.all'),
+                'date' => __('Date'),
+                'all'  => __('All'),
             ],
             $this->levels->names($this->locale)
         );
@@ -103,13 +103,13 @@ class StatsTable extends AbstractTable
      *
      * @return \Illuminate\Support\Collection
      */
-    public function totals()
+    public function totals($locale = null)
     {
         $totals = Collection::make();
 
         foreach (Arr::except($this->footer(), 'all') as $level => $count) {
             $totals->put($level, [
-                'label'     => $this->translate("levels.$level"),
+                'label'     => log_levels()->get($level, $locale),
                 'value'     => $count,
                 'color'     => $this->color($level),
                 'highlight' => $this->color($level),

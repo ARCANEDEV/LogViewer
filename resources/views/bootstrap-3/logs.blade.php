@@ -3,7 +3,7 @@
 <?php /** @var  Illuminate\Pagination\LengthAwarePaginator  $rows */ ?>
 
 @section('content')
-    <h1 class="page-header">Logs</h1>
+    <h1 class="page-header">@lang('Logs')</h1>
 
     {{ $rows->render() }}
 
@@ -22,7 +22,7 @@
                         @endif
                     </th>
                     @endforeach
-                    <th class="text-right">Actions</th>
+                    <th class="text-right">@lang('Actions')</th>
                 </tr>
             </thead>
             <tbody>
@@ -80,14 +80,14 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">DELETE LOG FILE</h4>
+                        <h4 class="modal-title">@lang('Delete log file')</h4>
                     </div>
                     <div class="modal-body">
                         <p></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">DELETE FILE</button>
+                        <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">@lang('Cancel')</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="@lang('Loading')&hellip;">@lang('Delete')</button>
                     </div>
                 </div>
             </form>
@@ -104,11 +104,11 @@
 
             $("a[href=#delete-log-modal]").on('click', function(event) {
                 event.preventDefault();
-                var date = $(this).data('log-date');
+                var date    = $(this).data('log-date'),
+                    message = "@lang('Are you sure you want to DELETE this log file: :date ?')";
+
                 deleteLogForm.find('input[name=date]').val(date);
-                deleteLogModal.find('.modal-body p').html(
-                    'Are you sure you want to <span class="label label-danger">DELETE</span> this log file <span class="label label-primary">' + date + '</span> ?'
-                );
+                deleteLogModal.find('.modal-body p').html(message.replace(':date', date));
 
                 deleteLogModal.modal('show');
             });

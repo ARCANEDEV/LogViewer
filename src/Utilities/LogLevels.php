@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\LogViewer\Utilities;
 
 use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
+use Illuminate\Support\Arr;
 use Illuminate\Translation\Translator;
 use Psr\Log\LogLevel;
 use ReflectionClass;
@@ -66,7 +67,7 @@ class LogLevels implements LogLevelsContract
      *
      * @param  \Illuminate\Translation\Translator  $translator
      *
-     * @return self
+     * @return $this
      */
     public function setTranslator(Translator $translator)
     {
@@ -92,7 +93,7 @@ class LogLevels implements LogLevelsContract
      *
      * @param  string  $locale
      *
-     * @return self
+     * @return $this
      */
     public function setLocale($locale)
     {
@@ -115,7 +116,7 @@ class LogLevels implements LogLevelsContract
      */
     public function lists($flip = false)
     {
-        return self::all($flip);
+        return static::all($flip);
     }
 
     /**
@@ -127,7 +128,7 @@ class LogLevels implements LogLevelsContract
      */
     public function names($locale = null)
     {
-        $levels = self::all(true);
+        $levels = static::all(true);
 
         array_walk($levels, function (&$name, $level) use ($locale) {
             $name = $this->get($level, $locale);
@@ -145,11 +146,11 @@ class LogLevels implements LogLevelsContract
      */
     public static function all($flip = false)
     {
-        if (empty(self::$levels)) {
-            self::$levels = (new ReflectionClass(LogLevel::class))->getConstants();
+        if (empty(static::$levels)) {
+            static::$levels = (new ReflectionClass(LogLevel::class))->getConstants();
         }
 
-        return $flip ? array_flip(self::$levels) : self::$levels;
+        return $flip ? array_flip(static::$levels) : static::$levels;
     }
 
     /**
@@ -162,6 +163,18 @@ class LogLevels implements LogLevelsContract
      */
     public function get($key, $locale = null)
     {
-        return $this->translator->get("log-viewer::levels.$key", [], $locale ?: $this->getLocale());
+        $translations = [
+            'all'               => 'All',
+            LogLevel::EMERGENCY => 'Emergency',
+            LogLevel::ALERT     => 'Alert',
+            LogLevel::CRITICAL  => 'Critical',
+            LogLevel::ERROR     => 'Error',
+            LogLevel::WARNING   => 'Warning',
+            LogLevel::NOTICE    => 'Notice',
+            LogLevel::INFO      => 'Info',
+            LogLevel::DEBUG     => 'Debug',
+        ];
+
+        return $this->translator->get(Arr::get($translations, $key, $key), [], $locale ?: $this->getLocale());
     }
 }

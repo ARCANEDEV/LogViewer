@@ -53,6 +53,13 @@ class LogViewerServiceProvider extends PackageServiceProvider
     {
         $this->publishConfig();
         $this->publishViews();
-        $this->publishTranslations();
+
+        // Translations
+        $this->loadJsonTranslationsFrom($this->getTranslationsPath());
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                $this->getTranslationsPath() => $this->getTranslationsDestinationPath()
+            ], 'lang');
+        }
     }
 }
