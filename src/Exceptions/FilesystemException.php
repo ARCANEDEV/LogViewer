@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Exceptions;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Exceptions;
 
 /**
  * Class     FilesystemException

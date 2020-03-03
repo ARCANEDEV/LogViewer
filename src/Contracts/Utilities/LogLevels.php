@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Contracts\Utilities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Contracts\Utilities;
 
 use Illuminate\Translation\Translator;
 

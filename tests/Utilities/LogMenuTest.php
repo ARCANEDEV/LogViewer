@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests\Utilities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests\Utilities;
 
 use Arcanedev\LogViewer\Tests\TestCase;
 use Arcanedev\LogViewer\Utilities\LogMenu;
@@ -44,13 +48,13 @@ class LogMenuTest extends TestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         static::assertInstanceOf(LogMenu::class, $this->menu);
     }
 
     /** @test */
-    public function it_can_make_menu_with_helper()
+    public function it_can_make_menu_with_helper(): void
     {
         $log = $this->getLog('2015-01-01');
 

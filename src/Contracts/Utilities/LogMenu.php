@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Contracts\Utilities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Contracts\Utilities;
 
 use Arcanedev\LogViewer\Entities\Log;
 use Illuminate\Contracts\Config\Repository as ConfigContract;

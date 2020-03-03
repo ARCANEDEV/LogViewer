@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests\Utilities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests\Utilities;
 
 use Arcanedev\LogViewer\Tests\TestCase;
 use Arcanedev\LogViewer\Utilities\LogChecker;
@@ -44,20 +48,20 @@ class LogCheckerTest extends TestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         static::assertInstanceOf(LogChecker::class, $this->checker);
     }
 
     /** @test */
-    public function it_must_fails()
+    public function it_must_fails(): void
     {
         static::assertFalse($this->checker->passes());
         static::assertTrue($this->checker->fails());
     }
 
     /** @test */
-    public function it_can_get_messages()
+    public function it_can_get_messages(): void
     {
         $messages = $this->checker->messages();
 
@@ -69,7 +73,7 @@ class LogCheckerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_requirements()
+    public function it_can_get_requirements(): void
     {
         $requirements = $this->checker->requirements();
 
@@ -80,7 +84,7 @@ class LogCheckerTest extends TestCase
     }
 
     /** @test */
-    public function it_must_fail_the_requirements_on_handler()
+    public function it_must_fail_the_requirements_on_handler(): void
     {
         config()->set('logging.default', 'stack');
 

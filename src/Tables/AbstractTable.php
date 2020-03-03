@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tables;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tables;
 
 use Arcanedev\LogViewer\Contracts\Table as TableContract;
 use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;

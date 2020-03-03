@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Utilities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Utilities;
 
 use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
 use Illuminate\Support\Arr;

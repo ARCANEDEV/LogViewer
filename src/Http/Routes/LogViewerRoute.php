@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Http\Routes;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Http\Routes;
 
 use Arcanedev\Support\Routing\RouteRegistrar;
 
@@ -20,20 +24,26 @@ class LogViewerRoute extends RouteRegistrar
     /**
      * Map all routes.
      */
-    public function map()
+    public function map(): void
     {
-        $this->name('log-viewer::')->group(function () {
-            // log-viewer::dashboard
-            $this->get('/', 'LogViewerController@index')->name('dashboard');
+        $attributes = array_merge(config('log-viewer.route.attributes', []), [
+            'namespace' => 'Arcanedev\\LogViewer\\Http\\Controllers',
+        ]);
 
-            $this->mapLogsRoutes();
+        $this->group($attributes, function() {
+            $this->name('log-viewer::')->group(function () {
+                // log-viewer::dashboard
+                $this->get('/', 'LogViewerController@index')->name('dashboard');
+
+                $this->mapLogsRoutes();
+            });
         });
     }
 
     /**
      * Map the logs routes.
      */
-    private function mapLogsRoutes()
+    private function mapLogsRoutes(): void
     {
         $this->prefix('logs')->name('logs.')->group(function() {
             $this->get('/', 'LogViewerController@listLogs')

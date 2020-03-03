@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests\Utilities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests\Utilities;
 
 use Arcanedev\LogViewer\Tests\TestCase;
 use Arcanedev\LogViewer\Utilities\Filesystem;
@@ -44,13 +48,13 @@ class FilesystemTest extends TestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         static::assertInstanceOf(Filesystem::class, $this->filesystem);
     }
 
     /** @test */
-    public function it_can_get_filesystem_instance()
+    public function it_can_get_filesystem_instance(): void
     {
         static::assertInstanceOf(
             \Illuminate\Filesystem\Filesystem::class,
@@ -59,13 +63,13 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_all_valid_log_files()
+    public function it_can_get_all_valid_log_files(): void
     {
         static::assertCount(2, $this->filesystem->logs());
     }
 
     /** @test */
-    public function it_can_get_all_custom_log_files()
+    public function it_can_get_all_custom_log_files(): void
     {
         $files = $this->filesystem
             ->setPrefixPattern('laravel-cli-')
@@ -75,7 +79,7 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_all_log_files()
+    public function it_can_get_all_log_files(): void
     {
         $files = $this->filesystem->all();
 
@@ -87,7 +91,7 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
-    public function it_can_read_file()
+    public function it_can_read_file(): void
     {
         $file = $this->filesystem->read($date = '2015-01-01');
 
@@ -96,7 +100,7 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_file()
+    public function it_can_delete_file(): void
     {
         static::createDummyLog($date = date('Y-m-d'));
 
@@ -119,7 +123,7 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_files()
+    public function it_can_get_files(): void
     {
         $files = $this->filesystem->logs();
 
@@ -131,7 +135,7 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_a_custom_path()
+    public function it_can_set_a_custom_path(): void
     {
         $this->filesystem->setPath(storage_path('custom-path-logs'));
 
@@ -146,7 +150,7 @@ class FilesystemTest extends TestCase
 
 
     /** @test */
-    public function it_can_get_file_path_by_date()
+    public function it_can_get_file_path_by_date(): void
     {
         static::assertFileExists(
             $this->filesystem->path('2015-01-01')
@@ -154,7 +158,7 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_dates_from_log_files()
+    public function it_can_get_dates_from_log_files(): void
     {
         static::assertDates(
             $this->filesystem->dates()
@@ -162,7 +166,7 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_dates_with_paths_from_log_files()
+    public function it_can_get_dates_with_paths_from_log_files(): void
     {
         foreach ($this->filesystem->dates(true) as $date => $path) {
             static::assertDate($date);
@@ -171,7 +175,7 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
-    public function it_must_throw_a_filesystem_exception_on_read()
+    public function it_must_throw_a_filesystem_exception_on_read(): void
     {
         $this->expectException(\Arcanedev\LogViewer\Exceptions\FilesystemException::class);
 
@@ -179,7 +183,7 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
-    public function it_must_throw_a_filesystem_exception_on_delete()
+    public function it_must_throw_a_filesystem_exception_on_delete(): void
     {
         $this->expectException(\Arcanedev\LogViewer\Exceptions\FilesystemException::class);
 
@@ -187,7 +191,7 @@ class FilesystemTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_and_get_pattern()
+    public function it_can_set_and_get_pattern(): void
     {
         static::assertSame(
             'laravel-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].log',

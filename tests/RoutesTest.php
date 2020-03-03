@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests;
 
 /**
  * Class     RoutesTest
@@ -16,7 +20,7 @@ class RoutesTest extends TestCase
      */
 
     /** @test */
-    public function it_can_see_dashboard_page()
+    public function it_can_see_dashboard_page(): void
     {
         $response = $this->get(route('log-viewer::dashboard'));
         $response->assertSuccessful();
@@ -28,7 +32,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function it_can_see_logs_page()
+    public function it_can_see_logs_page(): void
     {
         $response = $this->get(route('log-viewer::logs.list'));
         $response->assertSuccessful();
@@ -41,7 +45,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function it_can_show_a_log_page()
+    public function it_can_show_a_log_page(): void
     {
         $date = '2015-01-01';
 
@@ -56,7 +60,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function it_can_see_a_filtered_log_entries_page()
+    public function it_can_see_a_filtered_log_entries_page(): void
     {
         $date     = '2015-01-01';
         $level    = 'error';
@@ -72,7 +76,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function it_can_search_if_log_entries_contains_same_header_page()
+    public function it_can_search_if_log_entries_contains_same_header_page(): void
     {
         $date     = '2015-01-01';
         $level    = 'all';
@@ -93,7 +97,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function it_can_search_using_shuffled_query()
+    public function it_can_search_using_shuffled_query(): void
     {
         $date     = '2015-01-01';
         $level    = 'all';
@@ -116,7 +120,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function it_can_search_using_case_insensitive_query()
+    public function it_can_search_using_case_insensitive_query(): void
     {
         $date     = '2015-01-01';
         $level    = 'all';
@@ -139,7 +143,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function it_can_still_search_if_extra_spacing_is_in_query()
+    public function it_can_still_search_if_extra_spacing_is_in_query(): void
     {
         $date     = '2015-01-01';
         $level    = 'all';
@@ -162,7 +166,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function it_must_redirect_on_all_level()
+    public function it_must_redirect_on_all_level(): void
     {
         $date     = '2015-01-01';
         $level    = 'all';
@@ -175,7 +179,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function it_can_download_a_log_page()
+    public function it_can_download_a_log_page(): void
     {
         $date = '2015-01-01';
 
@@ -192,7 +196,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_a_log()
+    public function it_can_delete_a_log(): void
     {
         static::createDummyLog(
             $date = date('Y-m-d')
@@ -203,7 +207,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function it_must_throw_log_not_found_exception_on_show()
+    public function it_must_throw_log_not_found_exception_on_show(): void
     {
         $response = $this->get(route('log-viewer::logs.show', ['0000-00-00']));
 
@@ -217,16 +221,16 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function it_must_throw_log_not_found_exception_on_delete()
+    public function it_must_throw_log_not_found_exception_on_delete(): void
     {
-        $response = $this->call('DELETE', route('log-viewer::logs.delete', ['0000-00-00']), [], [], [], ['HTTP_X-Requested-With' => 'XMLHttpRequest']);
+        $response = $this->delete(route('log-viewer::logs.delete'), ['date' => '0000-00-00'], ['HTTP_X-Requested-With' => 'XMLHttpRequest']);
 
         static::assertInstanceOf(\Arcanedev\LogViewer\Exceptions\FilesystemException::class, $response->exception);
         static::assertStringStartsWith('The log(s) could not be located at : ', $response->exception->getMessage());
     }
 
     /** @test */
-    public function it_must_throw_method_not_allowed_on_delete()
+    public function it_must_throw_method_not_allowed_on_delete(): void
     {
         $response = $this->delete(route('log-viewer::logs.delete'));
         $response->assertStatus(405);

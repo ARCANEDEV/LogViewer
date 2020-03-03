@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests\Commands;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests\Commands;
 
 use Arcanedev\LogViewer\Tests\TestCase;
 
@@ -49,10 +53,9 @@ class ClearCommandTest extends TestCase
     |  Tests
     | -----------------------------------------------------------------
     */
-    
+
     /** @test */
-    
-    public function it_can_delete_all_log_files()
+    public function it_can_delete_all_log_files(): void
     {
         static::assertEquals(0, $this->logViewer->count());
 
@@ -76,7 +79,7 @@ class ClearCommandTest extends TestCase
     /**
      * Sets the log storage path temporarily to a new directory
      */
-    private function setupForTests()
+    private function setupForTests(): void
     {
         if ( ! file_exists($this->path))
             mkdir($this->path, 0777, true);

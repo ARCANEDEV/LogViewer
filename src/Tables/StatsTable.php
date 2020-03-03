@@ -1,8 +1,11 @@
-<?php namespace Arcanedev\LogViewer\Tables;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tables;
 
 use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
+use Illuminate\Support\{Arr, Collection};
 
 /**
  * Class     StatsTable

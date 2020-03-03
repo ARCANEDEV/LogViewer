@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests\Entities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests\Entities;
 
 use Arcanedev\LogViewer\Entities\LogCollection;
 use Arcanedev\LogViewer\Exceptions\LogNotFoundException;
@@ -45,13 +49,13 @@ class LogCollectionTest extends TestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         static::assertInstanceOf(LogCollection::class, $this->logs);
     }
 
     /** @test */
-    public function it_can_get_all_logs()
+    public function it_can_get_all_logs(): void
     {
         static::assertCount(2,   $this->logs);
         static::assertSame(2,  $this->logs->count());
@@ -66,7 +70,7 @@ class LogCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_a_log_by_date()
+    public function it_can_get_a_log_by_date(): void
     {
         $log = $this->logs->get($date = '2015-01-01');
 
@@ -76,7 +80,7 @@ class LogCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_the_log_entries_by_date()
+    public function it_can_get_the_log_entries_by_date(): void
     {
         $entries = $this->logs->entries($date = '2015-01-01');
 
@@ -86,7 +90,7 @@ class LogCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_the_log_entries_by_date_and_level()
+    public function it_can_get_the_log_entries_by_date_and_level(): void
     {
         $date = '2015-01-01';
 
@@ -106,7 +110,7 @@ class LogCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_logs_dates()
+    public function it_can_get_logs_dates(): void
     {
         foreach ($this->getDates() as $date) {
             static::assertContains($date, $this->logs->dates());
@@ -114,7 +118,7 @@ class LogCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_logs_stats()
+    public function it_can_get_logs_stats(): void
     {
         $stats = $this->logs->stats();
 
@@ -133,7 +137,7 @@ class LogCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_log_tree()
+    public function it_can_get_log_tree(): void
     {
         $tree = $this->logs->tree();
 
@@ -150,7 +154,7 @@ class LogCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_log_menu()
+    public function it_can_get_log_menu(): void
     {
         foreach(self::$locales as $locale) {
             $this->app->setLocale($locale);
@@ -169,7 +173,7 @@ class LogCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_must_throw_a_log_not_found_on_get_method()
+    public function it_must_throw_a_log_not_found_on_get_method(): void
     {
         $this->expectException(LogNotFoundException::class);
         $this->expectExceptionMessage('Log not found in this date [2222-01-01]');
@@ -178,7 +182,7 @@ class LogCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_must_throw_a_log_not_found_on_log_method()
+    public function it_must_throw_a_log_not_found_on_log_method(): void
     {
         $this->expectException(LogNotFoundException::class);
         $this->expectExceptionMessage('Log not found in this date [2222-01-01]');

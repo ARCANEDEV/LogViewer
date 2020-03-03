@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests\Entities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests\Entities;
 
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Tests\TestCase;
@@ -44,7 +48,7 @@ class LogTest extends TestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         $entries = $this->log->entries();
 
@@ -62,7 +66,7 @@ class LogTest extends TestCase
      *
      * @param  string  $date
      */
-    public function it_can_get_date($date)
+    public function it_can_get_date($date): void
     {
         $log = $this->getLog($date);
 
@@ -77,7 +81,7 @@ class LogTest extends TestCase
      *
      * @param  string  $date
      */
-    public function it_can_get_path($date)
+    public function it_can_get_path($date): void
     {
         static::assertFileExists($this->getLog($date)->getPath());
     }
@@ -89,7 +93,7 @@ class LogTest extends TestCase
      *
      * @param  string  $date
      */
-    public function it_can_get_all_entries($date)
+    public function it_can_get_all_entries($date): void
     {
         $entries = $this->getLog($date)->entries();
 
@@ -105,7 +109,7 @@ class LogTest extends TestCase
      *
      * @param  string  $date
      */
-    public function it_can_get_all_entries_by_level($date)
+    public function it_can_get_all_entries_by_level($date): void
     {
         $log = $this->getLog($date);
 
@@ -116,7 +120,7 @@ class LogTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_log_stats()
+    public function it_can_get_log_stats(): void
     {
         foreach ($this->log->stats() as $level => $counter) {
             static::assertSame($level === 'all' ? 8 : 1, $counter);
@@ -130,7 +134,7 @@ class LogTest extends TestCase
      *
      * @param  string  $date
      */
-    public function it_can_get_tree($date)
+    public function it_can_get_tree($date): void
     {
         $menu = $this->getLog($date)->tree();
 
@@ -155,7 +159,7 @@ class LogTest extends TestCase
      *
      * @param  string  $date
      */
-    public function it_can_get_translated_menu($date)
+    public function it_can_get_translated_menu($date): void
     {
         foreach (self::$locales as $locale) {
             $this->app->setLocale($locale);
@@ -179,7 +183,7 @@ class LogTest extends TestCase
     }
 
     /** @test */
-    public function it_can_convert_to_json()
+    public function it_can_convert_to_json(): void
     {
         static::assertJsonObject($this->log);
     }
@@ -194,7 +198,7 @@ class LogTest extends TestCase
      *
      * @return array
      */
-    public function provideDates()
+    public function provideDates(): array
     {
         return [
             ['2015-01-01'],

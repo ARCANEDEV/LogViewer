@@ -1,7 +1,13 @@
-<?php namespace Arcanedev\LogViewer\Utilities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Utilities;
 
 use Arcanedev\LogViewer\Contracts\Utilities\Filesystem as FilesystemContract;
 use Arcanedev\LogViewer\Exceptions\FilesystemException;
+use Arcanedev\LogViewer\Helpers\LogParser;
+use Exception;
 use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 
 /**
@@ -232,7 +238,7 @@ class Filesystem implements FilesystemContract
                 $this->getLogPath($date)
             );
         }
-        catch (\Exception $e) {
+        catch (Exception $e) {
             throw new FilesystemException($e->getMessage());
         }
 
@@ -300,7 +306,7 @@ class Filesystem implements FilesystemContract
     private function getFiles($pattern)
     {
         $files = $this->filesystem->glob(
-            $this->storagePath.DS.$pattern, GLOB_BRACE
+            $this->storagePath.DIRECTORY_SEPARATOR.$pattern, defined('GLOB_BRACE') ? GLOB_BRACE : 0
         );
 
         return array_filter(array_map('realpath', $files));
@@ -315,9 +321,9 @@ class Filesystem implements FilesystemContract
      *
      * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
-    private function getLogPath($date)
+    private function getLogPath(string $date)
     {
-        $path = $this->storagePath.DS.$this->prefixPattern.$date.$this->extension;
+        $path = $this->storagePath.DIRECTORY_SEPARATOR.$this->prefixPattern.$date.$this->extension;
 
         if ( ! $this->filesystem->exists($path)) {
             throw new FilesystemException("The log(s) could not be located at : $path");
@@ -336,7 +342,7 @@ class Filesystem implements FilesystemContract
     private function extractDates(array $files)
     {
         return array_map(function ($file) {
-            return extract_date(basename($file));
+            return LogParser::extractDate(basename($file));
         }, $files);
     }
 }

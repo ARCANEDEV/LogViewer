@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Entities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Entities;
 
 use Arcanedev\LogViewer\Helpers\LogParser;
 use Illuminate\Pagination\LengthAwarePaginator;

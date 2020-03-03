@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests;
 
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\LogViewer;
@@ -44,31 +48,31 @@ class LogViewerTest extends TestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         static::assertInstanceOf(LogViewer::class,  $this->logViewer);
     }
 
     /** @test */
-    public function it_can_be_instantiated_with_helper()
+    public function it_can_be_instantiated_with_helper(): void
     {
         static::assertInstanceOf(LogViewer::class, log_viewer());
     }
 
     /** @test */
-    public function it_can_get_logs_count()
+    public function it_can_get_logs_count(): void
     {
         static::assertSame(2, $this->logViewer->count());
     }
 
     /** @test */
-    public function it_can_get_entries_total()
+    public function it_can_get_entries_total(): void
     {
         static::assertSame(16, $this->logViewer->total());
     }
 
     /** @test */
-    public function it_can_get_entries_total_by_level()
+    public function it_can_get_entries_total_by_level(): void
     {
         foreach (self::$logLevels as $level) {
             static::assertSame(2, $this->logViewer->total($level));
@@ -76,7 +80,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_all_logs()
+    public function it_can_get_all_logs(): void
     {
         $logs = $this->logViewer->all();
 
@@ -95,7 +99,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_paginate_all_logs()
+    public function it_can_paginate_all_logs(): void
     {
         $logs = $this->logViewer->paginate();
 
@@ -107,7 +111,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_log_entries()
+    public function it_can_get_log_entries(): void
     {
         $entries = $this->logViewer->entries($date = '2015-01-01');
 
@@ -117,7 +121,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_log_entries_by_level()
+    public function it_can_get_log_entries_by_level(): void
     {
         $date = '2015-01-01';
 
@@ -131,7 +135,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_a_log_file()
+    public function it_can_delete_a_log_file(): void
     {
         static::createDummyLog($date = date('Y-m-d'));
 
@@ -154,7 +158,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_log_dates()
+    public function it_can_get_log_dates(): void
     {
         $dates = $this->logViewer->dates();
 
@@ -163,7 +167,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_log_files()
+    public function it_can_get_log_files(): void
     {
         $files = $this->logViewer->files();
 
@@ -174,7 +178,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_all_levels()
+    public function it_can_get_all_levels(): void
     {
         $levels = $this->logViewer->levels();
 
@@ -183,7 +187,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_all_translated_levels()
+    public function it_can_get_all_translated_levels(): void
     {
         static::assertTranslatedLevels(
             $this->app->getLocale(),
@@ -206,7 +210,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_stats()
+    public function it_can_get_stats(): void
     {
         foreach ($this->logViewer->stats() as $date => $levels) {
             static::assertDate($date);
@@ -224,7 +228,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_tree()
+    public function it_can_get_tree(): void
     {
         $tree = $this->logViewer->tree();
 
@@ -248,7 +252,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_translated_menu()
+    public function it_can_get_translated_menu(): void
     {
         foreach (self::$locales as $locale) {
             $this->app->setLocale($locale);
@@ -275,7 +279,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_download_log_file()
+    public function it_can_download_log_file(): void
     {
         $download = $this->logViewer->download($date = '2015-01-01');
         $ext      = 'log';
@@ -295,19 +299,19 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_check_is_not_empty()
+    public function it_can_check_is_not_empty(): void
     {
         static::assertFalse($this->logViewer->isEmpty());
     }
 
     /** @test */
-    public function it_can_get_version()
+    public function it_can_get_version(): void
     {
         static::assertEquals(LogViewer::VERSION, $this->logViewer->version());
     }
 
     /** @test */
-    public function it_can_set_custom_storage_path()
+    public function it_can_set_custom_storage_path(): void
     {
         $this->logViewer->setPath(storage_path('custom-path-logs'));
 
@@ -320,7 +324,7 @@ class LogViewerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_and_get_pattern()
+    public function it_can_set_and_get_pattern(): void
     {
         $prefix    = 'laravel-';
         $date      = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';

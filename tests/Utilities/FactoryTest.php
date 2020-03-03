@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests\Utilities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests\Utilities;
 
 use Arcanedev\LogViewer\Tests\TestCase;
 use Arcanedev\LogViewer\Utilities\Factory;
@@ -44,13 +48,13 @@ class FactoryTest extends TestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         static::assertInstanceOf(Factory::class, $this->logFactory);
     }
 
     /** @test */
-    public function it_can_get_filesystem_object()
+    public function it_can_get_filesystem_object(): void
     {
         $expectations = [
             \Arcanedev\LogViewer\Contracts\Utilities\Filesystem::class,
@@ -63,7 +67,7 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_levels_object()
+    public function it_can_get_levels_object(): void
     {
         $expectations = [
             \Arcanedev\LogViewer\Contracts\Utilities\LogLevels::class,
@@ -76,7 +80,7 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_log_entries()
+    public function it_can_get_log_entries(): void
     {
         $logEntries = $this->logFactory->entries($date = '2015-01-01');
 
@@ -86,7 +90,7 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_dates()
+    public function it_can_get_dates(): void
     {
         $dates = $this->logFactory->dates();
 
@@ -95,7 +99,7 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_all_logs()
+    public function it_can_get_all_logs(): void
     {
         $logs = $this->logFactory->all();
 
@@ -105,7 +109,7 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_paginate_all_logs()
+    public function it_can_paginate_all_logs(): void
     {
         $logs = $this->logFactory->paginate();
 
@@ -117,13 +121,13 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_count()
+    public function it_can_get_count(): void
     {
         static::assertSame(2, $this->logFactory->count());
     }
 
     /** @test */
-    public function it_can_can_set_custom_path()
+    public function it_can_can_set_custom_path(): void
     {
         $this->logFactory->setPath(storage_path('custom-path-logs'));
 
@@ -137,13 +141,13 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_total()
+    public function it_can_get_total(): void
     {
         static::assertSame(16, $this->logFactory->total());
     }
 
     /** @test */
-    public function it_can_get_total_by_level()
+    public function it_can_get_total_by_level(): void
     {
         foreach (self::$logLevels as $level) {
             static::assertSame(2, $this->logFactory->total($level));
@@ -151,7 +155,7 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_tree()
+    public function it_can_get_tree(): void
     {
         $tree = $this->logFactory->tree();
 
@@ -163,7 +167,7 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_translated_tree()
+    public function it_can_get_translated_tree(): void
     {
         $this->app->setLocale('fr');
 
@@ -196,7 +200,7 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_menu()
+    public function it_can_get_menu(): void
     {
         $menu = $this->logFactory->menu();
 
@@ -208,7 +212,7 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_untranslated_menu()
+    public function it_can_get_untranslated_menu(): void
     {
         $menu = $this->logFactory->menu(false);
 
@@ -220,13 +224,13 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_check_is_not_empty()
+    public function it_can_check_is_not_empty(): void
     {
         static::assertFalse($this->logFactory->isEmpty());
     }
 
     /** @test */
-    public function it_must_throw_a_filesystem_exception()
+    public function it_must_throw_a_filesystem_exception(): void
     {
         $this->expectException(\Arcanedev\LogViewer\Exceptions\LogNotFoundException::class);
 
@@ -234,7 +238,7 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_and_get_pattern()
+    public function it_can_set_and_get_pattern(): void
     {
         $prefix    = 'laravel-';
         $date      = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';

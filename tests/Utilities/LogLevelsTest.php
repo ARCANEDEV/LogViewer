@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests\Utilities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests\Utilities;
 
 use Arcanedev\LogViewer\Utilities\LogLevels;
 use Arcanedev\LogViewer\Tests\TestCase;
@@ -44,25 +48,25 @@ class LogLevelsTest extends TestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         static::assertInstanceOf(LogLevels::class, $this->levels);
     }
 
     /** @test */
-    public function it_can_get_all_levels()
+    public function it_can_get_all_levels(): void
     {
         static::assertLevels($this->levels->lists());
     }
 
     /** @test */
-    public function it_can_get_all_levels_by_static_method()
+    public function it_can_get_all_levels_by_static_method(): void
     {
         static::assertLevels(LogLevels::all());
     }
 
     /** @test */
-    public function it_can_get_all_translated_levels()
+    public function it_can_get_all_translated_levels(): void
     {
         foreach (self::$locales as $locale) {
             $this->app->setLocale($locale);
@@ -74,7 +78,7 @@ class LogLevelsTest extends TestCase
     }
 
     /** @test */
-    public function it_must_choose_the_log_viewer_locale_instead_of_app_locale()
+    public function it_must_choose_the_log_viewer_locale_instead_of_app_locale(): void
     {
         static::assertNotEquals('auto', $this->levels->getLocale());
         static::assertSame($this->app->getLocale(), $this->levels->getLocale());
@@ -86,7 +90,7 @@ class LogLevelsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_translate_levels_automatically()
+    public function it_can_translate_levels_automatically(): void
     {
         foreach (self::$locales as $locale) {
             $this->app->setLocale($locale);
