@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tables;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tables;
 
 use Arcanedev\LogViewer\Contracts\Table as TableContract;
 use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
@@ -191,21 +195,6 @@ abstract class AbstractTable implements TableContract
      |  Other Methods
      | -----------------------------------------------------------------
      */
-
-    /**
-     * Translate.
-     *
-     * @param  string  $key
-     *
-     * @return string
-     */
-    protected function translate($key)
-    {
-        /** @var \Illuminate\Translation\Translator $translator */
-        $translator = trans();
-
-        return $translator->get('log-viewer::'.$key,  [], $this->locale);
-    }
 
     /**
      * Get log level color.

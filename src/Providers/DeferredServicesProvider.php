@@ -1,6 +1,18 @@
-<?php namespace Arcanedev\LogViewer\Providers;
+<?php
 
-use Arcanedev\LogViewer\{Contracts, LogViewer, Utilities};
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Providers;
+
+use Arcanedev\LogViewer\Contracts\LogViewer as LogViewerContract;
+use Arcanedev\LogViewer\Contracts\Utilities\Factory as FactoryContract;
+use Arcanedev\LogViewer\Contracts\Utilities\Filesystem as FilesystemContract;
+use Arcanedev\LogViewer\Contracts\Utilities\LogChecker as LogCheckerContract;
+use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
+use Arcanedev\LogViewer\Contracts\Utilities\LogMenu as LogMenuContract;
+use Arcanedev\LogViewer\Contracts\Utilities\LogStyler as LogStylerContract;
+use Arcanedev\LogViewer\LogViewer;
+use Arcanedev\LogViewer\Utilities;
 use Arcanedev\Support\Providers\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
 
@@ -39,13 +51,13 @@ class DeferredServicesProvider extends ServiceProvider implements DeferrableProv
     public function provides(): array
     {
         return [
-            Contracts\LogViewer::class,
-            Contracts\Utilities\LogLevels::class,
-            Contracts\Utilities\LogStyler::class,
-            Contracts\Utilities\LogMenu::class,
-            Contracts\Utilities\Filesystem::class,
-            Contracts\Utilities\Factory::class,
-            Contracts\Utilities\LogChecker::class,
+            LogViewerContract::class,
+            LogLevelsContract::class,
+            LogStylerContract::class,
+            LogMenuContract::class,
+            FilesystemContract::class,
+            FactoryContract::class,
+            LogCheckerContract::class,
         ];
     }
 
@@ -59,7 +71,7 @@ class DeferredServicesProvider extends ServiceProvider implements DeferrableProv
      */
     private function registerLogViewer(): void
     {
-        $this->singleton(Contracts\LogViewer::class, LogViewer::class);
+        $this->singleton(LogViewerContract::class, LogViewer::class);
     }
 
     /**
@@ -67,7 +79,7 @@ class DeferredServicesProvider extends ServiceProvider implements DeferrableProv
      */
     private function registerLogLevels(): void
     {
-        $this->singleton(Contracts\Utilities\LogLevels::class, function ($app) {
+        $this->singleton(LogLevelsContract::class, function ($app) {
             return new Utilities\LogLevels(
                 $app['translator'],
                 $app['config']->get('log-viewer.locale')
@@ -80,7 +92,7 @@ class DeferredServicesProvider extends ServiceProvider implements DeferrableProv
      */
     private function registerStyler(): void
     {
-        $this->singleton(Contracts\Utilities\LogStyler::class, Utilities\LogStyler::class);
+        $this->singleton(LogStylerContract::class, Utilities\LogStyler::class);
     }
 
     /**
@@ -88,7 +100,7 @@ class DeferredServicesProvider extends ServiceProvider implements DeferrableProv
      */
     private function registerLogMenu(): void
     {
-        $this->singleton(Contracts\Utilities\LogMenu::class, Utilities\LogMenu::class);
+        $this->singleton(LogMenuContract::class, Utilities\LogMenu::class);
     }
 
     /**
@@ -96,15 +108,15 @@ class DeferredServicesProvider extends ServiceProvider implements DeferrableProv
      */
     private function registerFilesystem(): void
     {
-        $this->singleton(Contracts\Utilities\Filesystem::class, function ($app) {
+        $this->singleton(FilesystemContract::class, function ($app) {
             /** @var  \Illuminate\Config\Repository  $config */
             $config     = $app['config'];
             $filesystem = new Utilities\Filesystem($app['files'], $config->get('log-viewer.storage-path'));
 
             return $filesystem->setPattern(
-                $config->get('log-viewer.pattern.prefix', Utilities\Filesystem::PATTERN_PREFIX),
-                $config->get('log-viewer.pattern.date', Utilities\Filesystem::PATTERN_DATE),
-                $config->get('log-viewer.pattern.extension', Utilities\Filesystem::PATTERN_EXTENSION)
+                $config->get('log-viewer.pattern.prefix', FilesystemContract::PATTERN_PREFIX),
+                $config->get('log-viewer.pattern.date', FilesystemContract::PATTERN_DATE),
+                $config->get('log-viewer.pattern.extension', FilesystemContract::PATTERN_EXTENSION)
             );
         });
     }
@@ -114,7 +126,7 @@ class DeferredServicesProvider extends ServiceProvider implements DeferrableProv
      */
     private function registerFactory(): void
     {
-        $this->singleton(Contracts\Utilities\Factory::class, Utilities\Factory::class);
+        $this->singleton(FactoryContract::class, Utilities\Factory::class);
     }
 
     /**
@@ -122,6 +134,6 @@ class DeferredServicesProvider extends ServiceProvider implements DeferrableProv
      */
     private function registerChecker(): void
     {
-        $this->singleton(Contracts\Utilities\LogChecker::class, Utilities\LogChecker::class);
+        $this->singleton(LogCheckerContract::class, Utilities\LogChecker::class);
     }
 }

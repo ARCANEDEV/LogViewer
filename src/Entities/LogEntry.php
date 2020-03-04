@@ -1,8 +1,12 @@
-<?php namespace Arcanedev\LogViewer\Entities;
+<?php
 
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Entities;
+
+use Arcanedev\LogViewer\Helpers\LogParser;
 use Carbon\Carbon;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\{Arrayable, Jsonable};
 use JsonSerializable;
 
 /**
@@ -297,7 +301,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     private function cleanHeader($header)
     {
         // REMOVE THE DATE
-        $header = preg_replace('/\['.REGEX_DATETIME_PATTERN.'\][ ]/', '', $header);
+        $header = preg_replace('/\['.LogParser::REGEX_DATETIME_PATTERN.'\][ ]/', '', $header);
 
         // EXTRACT ENV
         if (preg_match('/^[a-z]+.[A-Z]+:/', $header, $out)) {
@@ -324,6 +328,6 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     private function extractDatetime($header)
     {
-        return preg_replace('/^\[('.REGEX_DATETIME_PATTERN.')\].*/', '$1', $header);
+        return preg_replace('/^\[('.LogParser::REGEX_DATETIME_PATTERN.')\].*/', '$1', $header);
     }
 }

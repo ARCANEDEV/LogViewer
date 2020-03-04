@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests\Providers;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests\Providers;
 
 use Arcanedev\LogViewer\Contracts;
 use Arcanedev\LogViewer\Providers\DeferredServicesProvider;
@@ -46,7 +50,7 @@ class DeferredServicesProviderTest extends TestCase
 
     /** @test */
 
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         $expectations = [
             \Illuminate\Support\ServiceProvider::class,
@@ -61,7 +65,7 @@ class DeferredServicesProviderTest extends TestCase
     }
 
     /** @test */
-    public function it_can_provides()
+    public function it_can_provides(): void
     {
         $expected = [
             Contracts\LogViewer::class,

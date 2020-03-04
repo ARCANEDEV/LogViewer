@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests\Commands;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests\Commands;
 
 use Arcanedev\LogViewer\Tests\TestCase;
 
@@ -16,7 +20,7 @@ class CheckCommandTest extends TestCase
      */
 
     /** @test */
-    public function it_can_check()
+    public function it_can_check(): void
     {
         $this->artisan('log-viewer:check')
              ->assertExitCode(0);

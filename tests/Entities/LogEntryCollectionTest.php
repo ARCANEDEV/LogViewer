@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests\Entities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests\Entities;
 
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Tests\TestCase;
@@ -44,7 +48,7 @@ class LogEntryCollectionTest extends TestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         static::assertInstanceOf(LogEntryCollection::class, $this->entries);
         static::assertCount(0, $this->entries);
@@ -52,7 +56,7 @@ class LogEntryCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_load_raw_entries()
+    public function it_can_load_raw_entries(): void
     {
         foreach ($this->getDates() as $date) {
             $entries = $this->getEntries($date);
@@ -64,7 +68,7 @@ class LogEntryCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_entries_by_level()
+    public function it_can_get_entries_by_level(): void
     {
         foreach ($this->getDates() as $date) {
             $this->entries = $this->getEntries($date);
@@ -78,7 +82,7 @@ class LogEntryCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_stats()
+    public function it_can_get_stats(): void
     {
         foreach ($this->getDates() as $date) {
             $this->entries = $this->getEntries($date);
@@ -92,7 +96,7 @@ class LogEntryCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_tree()
+    public function it_can_get_tree(): void
     {
         foreach ($this->getDates() as $date) {
             $this->entries = $this->getEntries($date);
@@ -121,7 +125,7 @@ class LogEntryCollectionTest extends TestCase
      *
      * @param  string  $date
      *
-     * @return LogEntryCollection
+     * @return \Arcanedev\LogViewer\Entities\LogEntryCollection
      */
     private function getEntries($date)
     {

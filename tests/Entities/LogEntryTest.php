@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Tests\Entities;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests\Entities;
 
 use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Tests\TestCase;
@@ -44,7 +48,7 @@ class LogEntryTest extends TestCase
      */
 
     /** @test */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         static::assertInstanceOf(LogEntry::class, $this->entry);
         static::assertLogEntry('2015-01-01', $this->entry);
@@ -52,13 +56,13 @@ class LogEntryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_convert_to_json()
+    public function it_can_convert_to_json(): void
     {
         static::assertJsonObject($this->entry);
     }
 
     /** @test */
-    public function it_can_check_if_same_level()
+    public function it_can_check_if_same_level(): void
     {
         $level = $this->entry->level;
 
@@ -66,13 +70,13 @@ class LogEntryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_stack()
+    public function it_can_get_stack(): void
     {
         static::assertNotSame($this->entry->stack, $this->entry->stack());
     }
 
     /** @test */
-    public function it_can_extract_context()
+    public function it_can_extract_context(): void
     {
         $entry = new LogEntry(
             'SUCCESS',

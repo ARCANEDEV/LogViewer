@@ -1,7 +1,11 @@
-<?php namespace Arcanedev\LogViewer\Commands;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Commands;
 
 use Arcanedev\LogViewer\Contracts\LogViewer as LogViewerContract;
-use Arcanedev\Support\Bases\Command as BaseCommand;
+use Arcanedev\Support\Console\Command as BaseCommand;
 
 /**
  * Class     Command

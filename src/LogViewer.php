@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer;
 
 use Arcanedev\LogViewer\Contracts\Utilities\Filesystem as FilesystemContract;
 use Arcanedev\LogViewer\Contracts\Utilities\Factory as FactoryContract;

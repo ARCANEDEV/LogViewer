@@ -49,17 +49,3 @@ if ( ! function_exists('log_styler')) {
         return app(Contracts\Utilities\LogStyler::class);
     }
 }
-
-if ( ! function_exists('extract_date')) {
-    /**
-     * Extract date from string (format : YYYY-MM-DD).
-     *
-     * @param  string  $string
-     *
-     * @return string
-     */
-    function extract_date($string)
-    {
-        return preg_replace('/.*('.REGEX_DATE_PATTERN.').*/', '$1', $string);
-    }
-}

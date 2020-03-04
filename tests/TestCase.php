@@ -1,8 +1,13 @@
-<?php namespace Arcanedev\LogViewer\Tests;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Tests;
 
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
+use Arcanedev\LogViewer\Helpers\LogParser;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -40,7 +45,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUpBeforeClass();
 
-        static::$logLevels = self::getLogLevels();
+        static::$logLevels = static::getLogLevels();
     }
 
     public static function tearDownAfterClass(): void
@@ -57,7 +62,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return array
      */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             \Arcanedev\LogViewer\LogViewerServiceProvider::class,
@@ -70,14 +75,14 @@ abstract class TestCase extends BaseTestCase
      *
      * @param  \Illuminate\Foundation\Application  $app
      */
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app['path.storage'] = realpath(__DIR__.'/fixtures');
 
         /** @var \Illuminate\Config\Repository $config */
         $config = $app['config'];
 
-        $config->set('log-viewer.storage-path', $app['path.storage'].DS.'logs');
+        $config->set('log-viewer.storage-path', $app['path.storage'].DIRECTORY_SEPARATOR.'logs');
     }
 
     /* -----------------------------------------------------------------
@@ -91,13 +96,13 @@ abstract class TestCase extends BaseTestCase
      * @param  \Illuminate\Contracts\Support\Jsonable|mixed  $object
      * @param  string                                        $message
      */
-    public static function assertJsonObject($object, $message = '')
+    public static function assertJsonObject($object, $message = ''): void
     {
-        self::assertInstanceOf(\Illuminate\Contracts\Support\Jsonable::class, $object);
-        self::assertJson($object->toJson(JSON_PRETTY_PRINT), $message);
+        static::assertInstanceOf(\Illuminate\Contracts\Support\Jsonable::class, $object);
+        static::assertJson($object->toJson(JSON_PRETTY_PRINT), $message);
 
-        self::assertInstanceOf('JsonSerializable', $object);
-        self::assertJson(json_encode($object, JSON_PRETTY_PRINT), $message);
+        static::assertInstanceOf('JsonSerializable', $object);
+        static::assertJson(json_encode($object, JSON_PRETTY_PRINT), $message);
     }
 
     /**
@@ -106,10 +111,10 @@ abstract class TestCase extends BaseTestCase
      * @param  \Arcanedev\LogViewer\Entities\Log  $log
      * @param  string                             $date
      */
-    protected static function assertLog(Log $log, $date)
+    protected static function assertLog(Log $log, $date): void
     {
-        self::assertEquals($date, $log->date);
-        self::assertLogEntries($log->date, $log->entries());
+        static::assertEquals($date, $log->date);
+        static::assertLogEntries($log->date, $log->entries());
     }
 
     /**
@@ -118,10 +123,10 @@ abstract class TestCase extends BaseTestCase
      * @param  string                                            $date
      * @param  \Arcanedev\LogViewer\Entities\LogEntryCollection  $entries
      */
-    protected static function assertLogEntries($date, LogEntryCollection $entries)
+    protected static function assertLogEntries($date, LogEntryCollection $entries): void
     {
         foreach ($entries as $entry) {
-            self::assertLogEntry($date, $entry);
+            static::assertLogEntry($date, $entry);
         }
     }
 
@@ -131,15 +136,15 @@ abstract class TestCase extends BaseTestCase
      * @param  string                                  $date
      * @param  \Arcanedev\LogViewer\Entities\LogEntry  $entry
      */
-    protected static function assertLogEntry($date, LogEntry $entry)
+    protected static function assertLogEntry($date, LogEntry $entry): void
     {
         $dt = Carbon::createFromFormat('Y-m-d', $date);
 
-        self::assertInLogLevels($entry->level);
-        self::assertInstanceOf(Carbon::class, $entry->datetime);
-        self::assertTrue($entry->datetime->isSameDay($dt));
-        self::assertNotEmpty($entry->header);
-        self::assertNotEmpty($entry->stack);
+        static::assertInLogLevels($entry->level);
+        static::assertInstanceOf(Carbon::class, $entry->datetime);
+        static::assertTrue($entry->datetime->isSameDay($dt));
+        static::assertNotEmpty($entry->header);
+        static::assertNotEmpty($entry->stack);
     }
 
     /**
@@ -148,9 +153,9 @@ abstract class TestCase extends BaseTestCase
      * @param  string  $level
      * @param  string  $message
      */
-    protected static function assertInLogLevels($level, $message = '')
+    protected static function assertInLogLevels($level, $message = ''): void
     {
-        self::assertContains($level, self::$logLevels, $message);
+        static::assertContains($level, static::$logLevels, $message);
     }
 
     /**
@@ -158,13 +163,13 @@ abstract class TestCase extends BaseTestCase
      *
      * @param  array  $levels
      */
-    protected static function assertLevels(array $levels)
+    protected static function assertLevels(array $levels): void
     {
-        self::assertCount(8, $levels);
+        static::assertCount(8, $levels);
 
         foreach (static::getLogLevels() as $key => $value) {
-            self::assertArrayHasKey($key, $levels);
-            self::assertEquals($value, $levels[$key]);
+            static::assertArrayHasKey($key, $levels);
+            static::assertEquals($value, $levels[$key]);
         }
     }
 
@@ -174,10 +179,10 @@ abstract class TestCase extends BaseTestCase
      * @param  string  $locale
      * @param  array   $levels
      */
-    protected function assertTranslatedLevels($locale, $levels)
+    protected function assertTranslatedLevels($locale, $levels): void
     {
         foreach ($levels as $level => $translatedLevel) {
-            self::assertTranslatedLevel($locale, $level, $translatedLevel);
+            static::assertTranslatedLevel($locale, $level, $translatedLevel);
         }
     }
 
@@ -188,11 +193,11 @@ abstract class TestCase extends BaseTestCase
      * @param  string  $level
      * @param  string  $actualTrans
      */
-    protected static function assertTranslatedLevel($locale, $level, $actualTrans)
+    protected static function assertTranslatedLevel($locale, $level, $actualTrans): void
     {
         $expected = static::getTranslatedLevel($locale, $level);
 
-        self::assertEquals($expected, $actualTrans);
+        static::assertEquals($expected, $actualTrans);
     }
 
     /**
@@ -201,10 +206,10 @@ abstract class TestCase extends BaseTestCase
      * @param  array   $dates
      * @param  string  $message
      */
-    public static function assertDates(array $dates, $message = '')
+    public static function assertDates(array $dates, $message = ''): void
     {
         foreach ($dates as $date) {
-            self::assertDate($date, $message);
+            static::assertDate($date, $message);
         }
     }
 
@@ -214,9 +219,9 @@ abstract class TestCase extends BaseTestCase
      * @param  string  $date
      * @param  string  $message
      */
-    public static function assertDate($date, $message = '')
+    public static function assertDate($date, $message = ''): void
     {
-        self::assertRegExp('/'.REGEX_DATE_PATTERN.'/', $date, $message);
+        static::assertRegExp('/'.LogParser::REGEX_DATE_PATTERN.'/', $date, $message);
     }
 
     /**
@@ -227,19 +232,19 @@ abstract class TestCase extends BaseTestCase
      * @param  int     $count
      * @param  bool    $withIcons
      */
-    protected static function assertMenuItem($item, $name, $count, $withIcons = true)
+    protected static function assertMenuItem($item, $name, $count, $withIcons = true): void
     {
-        self::assertArrayHasKey('name', $item);
-        self::assertEquals($name, $item['name']);
-        self::assertArrayHasKey('count', $item);
-        self::assertEquals($count, $item['count']);
+        static::assertArrayHasKey('name', $item);
+        static::assertEquals($name, $item['name']);
+        static::assertArrayHasKey('count', $item);
+        static::assertEquals($count, $item['count']);
 
         if ($withIcons) {
-            self::assertArrayHasKey('icon', $item);
-            self::assertStringStartsWith('fa fa-fw fa-', $item['icon']);
+            static::assertArrayHasKey('icon', $item);
+            static::assertStringStartsWith('fa fa-fw fa-', $item['icon']);
         }
         else {
-            self::assertArrayNotHasKey('icon', $item);
+            static::assertArrayNotHasKey('icon', $item);
         }
     }
 
@@ -249,11 +254,11 @@ abstract class TestCase extends BaseTestCase
      * @param  string  $color
      * @param  string  $message
      */
-    protected static function assertHexColor($color, $message = '')
+    protected static function assertHexColor($color, $message = ''): void
     {
         $pattern = '/^#?([a-f0-9]{3}|[a-f0-9]{6})$/i';
 
-        self::assertRegExp($pattern, $color, $message);
+        static::assertRegExp($pattern, $color, $message);
     }
 
     /* -----------------------------------------------------------------
@@ -372,7 +377,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected static function getLogLevels()
     {
-        return self::$logLevels = (new ReflectionClass(LogLevel::class))
+        return static::$logLevels = (new ReflectionClass(LogLevel::class))
             ->getConstants();
     }
 
@@ -412,9 +417,23 @@ abstract class TestCase extends BaseTestCase
      */
     protected static function getTranslatedLevels()
     {
-        return array_map(function ($locale) {
-            return static::trans()->get('log-viewer::levels', [], $locale);
-        }, array_combine(self::$locales, self::$locales));
+        $levels = [
+            'all'               => 'All',
+            LogLevel::EMERGENCY => 'Emergency',
+            LogLevel::ALERT     => 'Alert',
+            LogLevel::CRITICAL  => 'Critical',
+            LogLevel::ERROR     => 'Error',
+            LogLevel::WARNING   => 'Warning',
+            LogLevel::NOTICE    => 'Notice',
+            LogLevel::INFO      => 'Info',
+            LogLevel::DEBUG     => 'Debug',
+        ];
+
+        return array_map(function ($locale) use ($levels) {
+            return array_map(function ($level) use ($locale) {
+                return static::trans()->get($level, [], $locale);
+            }, $levels);
+        }, array_combine(static::$locales, static::$locales));
     }
 
     /**

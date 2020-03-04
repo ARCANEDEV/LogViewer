@@ -1,16 +1,17 @@
-<?php namespace Arcanedev\LogViewer\Http\Controllers;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Http\Controllers;
 
 use Arcanedev\LogViewer\Contracts\LogViewer as LogViewerContract;
-use Arcanedev\LogViewer\Entities\LogEntry;
-use Arcanedev\LogViewer\Entities\LogEntryCollection;
+use Arcanedev\LogViewer\Entities\{LogEntry, LogEntryCollection};
 use Arcanedev\LogViewer\Exceptions\LogNotFoundException;
 use Arcanedev\LogViewer\Tables\StatsTable;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
+use Illuminate\Support\{Arr, Collection, Str};
 
 /**
  * Class     LogViewerController
@@ -185,7 +186,7 @@ class LogViewerController extends Controller
     {
         abort_unless($request->ajax(), 405, 'Method Not Allowed');
 
-        $date = $request->get('date');
+        $date = $request->input('date');
 
         return response()->json([
             'result' => $this->logViewer->delete($date) ? 'success' : 'error'

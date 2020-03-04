@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer;
 
 use Arcanedev\Support\Providers\PackageServiceProvider;
 
@@ -51,8 +55,13 @@ class LogViewerServiceProvider extends PackageServiceProvider
      */
     public function boot(): void
     {
-        $this->publishConfig();
-        $this->publishViews();
-        $this->publishTranslations();
+        $this->loadTranslations();
+        $this->loadViews();
+
+        if ($this->app->runningInConsole()) {
+            $this->publishConfig();
+            $this->publishTranslations();
+            $this->publishViews();
+        }
     }
 }

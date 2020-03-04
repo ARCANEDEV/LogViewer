@@ -1,7 +1,10 @@
-<?php namespace Arcanedev\LogViewer\Entities;
+<?php
 
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Entities;
+
+use Illuminate\Contracts\Support\{Arrayable, Jsonable};
 use Illuminate\Support\Carbon;
 use JsonSerializable;
 use SplFileInfo;

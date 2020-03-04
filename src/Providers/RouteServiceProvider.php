@@ -49,9 +49,9 @@ class RouteServiceProvider extends ServiceProvider
     public function map(): void
     {
         if ($this->isEnabled()) {
-            $this->group($this->routeAttributes(), function() {
-                LogViewerRoute::register();
-            });
+            static::mapRouteClasses([
+                LogViewerRoute::class,
+            ]);
         }
     }
 
