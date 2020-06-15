@@ -74,6 +74,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 | `uk`    | Ukrainian             |
 | `zh`    | Chinese (Simplified)  |
 | `zh-TW` | Chinese (Traditional) |
+| `si`    | Sinhalese (සිංහල)      |
 
 ## Contribution
 
