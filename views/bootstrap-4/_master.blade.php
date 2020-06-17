@@ -210,6 +210,10 @@
         .badge.badge-env {
             background-color: #6A1B9A;
         }
+        
+        #entries {
+            overflow-wrap: anywhere;
+        }
     </style>
 </head>
 <body>
