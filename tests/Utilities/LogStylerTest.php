@@ -58,7 +58,7 @@ class LogStylerTest extends TestCase
     public function it_can_get_icon(): void
     {
         foreach (self::$logLevels as $level) {
-            static::assertRegExp(
+            static::assertMatchesRegExp(
                 '/^<i class="fa fa-fw fa-(.*)"><\/i>$/',
                 $this->styler->icon($level)->toHtml()
             );
@@ -95,7 +95,7 @@ class LogStylerTest extends TestCase
     public function it_can_use_helper_to_get_icon(): void
     {
         foreach (self::$logLevels as $level) {
-            static::assertRegExp(
+            static::assertMatchesRegExp(
                 '/^<i class="fa fa-fw fa-(.*)"><\/i>$/',
                 log_styler()->icon($level)->toHtml()
             );
