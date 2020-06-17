@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Arcanedev\LogViewer\Tests;
 
+use Arcanedev\LogViewer\Contracts\Utilities\Filesystem;
 use Arcanedev\LogViewer\Entities\Log;
 use Arcanedev\LogViewer\Entities\LogEntry;
 use Arcanedev\LogViewer\Entities\LogEntryCollection;
 use Arcanedev\LogViewer\Helpers\LogParser;
+use Arcanedev\LogViewer\LogViewerServiceProvider;
+use Arcanedev\LogViewer\Providers\DeferredServicesProvider;
 use Carbon\Carbon;
+use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use PHPUnit\Framework\Constraint\RegularExpression;
 use Psr\Log\LogLevel;
 use ReflectionClass;
 
@@ -33,7 +38,7 @@ abstract class TestCase extends BaseTestCase
     /** @var array */
     protected static $locales   = [
         'ar', 'bg', 'de', 'en', 'es', 'et', 'fa', 'fr', 'hu', 'hy', 'id', 'it', 'ja', 'ko', 'ms', 'nl', 'pl',
-        'pt-BR', 'ro', 'ru', 'sv', 'th', 'tr', 'uk', 'zh-TW', 'zh'
+        'pt-BR', 'ro', 'ru', 'si', 'sv', 'th', 'tr', 'uk', 'zh-TW', 'zh'
     ];
 
     /* -----------------------------------------------------------------
@@ -65,8 +70,8 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app): array
     {
         return [
-            \Arcanedev\LogViewer\LogViewerServiceProvider::class,
-            \Arcanedev\LogViewer\Providers\DeferredServicesProvider::class,
+            LogViewerServiceProvider::class,
+            DeferredServicesProvider::class,
         ];
     }
 
@@ -98,7 +103,7 @@ abstract class TestCase extends BaseTestCase
      */
     public static function assertJsonObject($object, $message = ''): void
     {
-        static::assertInstanceOf(\Illuminate\Contracts\Support\Jsonable::class, $object);
+        static::assertInstanceOf(Jsonable::class, $object);
         static::assertJson($object->toJson(JSON_PRETTY_PRINT), $message);
 
         static::assertInstanceOf('JsonSerializable', $object);
@@ -221,7 +226,7 @@ abstract class TestCase extends BaseTestCase
      */
     public static function assertDate($date, $message = ''): void
     {
-        static::assertRegExp('/'.LogParser::REGEX_DATE_PATTERN.'/', $date, $message);
+        static::assertMatchesRegExp('/'.LogParser::REGEX_DATE_PATTERN.'/', $date, $message);
     }
 
     /**
@@ -258,7 +263,22 @@ abstract class TestCase extends BaseTestCase
     {
         $pattern = '/^#?([a-f0-9]{3}|[a-f0-9]{6})$/i';
 
-        static::assertRegExp($pattern, $color, $message);
+        static::assertMatchesRegExp($pattern, $color, $message);
+    }
+
+    /**
+     * Asserts that a string matches a given regular expression.
+     *
+     * @todo Remove this method when phpunit 8 not used
+     *
+     * @param  string  $pattern
+     * @param  string  $string
+     * @param  string  $message
+     *
+     */
+    public static function assertMatchesRegExp($pattern, $string, $message = ''): void
+    {
+        static::assertThat($string, new RegularExpression($pattern), $message);
     }
 
     /* -----------------------------------------------------------------
@@ -283,7 +303,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function filesystem()
     {
-        return $this->app->make(\Arcanedev\LogViewer\Contracts\Utilities\Filesystem::class);
+        return $this->app->make(Filesystem::class);
     }
 
     /**
