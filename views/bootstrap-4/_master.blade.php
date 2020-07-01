@@ -137,6 +137,10 @@
             white-space: pre-line;
             font-size: .8rem;
         }
+        
+        .stack-content > pre {
+            white-space: inherit;
+        }
 
         /*
          * Colors: Badge & Infobox
