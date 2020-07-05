@@ -140,6 +140,7 @@
         
         .stack-content > pre {
             white-space: inherit;
+            word-break: break-word;
         }
 
         /*
