@@ -23,9 +23,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function routeAttributes()
     {
-        return array_merge($this->config('attributes', []), [
-            'namespace' => 'Arcanedev\\LogViewer\\Http\\Controllers',
-        ]);
+        return (array) $this->config('attributes');
     }
 
     /**
