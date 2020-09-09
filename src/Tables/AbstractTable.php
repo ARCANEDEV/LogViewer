@@ -10,7 +10,6 @@ use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
 /**
  * Class     AbstractTable
  *
- * @package  Arcanedev\LogViewer\Bases
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class AbstractTable implements TableContract
@@ -68,7 +67,7 @@ abstract class AbstractTable implements TableContract
      *
      * @param  \Arcanedev\LogViewer\Contracts\Utilities\LogLevels  $levels
      *
-     * @return self
+     * @return $this
      */
     protected function setLevels(LogLevelsContract $levels)
     {
@@ -82,7 +81,7 @@ abstract class AbstractTable implements TableContract
      *
      * @param  string|null  $locale
      *
-     * @return self
+     * @return $this
      */
     protected function setLocale($locale)
     {
@@ -140,7 +139,7 @@ abstract class AbstractTable implements TableContract
      *
      * @param  array  $data
      *
-     * @return self
+     * @return $this
      */
     private function setData(array $data)
     {

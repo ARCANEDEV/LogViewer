@@ -10,7 +10,6 @@ use Arcanedev\LogViewer\Tests\TestCase;
 /**
  * Class     LogLevelsTest
  *
- * @package  Arcanedev\LogViewer\Tests\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogLevelsTest extends TestCase

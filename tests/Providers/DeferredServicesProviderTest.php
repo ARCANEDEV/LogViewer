@@ -11,7 +11,6 @@ use Arcanedev\LogViewer\Tests\TestCase;
 /**
  * Class     DeferredServicesProviderTest
  *
- * @package  Arcanedev\LogViewer\Tests\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DeferredServicesProviderTest extends TestCase

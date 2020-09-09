@@ -13,7 +13,6 @@ use Arcanedev\LogViewer\Tables\StatsTable;
 /**
  * Class     Factory
  *
- * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Factory implements FactoryContract

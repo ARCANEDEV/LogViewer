@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 /**
  * Class     LogParser
  *
- * @package  Arcanedev\LogViewer\Helpers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogParser

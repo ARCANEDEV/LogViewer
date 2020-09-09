@@ -10,7 +10,6 @@ use Arcanedev\LogViewer\Utilities\Filesystem;
 /**
  * Class     FilesystemTest
  *
- * @package  Arcanedev\LogViewer\Tests\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class FilesystemTest extends TestCase

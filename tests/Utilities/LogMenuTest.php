@@ -10,7 +10,6 @@ use Arcanedev\LogViewer\Utilities\LogMenu;
 /**
  * Class     LogMenuTest
  *
- * @package  Arcanedev\LogViewer\Tests\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogMenuTest extends TestCase

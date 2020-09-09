@@ -10,7 +10,6 @@ use Illuminate\Support\{Arr, Collection};
 /**
  * Class     StatsTable
  *
- * @package  Arcanedev\LogViewer\Tables
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class StatsTable extends AbstractTable

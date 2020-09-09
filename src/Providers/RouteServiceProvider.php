@@ -1,4 +1,8 @@
-<?php namespace Arcanedev\LogViewer\Providers;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanedev\LogViewer\Providers;
 
 use Arcanedev\LogViewer\Http\Routes\LogViewerRoute;
 use Arcanedev\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -6,7 +10,6 @@ use Arcanedev\Support\Providers\RouteServiceProvider as ServiceProvider;
 /**
  * Class     RouteServiceProvider
  *
- * @package  Arcanedev\LogViewer\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class RouteServiceProvider extends ServiceProvider
@@ -17,23 +20,13 @@ class RouteServiceProvider extends ServiceProvider
      */
 
     /**
-     * Get Route attributes
-     *
-     * @return array
-     */
-    public function routeAttributes()
-    {
-        return (array) $this->config('attributes');
-    }
-
-    /**
      * Check if routes is enabled
      *
      * @return bool
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
-        return $this->config('enabled', false);
+        return (bool) $this->config('enabled', false);
     }
 
     /* -----------------------------------------------------------------
@@ -42,14 +35,14 @@ class RouteServiceProvider extends ServiceProvider
      */
 
     /**
-     * Define the routes for the application.
+     * Boot the service provider.
      */
-    public function map(): void
+    public function boot(): void
     {
         if ($this->isEnabled()) {
-            static::mapRouteClasses([
-                LogViewerRoute::class,
-            ]);
+            $this->routes(function () {
+                static::mapRouteClasses([LogViewerRoute::class]);
+            });
         }
     }
 

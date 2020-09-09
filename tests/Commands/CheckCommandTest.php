@@ -9,7 +9,6 @@ use Arcanedev\LogViewer\Tests\TestCase;
 /**
  * Class     CheckCommandTest
  *
- * @package  Arcanedev\LogViewer\Tests\Commands
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CheckCommandTest extends TestCase

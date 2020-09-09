@@ -7,10 +7,7 @@ namespace Arcanedev\LogViewer\Tests;
 /**
  * Class     RoutesTest
  *
- * @package  Arcanedev\LogViewer\Tests
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- *
- * @todo:    Find a way to test the route Classes with testbench (Find another tool if it's impossible).
  */
 class RoutesTest extends TestCase
 {
@@ -163,6 +160,16 @@ class RoutesTest extends TestCase
         $entries = $view->getData()['entries'];
 
         static::assertCount(1, $entries);
+    }
+
+    /** @test */
+    public function it_must_redirect_if_search_query_is_not_available(): void
+    {
+        $date  = '2015-01-01';
+        $level = 'notice';
+
+        $this->get(route('log-viewer::logs.search', compact('date', 'level')))
+             ->assertRedirect(route('log-viewer::logs.show', [$date]));
     }
 
     /** @test */

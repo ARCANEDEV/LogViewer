@@ -9,7 +9,6 @@ use Illuminate\Contracts\Config\Repository as ConfigContract;
 /**
  * Interface  LogChecker
  *
- * @package   Arcanedev\LogViewer\Contracts\Utilities
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface LogChecker

@@ -9,7 +9,6 @@ use Arcanedev\Support\Providers\PackageServiceProvider;
 /**
  * Class     LogViewerServiceProvider
  *
- * @package  Arcanedev\LogViewer
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogViewerServiceProvider extends PackageServiceProvider

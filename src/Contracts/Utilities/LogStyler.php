@@ -7,7 +7,6 @@ namespace Arcanedev\LogViewer\Contracts\Utilities;
 /**
  * Interface  LogStyler
  *
- * @package   Arcanedev\LogViewer\Contracts\Utilities
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface LogStyler

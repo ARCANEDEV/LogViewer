@@ -9,7 +9,6 @@ use Arcanedev\LogViewer\LogViewerServiceProvider;
 /**
  * Class     LogViewerServiceProviderTest
  *
- * @package  Arcanedev\LogViewer\Tests
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogViewerServiceProviderTest extends TestCase

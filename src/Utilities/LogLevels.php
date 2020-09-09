@@ -13,7 +13,6 @@ use ReflectionClass;
 /**
  * Class     LogLevels
  *
- * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogLevels implements LogLevelsContract

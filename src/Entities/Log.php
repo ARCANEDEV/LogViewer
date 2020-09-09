@@ -12,7 +12,6 @@ use SplFileInfo;
 /**
  * Class     Log
  *
- * @package  Arcanedev\LogViewer\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Log implements Arrayable, Jsonable, JsonSerializable

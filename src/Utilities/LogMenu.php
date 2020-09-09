@@ -12,7 +12,6 @@ use Illuminate\Contracts\Config\Repository as ConfigContract;
 /**
  * Class     LogMenu
  *
- * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogMenu implements LogMenuContract

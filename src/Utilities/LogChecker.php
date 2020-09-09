@@ -11,7 +11,6 @@ use Illuminate\Contracts\Config\Repository as ConfigContract;
 /**
  * Class     LogChecker
  *
- * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogChecker implements LogCheckerContract

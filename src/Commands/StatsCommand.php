@@ -9,7 +9,6 @@ use Arcanedev\LogViewer\Tables\StatsTable;
 /**
  * Class     StatsCommand
  *
- * @package  Arcanedev\LogViewer\Commands
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class StatsCommand extends Command
