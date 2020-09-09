@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputOption;
 /**
  * Class     PublishCommand
  *
- * @package  Arcanedev\LogViewer\Commands
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class PublishCommand extends Command

@@ -7,9 +7,8 @@ namespace Arcanedev\LogViewer\Commands;
 use Arcanedev\LogViewer\Contracts\Utilities\LogChecker as LogCheckerContract;
 
 /**
- * Class     PublishCommand
+ * Class     CheckCommand
  *
- * @package  Arcanedev\LogViewer\Commands
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class CheckCommand extends Command

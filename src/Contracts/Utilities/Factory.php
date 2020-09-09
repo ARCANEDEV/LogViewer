@@ -9,7 +9,6 @@ use Arcanedev\LogViewer\Contracts\Patternable;
 /**
  * Interface  Factory
  *
- * @package   Arcanedev\LogViewer\Contracts\Utilities
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface Factory extends Patternable

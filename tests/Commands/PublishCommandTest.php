@@ -9,7 +9,6 @@ use Arcanedev\LogViewer\Tests\TestCase;
 /**
  * Class     PublishCommandTest
  *
- * @package  Arcanedev\LogViewer\Tests\Commands
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class PublishCommandTest extends TestCase
@@ -109,7 +108,7 @@ class PublishCommandTest extends TestCase
      */
     protected function assertHasNotConfigFile(): void
     {
-        static::assertFileNotExists($this->getConfigFilePath());
+        static::assertFileDoesNotExist($this->getConfigFilePath());
         static::assertFalse($this->isConfigExists());
     }
 

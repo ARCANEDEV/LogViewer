@@ -11,7 +11,6 @@ use Illuminate\Support\HtmlString;
 /**
  * Class     LogStyler
  *
- * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogStyler implements LogStylerContract

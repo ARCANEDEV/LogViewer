@@ -19,7 +19,6 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 /**
  * Class     DeferredServicesProvider
  *
- * @package  Arcanedev\LogViewer\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DeferredServicesProvider extends ServiceProvider implements DeferrableProvider

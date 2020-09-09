@@ -22,7 +22,6 @@ use ReflectionClass;
 /**
  * Class     TestCase
  *
- * @package  Arcanedev\LogViewer\Tests
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class TestCase extends BaseTestCase

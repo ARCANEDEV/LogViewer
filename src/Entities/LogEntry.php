@@ -12,7 +12,6 @@ use JsonSerializable;
 /**
  * Class     LogEntry
  *
- * @package  Arcanedev\LogViewer\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogEntry implements Arrayable, Jsonable, JsonSerializable

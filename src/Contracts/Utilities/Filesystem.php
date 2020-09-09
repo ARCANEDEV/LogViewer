@@ -9,7 +9,6 @@ use Arcanedev\LogViewer\Contracts\Patternable;
 /**
  * Interface  Filesystem
  *
- * @package   Arcanedev\LogViewer\Contracts\Utilities
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface Filesystem extends Patternable
@@ -40,7 +39,7 @@ interface Filesystem extends Patternable
      *
      * @param  string  $storagePath
      *
-     * @return self
+     * @return $this
      */
     public function setPath($storagePath);
 
@@ -49,7 +48,7 @@ interface Filesystem extends Patternable
      *
      * @param  string  $datePattern
      *
-     * @return self
+     * @return $this
      */
     public function setDatePattern($datePattern);
 
@@ -58,7 +57,7 @@ interface Filesystem extends Patternable
      *
      * @param  string  $prefixPattern
      *
-     * @return self
+     * @return $this
      */
     public function setPrefixPattern($prefixPattern);
 
@@ -67,7 +66,7 @@ interface Filesystem extends Patternable
      *
      * @param  string  $extension
      *
-     * @return self
+     * @return $this
      */
     public function setExtension($extension);
 
@@ -119,7 +118,7 @@ interface Filesystem extends Patternable
      *
      * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
-    public function delete($date);
+    public function delete(string $date);
 
     /**
      * Clear the log files.

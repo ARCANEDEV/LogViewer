@@ -12,7 +12,6 @@ use Illuminate\Support\LazyCollection;
 /**
  * Class     LogCollection
  *
- * @package  Arcanedev\LogViewer\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogCollection extends LazyCollection
@@ -86,7 +85,7 @@ class LogCollection extends LazyCollection
     public function get($date, $default = null)
     {
         if ( ! $this->has($date))
-            throw new LogNotFoundException("Log not found in this date [$date]");
+            throw LogNotFoundException::make($date);
 
         return parent::get($date, $default);
     }

@@ -12,7 +12,6 @@ use Arcanedev\LogViewer\Contracts\LogViewer as LogViewerContract;
 /**
  * Class     LogViewer
  *
- * @package  Arcanedev\LogViewer
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogViewer implements LogViewerContract

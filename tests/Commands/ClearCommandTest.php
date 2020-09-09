@@ -9,7 +9,6 @@ use Arcanedev\LogViewer\Tests\TestCase;
 /**
  * Class     ClearCommandTest
  *
- * @package  Arcanedev\LogViewer\Tests\Commands
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class ClearCommandTest extends TestCase

@@ -11,7 +11,6 @@ use Illuminate\Support\HtmlString;
 /**
  * Class     LogStylerTest
  *
- * @package  Arcanedev\LogViewer\Tests\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogStylerTest extends TestCase

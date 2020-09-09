@@ -10,7 +10,6 @@ use Arcanedev\LogViewer\Utilities\LogChecker;
 /**
  * Class     LogCheckerTest
  *
- * @package  Arcanedev\LogViewer\Tests\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogCheckerTest extends TestCase

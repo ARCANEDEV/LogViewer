@@ -9,7 +9,6 @@ use Illuminate\Translation\Translator;
 /**
  * Interface  LogLevels
  *
- * @package   Arcanedev\LogViewer\Contracts\Utilities
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface LogLevels

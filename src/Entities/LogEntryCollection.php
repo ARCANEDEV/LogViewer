@@ -11,7 +11,6 @@ use Illuminate\Support\LazyCollection;
 /**
  * Class     LogEntryCollection
  *
- * @package  Arcanedev\LogViewer\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LogEntryCollection extends LazyCollection

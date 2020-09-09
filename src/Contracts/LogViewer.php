@@ -7,7 +7,6 @@ namespace Arcanedev\LogViewer\Contracts;
 /**
  * Interface  LogViewer
  *
- * @package   Arcanedev\LogViewer\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface LogViewer extends Patternable

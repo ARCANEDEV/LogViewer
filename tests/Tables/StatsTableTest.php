@@ -11,7 +11,6 @@ use Arcanedev\LogViewer\Tests\TestCase;
 /**
  * Class     StatsTableTest
  *
- * @package  Arcanedev\LogViewer\Tests\Tables
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class StatsTableTest extends TestCase

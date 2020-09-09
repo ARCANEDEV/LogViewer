@@ -9,7 +9,6 @@ use Arcanedev\LogViewer\Contracts\Utilities\Filesystem;
 /**
  * Interface  Patternable
  *
- * @package   Arcanedev\LogViewer\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface Patternable

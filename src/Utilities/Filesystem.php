@@ -13,7 +13,6 @@ use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 /**
  * Class     Filesystem
  *
- * @package  Arcanedev\LogViewer\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Filesystem implements FilesystemContract
@@ -96,7 +95,7 @@ class Filesystem implements FilesystemContract
      *
      * @param  string  $storagePath
      *
-     * @return self
+     * @return $this
      */
     public function setPath($storagePath)
     {
@@ -110,7 +109,7 @@ class Filesystem implements FilesystemContract
      *
      * @return string
      */
-    public function getPattern()
+    public function getPattern(): string
     {
         return $this->prefixPattern.$this->datePattern.$this->extension;
     }
@@ -122,7 +121,7 @@ class Filesystem implements FilesystemContract
      * @param  string  $prefix
      * @param  string  $extension
      *
-     * @return self
+     * @return $this
      */
     public function setPattern(
         $prefix    = self::PATTERN_PREFIX,
@@ -141,7 +140,7 @@ class Filesystem implements FilesystemContract
      *
      * @param  string  $datePattern
      *
-     * @return self
+     * @return $this
      */
     public function setDatePattern($datePattern)
     {
@@ -155,7 +154,7 @@ class Filesystem implements FilesystemContract
      *
      * @param  string  $prefixPattern
      *
-     * @return self
+     * @return $this
      */
     public function setPrefixPattern($prefixPattern)
     {
@@ -169,7 +168,7 @@ class Filesystem implements FilesystemContract
      *
      * @param  string  $extension
      *
-     * @return self
+     * @return $this
      */
     public function setExtension($extension)
     {
@@ -254,15 +253,11 @@ class Filesystem implements FilesystemContract
      *
      * @throws \Arcanedev\LogViewer\Exceptions\FilesystemException
      */
-    public function delete($date)
+    public function delete(string $date)
     {
         $path = $this->getLogPath($date);
 
-        // @codeCoverageIgnoreStart
-        if ( ! $this->filesystem->delete($path)) {
-            throw new FilesystemException('There was an error deleting the log.');
-        }
-        // @codeCoverageIgnoreEnd
+        throw_unless($this->filesystem->delete($path), FilesystemException::cannotDeleteLog());
 
         return true;
     }
@@ -274,9 +269,7 @@ class Filesystem implements FilesystemContract
      */
     public function clear()
     {
-        return $this->filesystem->delete(
-            $this->logs()
-        );
+        return $this->filesystem->delete($this->logs());
     }
 
     /**
@@ -326,7 +319,7 @@ class Filesystem implements FilesystemContract
         $path = $this->storagePath.DIRECTORY_SEPARATOR.$this->prefixPattern.$date.$this->extension;
 
         if ( ! $this->filesystem->exists($path)) {
-            throw new FilesystemException("The log(s) could not be located at : $path");
+            throw FilesystemException::invalidPath($path);
         }
 
         return realpath($path);
