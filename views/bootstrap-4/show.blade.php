@@ -9,8 +9,13 @@
 @extends('log-viewer::bootstrap-4._master')
 
 @section('content')
-    <div class="page-header mb-4">
-        <h1>@lang('Log') [{{ $log->date }}]</h1>
+    <div class="page-header mb-4 d-md-flex align-items-center">
+        <h1 class="d-inline-block align-middle">@lang('Log') [{{ $log->date }}]</h1>
+        <select class="form-control custom-select mx-sm-2" style="width: auto" onchange="location = this.value">
+        @foreach($dates as $date)
+            <option value="{{ route('log-viewer::logs.show', [$date]) }}" {{ $date == $log->date ? 'selected' : '' }}>{{ $date }}</option>
+        @endforeach
+        </select>
     </div>
 
     <div class="row">

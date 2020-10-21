@@ -104,8 +104,9 @@ class LogViewerController extends Controller
         $query   = $request->get('query');
         $levels  = $this->logViewer->levelsNames();
         $entries = $log->entries($level)->paginate($this->perPage);
+        $dates   = $this->logViewer->dates();
 
-        return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries'));
+        return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries', 'dates'));
     }
 
     /**
@@ -126,8 +127,9 @@ class LogViewerController extends Controller
         $query   = $request->get('query');
         $levels  = $this->logViewer->levelsNames();
         $entries = $this->logViewer->entries($date, $level)->paginate($this->perPage);
+        $dates   = $this->logViewer->dates();
 
-        return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries'));
+        return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries', 'dates'));
     }
 
     /**
@@ -148,6 +150,7 @@ class LogViewerController extends Controller
 
         $log     = $this->getLogOrFail($date);
         $levels  = $this->logViewer->levelsNames();
+        $dates   = $this->logViewer->dates();
         $needles = array_map(function ($needle) {
             return Str::lower($needle);
         }, array_filter(explode(' ', $query)));
@@ -159,7 +162,7 @@ class LogViewerController extends Controller
             })
             ->paginate($this->perPage);
 
-        return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries'));
+        return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries', 'dates'));
     }
 
     /**
