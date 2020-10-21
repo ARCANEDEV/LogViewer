@@ -210,7 +210,7 @@
         .badge.badge-env {
             background-color: #6A1B9A;
         }
-        
+
         #entries {
             overflow-wrap: anywhere;
         }
@@ -234,6 +234,11 @@
                 <li class="nav-item {{ Route::is('log-viewer::logs.list') ? 'active' : '' }}">
                     <a href="{{ route('log-viewer::logs.list') }}" class="nav-link">
                         <i class="fa fa-archive"></i> @lang('Logs')
+                    </a>
+                </li>
+                <li class="nav-item {{ Route::is('log-viewer::logs.last') ? 'active' : '' }}">
+                    <a href="{{ route('log-viewer::logs.last') }}" class="nav-link">
+                        <i class="fa fa-file-text"></i> @lang('Last log')
                     </a>
                 </li>
             </ul>

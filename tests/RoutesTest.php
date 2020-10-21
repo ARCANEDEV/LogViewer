@@ -42,6 +42,20 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
+    public function it_can_show_a_last_log_page(): void
+    {
+        $date = '2015-01-02';
+
+        $response = $this->get(route('log-viewer::logs.last'));
+        $response->assertSuccessful();
+
+        static::assertStringContainsString(
+            "Log [{$date}]",
+            $response->getContent()
+        );
+    }
+
+    /** @test */
     public function it_can_show_a_log_page(): void
     {
         $date = '2015-01-01';

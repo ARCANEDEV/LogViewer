@@ -90,6 +90,20 @@ class LogViewerController extends Controller
     }
 
     /**
+     * Show the last log.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\View\View
+     */
+    public function lastLog(Request $request)
+    {
+        $dates = $this->logViewer->dates();
+        $lastDate = reset($dates);
+        return $this->show($request, $lastDate);
+    }
+
+    /**
      * Show the log.
      *
      * @param  \Illuminate\Http\Request  $request

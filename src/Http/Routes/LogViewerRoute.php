@@ -45,6 +45,9 @@ class LogViewerRoute extends RouteRegistrar
             $this->get('/', [LogViewerController::class, 'listLogs'])
                  ->name('list'); // log-viewer::logs.list
 
+            $this->get('last', [LogViewerController::class, 'lastLog'])
+                 ->name('last'); // log-viewer::logs.last
+
             $this->delete('delete', [LogViewerController::class, 'delete'])
                  ->name('delete'); // log-viewer::logs.delete
 
