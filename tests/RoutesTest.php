@@ -50,7 +50,7 @@ class RoutesTest extends TestCase
         $response->assertSuccessful();
 
         static::assertStringContainsString(
-            "<h1>Log [{$date}]</h1>",
+            "Log [{$date}]",
             $response->getContent()
         );
         // TODO: Add more assertion => list all log entries
@@ -66,7 +66,7 @@ class RoutesTest extends TestCase
         $response->assertSuccessful();
 
         static::assertStringContainsString(
-            "<h1>Log [{$date}]</h1>",
+            "Log [{$date}]",
             $response->getContent()
         );
         // TODO: Add more assertion => log entries is filtered by a level
