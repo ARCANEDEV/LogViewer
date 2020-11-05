@@ -56,6 +56,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 | `et`    | Estonian              |
 | `fa`    | Farsi                 |
 | `fr`    | French                |
+| `he`    | Hebrew                |
 | `hu`    | Hungarian             |
 | `hy`    | Armenian              |
 | `id`    | Indonesian            |
@@ -75,7 +76,6 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 | `uk`    | Ukrainian             |
 | `zh`    | Chinese (Simplified)  |
 | `zh-TW` | Chinese (Traditional) |
-| `he`    | Hebrew                |
 
 ## Contribution
 
