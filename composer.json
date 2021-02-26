@@ -14,16 +14,16 @@
     "type":    "library",
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^7.4|^8.0",
         "ext-json": "*",
-        "arcanedev/support": "^8.0",
+        "arcanedev/support": "^9.0",
         "psr/log": "^1.1 || ^2.0"
     },
     "require-dev": {
-        "laravel/framework": "^8.74",
+        "laravel/framework": "^9.0",
         "mockery/mockery": "^1.4.2",
-        "orchestra/testbench-core": "^6.27",
-        "phpunit/phpunit": "^9.5.10"
+        "orchestra/testbench-core": "^7.0",
+        "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
         "psr-4": {
@@ -43,7 +43,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "8.x-dev"
+            "dev-develop": "9.x-dev"
         },
         "laravel": {
             "providers": [
