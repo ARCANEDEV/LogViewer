@@ -42,5 +42,5 @@ jobs:
 
       - name: Scrutinizer CI
         run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+          composer require scrutinizer/ocular --dev
+          vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
