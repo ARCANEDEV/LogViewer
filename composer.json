@@ -23,8 +23,7 @@
         "laravel/framework": "^8.19",
         "mockery/mockery": "^1.4.2",
         "orchestra/testbench-core": "^6.4",
-        "phpunit/phpunit": "^9.3.3",
-        "scrutinizer/ocular": "^1.8"
+        "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
         "psr-4": {

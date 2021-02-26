@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
       - name: Cache dependencies
         uses: actions/cache@v2
@@ -42,4 +44,5 @@ jobs:
 
       - name: Scrutinizer CI
         run: |
+          composer require scrutinizer/ocular --dev
           vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
