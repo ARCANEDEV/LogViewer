@@ -210,7 +210,11 @@ class LogViewer implements LogViewerContract
     public function download($date, $filename = null, $headers = [])
     {
         if (is_null($filename)) {
-            $filename = "laravel-{$date}.log";
+            $filename = sprintf(
+                "%s{$date}.%s",
+                config('log-viewer.download.prefix', 'laravel-'),
+                config('log-viewer.download.extension', 'log')
+            );
         }
 
         $path = $this->filesystem->path($date);
