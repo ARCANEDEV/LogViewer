@@ -8,6 +8,8 @@ use Arcanedev\LogViewer\Contracts\Utilities\Factory as FactoryContract;
 use Arcanedev\LogViewer\Contracts\Utilities\Filesystem as FilesystemContract;
 use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
 use Arcanedev\LogViewer\Entities\LogCollection;
+use Arcanedev\LogViewer\Entities\Log;
+use Arcanedev\LogViewer\Exceptions\LogNotFoundException;
 use Arcanedev\LogViewer\Tables\StatsTable;
 
 /**
@@ -196,7 +198,12 @@ class Factory implements FactoryContract
      */
     public function log($date)
     {
-        return $this->logs()->log($date);
+        $dates = $this->filesystem->dates(true);
+        if (!isset($dates[$date])) {
+            throw new LogNotFoundException("Log not found in this date [$date]");
+        }
+
+        return new Log($date, $dates[$date], $this->filesystem->read($date));
     }
 
     /**
@@ -221,7 +228,7 @@ class Factory implements FactoryContract
      */
     public function entries($date, $level = 'all')
     {
-        return $this->logs()->entries($date, $level);
+        return $this->log($date)->entries($level);
     }
 
     /**
@@ -253,7 +260,7 @@ class Factory implements FactoryContract
      */
     public function dates()
     {
-        return $this->logs()->dates();
+        return $this->filesystem->dates();
     }
 
     /**
