@@ -198,7 +198,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     public function context()
     {
-        return json_encode($this->context, JSON_PRETTY_PRINT);
+        return json_encode($this->context, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     /* -----------------------------------------------------------------
