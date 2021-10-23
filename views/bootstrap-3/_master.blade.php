@@ -272,6 +272,8 @@
         .badge.label-env, .label.label-env {
             background-color: #6A1B9A;
         }
+
+        {{ log_styler()->extraStyle() }}
     </style>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>

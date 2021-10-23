@@ -138,4 +138,12 @@ return [
         '^Stack trace:',
     ],
 
+    /* -----------------------------------------------------------------
+     |  Additional custom CSS
+     | -----------------------------------------------------------------
+     */
+    'extra-style' => <<<CSS
+        /* Add custom CSS in log-viewer.extra-style config */
+        CSS,
+
 ];

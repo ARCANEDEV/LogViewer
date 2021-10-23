@@ -104,4 +104,16 @@ class LogStyler implements LogStylerContract
     {
         return $this->get('highlight', $default);
     }
+
+    /**
+     * Return extra-style from config.
+     *
+     * @param  string  $default
+     *
+     * @return \Illuminate\Support\HtmlString
+     */
+    public function extraStyle(string $default = '')
+    {
+        return new HtmlString($this->get('extra-style', $default));
+    }
 }
