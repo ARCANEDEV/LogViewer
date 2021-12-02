@@ -22,7 +22,7 @@
     "require-dev": {
         "laravel/framework": "^8.19",
         "mockery/mockery": "^1.4.2",
-        "orchestra/testbench-core": "^6.4",
+        "orchestra/testbench-core": "^6.27",
         "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
