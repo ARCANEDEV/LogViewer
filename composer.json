@@ -20,10 +20,10 @@
         "psr/log": "^1.1 || ^2.0"
     },
     "require-dev": {
-        "laravel/framework": "^8.19",
+        "laravel/framework": "^8.74",
         "mockery/mockery": "^1.4.2",
-        "orchestra/testbench-core": "^6.4",
-        "phpunit/phpunit": "^9.3.3"
+        "orchestra/testbench-core": "^6.27",
+        "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
         "psr-4": {
