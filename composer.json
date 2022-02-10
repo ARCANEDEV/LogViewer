@@ -16,13 +16,13 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
-        "arcanedev/support": "^9.0",
+        "arcanedev/support": "^10.0",
         "psr/log": "^1.0|^2.0|^3.0"
     },
     "require-dev": {
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^10.0",
         "mockery/mockery": "^1.4.4",
-        "orchestra/testbench-core": "^7.0",
+        "orchestra/testbench-core": "^8.0",
         "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
