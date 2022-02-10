@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [7.3, 7.4, 8.0, 8.1]
+        php: [8.0, 8.1]
         dependency-version: [prefer-lowest, prefer-stable]
 
     name: PHP ${{ matrix.php }} - ${{ matrix.dependency-version }}
@@ -31,8 +31,8 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: curl, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, iconv
-          coverage: xdebug
           tools: composer:v2
+          coverage: pcov
 
       - name: Install dependencies
         run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
@@ -42,7 +42,7 @@ jobs:
           mkdir -p build/logs
           vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
-      - name: Scrutinizer CI
-        run: |
-          composer require scrutinizer/ocular --dev
-          vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+#      - name: Scrutinizer CI
+#        run: |
+#          composer require scrutinizer/ocular --dev
+#          vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover

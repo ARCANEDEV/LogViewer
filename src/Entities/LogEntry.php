@@ -193,12 +193,10 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
 
     /**
      * Get the entry context as json pretty print.
-     *
-     * @return string
      */
-    public function context()
+    public function context(int $options = JSON_PRETTY_PRINT): string
     {
-        return json_encode($this->context, JSON_PRETTY_PRINT);
+        return json_encode($this->context, $options);
     }
 
     /* -----------------------------------------------------------------
@@ -252,8 +250,6 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
 
     /**
      * Serialize the log entry object to json data.
-     *
-     * @return array
      */
     public function jsonSerialize(): array
     {

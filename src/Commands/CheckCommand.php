@@ -62,11 +62,13 @@ class CheckCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $this->displayLogViewer();
         $this->displayRequirements();
         $this->displayMessages();
+
+        return static::SUCCESS;
     }
 
     /* -----------------------------------------------------------------

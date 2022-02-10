@@ -35,7 +35,7 @@ class PublishCommandTest extends TestCase
     public function it_can_publish_all(): void
     {
         $this->artisan('log-viewer:publish')
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         static::assertHasConfigFile();
         static::assertHasLocalizationFiles();
@@ -46,7 +46,7 @@ class PublishCommandTest extends TestCase
     public function it_can_publish_all_with_force(): void
     {
         $this->artisan('log-viewer:publish', ['--force'   => true])
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         static::assertHasConfigFile();
         static::assertHasLocalizationFiles();
@@ -57,7 +57,7 @@ class PublishCommandTest extends TestCase
     public function it_can_publish_only_config(): void
     {
         $this->artisan('log-viewer:publish', ['--tag' => 'config'])
-             ->assertExitCode(0);
+             ->assertSuccessful();
 
         static::assertHasConfigFile();
         static::assertHasNotLocalizationFiles();
@@ -177,12 +177,10 @@ class PublishCommandTest extends TestCase
 
     /**
      * Get LogViewer lang folder
-     *
-     * @return string
      */
-    private function getLocalizationFolder()
+    private function getLocalizationFolder(): string|false
     {
-        return realpath(base_path().'/resources/lang/vendor/log-viewer');
+        return realpath(lang_path('vendor/log-viewer'));
     }
 
     /**

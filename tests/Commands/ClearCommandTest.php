@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Arcanedev\LogViewer\Tests\Commands;
 
+use Arcanedev\LogViewer\Contracts\LogViewer as LogViewerContract;
 use Arcanedev\LogViewer\Tests\TestCase;
+use Illuminate\Support\Facades\File;
 
 /**
  * Class     ClearCommandTest
@@ -18,11 +20,9 @@ class ClearCommandTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    /** @var  \Arcanedev\LogViewer\LogViewer */
-    private $logViewer;
+    private LogViewerContract $logViewer;
 
-    /** @var  string */
-    private $path;
+    private string $path;
 
     /* -----------------------------------------------------------------
      |  Main Methods
@@ -33,7 +33,7 @@ class ClearCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->logViewer = $this->app->make(\Arcanedev\LogViewer\Contracts\LogViewer::class);
+        $this->logViewer = $this->app->make(LogViewerContract::class);
         $this->path      = storage_path('logs-to-clear');
 
         $this->setupForTests();
@@ -56,14 +56,16 @@ class ClearCommandTest extends TestCase
     /** @test */
     public function it_can_delete_all_log_files(): void
     {
-        static::createDummyLog(date('Y-m-d'), 'logs-to-clear');
+        static::createDummyLog(date('Y-m-d'), storage_path('logs-to-clear'));
 
         static::assertGreaterThanOrEqual(1, $this->logViewer->count());
 
-        $this->artisan('log-viewer:clear')
-             ->expectsQuestion('This will delete all the log files, Do you wish to continue?', 'yes')
-             ->expectsOutput('Successfully cleared the logs!')
-             ->assertExitCode(0);
+        $this
+            ->artisan('log-viewer:clear')
+            ->expectsQuestion('This will delete all the log files, Do you wish to continue?', 'yes')
+            ->expectsOutput('Successfully cleared the logs!')
+            ->assertSuccessful()
+        ;
 
         static::assertEquals(0, $this->logViewer->count());
     }
@@ -78,8 +80,7 @@ class ClearCommandTest extends TestCase
      */
     private function setupForTests(): void
     {
-        if ( ! file_exists($this->path))
-            mkdir($this->path, 0777, true);
+        File::ensureDirectoryExists($this->path);
 
         $this->logViewer->setPath($this->path);
         $this->app['config']->set(['log-viewer.storage-path' => $this->path]);

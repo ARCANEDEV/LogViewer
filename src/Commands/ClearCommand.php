@@ -38,11 +38,13 @@ class ClearCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         if ($this->confirm('This will delete all the log files, Do you wish to continue?')) {
             $this->logViewer->clear();
             $this->info('Successfully cleared the logs!');
         }
+
+        return static::SUCCESS;
     }
 }
