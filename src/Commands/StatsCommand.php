@@ -59,6 +59,8 @@ class StatsCommand extends Command
         // Display Data
         $this->displayLogViewer();
         $this->table($stats->header(), $rows);
+
+        return static::SUCCESS;
     }
 
     /* -----------------------------------------------------------------

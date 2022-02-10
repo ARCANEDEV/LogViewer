@@ -1,8 +1,8 @@
 <?php
 /**
- * @var  Arcanedev\LogViewer\Entities\Log            $log
- * @var  Illuminate\Pagination\LengthAwarePaginator  $entries
- * @var  string|null                                 $query
+ * @var  Arcanedev\LogViewer\Entities\Log                                                                     $log
+ * @var  Illuminate\Pagination\LengthAwarePaginator|array<string|int, Arcanedev\LogViewer\Entities\LogEntry>  $entries
+ * @var  string|null                                                                                          $query
  */
 ?>
 
@@ -122,7 +122,6 @@
                         </thead>
                         <tbody>
                             @forelse($entries as $key => $entry)
-                                <?php /** @var  Arcanedev\LogViewer\Entities\LogEntry  $entry */ ?>
                                 <tr>
                                     <td>
                                         <span class="badge badge-env">{{ $entry->env }}</span>

@@ -31,11 +31,9 @@ abstract class TestCase extends BaseTestCase
      | -----------------------------------------------------------------
      */
 
-    /** @var array */
-    protected static $logLevels = [];
+    protected static array $logLevels = [];
 
-    /** @var array */
-    protected static $locales   = [
+    protected static array $locales   = [
         'ar', 'bg', 'de', 'en', 'es', 'et', 'fa', 'fr', 'hu', 'hy', 'id', 'it', 'ja', 'ko', 'ms', 'nl', 'pl',
         'pt-BR', 'ro', 'ru', 'si', 'sv', 'th', 'tr', 'uk', 'zh-TW', 'zh'
     ];
@@ -337,6 +335,13 @@ abstract class TestCase extends BaseTestCase
         return $this->filesystem()->path($date);
     }
 
+    protected static function fixturePath(?string $path = null): string
+    {
+        return is_null($path)
+            ? __DIR__.'/fixtures'
+            : __DIR__.'/fixtures/'.$path;
+    }
+
     /**
      * Get log content.
      *
@@ -403,16 +408,16 @@ abstract class TestCase extends BaseTestCase
     /**
      * Create dummy log.
      *
-     * @param  string  $date
-     * @param  string  $path
+     * @param string $date
+     * @param string $path
      *
      * @return bool
      */
-    protected static function createDummyLog($date, $path = 'logs')
+    protected static function createDummyLog(string $date, string $path): bool
     {
         return copy(
-            storage_path('dummy.log'),                // Source
-            storage_path("{$path}/laravel-{$date}.log") // Destination
+            static::fixturePath('dummy.log'), // Source
+            "{$path}/laravel-{$date}.log"     // Destination
         );
     }
 

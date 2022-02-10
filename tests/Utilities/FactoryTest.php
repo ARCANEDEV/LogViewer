@@ -128,7 +128,7 @@ class FactoryTest extends TestCase
     /** @test */
     public function it_can_can_set_custom_path(): void
     {
-        $this->logFactory->setPath(storage_path('custom-path-logs'));
+        $this->logFactory->setPath(static::fixturePath('custom-path-logs'));
 
         static::assertSame(1, $this->logFactory->count());
 

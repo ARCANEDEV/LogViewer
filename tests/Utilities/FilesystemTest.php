@@ -101,7 +101,12 @@ class FilesystemTest extends TestCase
     /** @test */
     public function it_can_delete_file(): void
     {
-        static::createDummyLog($date = date('Y-m-d'));
+        static::createDummyLog(
+            $date = date('Y-m-d'),
+            $path = storage_path('logs')
+        );
+
+        $this->filesystem->setPath($path);
 
         // Assert log exists
         $file = $this->filesystem->read($date);
@@ -136,7 +141,7 @@ class FilesystemTest extends TestCase
     /** @test */
     public function it_can_set_a_custom_path(): void
     {
-        $this->filesystem->setPath(storage_path('custom-path-logs'));
+        $this->filesystem->setPath(static::fixturePath('custom-path-logs'));
 
         $files = $this->filesystem->logs();
 

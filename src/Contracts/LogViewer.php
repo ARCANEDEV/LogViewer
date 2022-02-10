@@ -51,7 +51,7 @@ interface LogViewer extends Patternable
     /**
      * Get all logs.
      *
-     * @return \Arcanedev\LogViewer\Entities\LogCollection
+     * @return \Arcanedev\LogViewer\Entities\LogCollection|\Arcanedev\LogViewer\Entities\Log[]
      */
     public function all();
 
