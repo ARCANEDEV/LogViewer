@@ -154,7 +154,12 @@ class LogViewerController extends Controller
         $entries = $log->entries($level)
             ->unless(empty($needles), function (LogEntryCollection $entries) use ($needles) {
                 return $entries->filter(function (LogEntry $entry) use ($needles) {
-                    return Str::containsAll(Str::lower($entry->header), $needles);
+                    foreach ([$entry->header, $entry->stack, $entry->context()] as $subject) {
+                        if (Str::containsAll(Str::lower($subject), $needles))
+                            return true;
+                    }
+
+                    return false;
                 });
             })
             ->paginate($this->perPage);
