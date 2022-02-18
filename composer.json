@@ -13,11 +13,17 @@
     ],
     "type":    "library",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:arcanod/Support.git"
+        }
+    ],
     "require": {
         "php":               "^7.2.5|^8.0",
         "ext-json":          "*",
         "psr/log":           "^1.0",
-        "arcanedev/support": "^7.0"
+        "arcanedev/support": "^7.2"
     },
     "require-dev": {
         "orchestra/testbench": "^5.0",
