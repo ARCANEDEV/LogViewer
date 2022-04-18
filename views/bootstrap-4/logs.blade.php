@@ -31,7 +31,16 @@
                         @foreach($row as $key => $value)
                             <td class="{{ $key == 'date' ? 'text-left' : 'text-center' }}">
                                 @if ($key == 'date')
+                                    @if(empty($suffix = config('log-viewer.pattern.suffix')))
                                     <span class="badge badge-primary">{{ $value }}</span>
+                                    @else
+                                    <span class="badge badge-primary">
+                                        {{ \Str::beforeLast(\Str::after($value, config('log-viewer.pattern.prefix', "")), mb_substr($suffix, 0, 1)); }}
+                                    </span>
+                                    <span class="ml-1">
+                                        {{ \Str::afterLast(\Str::after($value, config('log-viewer.pattern.prefix', "")), mb_substr($suffix, 0, 1)); }}
+                                    </span>
+                                    @endif
                                 @elseif ($value == 0)
                                     <span class="badge empty">{{ $value }}</span>
                                 @else

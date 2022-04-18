@@ -42,6 +42,13 @@ class Filesystem implements FilesystemContract
      * @var string
      */
     protected $prefixPattern;
+    
+    /**
+     * The log files suffix pattern.
+     *
+     * @var string
+     */
+    protected $suffixPattern;
 
     /**
      * The log files date pattern.
@@ -111,14 +118,15 @@ class Filesystem implements FilesystemContract
      */
     public function getPattern(): string
     {
-        return $this->prefixPattern.$this->datePattern.$this->extension;
+        return $this->prefixPattern.$this->datePattern.$this->suffixPattern.$this->extension;
     }
 
     /**
      * Set the log pattern.
      *
-     * @param  string  $date
      * @param  string  $prefix
+     * @param  string  $date
+     * @param  string  $suffix
      * @param  string  $extension
      *
      * @return $this
@@ -126,10 +134,12 @@ class Filesystem implements FilesystemContract
     public function setPattern(
         $prefix    = self::PATTERN_PREFIX,
         $date      = self::PATTERN_DATE,
+        $suffix    = self::PATTERN_SUFFIX,
         $extension = self::PATTERN_EXTENSION
     ) {
         $this->setPrefixPattern($prefix);
         $this->setDatePattern($date);
+        $this->setSuffixPattern($suffix);
         $this->setExtension($extension);
 
         return $this;
@@ -159,6 +169,20 @@ class Filesystem implements FilesystemContract
     public function setPrefixPattern($prefixPattern)
     {
         $this->prefixPattern = $prefixPattern;
+
+        return $this;
+    }
+    
+    /**
+     * Set the log suffix pattern.
+     *
+     * @param  string  $suffixPattern
+     *
+     * @return $this
+     */
+    public function setSuffixPattern($suffixPattern)
+    {
+        $this->suffixPattern = $suffixPattern;
 
         return $this;
     }
@@ -211,7 +235,8 @@ class Filesystem implements FilesystemContract
      */
     public function dates($withPaths = false)
     {
-        $files = array_reverse($this->logs());
+        $files = $this->logs();
+        rsort($files);
         $dates = $this->extractDates($files);
 
         if ($withPaths) {
@@ -316,7 +341,9 @@ class Filesystem implements FilesystemContract
      */
     private function getLogPath(string $date)
     {
-        $path = $this->storagePath.DIRECTORY_SEPARATOR.$this->prefixPattern.$date.$this->extension;
+        $path = empty(config('log-viewer.pattern.suffix'))
+                ? $this->storagePath.DIRECTORY_SEPARATOR.$this->prefixPattern.$date.$this->extension
+                : $this->storagePath.DIRECTORY_SEPARATOR.$date;
 
         if ( ! $this->filesystem->exists($path)) {
             throw FilesystemException::invalidPath($path);

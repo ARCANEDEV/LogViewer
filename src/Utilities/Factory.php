@@ -134,8 +134,9 @@ class Factory implements FactoryContract
     /**
      * Set the log pattern.
      *
-     * @param  string  $date
      * @param  string  $prefix
+     * @param  string  $date
+     * @param  string  $suffix
      * @param  string  $extension
      *
      * @return self
@@ -143,9 +144,10 @@ class Factory implements FactoryContract
     public function setPattern(
         $prefix    = FilesystemContract::PATTERN_PREFIX,
         $date      = FilesystemContract::PATTERN_DATE,
+        $suffix = FilesystemContract::PATTERN_SUFFIX,
         $extension = FilesystemContract::PATTERN_EXTENSION
     ) {
-        $this->filesystem->setPattern($prefix, $date, $extension);
+        $this->filesystem->setPattern($prefix, $date, $suffix, $extension);
 
         return $this;
     }

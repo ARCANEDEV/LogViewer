@@ -176,7 +176,9 @@ class LogViewerController extends Controller
      */
     public function download($date)
     {
-        return $this->logViewer->download($date);
+        $filename = empty(config('log-viewer.pattern.suffix')) ? null : $date;
+                
+        return $this->logViewer->download($date, $filename);
     }
 
     /**

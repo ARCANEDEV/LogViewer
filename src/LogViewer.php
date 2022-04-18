@@ -130,8 +130,9 @@ class LogViewer implements LogViewerContract
     /**
      * Set the log pattern.
      *
-     * @param string $date
      * @param string $prefix
+     * @param string $date
+     * @param string $suffix
      * @param string $extension
      *
      * @return self
@@ -139,9 +140,10 @@ class LogViewer implements LogViewerContract
     public function setPattern(
         $prefix = FilesystemContract::PATTERN_PREFIX,
         $date = FilesystemContract::PATTERN_DATE,
+        $suffix = FilesystemContract::PATTERN_SUFFIX,
         $extension = FilesystemContract::PATTERN_EXTENSION
     ) {
-        $this->factory->setPattern($prefix, $date, $extension);
+        $this->factory->setPattern($prefix, $date, $suffix, $extension);
 
         return $this;
     }

@@ -115,6 +115,7 @@ class DeferredServicesProvider extends ServiceProvider implements DeferrableProv
             return $filesystem->setPattern(
                 $config->get('log-viewer.pattern.prefix', FilesystemContract::PATTERN_PREFIX),
                 $config->get('log-viewer.pattern.date', FilesystemContract::PATTERN_DATE),
+                $config->get('log-viewer.pattern.suffix', FilesystemContract::PATTERN_SUFFIX),
                 $config->get('log-viewer.pattern.extension', FilesystemContract::PATTERN_EXTENSION)
             );
         });

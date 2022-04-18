@@ -17,8 +17,9 @@ return [
      */
 
     'pattern'       => [
-        'prefix'    => Filesystem::PATTERN_PREFIX,    // 'laravel-'
+        'prefix'    => Filesystem::PATTERN_PREFIX,     // 'laravel-'
         'date'      => Filesystem::PATTERN_DATE,      // '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'
+        'suffix'    => '',                            // '-{webapp,root}'
         'extension' => Filesystem::PATTERN_EXTENSION, // '.log'
     ],
 

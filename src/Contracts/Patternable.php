@@ -37,6 +37,7 @@ interface Patternable
     public function setPattern(
         $prefix    = Filesystem::PATTERN_PREFIX,
         $date      = Filesystem::PATTERN_DATE,
+        $suffix    = Filesystem::PATTERN_SUFFIX,
         $extension = Filesystem::PATTERN_EXTENSION
     );
 }

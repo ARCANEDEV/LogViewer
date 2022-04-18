@@ -83,7 +83,10 @@ class LogParser
      */
     public static function extractDate(string $string): string
     {
-        return preg_replace('/.*('.self::REGEX_DATE_PATTERN.').*/', '$1', $string);
+        $regexDate = self::REGEX_DATE_PATTERN;
+        $suffix = config('log-viewer.pattern.suffix', "");
+
+        return preg_replace('/.*('.$regexDate.$suffix.').*/', '$1', $string);
     }
 
     /**
