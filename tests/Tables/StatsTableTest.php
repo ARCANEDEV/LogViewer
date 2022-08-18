@@ -195,7 +195,7 @@ class StatsTableTest extends TestCase
     protected static function assertTableFooter(TableContract $table)
     {
         foreach ($table->footer() as $key => $value) {
-            self::assertEquals($key === 'all' ? 16 : 2, $value);
+            self::assertEquals($key === 'all' ? 24 : 3, $value);
         }
     }
 

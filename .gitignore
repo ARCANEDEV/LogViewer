@@ -3,5 +3,7 @@
 /composer.phar
 /composer.lock
 /phpunit.xml
+/.vscode
 .DS_Store
 Thumbs.db
+.phpunit.result.cache

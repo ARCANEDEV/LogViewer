@@ -58,20 +58,20 @@ class LogViewerTest extends TestCase
     /** @test */
     public function it_can_get_logs_count()
     {
-        static::assertSame(2, $this->logViewer->count());
+        static::assertSame(3, $this->logViewer->count());
     }
 
     /** @test */
     public function it_can_get_entries_total()
     {
-        static::assertSame(16, $this->logViewer->total());
+        static::assertSame(24, $this->logViewer->total());
     }
 
     /** @test */
     public function it_can_get_entries_total_by_level()
     {
         foreach (self::$logLevels as $level) {
-            static::assertSame(2, $this->logViewer->total($level));
+            static::assertSame(3, $this->logViewer->total($level));
         }
     }
 
@@ -80,8 +80,8 @@ class LogViewerTest extends TestCase
     {
         $logs = $this->logViewer->all();
 
-        static::assertCount(2, $logs);
-        static::assertSame(2, $logs->count());
+        static::assertCount(3, $logs);
+        static::assertSame(3, $logs->count());
 
         foreach ($logs as $log) {
             /** @var Log $log */
@@ -101,7 +101,7 @@ class LogViewerTest extends TestCase
 
         static::assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $logs);
         static::assertSame(30, $logs->perPage());
-        static::assertSame(2, $logs->total());
+        static::assertSame(3, $logs->total());
         static::assertSame(1, $logs->lastPage());
         static::assertSame(1, $logs->currentPage());
     }
@@ -158,7 +158,7 @@ class LogViewerTest extends TestCase
     {
         $dates = $this->logViewer->dates();
 
-        static::assertCount(2, $dates);
+        static::assertCount(3, $dates);
         static::assertDates($dates);
     }
 
@@ -167,7 +167,7 @@ class LogViewerTest extends TestCase
     {
         $files = $this->logViewer->files();
 
-        static::assertCount(2, $files);
+        static::assertCount(3, $files);
         foreach ($files as $file) {
             static::assertFileExists($file);
         }
@@ -228,7 +228,7 @@ class LogViewerTest extends TestCase
     {
         $tree = $this->logViewer->tree();
 
-        static::assertCount(2, $tree);
+        static::assertCount(3, $tree);
 
         foreach ($tree as $date => $counters) {
             static::assertDate($date);
@@ -254,7 +254,7 @@ class LogViewerTest extends TestCase
             $this->app->setLocale($locale);
             $menu = $this->logViewer->menu();
 
-            static::assertCount(2, $menu);
+            static::assertCount(3, $menu);
 
             foreach ($menu as $date => $counters) {
                 static::assertDate($date);
