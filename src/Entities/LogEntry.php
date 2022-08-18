@@ -1,9 +1,12 @@
-<?php namespace Arcanedev\LogViewer\Entities;
+<?php
+
+namespace Arcanedev\LogViewer\Entities;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
+use LogicException;
 
 /**
  * Class     LogEntry
@@ -83,7 +86,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     private function setHeader($header)
     {
-        $this->setDatetime($this->extractDatetime($header));
+        $this->setDatetime(...$this->extractDatetime($header));
 
         $header = $this->cleanHeader($header);
 
@@ -115,7 +118,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     private function setEnv($env)
     {
-        $this->env = head(explode('.', $env));
+        $this->env = $env;
 
         return $this;
     }
@@ -123,13 +126,14 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     /**
      * Set the entry date time.
      *
+     * @param  string  $format
      * @param  string  $datetime
      *
      * @return \Arcanedev\LogViewer\Entities\LogEntry
      */
-    private function setDatetime($datetime)
+    private function setDatetime($format, $datetime)
     {
-        $this->datetime = Carbon::createFromFormat('Y-m-d H:i:s', $datetime);
+        $this->datetime = Carbon::createFromFormat($format, $datetime);
 
         return $this;
     }
@@ -155,7 +159,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     public function level()
     {
-        return $this->icon()->toHtml().' '.$this->name();
+        return $this->icon()->toHtml() . ' ' . $this->name();
     }
 
     /**
@@ -279,7 +283,7 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      */
     public function hasContext()
     {
-        return ! empty($this->context);
+        return !empty($this->context);
     }
 
     /* -----------------------------------------------------------------
@@ -297,17 +301,18 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
     private function cleanHeader($header)
     {
         // REMOVE THE DATE
-        $header = preg_replace('/\['.REGEX_DATETIME_PATTERN.'\][ ]/', '', $header);
+        $header = preg_replace('/\[' . REGEX_DATETIME_PATTERN . '\]/', '', $header);
 
         // EXTRACT ENV
-        if (preg_match('/^[a-z]+.[A-Z]+:/', $header, $out)) {
-            $this->setEnv($out[0]);
-            $header = trim(str_replace($out[0], '', $header));
+        $regex = '/.* ([a-z]+)\.[A-Z]+:/';
+        if (preg_match_all($regex, $header, $out)) {
+            $this->setEnv($out[1][0] ?? null);
+            $header = preg_replace($regex, '', $header);
         }
 
         // EXTRACT CONTEXT (Regex from https://stackoverflow.com/a/21995025)
         preg_match_all('/{(?:[^{}]|(?R))*}/x', $header, $out);
-        if (isset($out[0][0]) && ! is_null($context = json_decode($out[0][0], true))) {
+        if (isset($out[0][0]) && !is_null($context = json_decode($out[0][0], true))) {
             $header = str_replace($out[0][0], '', $header);
             $this->setContext($context);
         }
@@ -320,10 +325,18 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable
      *
      * @param  string  $header
      *
-     * @return string
+     * @return array
      */
     private function extractDatetime($header)
     {
-        return preg_replace('/^\[('.REGEX_DATETIME_PATTERN.')\].*/', '$1', $header);
+        if (preg_match_all('/^\[(' . REGEX_DATETIME_PATTERN . ')\].*/', $header, $matches)) {
+            $separator = ($matches[2][0] ?? null) === 'T' ? '\T' : ' ';
+            $ms = ($matches[3][0] ?? null) ? '.u' : '';
+            $tz = ($matches[4][0] ?? null) ? 'P' : '';
+            $format = "Y-m-d{$separator}H:i:s{$ms}{$tz}";
+            $datetime = $matches[1][0];
+            return [$format, $datetime];
+        }
+        return [];
     }
 }

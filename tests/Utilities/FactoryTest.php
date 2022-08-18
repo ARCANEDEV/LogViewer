@@ -90,7 +90,7 @@ class FactoryTest extends TestCase
     {
         $dates = $this->logFactory->dates();
 
-        static::assertCount(2, $dates);
+        static::assertCount(3, $dates);
         static::assertDates($dates);
     }
 
@@ -100,8 +100,8 @@ class FactoryTest extends TestCase
         $logs = $this->logFactory->all();
 
         static::assertInstanceOf(\Arcanedev\LogViewer\Entities\LogCollection::class, $logs);
-        static::assertCount(2, $logs);
-        static::assertSame(2, $logs->count());
+        static::assertCount(3, $logs);
+        static::assertSame(3, $logs->count());
     }
 
     /** @test */
@@ -111,7 +111,7 @@ class FactoryTest extends TestCase
 
         static::assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $logs);
         static::assertSame(30, $logs->perPage());
-        static::assertSame(2,  $logs->total());
+        static::assertSame(3,  $logs->total());
         static::assertSame(1,  $logs->lastPage());
         static::assertSame(1,  $logs->currentPage());
     }
@@ -119,7 +119,7 @@ class FactoryTest extends TestCase
     /** @test */
     public function it_can_get_count()
     {
-        static::assertSame(2, $this->logFactory->count());
+        static::assertSame(3, $this->logFactory->count());
     }
 
     /** @test */
@@ -139,14 +139,14 @@ class FactoryTest extends TestCase
     /** @test */
     public function it_can_get_total()
     {
-        static::assertSame(16, $this->logFactory->total());
+        static::assertSame(24, $this->logFactory->total());
     }
 
     /** @test */
     public function it_can_get_total_by_level()
     {
         foreach (self::$logLevels as $level) {
-            static::assertSame(2, $this->logFactory->total($level));
+            static::assertSame(3, $this->logFactory->total($level));
         }
     }
 
@@ -168,6 +168,17 @@ class FactoryTest extends TestCase
         $this->app->setLocale('fr');
 
         $expected = [
+            '2015-01-03' => [
+                'all'       => ['name' => 'Tous', 'count' => 8],
+                'emergency' => ['name' => 'Urgence', 'count' => 1],
+                'alert'     => ['name' => 'Alerte', 'count' => 1],
+                'critical'  => ['name' => 'Critique', 'count' => 1],
+                'error'     => ['name' => 'Erreur', 'count' => 1],
+                'warning'   => ['name' => 'Avertissement', 'count' => 1],
+                'notice'    => ['name' => 'Notice', 'count' => 1],
+                'info'      => ['name' => 'Info', 'count' => 1],
+                'debug'     => ['name' => 'Debug', 'count' => 1],
+            ],
             '2015-01-02' => [
                 'all'       => ['name' => 'Tous', 'count' => 8],
                 'emergency' => ['name' => 'Urgence', 'count' => 1],

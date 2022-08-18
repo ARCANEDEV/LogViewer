@@ -53,9 +53,9 @@ class LogCollectionTest extends TestCase
     /** @test */
     public function it_can_get_all_logs()
     {
-        static::assertCount(2,   $this->logs);
-        static::assertSame(2,  $this->logs->count());
-        static::assertSame(16, $this->logs->total());
+        static::assertCount(3,   $this->logs);
+        static::assertSame(3,  $this->logs->count());
+        static::assertSame(24, $this->logs->total());
 
         foreach ($this->logs as $date => $log) {
             /** @var  \Arcanedev\LogViewer\Entities\Log  $log */
@@ -137,7 +137,7 @@ class LogCollectionTest extends TestCase
     {
         $tree = $this->logs->tree();
 
-        static::assertCount(2, $tree);
+        static::assertCount(3, $tree);
 
         foreach ($tree as $date => $levels) {
             static::assertDate($date);

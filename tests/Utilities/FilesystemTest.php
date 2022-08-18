@@ -61,7 +61,7 @@ class FilesystemTest extends TestCase
     /** @test */
     public function it_can_get_all_valid_log_files()
     {
-        static::assertCount(2, $this->filesystem->logs());
+        static::assertCount(3, $this->filesystem->logs());
     }
 
     /** @test */
@@ -79,7 +79,7 @@ class FilesystemTest extends TestCase
     {
         $files = $this->filesystem->all();
 
-        static::assertCount(5, $files);
+        static::assertCount(6, $files);
 
         foreach ($files as $file) {
             static::assertStringEndsWith('.log', $file);
@@ -123,7 +123,7 @@ class FilesystemTest extends TestCase
     {
         $files = $this->filesystem->logs();
 
-        static::assertCount(2, $files);
+        static::assertCount(3, $files);
 
         foreach ($files as $file) {
             static::assertFileExists($file);
