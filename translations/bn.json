@@ -1,0 +1,13 @@
+{
+    "Date": "তারিখ",
+    "The list of logs is empty!": "কোন লগ পাওয়া যায়নি!",
+    "All": "সবগুলি",
+    "Emergency": "জরুরী",
+    "Alert": "সতর্ক",
+    "Critical": "সংকটপূর্ণ",
+    "Error": "ত্রুটি",
+    "Warning": "সতর্কতা",
+    "Notice": "নোটিস",
+    "Info": "তথ্য",
+    "Debug": "রুটি অনুসন্ধান"
+}
