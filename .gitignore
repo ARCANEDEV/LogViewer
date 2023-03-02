@@ -1,7 +1,9 @@
-/build/
-/vendor/
+/.phpunit.cache
+/build
+/vendor
 /composer.phar
 /composer.lock
 /phpunit.xml
 .DS_Store
 Thumbs.db
+.phpunit.result.cache
