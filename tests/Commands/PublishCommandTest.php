@@ -81,7 +81,7 @@ class PublishCommandTest extends TestCase
         // TODO: Add views assertions
     }
 
-    public function providePublishableTranslationsTags(): array
+    public static function providePublishableTranslationsTags(): array
     {
         return [
             ['translations'],
@@ -154,9 +154,7 @@ class PublishCommandTest extends TestCase
     }
 
     /**
-     * Check if LogViewer config file exists
-     *
-     * @return bool
+     * Check if LogViewer config file exists.
      */
     private function isConfigExists(): bool
     {
@@ -167,8 +165,6 @@ class PublishCommandTest extends TestCase
 
     /**
      * Get LogViewer config file path.
-     *
-     * @return string
      */
     private function getConfigFilePath(): string
     {
