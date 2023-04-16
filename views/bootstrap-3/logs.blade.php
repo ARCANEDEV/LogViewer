@@ -3,7 +3,13 @@
 <?php /** @var  Illuminate\Pagination\LengthAwarePaginator  $rows */ ?>
 
 @section('content')
-    <h1 class="page-header">@lang('Logs')</h1>
+    <h1 class="page-header">@lang('Logs')
+        @if(count($rows))
+            <a href="#delete-all-logs-button" class="btn btn-xs btn-danger">
+                @lang('Delete All Logs')
+            </a>
+        @endif
+</h1>
 
     {{ $rows->render() }}
 
@@ -93,6 +99,33 @@
             </form>
         </div>
     </div>
+    {{-- END DELETE MODAL --}}
+
+    {{-- DELETE ALL MODAL --}}
+    <div id="delete-all-logs-modal" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <form id="delete-all-logs-form" action="{{ route('log-viewer::logs.delete-all') }}" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@lang('Delete log file')</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary mr-auto" data-dismiss="modal">@lang('Cancel')</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-loading-text="@lang('Loading')&hellip;">@lang('Delete')</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {{-- END DELETE ALL MODAL --}}
 @endsection
 
 @section('scripts')
@@ -100,6 +133,8 @@
         $(function () {
             var deleteLogModal = $('div#delete-log-modal'),
                 deleteLogForm  = $('form#delete-log-form'),
+                deleteAllLogsModal  = $('div#delete-all-logs-modal'),
+                deleteAllLogsForm  = $('form#delete-all-logs-form'),
                 submitBtn      = deleteLogForm.find('button[type=submit]');
 
             $("a[href=#delete-log-modal]").on('click', function(event) {
@@ -111,6 +146,13 @@
                 deleteLogModal.find('.modal-body p').html(message.replace(':date', date));
 
                 deleteLogModal.modal('show');
+            });
+
+            $("a[href='#delete-all-logs-button']").on('click', function(event) {
+                event.preventDefault();
+                message = "{{ __('Are you sure you want to delete all log files?') }}";
+                deleteAllLogsModal.find('.modal-body p').html(message);
+                deleteAllLogsModal.modal('show');
             });
 
             deleteLogForm.on('submit', function(event) {
@@ -143,9 +185,43 @@
                 return false;
             });
 
+            deleteAllLogsForm.on('submit', function(event) {
+                event.preventDefault();
+                submitBtn.button('loading');
+
+                $.ajax({
+                    url:      $(this).attr('action'),
+                    type:     $(this).attr('method'),
+                    dataType: 'json',
+                    data:     $(this).serialize(),
+                    success: function(data) {
+                        submitBtn.button('reset');
+                        if (data.result === 'success') {
+                            deleteLogModal.modal('hide');
+                            location.reload();
+                        }
+                        else {
+                            alert('AJAX ERROR ! Check the console !');
+                            console.error(data);
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        alert('AJAX ERROR ! Check the console !');
+                        console.error(errorThrown);
+                        submitBtn.button('reset');
+                    }
+                });
+
+                return false;
+            });
+
             deleteLogModal.on('hidden.bs.modal', function() {
                 deleteLogForm.find('input[name=date]').val('');
                 deleteLogModal.find('.modal-body p').html('');
+            });
+
+            deleteAllLogsModal.on('hidden.bs.modal', function() {
+                deleteAllLogsModal.find('.modal-body p').html('');
             });
         });
     </script>
