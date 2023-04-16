@@ -196,6 +196,23 @@ class LogViewerController extends Controller
             'result' => $this->logViewer->delete($date) ? 'success' : 'error'
         ]);
     }
+    
+    /**
+     * Delete all logs.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteAll(Request $request)
+    {
+        abort_unless($request->ajax(), 405, 'Method Not Allowed');
+
+        return response()->json([
+            'result' => $this->logViewer->clear() ? 'success' : 'error'
+        ]);
+
+    }
 
     /* -----------------------------------------------------------------
      |  Other Methods
