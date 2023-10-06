@@ -39,7 +39,7 @@
     "scripts": {
         "test": "phpunit --colors=always",
         "test:dox": "phpunit --testdox --colors=always",
-        "test:cov": "phpunit --coverage-html coverage"
+        "test:cov": "phpunit --coverage-html build/coverage"
     },
     "extra": {
         "branch-alias": {
