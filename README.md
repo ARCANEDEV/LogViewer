@@ -40,7 +40,6 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
   1. [Installation and Setup](_docs/1.Installation-and-Setup.md)
   2. [Configuration](_docs/2.Configuration.md)
   3. [Usage](_docs/3.Usage.md)
-  4. [FAQ](_docs/4.FAQ.md)
 
 ### Supported localizations
 
