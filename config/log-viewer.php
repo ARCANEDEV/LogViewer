@@ -36,11 +36,14 @@ return [
      |  Theme
      | -----------------------------------------------------------------
      |  Supported themes :
-     |    'bootstrap-3', 'bootstrap-4'
-     |  Make your own theme by adding a folder to the views directory and specifying it here.
+     |    'bootstrap-5'
+     |    'bootstrap-4'
+     |    'bootstrap-3'
+     |
+     |  You can make your own theme by adding a folder to the views directory and specifying it here.
      */
 
-    'theme'         => 'bootstrap-4',
+    'theme'         => 'bootstrap-5',
 
     /* -----------------------------------------------------------------
      |  Route settings
