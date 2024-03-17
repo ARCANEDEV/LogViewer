@@ -73,6 +73,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 | `sv`    | Swedish               |
 | `th`    | Thai                  |
 | `tr`    | Turkish               |
+| `uz`    | Uzbek                 |
 | `uk`    | Ukrainian             |
 | `zh`    | Chinese (Simplified)  |
 | `zh-TW` | Chinese (Traditional) |
