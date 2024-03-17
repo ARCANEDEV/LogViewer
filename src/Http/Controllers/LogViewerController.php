@@ -52,6 +52,7 @@ class LogViewerController extends Controller
     {
         $this->logViewer = $logViewer;
         $this->perPage = config('log-viewer.per-page', $this->perPage);
+        $this->showRoute = config('log-viewer.route.show', $this->showRoute);
     }
 
     /* -----------------------------------------------------------------
