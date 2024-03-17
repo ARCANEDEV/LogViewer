@@ -59,7 +59,7 @@ return [
             'middleware' => env('ARCANEDEV_LOGVIEWER_MIDDLEWARE') ? explode(',', env('ARCANEDEV_LOGVIEWER_MIDDLEWARE')) : null,
         ],
 
-        'show' => 'log-viewer::logs.show'
+        'show' => 'log-viewer::logs.show',
     ],
 
     /* -----------------------------------------------------------------
