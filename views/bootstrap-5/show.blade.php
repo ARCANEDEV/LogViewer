@@ -229,6 +229,7 @@
                     method: 'DELETE',
                     headers: {
                         "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRF-TOKEN": deleteLogForm.currentTarget.querySelector("input[name='_token']").value,
                         'Content-type': 'application/json'
                     },
                     body: JSON.stringify({
