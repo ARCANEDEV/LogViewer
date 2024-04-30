@@ -1,13 +1,13 @@
 {
     "Date": "تاريخ",
-    "The list of logs is empty!": "قائمة سجلات فارغة!",
+    "The list of logs is empty!": "!قائمة السجلات فارغة",
     "All": "الجميع",
-    "Emergency": "حالات الطوارئ",
-    "Alert": "إنذار",
+    "Emergency": "خطر",
+    "Alert": "تنبيه",
     "Critical": "حرج",
     "Error": "خطأ",
     "Warning": "تحذير",
     "Notice": "ملاحظة",
-    "Info": "المعلومات",
-    "Debug": "التصحيح"
+    "Info": "معلومات",
+    "Debug": "تدقيق"
 }
