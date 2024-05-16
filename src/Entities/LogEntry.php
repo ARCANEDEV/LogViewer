@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Arcanedev\LogViewer\Entities;
 
+use Arcanedev\LogViewer\Contracts\LogEntryInterface;
 use Arcanedev\LogViewer\Helpers\LogParser;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\{Arrayable, Jsonable};
@@ -14,7 +15,7 @@ use JsonSerializable;
  *
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LogEntry implements Arrayable, Jsonable, JsonSerializable
+class LogEntry implements Arrayable, Jsonable, JsonSerializable,LogEntryInterface
 {
     /* -----------------------------------------------------------------
      |  Properties

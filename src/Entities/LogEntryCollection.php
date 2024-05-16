@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Arcanedev\LogViewer\Entities;
 
+use Arcanedev\LogViewer\Contracts\LogEntryInterface;
 use Arcanedev\LogViewer\Helpers\LogParser;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\LazyCollection;
@@ -29,13 +30,33 @@ class LogEntryCollection extends LazyCollection
      */
     public static function load($raw)
     {
-        return new static(function () use ($raw) {
-            foreach (LogParser::parse($raw) as $entry) {
-                list($level, $header, $stack) = array_values($entry);
+        $formatter = config('log-viewer.formatter', 'default');
 
-                yield new LogEntry($level, $header, $stack);
-            }
-        });
+        if ( $formatter == 'default' ) 
+        { 
+            return new static(function () use ($raw ) {
+            foreach (LogParser::parse($raw) as $entry) {
+                    list($level, $header, $stack) = array_values($entry);
+
+                    yield new LogEntry($level, $header, $stack);
+                }
+            });
+            
+        } else {
+            $rows = explode("\n",$raw);
+            return new static(function () use ($rows ) {
+                foreach( $rows as $row) {
+
+                    $entry = json_decode($row,true);
+
+                    if( $entry ) {
+                        yield new JsonLogEntry($entry);
+                    }
+                   
+                }
+               
+            });
+        }
     }
 
     /**
@@ -68,7 +89,7 @@ class LogEntryCollection extends LazyCollection
      */
     public function filterByLevel($level)
     {
-        return $this->filter(function(LogEntry $entry) use ($level) {
+        return $this->filter(function(LogEntryInterface $entry) use ($level) {
             return $entry->isSameLevel($level);
         });
     }
