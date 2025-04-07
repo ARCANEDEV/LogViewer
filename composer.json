@@ -16,14 +16,14 @@
     "require": {
         "php": "^8.2",
         "ext-json": "*",
-        "arcanedev/support": "^11.0",
+        "arcanedev/support": "^11.0|^12.0",
         "psr/log": "^1.0|^2.0|^3.0"
     },
     "require-dev": {
-        "laravel/framework": "^11.0",
+        "laravel/framework": "^11.0|^12.0",
         "mockery/mockery": "^1.6",
-        "orchestra/testbench-core": "^9.0",
-        "phpunit/phpunit": "^10.5"
+        "orchestra/testbench-core": "^9.0|^10.0",
+        "phpunit/phpunit": "^10.5|^11.0"
     },
     "autoload": {
         "psr-4": {
@@ -43,7 +43,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "11.x-dev"
+            "dev-develop": "12.x-dev"
         },
         "laravel": {
             "providers": [

@@ -23,7 +23,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/LogViewer/rel
 ## Features
 
   - A great Log viewer API.
-  - Laravel `5.x` to `11.x` are supported.
+  - Laravel `5.x` to `12.x` are supported.
   - Ready to use (Views, Routes, controllers &hellip; Out of the box) [Note: No need to publish assets]
   - View, paginate, filter, download and delete logs.
   - Load a custom logs storage path.
