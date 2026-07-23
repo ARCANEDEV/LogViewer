@@ -105,7 +105,7 @@ class LogViewerController extends Controller
         $log     = $this->getLogOrFail($date);
         $query   = $request->get('query');
         $levels  = $this->logViewer->levelsNames();
-        $entries = $log->entries($level)->sortDesc()->paginate($this->perPage);
+        $entries = $log->paginate($level, $this->perPage, (int) $request->get('page', 1));
 
         return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries'));
     }
@@ -127,7 +127,7 @@ class LogViewerController extends Controller
         $log     = $this->getLogOrFail($date);
         $query   = $request->get('query');
         $levels  = $this->logViewer->levelsNames();
-        $entries = $this->logViewer->entries($date, $level)->sortDesc()->paginate($this->perPage);
+        $entries = $log->paginate($level, $this->perPage, (int) $request->get('page', 1));
 
         return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries'));
     }
@@ -154,20 +154,7 @@ class LogViewerController extends Controller
         $needles = array_map(function ($needle) {
             return Str::lower($needle);
         }, array_filter(explode(' ', $query)));
-        $entries = $log->entries($level)
-            ->unless(empty($needles), function (LogEntryCollection $entries) use ($needles) {
-                return $entries->filter(function (LogEntryInterface $entry) use ($needles) {
-                    foreach ([$entry->header, $entry->stack, $entry->context()] as $subject) {
-                        if (Str::containsAll(Str::lower($subject), $needles)){
-                            return true;
-                        }
-                           
-                    }
-
-                    return false;
-                });
-            })->sortDesc()
-            ->paginate($this->perPage);
+        $entries = $log->search($needles, $level, $this->perPage, (int) $request->get('page', 1));
 
         return $this->view('show', compact('level', 'log', 'query', 'levels', 'entries'));
     }
@@ -258,7 +245,7 @@ class LogViewerController extends Controller
         $log = null;
 
         try {
-            $log = $this->logViewer->get($date);
+            $log = $this->logViewer->logForViewer($date);
         }
         catch (LogNotFoundException $e) {
             abort(404, $e->getMessage());

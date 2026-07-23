@@ -259,6 +259,9 @@ class Filesystem implements FilesystemContract
 
         throw_unless($this->filesystem->delete($path), FilesystemException::cannotDeleteLog());
 
+        // The index sidecar must never outlive its log file.
+        $this->deleteIndex($path);
+
         return true;
     }
 
@@ -269,7 +272,31 @@ class Filesystem implements FilesystemContract
      */
     public function clear()
     {
-        return $this->filesystem->delete($this->logs());
+        $logs = $this->logs();
+
+        $cleared = $this->filesystem->delete($logs);
+
+        if ($cleared) {
+            foreach ($logs as $path) {
+                $this->deleteIndex($path);
+            }
+        }
+
+        return $cleared;
+    }
+
+    /**
+     * Remove the streaming index sidecar for a log path (if the engine is bound).
+     *
+     * @param  string  $path
+     *
+     * @return void
+     */
+    private function deleteIndex($path)
+    {
+        if (function_exists('app') && app()->bound(\Arcanedev\LogViewer\Contracts\IndexStore::class)) {
+            app(\Arcanedev\LogViewer\Contracts\IndexStore::class)->delete($path);
+        }
     }
 
     /**

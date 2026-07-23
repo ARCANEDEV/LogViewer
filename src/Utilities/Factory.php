@@ -219,6 +219,41 @@ class Factory implements FactoryContract
     }
 
     /**
+     * Get a log for the HTTP viewer, using the streaming engine when it applies.
+     *
+     * The classic {@see log()} (whole-file read) is left untouched for the
+     * programmatic API; only the viewer opts into streaming, and only for large
+     * files. Small files always take the classic path.
+     *
+     * @param  string  $date
+     *
+     * @return \Arcanedev\LogViewer\Entities\Log
+     */
+    public function logForViewer($date)
+    {
+        $dates = $this->filesystem->dates(true);
+
+        if ( ! isset($dates[$date])) {
+            throw new LogNotFoundException("Log not found in this date [$date]");
+        }
+
+        $path = $dates[$date];
+
+        // Fall back to the classic path when the engine isn't available.
+        if ( ! function_exists('app') || ! app()->bound(\Arcanedev\LogViewer\Reader\ViewerLogFactory::class)) {
+            return new Log($date, $path, $this->filesystem->read($date));
+        }
+
+        return app(\Arcanedev\LogViewer\Reader\ViewerLogFactory::class)->make(
+            $date,
+            $path,
+            function () use ($date) {
+                return $this->filesystem->read($date);
+            }
+        );
+    }
+
+    /**
      * Get log entries.
      *
      * @param  string  $date

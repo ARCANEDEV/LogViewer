@@ -33,6 +33,9 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     /** @var \SplFileInfo */
     private $file;
 
+    /** @var \Arcanedev\LogViewer\Reader\LogPager|null Streaming backend (null = classic). */
+    private $pager;
+
     /* -----------------------------------------------------------------
      |  Constructor
      | -----------------------------------------------------------------
@@ -45,12 +48,40 @@ class Log implements Arrayable, Jsonable, JsonSerializable
      * @param  string  $path
      * @param  string  $raw
      */
-    public function __construct($date, $path, $raw)
+    public function __construct($date, $path, $raw = null)
     {
-        $this->date    = $date;
-        $this->path    = $path;
-        $this->file    = new SplFileInfo($path);
-        $this->entries = LogEntryCollection::load($raw);
+        $this->date = $date;
+        $this->path = $path;
+        $this->file = new SplFileInfo($path);
+
+        // Classic path: eager (but lazily-yielded) entry collection.
+        // When $raw is null the log is served through a streaming pager instead.
+        if ($raw !== null) {
+            $this->entries = LogEntryCollection::load($raw);
+        }
+    }
+
+    /**
+     * Make a streaming-backed log (no whole-file read).
+     *
+     * @return self
+     */
+    public static function streaming($date, $path, \Arcanedev\LogViewer\Reader\LogPager $pager)
+    {
+        $log = new self($date, $path, null);
+        $log->pager = $pager;
+
+        return $log;
+    }
+
+    /**
+     * Whether this log is served by the streaming engine.
+     *
+     * @return bool
+     */
+    public function isStreaming()
+    {
+        return $this->pager !== null;
     }
 
     /* -----------------------------------------------------------------
@@ -136,9 +167,69 @@ class Log implements Arrayable, Jsonable, JsonSerializable
      */
     public function entries($level = 'all')
     {
+        if ($this->isStreaming()) {
+            // Lazily stream entries from the index — O(1) memory. Prefer
+            // paginate()/search() for the viewer; this keeps the collection API
+            // (count, iteration, filters) working memory-safely on large files.
+            $pager = $this->pager;
+
+            return new LogEntryCollection(function () use ($pager, $level) {
+                yield from $pager->streamEntries($level);
+            });
+        }
+
         return $level === 'all'
             ? $this->entries
             : $this->getByLevel($level);
+    }
+
+    /**
+     * Paginate entries newest-first (streaming-aware).
+     *
+     * @param  string  $level
+     * @param  int     $perPage
+     * @param  int     $page
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function paginate($level = 'all', $perPage = 30, $page = 1)
+    {
+        return $this->isStreaming()
+            ? $this->pager->paginate($level, $perPage, $page)
+            : $this->entries($level)->sortDesc()->paginate($perPage);
+    }
+
+    /**
+     * Search entries newest-first (streaming-aware).
+     *
+     * @param  array<int,string>  $needles
+     * @param  string             $level
+     * @param  int                $perPage
+     * @param  int                $page
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function search(array $needles, $level = 'all', $perPage = 30, $page = 1)
+    {
+        if ($this->isStreaming()) {
+            return $this->pager->searchEntries($needles, $level, $perPage, $page);
+        }
+
+        // Classic in-memory search (unchanged semantics).
+        return $this->entries($level)
+            ->unless(empty($needles), function (LogEntryCollection $entries) use ($needles) {
+                return $entries->filter(function ($entry) use ($needles) {
+                    foreach ([$entry->header, $entry->stack, $entry->context()] as $subject) {
+                        if (\Illuminate\Support\Str::containsAll(\Illuminate\Support\Str::lower((string) $subject), $needles)) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                });
+            })
+            ->sortDesc()
+            ->paginate($perPage);
     }
 
     /**
@@ -160,7 +251,32 @@ class Log implements Arrayable, Jsonable, JsonSerializable
      */
     public function stats()
     {
-        return $this->entries->stats();
+        return $this->isStreaming()
+            ? $this->streamingStats()
+            : $this->entries->stats();
+    }
+
+    /**
+     * Build the stats counters from the index header (streaming path).
+     *
+     * Produces the same shape as LogEntryCollection::stats(): a zeroed map of
+     * `all` + every level, filled from the header's level counts.
+     *
+     * @return array
+     */
+    private function streamingStats()
+    {
+        $counters = array_map(function () {
+            return 0;
+        }, array_flip(array_merge(['all'], array_keys(log_viewer()->levels(true)))));
+
+        foreach ($this->pager->levelCounts() as $level => $count) {
+            if (array_key_exists($level, $counters)) {
+                $counters[$level] = $count;
+            }
+        }
+
+        return $counters;
     }
 
     /**
@@ -172,7 +288,21 @@ class Log implements Arrayable, Jsonable, JsonSerializable
      */
     public function tree($trans = false)
     {
-        return $this->entries->tree($trans);
+        if (! $this->isStreaming()) {
+            return $this->entries->tree($trans);
+        }
+
+        // Mirror LogEntryCollection::tree() using header-derived stats.
+        $tree = $this->streamingStats();
+
+        array_walk($tree, function (&$count, $level) use ($trans) {
+            $count = [
+                'name'  => $trans ? log_levels()->get($level) : $level,
+                'count' => $count,
+            ];
+        });
+
+        return $tree;
     }
 
     /**
