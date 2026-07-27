@@ -36,11 +36,14 @@ return [
      |  Theme
      | -----------------------------------------------------------------
      |  Supported themes :
-     |    'bootstrap-5'
+     |    'observatory'  (analytics-focused, light + dark auto-toggle, risk signals)
+     |    'console'      (modern, light + dark auto-toggle, filters)
+     |    'bootstrap-5'  (default)
      |    'bootstrap-4'
      |    'bootstrap-3'
      |
      |  You can make your own theme by adding a folder to the views directory and specifying it here.
+     |  Set this to 'observatory' or 'console' for the modern UI.
      */
 
     'theme'         => 'bootstrap-5',
@@ -78,7 +81,34 @@ return [
      */
 
     'formatter'     => 'default',
-    
+
+    /* -----------------------------------------------------------------
+     |  Streaming index engine
+     | -----------------------------------------------------------------
+     |  Serves large log files with flat memory by building a binary index
+     |  and reading only the entries on the current page. Every option below
+     |  defaults to preserving the classic behavior:
+     |    - `streaming = false` disables the engine entirely (classic path).
+     |    - files smaller than `max-inline-bytes` always use the classic path.
+     */
+
+    'streaming'     => [
+        'enabled'         => true,
+
+        // Files at or below this size are read the classic (whole-file) way.
+        'max-inline-bytes' => 2 * 1024 * 1024, // 2 MB
+
+        // Where to store `.idx` sidecars. null = beside each log file.
+        'index-path'      => null,
+
+        // Bounded window (bytes) served while a cold huge file's index warms.
+        'tail-bytes'      => 25 * 1024 * 1024, // 25 MB
+
+        // Max index builds allowed across the app at once (the rest serve the
+        // tail until a slot frees up).
+        'max-build-concurrency' => 2,
+    ],
+
     /* -----------------------------------------------------------------
      |  Download settings
      | -----------------------------------------------------------------

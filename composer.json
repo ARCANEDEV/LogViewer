@@ -1,5 +1,5 @@
 {
-    "name":        "arcanedev/log-viewer",
+    "name":        "iyogesharma/log-viewer",
     "description": "Provides a Log Viewer for Laravel",
     "keywords":    ["arcanedev", "arcanesoft", "laravel", "log", "log viewer", "log-viewer", "logviewer"],
     "homepage":    "https://github.com/ARCANEDEV/LogViewer",
@@ -43,7 +43,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "11.x-dev"
+            "dev-develop": "2.x-dev"
         },
         "laravel": {
             "providers": [

@@ -41,7 +41,7 @@ class LogCollection extends LazyCollection
         if (is_null($source))
             $source = function () {
                 foreach($this->filesystem->dates(true) as $date => $path) {
-                    yield $date => Log::make($date, $path, $this->filesystem->read($date));
+                    yield $date => $this->makeLog($date, $path);
                 }
             };
 
@@ -71,6 +71,30 @@ class LogCollection extends LazyCollection
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
+    /**
+     * Build a log for the collection — streaming-aware so cross-file stats
+     * (dashboard, logs list) don't read large files whole.
+     *
+     * @param  string  $date
+     * @param  string  $path
+     *
+     * @return \Arcanedev\LogViewer\Entities\Log
+     */
+    private function makeLog($date, $path)
+    {
+        if (function_exists('app') && app()->bound(\Arcanedev\LogViewer\Reader\ViewerLogFactory::class)) {
+            return app(\Arcanedev\LogViewer\Reader\ViewerLogFactory::class)->make(
+                $date,
+                $path,
+                function () use ($date) {
+                    return $this->filesystem->read($date);
+                }
+            );
+        }
+
+        return Log::make($date, $path, $this->filesystem->read($date));
+    }
 
     /**
      * Get a log.
@@ -175,8 +199,11 @@ class LogCollection extends LazyCollection
      */
     public function total($level = 'all')
     {
+        // Use header-derived stats so large files aren't read whole just to count.
         return (int) $this->sum(function (Log $log) use ($level) {
-            return $log->entries($level)->count();
+            $stats = $log->stats();
+
+            return $stats[$level] ?? 0;
         });
     }
 

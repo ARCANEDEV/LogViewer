@@ -24,7 +24,7 @@ class LogViewer implements LogViewerContract
     /**
      * LogViewer Version
      */
-    const VERSION = '11.0.1';
+    const VERSION = '2.0.0';
 
     /* -----------------------------------------------------------------
      |  Properties
@@ -78,6 +78,21 @@ class LogViewer implements LogViewerContract
      |  Getters & Setters
      | -----------------------------------------------------------------
      */
+
+    /**
+     * Register a custom log format driver.
+     *
+     * Host apps can add a new format without touching the package:
+     *   LogViewer::extend('my-format', fn () => new MyFormatDriver);
+     *
+     * @return $this
+     */
+    public function extend(string $name, \Closure $factory)
+    {
+        app(\Arcanedev\LogViewer\Format\DriverRegistry::class)->extend($name, $factory);
+
+        return $this;
+    }
 
     /**
      * Get the log levels.
@@ -183,6 +198,18 @@ class LogViewer implements LogViewerContract
     public function get($date)
     {
         return $this->factory->log($date);
+    }
+
+    /**
+     * Get a log for the HTTP viewer (streaming-aware for large files).
+     *
+     * @param string $date
+     *
+     * @return \Arcanedev\LogViewer\Entities\Log
+     */
+    public function logForViewer($date)
+    {
+        return $this->factory->logForViewer($date);
     }
 
     /**

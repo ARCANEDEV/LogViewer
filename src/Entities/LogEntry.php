@@ -305,14 +305,58 @@ class LogEntry implements Arrayable, Jsonable, JsonSerializable,LogEntryInterfac
             $header = trim(str_replace($out[0], '', $header));
         }
 
-        // EXTRACT CONTEXT (Regex from https://stackoverflow.com/a/21995025)
-        preg_match_all('/{(?:[^{}]|(?R))*}/x', $header, $out);
-        if (isset($out[0][0]) && ! is_null($context = json_decode($out[0][0], true))) {
-            $header = str_replace($out[0][0], '', $header);
+        // EXTRACT CONTEXT
+        // Previously used a recursive PCRE (`/{(?:[^{}]|(?R))*}/x`) which
+        // silently fails on large/deeply-nested JSON once it hits
+        // pcre.backtrack_limit / pcre.recursion_limit. A linear brace scan finds
+        // the same first balanced `{...}` in O(n) with no backtracking.
+        $json = $this->extractFirstBraceGroup($header);
+
+        if ($json !== null && ! is_null($context = json_decode($json, true))) {
+            $header = str_replace($json, '', $header);
             $this->setContext($context);
         }
 
         return $header;
+    }
+
+    /**
+     * Find the first balanced `{...}` group in a string via a linear brace scan.
+     *
+     * Structural (matches the previous recursive regex): returns the substring
+     * from the first `{` to its matching `}`, or null when there is none / it is
+     * unbalanced. Safe for arbitrarily large or deep input.
+     *
+     * @param  string  $string
+     *
+     * @return string|null
+     */
+    private function extractFirstBraceGroup($string)
+    {
+        $start = strpos($string, '{');
+
+        if ($start === false) {
+            return null;
+        }
+
+        $depth = 0;
+
+        for ($i = $start, $len = strlen($string); $i < $len; $i++) {
+            $char = $string[$i];
+
+            if ($char === '{') {
+                $depth++;
+            }
+            elseif ($char === '}') {
+                $depth--;
+
+                if ($depth === 0) {
+                    return substr($string, $start, $i - $start + 1);
+                }
+            }
+        }
+
+        return null; // unbalanced — no complete group
     }
 
     /**

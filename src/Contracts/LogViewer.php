@@ -74,6 +74,15 @@ interface LogViewer extends Patternable
     public function get($date);
 
     /**
+     * Get a log for the HTTP viewer (streaming-aware for large files).
+     *
+     * @param  string  $date
+     *
+     * @return \Arcanedev\LogViewer\Entities\Log
+     */
+    public function logForViewer($date);
+
+    /**
      * Get the log entries.
      *
      * @param  string  $date
