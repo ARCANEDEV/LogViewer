@@ -15,6 +15,7 @@ All notable changes to this fork are documented here.
 - Opt-in `console` theme.
 - Opt-in `observatory` theme with operational analytics and bounded dynamic pattern discovery.
 - Console and Observatory route-rendering, streaming, and PCRE-safety tests.
+- `delete` configuration option (default `false`) that hides the delete controls in the `observatory` and `console` themes.
 
 ### Changed
 

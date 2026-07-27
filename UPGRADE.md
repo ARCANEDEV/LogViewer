@@ -62,6 +62,12 @@ The default remains `bootstrap-5`. To opt in:
 
 No npm installation or asset build is required.
 
+Both themes hide their delete controls by default. If your workflow relies on deleting log files from the interface, opt in:
+
+```php
+'delete' => true,
+```
+
 ### 6. Validate log formats
 
 Version 2 supports the classic line formatter and JSON formatter through format drivers. Test representative production samples before enabling streaming globally, especially when using custom Monolog formatting.

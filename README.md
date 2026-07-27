@@ -12,15 +12,23 @@ Searchable log streams, bounded-memory indexing, operational analytics, and two 
 [![PHP](https://img.shields.io/badge/PHP-7.3%2B-777bb4?style=flat-square&logo=php&logoColor=white)](#requirements)
 [![License](https://img.shields.io/github/license/iYogesharma/logviewer-laravel?style=flat-square)](LICENSE.md)
 
-**Current fork release line: `2.x`**
+**A fork of [ARCANEDEV/LogViewer](https://github.com/ARCANEDEV/LogViewer) · current release line `2.x`**
 
 [Quick start](#quick-start) · [Themes](#themes) · [Large files](#large-file-streaming) · [Upgrade guide](UPGRADE.md) · [Changelog](CHANGELOG.md)
+
+<br>
+
+![The Observatory theme's dashboard: total events, high-severity share, error trend over time, and highest-risk files](_screenshots/observatory-dashboard.png)
+
+<sub>Observatory theme · see [all screenshots](#themes)</sub>
 
 </div>
 
 ---
 
 ## Why this fork?
+
+This package is a fork of [ARCANEDEV/LogViewer](https://github.com/ARCANEDEV/LogViewer). It keeps the original `Arcanedev\LogViewer\` namespace, configuration keys, routes and public API, so it installs as a drop-in replacement — see [Migrating from `arcanedev/log-viewer`](#migrating-from-arcanedevlog-viewer).
 
 Traditional log viewers eventually hit the same wall: opening or searching a large file requires reading the whole thing into memory. Version 2 introduces a binary sidecar index and reads only the entries needed for the current request.
 
@@ -31,7 +39,7 @@ Traditional log viewers eventually hit the same wall: opening or searching a lar
 | Incremental indexing | Append new log entries without rebuilding unchanged data |
 | Format drivers | Classic Laravel line logs and JSON logs behind one interface |
 | Operational UI | Error trends, severity health, pattern discovery, and whole-file searches |
-| Familiar management | Date and level filters, downloads, deletion, localization, and API access |
+| Familiar management | Date and level filters, downloads, opt-in deletion, localization, and API access |
 
 ## Requirements
 
@@ -44,11 +52,31 @@ Traditional log viewers eventually hit the same wall: opening or searching a lar
 
 ## Quick start
 
-Install the package using the repository or package source configured for your fork:
+```bash
+composer require iyogesharma/log-viewer:^2.0
+```
+
+<details>
+<summary>Installing straight from GitHub instead</summary>
+
+Add the repository to your application's `composer.json`, then require the package as usual:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "https://github.com/iYogesharma/logviewer-laravel"
+        }
+    ]
+}
+```
 
 ```bash
 composer require iyogesharma/log-viewer:^2.0
 ```
+
+</details>
 
 Publish configuration when you need to customize storage, streaming, routes, or themes:
 
@@ -84,7 +112,7 @@ Version 2 includes two self-contained themes. Both support automatic, light, and
 
 ### Observatory
 
-The Observatory theme turns indexed counts into support-oriented signals:
+The Observatory theme turns indexed counts into support-oriented signals ([dashboard screenshot above](#logviewer-for-laravel)):
 
 - High-severity movement across indexed dates
 - Peak-volume and highest-risk files
@@ -95,6 +123,8 @@ The Observatory theme turns indexed counts into support-oriented signals:
 
 Pattern suggestions are sampled from the current page, but selecting one searches the complete selected log.
 
+![Observatory log page — severity KPIs, discovered dimensions, hourly high-severity activity, and the entry list](_screenshots/observatory-log-page.png)
+
 ### Console
 
 The Console theme keeps the interface dense and direct:
@@ -103,9 +133,13 @@ The Console theme keeps the interface dense and direct:
 - Date switching and visible-page filtering
 - Message-first log rows
 - Conditional stack and context details
-- Download, delete, copy, and pagination controls
+- Download, opt-in delete, copy, and pagination controls
 
-Both themes apply the saved color mode before first paint to prevent light/dark flicker during navigation.
+![Console log page — terminal-style severity and dimension filters beside a dense, message-first entry list](_screenshots/console-log-page.png)
+
+![Console dashboard in light mode — entry totals, errors over time, and level distribution](_screenshots/console-dashboard.png)
+
+Both themes apply the saved color mode before first paint to prevent light/dark flicker during navigation — the Console screenshots above show the same theme in dark and light modes.
 
 ## Large-file streaming
 
@@ -190,6 +224,23 @@ The main options live in [`config/log-viewer.php`](config/log-viewer.php):
 - Streaming threshold and index location
 - Tail fallback and build concurrency
 - Download and menu behavior
+- Delete controls (`observatory` and `console` themes), disabled by default
+
+### Delete controls
+
+Log deletion is destructive and irreversible, so the delete buttons in the two v2 themes are **hidden by default**:
+
+```php
+'delete' => false,
+```
+
+Set it to `true` — or bind it to an environment variable — to show them:
+
+```php
+'delete' => (bool) env('LOG_VIEWER_ALLOW_DELETE', false),
+```
+
+This flag controls the UI of the `observatory` and `console` themes only. The `log-viewer::logs.delete` route stays registered, because the bootstrap themes still use it; apply route middleware if deletion must be forbidden outright.
 
 Detailed package documentation remains available in:
 
@@ -197,6 +248,19 @@ Detailed package documentation remains available in:
 2. [Configuration](_docs/2.Configuration.md)
 3. [Usage](_docs/3.Usage.md)
 4. [Upgrading from 1.2.x](UPGRADE.md)
+
+## Migrating from `arcanedev/log-viewer`
+
+The namespace, facade, configuration keys, route names, views and published assets are unchanged, so switching packages is a Composer operation:
+
+```bash
+composer remove arcanedev/log-viewer
+composer require iyogesharma/log-viewer:^2.0
+```
+
+Your existing `config/log-viewer.php` keeps working — merge the new `streaming` and `delete` keys when convenient. Existing `Arcanedev\LogViewer\` imports, `LogViewer::` facade calls and `log-viewer::` route names need no edits.
+
+The one code change to check for: if your application implements the `Arcanedev\LogViewer\Contracts\LogViewer` contract itself, add the new `logForViewer($date)` method. See the [upgrade guide](UPGRADE.md).
 
 ## Upgrading to v2
 
@@ -239,10 +303,10 @@ Please do not report security vulnerabilities through public issues. Contact the
 
 ## Credits
 
-This fork builds on the original [ARCANEDEV LogViewer](https://github.com/ARCANEDEV/LogViewer) project and its contributors.
+This fork builds on the original [ARCANEDEV LogViewer](https://github.com/ARCANEDEV/LogViewer) project and its contributors, and remains MIT licensed.
 
-- [ARCANEDEV](https://github.com/arcanedev-maroc)
-- [Fork maintainer](https://github.com/iYogesharma)
+- [ARCANEDEV](https://github.com/arcanedev-maroc) — original author
+- [Yogesh Sharma](https://github.com/iYogesharma) — fork maintainer
 - [All contributors](https://github.com/iYogesharma/logviewer-laravel/graphs/contributors)
 
 ## License

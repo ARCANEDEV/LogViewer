@@ -15,7 +15,7 @@ use Arcanedev\LogViewer\Index\IndexManager;
  * Pre-builds the streaming index off the request path, so the first visitor to
  * a large log never pays the one-time build cost. Safe to run on a schedule.
  *
- * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @author   Yogesh Sharma <iyogesharma@gmail.com>
  */
 class WarmIndexCommand extends Command
 {

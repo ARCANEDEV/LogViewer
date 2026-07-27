@@ -13,7 +13,7 @@ use Arcanedev\LogViewer\Contracts\IndexStore;
  *
  * End-to-end coverage of the streaming index engine through the real container.
  *
- * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @author   Yogesh Sharma <iyogesharma@gmail.com>
  */
 class StreamingEngineTest extends TestCase
 {

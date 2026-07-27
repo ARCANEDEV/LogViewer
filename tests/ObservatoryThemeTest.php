@@ -10,7 +10,7 @@ namespace Arcanedev\LogViewer\Tests;
  * Renders every page of the opt-in `observatory` theme through real routes to
  * catch Blade / view errors, undefined variables, and helper misuse.
  *
- * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @author   Yogesh Sharma <iyogesharma@gmail.com>
  */
 class ObservatoryThemeTest extends TestCase
 {
@@ -60,5 +60,37 @@ class ObservatoryThemeTest extends TestCase
 
         $this->get(route('log-viewer::logs.search', ['date' => $date, 'level' => 'all', 'query' => 'foo']))
              ->assertOk();
+    }
+
+    /** @test */
+    public function it_hides_the_delete_controls_by_default(): void
+    {
+        static::assertFalse(config('log-viewer.delete'));
+
+        $this->get(route('log-viewer::logs.list'))
+             ->assertOk()
+             ->assertDontSee('data-delete', false)
+             ->assertDontSee('delete-modal', false);
+
+        $this->get(route('log-viewer::logs.show', ['2015-01-01']))
+             ->assertOk()
+             ->assertDontSee('delete-btn', false)
+             ->assertDontSee('delete-modal', false);
+    }
+
+    /** @test */
+    public function it_shows_the_delete_controls_when_enabled(): void
+    {
+        config(['log-viewer.delete' => true]);
+
+        $this->get(route('log-viewer::logs.list'))
+             ->assertOk()
+             ->assertSee('data-delete', false)
+             ->assertSee('delete-modal', false);
+
+        $this->get(route('log-viewer::logs.show', ['2015-01-01']))
+             ->assertOk()
+             ->assertSee('delete-btn', false)
+             ->assertSee('delete-modal', false);
     }
 }

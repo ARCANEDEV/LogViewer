@@ -121,6 +121,25 @@ return [
     ],
 
     /* -----------------------------------------------------------------
+     |  Delete controls
+     | -----------------------------------------------------------------
+     |  Show the "delete log file" controls in the `observatory` and
+     |  `console` themes. Disabled by default: deleting a log is
+     |  destructive and irreversible, and on most installs the viewer is
+     |  reachable by anyone who can reach the admin area.
+     |
+     |  Set to `true` to show the delete buttons, e.g.:
+     |    'delete' => (bool) env('LOG_VIEWER_ALLOW_DELETE', false),
+     |
+     |  Note: this only controls the UI of those two themes. The
+     |  `log-viewer::logs.delete` route stays registered (the bootstrap
+     |  themes still use it) — protect it with route middleware if you
+     |  need to forbid deletion outright.
+     */
+
+    'delete'        => false,
+
+    /* -----------------------------------------------------------------
      |  Menu settings
      | -----------------------------------------------------------------
      */

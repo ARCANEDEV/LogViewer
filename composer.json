@@ -1,16 +1,26 @@
 {
     "name":        "iyogesharma/log-viewer",
-    "description": "Provides a Log Viewer for Laravel",
-    "keywords":    ["arcanedev", "arcanesoft", "laravel", "log", "log viewer", "log-viewer", "logviewer"],
-    "homepage":    "https://github.com/ARCANEDEV/LogViewer",
+    "description": "Log Viewer for Laravel with a bounded-memory streaming index engine for large log files. Fork of arcanedev/log-viewer.",
+    "keywords":    ["laravel", "log", "log viewer", "log-viewer", "logviewer", "streaming", "large files", "arcanedev"],
+    "homepage":    "https://github.com/iYogesharma/logviewer-laravel",
     "authors": [
+        {
+            "name":     "Yogesh Sharma",
+            "email":    "iyogesharma@gmail.com",
+            "homepage": "https://github.com/iYogesharma",
+            "role":     "Fork maintainer"
+        },
         {
             "name":     "ARCANEDEV",
             "email":    "arcanedev.maroc@gmail.com",
             "homepage": "https://github.com/arcanedev-maroc",
-            "role":     "Developer"
-        } 
-    ], 
+            "role":     "Original developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/iYogesharma/logviewer-laravel/issues",
+        "source": "https://github.com/iYogesharma/logviewer-laravel"
+    },
     "type":    "library",
     "license": "MIT",
     "require": { 

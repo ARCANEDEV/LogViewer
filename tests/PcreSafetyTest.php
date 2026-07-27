@@ -13,7 +13,7 @@ use Psr\Log\LogLevel;
  * Covers the linear brace-scan that replaced the recursive PCRE context
  * extractor (which silently failed on large / deeply-nested JSON).
  *
- * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ * @author   Yogesh Sharma <iyogesharma@gmail.com>
  */
 class PcreSafetyTest extends TestCase
 {

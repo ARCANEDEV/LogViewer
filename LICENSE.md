@@ -1,6 +1,7 @@
 The MIT License (MIT)
 
 Copyright (c) ARCANEDEV <arcanedev.maroc@gmail.com>
+Copyright (c) Yogesh Sharma <iyogesharma@gmail.com> (fork modifications)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

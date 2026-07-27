@@ -227,7 +227,9 @@ $seenSig = [];
                     </span>
 
                     <a class="btn btn-sm" href="{{ route('log-viewer::logs.download', [$log->date]) }}"><i class="fa fa-download"></i> @lang('Download')</a>
-                    <button class="btn btn-sm btn-danger" id="delete-btn"><i class="fa fa-trash-o"></i> @lang('Delete')</button>
+                    @if (config('log-viewer.delete', false))
+                        <button class="btn btn-sm btn-danger" id="delete-btn"><i class="fa fa-trash-o"></i> @lang('Delete')</button>
+                    @endif
                 </div>
             </div>
 
@@ -332,16 +334,18 @@ $seenSig = [];
 @endsection
 
 @section('modals')
-    <div class="modal-overlay" id="delete-modal">
-        <div class="modal">
-            <h3>@lang('Delete log file')</h3>
-            <div class="body">@lang('Are you sure you want to delete this log file: :date ?', ['date' => $log->date])</div>
-            <div class="foot">
-                <button class="btn" id="delete-cancel">@lang('Cancel')</button>
-                <button class="btn btn-danger" id="delete-confirm">@lang('Delete')</button>
+    @if (config('log-viewer.delete', false))
+        <div class="modal-overlay" id="delete-modal">
+            <div class="modal">
+                <h3>@lang('Delete log file')</h3>
+                <div class="body">@lang('Are you sure you want to delete this log file: :date ?', ['date' => $log->date])</div>
+                <div class="foot">
+                    <button class="btn" id="delete-cancel">@lang('Cancel')</button>
+                    <button class="btn btn-danger" id="delete-confirm">@lang('Delete')</button>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 @endsection
 
 @section('scripts')
@@ -497,6 +501,7 @@ ready(function () {
     @endunless
 
     // Delete modal
+@if (config('log-viewer.delete', false))
     var modal = document.getElementById('delete-modal');
     document.getElementById('delete-btn').addEventListener('click', function () { modal.classList.add('show'); });
     document.getElementById('delete-cancel').addEventListener('click', function () { modal.classList.remove('show'); });
@@ -511,6 +516,7 @@ ready(function () {
             else alert('Delete failed — check the console.');
         }).catch(function (e) { alert('Delete failed — check the console.'); console.error(e); });
     });
+@endif
 });
 </script>
 @endsection
